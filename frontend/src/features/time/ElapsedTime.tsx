@@ -7,5 +7,5 @@ const elapsedTime = () => {
 }
 
 export const ElapsedTime = () => {
-  return <p>Elapsed: <span>{elapsedTime().hours}:{elapsedTime().minutes}:{elapsedTime().seconds}</span></p>
+  return <p><span class='font-bold'>Elapsed:</span> <span>{elapsedTime().hours}:{elapsedTime().minutes}:{elapsedTime().seconds}</span></p>
 }

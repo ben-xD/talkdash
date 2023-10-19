@@ -7,5 +7,7 @@ const timeLeft = () => {
 }
 
 export const TimeLeftDisplay = () => {
-  return <p class='text-9xl'>{timeLeft().hours}:{timeLeft().minutes}:{timeLeft().seconds}</p>
+  return <div class='bg-indigo-100 px-24 rounded-full'>
+    <p class='text-[20vw] text-center'>{timeLeft().hours}:{timeLeft().minutes}:{timeLeft().seconds}</p>
+  </div>
 }
