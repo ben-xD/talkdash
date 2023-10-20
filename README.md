@@ -6,3 +6,7 @@ Tools for event hosts and presenters. Available on https://talkdash.pages.dev
 - Adjust time remaining for the speaker remotely.
 
 Still in development. It currently only shows the time elapsed and time remaining.
+
+## Technology
+- Solid and Tailwind for UI
+- Cloudflare for deployment
