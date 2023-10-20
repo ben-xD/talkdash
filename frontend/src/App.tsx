@@ -5,6 +5,7 @@ import {DateTime} from "luxon";
 import {MetadataView} from "./features/time/MetadataView.tsx";
 import {MessageView} from "./features/messages/MessageView.tsx";
 import {ConfigCard} from "./features/ConfigCard.tsx";
+import {GithubLogo} from "./assets/GithubLogo.tsx";
 
 function App() {
 
@@ -18,7 +19,12 @@ function App() {
 
   return (
     <div class='p-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-blue-50 flex flex-col items-center min-h-screen'>
-      <p class='text-4xl font-bold tracking-tight text-center px-4 py-2'>TalkDash</p>
+      <div class='flex items-center'>
+        <p class='text-4xl font-bold tracking-tight text-center px-4 py-2'>TalkDash</p>
+        <a href='https://github.com/ben-xD/talkdash' target='_blank'>
+          <GithubLogo/>
+        </a>
+      </div>
       <MetadataView/>
       <div class='py-4 my-2 bg-blue-50 p-4 rounded-xl'>
         {/*TODO handle fuzzy input (e.g. 10 mins, 20 minutes, 1hr20m, average lifetime of an owl) */}
