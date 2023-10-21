@@ -46,8 +46,6 @@ Still in development. It currently only shows the time elapsed and time remainin
 
 ### Backend
 - cd `backend`
-- Install node specified in `.node-version`
-- Install bun: run `curl -fsSL https://bun.sh/install | bash`
 - Deployment
   - Install [flyctl](https://fly.io/docs/hands-on/install-flyctl/)
   - Set up for this project: Run `fly launch` in `backend/` giving it the name `talkdash`
