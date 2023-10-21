@@ -27,7 +27,6 @@ function App() {
       </div>
       <MetadataView/>
       <div class='py-4 my-2 bg-blue-50 p-4 rounded-xl'>
-        {/*TODO handle fuzzy input (e.g. 10 mins, 20 minutes, 1hr20m, average lifetime of an owl) */}
         <ConfigCard/>
       </div>
       <div class='my-2 flex'>
