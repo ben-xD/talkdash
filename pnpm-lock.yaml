@@ -2,14 +2,36 @@ lockfileVersion: '6.0'
 
 importers:
 
+  backend:
+    dependencies:
+      uuid:
+        specifier: ^9.0.1
+        version: 9.0.1
+      zod:
+        specifier: ^3.22.4
+        version: 3.22.4
+    devDependencies:
+      '@flydotio/dockerfile':
+        specifier: latest
+        version: 0.4.10
+      bun-types:
+        specifier: ^1.0.6
+        version: 1.0.6
+
   frontend:
     dependencies:
+      '@ts-rest/core':
+        specifier: ^3.30.4
+        version: 3.30.4(zod@3.22.4)
       luxon:
         specifier: ^3.4.3
         version: 3.4.3
       solid-js:
         specifier: ^1.7.8
         version: 1.7.8
+      zod:
+        specifier: ^3.22.4
+        version: 3.22.4
     devDependencies:
       '@types/luxon':
         specifier: ^3.3.3
@@ -754,12 +776,6 @@ packages:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
     dev: true
 
-  /baojs@0.2.1:
-    resolution: {integrity: sha512-mKloMR8bjd2NNtAPAFtIpHAMVunAz/m9sVEFx3fRwcUwKaq/cSWLHieoZvXOfcYn5uluG4E9EO/MsLBvXJLVqA==}
-    dependencies:
-      bun-types: 0.2.2
-    dev: false
-
   /binary-extensions@2.2.0:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
     engines: {node: '>=8'}
@@ -795,10 +811,6 @@ packages:
       node-releases: 2.0.13
       update-browserslist-db: 1.0.13(browserslist@4.22.1)
     dev: true
-
-  /bun-types@0.2.2:
-    resolution: {integrity: sha512-/1IPC/PPWvV39I7uulBcWHL0Xpi1BqvwF34R/2gRwt0/l5MJB1gt15GLwLP33d59EnkOdRYibImuCg0l/9BRng==}
-    dev: false
 
   /bun-types@1.0.6:
     resolution: {integrity: sha512-5QwynfXiRCRxPW3ZnC0Dv+sHHmctP4SHIuzsRKOWYO0HF/qUpsxQVexoviaxpmwDsF1hoVDDFdc4xUuafOzx1g==}
