@@ -1,0 +1,20 @@
+{
+  "name": "streetlights-api-simplified",
+  "description": "The Smartylighting Streetlights API allows you to remotely manage the city lights.  This is a simplified version of the Streetlights API from other examples. This version is used in AsyncAPI documentation. ",
+  "version": "1.0.0",
+  "main": "src/api",
+  "scripts": {
+    "start": "node src/api/index.js"
+  },
+  "dependencies": {
+    "chalk": "4.1.2",
+    "dotenv": "8.1.0",
+    "hermesjs": "2.x",
+    "hermesjs-router": "1.x",
+    "asyncapi-validator": "3.0.0",
+    "hermesjs-mqtt": "2.x",
+
+    "node-fetch": "2.6.0",
+    "node-yaml-config": "0.0.4"
+  }
+}
