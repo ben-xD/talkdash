@@ -8,8 +8,9 @@ ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 WORKDIR /app
-COPY backend .
-COPY pnpm-lock.yaml .
+COPY backend backend
+COPY packages packages
+COPY pnpm-lock.yaml package.json .
 
 FROM base AS prod-deps
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod

@@ -3,6 +3,7 @@
 Tools for event hosts and presenters. 
 - Available on https://talkdash.pages.dev. 
 - API on https://talkdash.fly.dev.
+- API UI (using tRPC Panel) on https://talkdash.fly.dev/trpc
 
 - Message event speakers whilst they talk. Messages will appear on the app. For example, remind them to **repeat the question** asked by someone. 
 - Adjust time remaining for the speaker remotely.
@@ -26,6 +27,7 @@ Still in development. It currently only shows the time elapsed and time remainin
 
 ## TODOs
 
+- fix docker build (use turbo and pnpm)
 - implement and call APIs from frontend.
 - use env var to configure db logger, trpc logger and fastify logger
 - Add routing to frontend: https://github.com/solidjs/solid-router or tanstack router
