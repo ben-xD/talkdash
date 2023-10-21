@@ -1,4 +1,5 @@
 # docs: https://pnpm.io/pnpm-workspace_yaml
 packages:
   - frontend
-  - 'packages/*'
+  - backend
+  - packages/**
