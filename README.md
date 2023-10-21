@@ -11,7 +11,11 @@ Still in development. It currently only shows the time elapsed and time remainin
 
 ## Technology
 - Frontend: [Solid](https://tailwindcss.com/), [Tailwind](https://tailwindcss.com/) and [Tanstack](https://tanstack.com/)
-- Backend: [Fastify](https://fastify.dev/) and [Bun](https://bun.sh/) (i initially tried [bao](https://github.com/mattreid1/baojs) instead of Fastify - it had a few unintuitive bugs).
+- Backend: Node
+  - Initially tried [Bun](https://bun.sh/) and [Bao](https://github.com/mattreid1/baojs)
+    - Bao bun bug? Error: `TypeError: null is not an object (evaluating 'res.status')` internal to Bao, with no stack trace (Bun?). There was no way past this error, perhaps Bao is not compatible with the latest Bun. 
+    - I wanted to use [Fastify](https://fastify.dev/) but Jarred said ['Fastify is not fast in bun.'](https://news.ycombinator.com/item?id=37800505).
+    - Testing: [HTTPie](https://httpie.io/app) and [websocat](https://github.com/vi/websocat).
 - API: [ts-rest](https://ts-rest.com/) and [zod](https://zod.dev/)
 - Deployment: [Fly.io](https://fly.io), [Cloudflare Pages, Cloudflare workers](https://www.cloudflare.com/en-gb/) (Fly.io for websocket connections, because Cloudflare Durable Objects are expensive)
 
