@@ -1,0 +1,9 @@
+*/fly.toml
+*/Dockerfile
+*/docker-compose.yml
+*.md
+.dockerignore
+*/node_modules
+.git
+*/dist
+*/.gitignore
