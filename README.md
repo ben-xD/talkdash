@@ -21,12 +21,19 @@ Still in development. It currently only shows the time elapsed and time remainin
 
 ## TODOs
 
+- Add Node and tRPC backend over websockets.
+- Add routing to frontend: https://github.com/solidjs/solid-router or tanstack router
 - Bugs:
   - 2 minutes will briefly show as 1 minute 60 seconds
 - AI ideas:
   - Convert human-readable talk length into duration.
   - Store questions, and cluster based on category/relevance. Use vectorize vector database.
   - Filter messages for safety.
+
+## Performance?
+- Need performance? 
+  - consider tRPC over uWebsockets, using https://github.com/romanzy313/trpc-uwebsockets?
+  - consider [Elysia](https://elysiajs.com/) on Bun instead of tRPC on Node.
 
 ## Contributing
 - Install nvm, run `nvm install` and `nvm use`
