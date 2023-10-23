@@ -1,11 +1,15 @@
-import {fastifyTRPCPlugin} from "@trpc/server/adapters/fastify";
+import { fastifyTRPCPlugin } from "@trpc/server/adapters/fastify";
 import Fastify from "fastify";
 import fastifyWebsocket from "@fastify/websocket";
 import chalk from "chalk";
-import {renderTrpcPanel} from "trpc-panel";
-import {createContext} from "./trpc/context";
-import {trpcHttpApiPath, trpcPanelPath, trpcWebsocketApiPath,} from "./trpc/trpcPath";
-import {appRouter} from "./trpc/appRouter";
+import { renderTrpcPanel } from "trpc-panel";
+import { createContext } from "./trpc/context";
+import {
+  trpcHttpApiPath,
+  trpcPanelPath,
+  trpcWebsocketApiPath,
+} from "./trpc/trpcPath";
+import { appRouter } from "./trpc/appRouter";
 
 const fastify = Fastify({
   maxParamLength: 5000,
@@ -13,7 +17,7 @@ const fastify = Fastify({
 });
 
 function registerTrpcPanel() {
-  const trpcPanelApp = renderTrpcPanel(appRouter, {url: trpcHttpApiPath});
+  const trpcPanelApp = renderTrpcPanel(appRouter, { url: trpcHttpApiPath });
   // trpc panels uses the HTTP API, not websocket.
   fastify.get(trpcPanelPath, (_request, reply) => {
     reply.header("Content-Type", "text/html").send(trpcPanelApp);
@@ -21,10 +25,10 @@ function registerTrpcPanel() {
 }
 
 function registerTrpcApis() {
-// Websocket server
-  fastify.register(fastifyWebsocket, {prefix: trpcWebsocketApiPath});
+  // Websocket server
+  fastify.register(fastifyWebsocket, { prefix: trpcWebsocketApiPath });
 
-// HTTP API
+  // HTTP API
   fastify.register(fastifyTRPCPlugin, {
     prefix: trpcHttpApiPath,
     // The fastify TRPC plugin's trpc options is not typed.
@@ -35,7 +39,7 @@ function registerTrpcApis() {
     },
   });
 
-// Websocket API
+  // Websocket API
   fastify.register(fastifyTRPCPlugin, {
     prefix: trpcWebsocketApiPath,
     useWSS: true,
