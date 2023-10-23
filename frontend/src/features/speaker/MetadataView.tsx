@@ -28,11 +28,12 @@ export const MetadataView = () => {
         value={username}
         setValue={setUsername}
       />
-      <EditableStateField
-        label="Password"
-        value={password}
-        setValue={setPassword}
-      />
+      {/*Temporarily disable password field since it is not implemented.*/}
+      {/*<EditableStateField*/}
+      {/*  label="Password"*/}
+      {/*  value={password}*/}
+      {/*  setValue={setPassword}*/}
+      {/*/>*/}
     </div>
   );
 };
