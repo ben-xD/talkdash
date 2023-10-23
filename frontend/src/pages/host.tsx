@@ -9,7 +9,7 @@ const Host = () => {
 
   onMount(() => {
     document.title = "Host · Talkdash";
-    loadQueryParams();
+    loadQueryParams(false);
   });
 
   return (
