@@ -19,7 +19,7 @@ type Props = {
   setValue: (value: string) => void;
 };
 
-export const MetadataInput = ({ label, value, setValue }: Props) => {
+export const EditableStateField = ({ label, value, setValue }: Props) => {
   return (
     <Editable
       placeholder={`No ${label.toLowerCase()}`}
@@ -50,7 +50,7 @@ export const MetadataInput = ({ label, value, setValue }: Props) => {
             </EditableControl>
           </div>
           <EditableArea>
-            <EditableInput class="w-40 text-blue-600" value={value()} />
+            <EditableInput class="w-full text-blue-600" value={value()} />
             <EditablePreview />
           </EditableArea>
         </>

@@ -7,7 +7,7 @@ export function ConfigCard() {
   const [durationInMinutes, setDurationInMinutes] = createSignal("");
 
   return (
-    <div class="flex flex-col items-start gap-8 text-cyan-800 z-10 relative">
+    <div class="flex flex-col gap-8 text-cyan-800 z-10 relative items-stretch">
       <div class="flex flex-col gap-2 items-start">
         <label class="whitespace-normal break-words" for="finishTime">
           Talk length (minutes)*

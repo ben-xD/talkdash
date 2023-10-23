@@ -1,6 +1,6 @@
 export const MessageView = () => {
   return (
-    <div>
+    <div class="flex flex-col items-center">
       <p>Recent messages</p>
     </div>
   );
