@@ -14,6 +14,7 @@ const Host = () => {
 
   return (
     <div class="max-w-[400px] w-full my-4 gap-8 flex flex-col">
+      <p>Enter a speaker username to send them messages.</p>
       <EditableStateField
         label={"Recipient speaker username"}
         value={username}

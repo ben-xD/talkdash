@@ -1,10 +1,5 @@
 import { currentTime, difference, startTime } from "../time/timeState.ts";
-import {
-  password,
-  setPassword,
-  setUsername,
-  username,
-} from "../user/userState.ts";
+import { setUsername, username } from "../user/userState.ts";
 import { EditableStateField } from "./EditableStateField.tsx";
 
 const elapsedTime = () => {
