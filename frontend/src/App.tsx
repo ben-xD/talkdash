@@ -18,10 +18,10 @@ import { WrenchIcon } from "./assets/WrenchIcon.tsx";
 import { isExceeded } from "./features/time/TimeLeftDisplay.tsx";
 import { GithubLogo } from "./assets/GithubLogo.tsx";
 
-const SpeakerPage = lazy(() => import("./pages/Speaker.tsx"));
-const AudiencePage = lazy(() => import("./pages/Audience.tsx"));
+const SpeakerPage = lazy(() => import("./pages/speaker.tsx"));
+const AudiencePage = lazy(() => import("./pages/audience.tsx"));
 
-const HostPage = lazy(() => import("./pages/Host.tsx"));
+const HostPage = lazy(() => import("./pages/host.tsx"));
 function App() {
   onMount(() => {
     // Used to cause re-render of components that rely on current time.

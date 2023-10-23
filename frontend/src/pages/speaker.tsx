@@ -6,8 +6,10 @@ import { onMount } from "solid-js";
 import { generateRandomUsername } from "../names.ts";
 import { setUsername, usernameKey } from "../features/user/userState.ts";
 
-const SpeakerPage = () => {
+const Speaker = () => {
   onMount(() => {
+    document.title = "Speaker · Talkdash";
+
     // Read URL path param to get speaker ID.
     const urlParams = new URLSearchParams(window.location.search);
     const username = urlParams.get(usernameKey);
@@ -33,4 +35,4 @@ const SpeakerPage = () => {
     </div>
   );
 };
-export default SpeakerPage;
+export default Speaker;

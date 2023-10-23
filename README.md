@@ -38,6 +38,8 @@ Still in development. It currently only shows the time elapsed and time remainin
 - fix docker build (use turbo and pnpm)
 - use env var to configure db logger, trpc logger and fastify logger
 - Bugs:
+  - Can't click on mode buttons (Audience, Host) on mobile. 
+  - Username is not shown in the URL when navigating from any page to the speaker page. 
   - 2 minutes will briefly show as 1 minute 60 seconds
 - AI ideas:
   - Convert human-readable talk length into duration.
