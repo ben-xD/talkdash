@@ -22,6 +22,7 @@ const SpeakerPage = lazy(() => import("./pages/speaker.tsx"));
 const AudiencePage = lazy(() => import("./pages/audience.tsx"));
 
 const HostPage = lazy(() => import("./pages/host.tsx"));
+
 function App() {
   onMount(() => {
     // Used to cause re-render of components that rely on current time.

@@ -2,6 +2,7 @@ import { createSignal, onMount } from "solid-js";
 import { EditableStateField } from "../features/speaker/EditableStateField.tsx";
 import { setUsername, username } from "../features/user/userState.ts";
 import { loadQueryParams } from "./loadQueryParams.ts";
+import { trpc } from "../client/trpcClient.ts";
 
 const Host = () => {
   const [message, setMessage] = createSignal("");
@@ -30,8 +31,15 @@ const Host = () => {
           <button
             disabled={message().length <= 5}
             class="bg-green-600 px-4 py-2 rounded-md disabled:bg-gray-500"
-            onClick={() => {
-              console.error(`TODO Implement sending message: ${message()}`);
+            onClick={async () => {
+              const speakerUsername = username();
+              if (speakerUsername) {
+                // TODO handle error.
+                await trpc.message.speaker.mutate({
+                  speakerUsername,
+                  message: message(),
+                });
+              }
             }}
           >
             Send
