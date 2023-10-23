@@ -24,6 +24,10 @@ Still in development. It currently only shows the time elapsed and time remainin
   - However, I may use cloudflare workers in the future for other things, and using the neon serverless http API for that could be useful.
 - API: [ts-rest](https://ts-rest.com/) and [zod](https://zod.dev/)
 - Deployment: [Fly.io](https://fly.io), [Cloudflare Pages, Cloudflare workers](https://www.cloudflare.com/en-gb/) (Fly.io for websocket connections, because Cloudflare Durable Objects are expensive)
+  - Cloudflare pages build settings: 
+    - Framework preset: `None` 
+    - Build command: `npm install -g turbo && turbo build`
+    - Build output directory: `frontend/dist`
 
 ## TODOs
 
