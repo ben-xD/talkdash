@@ -1,5 +1,5 @@
 const AudiencePage = () => {
-  return <p>Audience</p>;
+  return <p>Audience Page</p>;
 };
 
 export default AudiencePage;
