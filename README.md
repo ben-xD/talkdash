@@ -32,6 +32,7 @@ Still in development. It currently only shows the time elapsed and time remainin
 ## TODOs
 
 - Allow host to send messages to speaker based on ID. 
+- Fix env var config for turbo / backend. 
 - Add QR code to speaker page for username
 - Add scanner/camera for host and audience page
 - implement and call APIs from frontend.
