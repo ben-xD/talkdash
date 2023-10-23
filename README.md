@@ -27,10 +27,12 @@ Still in development. It currently only shows the time elapsed and time remainin
 
 ## TODOs
 
-- fix docker build (use turbo and pnpm)
+- Allow host to send messages to speaker based on ID. 
+- Add QR code to speaker page for username
+- Add scanner/camera for host and audience page
 - implement and call APIs from frontend.
+- fix docker build (use turbo and pnpm)
 - use env var to configure db logger, trpc logger and fastify logger
-- Add routing to frontend: https://github.com/solidjs/solid-router or tanstack router
 - Bugs:
   - 2 minutes will briefly show as 1 minute 60 seconds
 - AI ideas:

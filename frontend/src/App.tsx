@@ -1,13 +1,27 @@
-import {TimeLeftDisplay} from "./features/time/TimeLeftDisplay.tsx";
-import {onMount} from "solid-js";
+import {lazy, onMount} from "solid-js";
 import {setCurrentTime} from "./features/time/timeState.ts";
 import {DateTime} from "luxon";
-import {MetadataView} from "./features/time/MetadataView.tsx";
-import {MessageView} from "./features/messages/MessageView.tsx";
-import {ConfigCard} from "./features/ConfigCard.tsx";
-import {GithubLogo} from "./assets/GithubLogo.tsx";
+import {Portal} from "solid-js/web";
+import {
+  Menu,
+  MenuContent,
+  MenuItem,
+  MenuItemGroup,
+  MenuItemGroupLabel,
+  MenuPositioner,
+  MenuSeparator,
+  MenuTrigger,
+} from '@ark-ui/solid'
 import {trpc} from "./client/trpcClient.ts";
+import {A, Route, Routes} from "@solidjs/router";
+import {WrenchIcon} from "./assets/WrenchIcon.tsx";
+import {isExceeded} from "./features/time/TimeLeftDisplay.tsx";
+import {GithubLogo} from "./assets/GithubLogo.tsx";
 
+const SpeakerPage = lazy(() => import("./pages/Speaker.tsx"));
+const AudiencePage = lazy(() => import("./pages/Audience.tsx"));
+
+const HostPage = lazy(() => import("./pages/Host.tsx"));
 function App() {
 
   onMount(() => {
@@ -23,22 +37,41 @@ function App() {
     return () => clearInterval(intervalId);
   });
 
+  const colors = () => isExceeded() ?
+    "bg-gradient-to-r from-amber-500 to-red-500 text-red-50" :
+    "bg-gradient-to-r from-cyan-500 to-blue-500 text-blue-50";
+
   return (
-    <div class='p-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-blue-50 flex flex-col items-center min-h-screen'>
-      <div class='flex items-center'>
-        <p class='text-4xl font-bold tracking-tight text-center px-4 py-2'>TalkDash</p>
+    <div class={`min-w-[320px] p-4 ${colors()} flex flex-col items-center min-h-screen`}>
+      <div class='flex items-center gap-4'>
+        <p class='text-4xl font-bold tracking-tight text-center'>TalkDash</p>
         <a href='https://github.com/ben-xD/talkdash' target='_blank'>
           <GithubLogo/>
         </a>
+        <Menu>
+          <MenuTrigger><WrenchIcon/></MenuTrigger>
+          <Portal>
+            <MenuPositioner>
+              <MenuContent class='text-blue-700 bg-white'>
+
+                <MenuItemGroup id="modes" class='p'>
+                  <MenuItemGroupLabel htmlFor="modes" class='font-bold px-4 py-4'>Modes</MenuItemGroupLabel>
+                  <MenuSeparator />
+                  <MenuItem id="audience" class='px-4 py-1'><A href="/">Audience</A></MenuItem>
+                  <MenuItem id="speaker" class='px-4 py-1'><A href="/speaker">Speaker</A></MenuItem>
+                  <MenuItem id="host" class='px-4 py-1'><A href="/host">Host</A></MenuItem>
+                </MenuItemGroup>
+              </MenuContent>
+            </MenuPositioner>
+          </Portal>
+        </Menu>
       </div>
-      <MetadataView/>
-      <div class='py-4 my-2 bg-blue-50 p-4 rounded-xl'>
-        <ConfigCard/>
-      </div>
-      <div class='my-2 flex'>
-        <TimeLeftDisplay/>
-      </div>
-      <MessageView/>
+      <Routes>
+
+        <Route path="/" component={AudiencePage}/>
+        <Route path="/speaker" component={SpeakerPage}/>
+        <Route path="/host" component={HostPage}/>
+      </Routes>
     </div>
   )
 }
