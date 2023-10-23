@@ -1,5 +1,9 @@
-import {adjectives, animals, uniqueNamesGenerator} from "unique-names-generator";
+import {
+  adjectives,
+  animals,
+  uniqueNamesGenerator,
+} from "unique-names-generator";
 
 export const generateRandomUsername = (): string => {
-  return uniqueNamesGenerator({dictionaries: [adjectives, animals]})
-}
+  return uniqueNamesGenerator({ dictionaries: [adjectives, animals] });
+};

@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "lint": "prettier --check src && eslint src",
+    "format": "prettier src --write && eslint src --fix",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -23,10 +25,13 @@
   "devDependencies": {
     "@types/luxon": "^3.3.3",
     "autoprefixer": "^10.4.16",
+    "eslint": "^8.52.0",
     "postcss": "^8.4.31",
+    "prettier": "^3.0.3",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.2.2",
     "vite": "^4.4.5",
-    "vite-plugin-solid": "^2.7.0"
+    "vite-plugin-solid": "^2.7.0",
+    "eslint-config-talkdash": "workspace:*"
   }
 }

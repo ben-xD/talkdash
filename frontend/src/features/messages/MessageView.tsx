@@ -1,5 +1,7 @@
 export const MessageView = () => {
-  return  <div>
-    <p>Recent messages</p>
-  </div>;
-}
+  return (
+    <div>
+      <p>Recent messages</p>
+    </div>
+  );
+};

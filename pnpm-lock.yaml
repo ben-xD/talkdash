@@ -124,9 +124,18 @@ importers:
       autoprefixer:
         specifier: ^10.4.16
         version: 10.4.16(postcss@8.4.31)
+      eslint:
+        specifier: ^8.52.0
+        version: 8.52.0
+      eslint-config-talkdash:
+        specifier: workspace:*
+        version: link:../packages/eslint-config-talkdash
       postcss:
         specifier: ^8.4.31
         version: 8.4.31
+      prettier:
+        specifier: ^3.0.3
+        version: 3.0.3
       tailwindcss:
         specifier: ^3.3.3
         version: 3.3.3

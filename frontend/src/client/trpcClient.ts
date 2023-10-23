@@ -1,6 +1,6 @@
-import {createTRPCProxyClient, createWSClient, wsLink} from '@trpc/client';
-import type {AppRouter} from 'backend';
-import {trpcWebsocketApiPath} from "backend";
+import { createTRPCProxyClient, createWSClient, wsLink } from "@trpc/client";
+import type { AppRouter } from "backend";
+import { trpcWebsocketApiPath } from "backend";
 
 export const backendUrl = import.meta.env.VITE_BACKEND_URL || "/";
 
@@ -9,7 +9,7 @@ export const trpc = createTRPCProxyClient<AppRouter>({
     wsLink({
       client: createWSClient({
         url: backendUrl + trpcWebsocketApiPath,
-        onOpen: () => console.debug("tRPC websocket connected")
+        onOpen: () => console.debug("tRPC websocket connected"),
       }),
     }),
   ],
