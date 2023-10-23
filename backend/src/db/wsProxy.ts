@@ -4,7 +4,7 @@ import { neonConfig } from "@neondatabase/serverless";
 // See https://gal.hagever.com/posts/running-vercel-postgres-locally. Migration still happens over the original port,
 // not over websockets.
 export const setupWsProxyConfig = (wsProxyPort: string) => {
-  console.info(`Configuring client to use ws proxy on port ${wsProxyPort}`);
+  console.info(`Configuring postgres client to use websocket proxy on port ${wsProxyPort}`);
   neonConfig.pipelineTLS = false;
   neonConfig.pipelineConnect = false;
   neonConfig.wsProxy = (host) => `${host}:${wsProxyPort}/v1`;

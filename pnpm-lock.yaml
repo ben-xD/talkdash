@@ -96,6 +96,9 @@ importers:
       '@ts-rest/core':
         specifier: ^3.30.4
         version: 3.30.4(zod@3.22.4)
+      backend:
+        specifier: workspace:*
+        version: link:../backend
       luxon:
         specifier: ^3.4.3
         version: 3.4.3
@@ -119,8 +122,8 @@ importers:
         specifier: ^3.3.3
         version: 3.3.3
       typescript:
-        specifier: ^5.0.2
-        version: 5.0.2
+        specifier: ^5.2.2
+        version: 5.2.2
       vite:
         specifier: ^4.4.5
         version: 4.4.5
@@ -3709,12 +3712,6 @@ packages:
       for-each: 0.3.3
       is-typed-array: 1.1.12
     dev: false
-
-  /typescript@5.0.2:
-    resolution: {integrity: sha512-wVORMBGO/FAs/++blGNeAVdbNKtIh1rbBL2EyQ1+J9lClJ93KiiKe8PmFIVdXhHcyv44SL9oglmfeSsndo0jRw==}
-    engines: {node: '>=12.20'}
-    hasBin: true
-    dev: true
 
   /typescript@5.2.2:
     resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}

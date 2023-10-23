@@ -6,6 +6,7 @@ import {MetadataView} from "./features/time/MetadataView.tsx";
 import {MessageView} from "./features/messages/MessageView.tsx";
 import {ConfigCard} from "./features/ConfigCard.tsx";
 import {GithubLogo} from "./assets/GithubLogo.tsx";
+import {trpc} from "./client/trpcClient.ts";
 
 function App() {
 
@@ -14,6 +15,11 @@ function App() {
     const intervalId = setInterval(() => {
       setCurrentTime(DateTime.now());
     })
+
+    trpc.speaker.createSpeaker.mutate({}).then((reply) => {
+      console.info(`Created speaker with id: ${reply.speakerId}`);
+    });
+
     return () => clearInterval(intervalId);
   });
 
