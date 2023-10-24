@@ -1,6 +1,6 @@
 {
   "short_name": "TalkDash",
-  "name": "TalkDash. Tools for event hosts and presenters.",
+  "name": "TalkDash",
   "description": "Remote stopwatch with messaging functionality.",
     "icons": [
         {
@@ -16,8 +16,8 @@
     ],
   "id": "uk.orth.talkdash",
   "start_url": "/",
-  "background_color": "#9585e5",
+  "background_color": "#1d4ed8",
   "display": "standalone",
   "scope": "/",
-  "theme_color": "#9585e5"
+  "theme_color": "#1d4ed8"
 }

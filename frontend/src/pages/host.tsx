@@ -7,6 +7,8 @@ import {
 import { loadQueryParams } from "./loadQueryParams.ts";
 import { trpc } from "../client/trpcClient.ts";
 
+const minLengthMessage = 5;
+
 const Host = () => {
   const [message, setMessage] = createSignal("");
 
@@ -23,18 +25,26 @@ const Host = () => {
         value={speakerUsername}
         setValue={setSpeakerUsername}
       />
-      <div class="flex flex-col items-start">
-        <label class="flex flex-col items-start gap-2 w-full">
+      <div class="flex flex-col text-cyan-800 bg-blue-50 items-start p-4 rounded-xl gap-8">
+        <label
+          for="submitMessage"
+          class="flex flex-col items-start gap-2 w-full"
+        >
           Send the speaker a private message
           <textarea
-            class="text-cyan-800 w-full rounded-lg p-2"
+            autofocus
+            minLength={minLengthMessage}
+            class="text-cyan-800 w-full rounded-lg p-2 bg-blue-200"
             placeholder="Please repeat the audience's question."
             value={message()}
             onInput={(e) => setMessage(e.target.value)}
           />
+        </label>
+        <div class="flex w-full justify-end">
           <button
-            disabled={message().length <= 5}
-            class="bg-green-600 px-4 py-2 rounded-md disabled:bg-gray-500"
+            id="submitMessage"
+            disabled={message().length <= minLengthMessage}
+            class="bg-green-600 px-4 py-2 rounded-md disabled:bg-gray-500 text-white"
             onClick={async () => {
               const username = speakerUsername();
               if (username) {
@@ -48,7 +58,7 @@ const Host = () => {
           >
             Send
           </button>
-        </label>
+        </div>
       </div>
     </div>
   );
