@@ -1,5 +1,5 @@
 import { currentTime, difference, startTime } from "../time/timeState.ts";
-import { setUsername, username } from "../user/userState.ts";
+import { setSpeakerUsername, speakerUsername } from "../user/userState.ts";
 import { EditableStateField } from "./EditableStateField.tsx";
 
 const elapsedTime = () => {
@@ -20,8 +20,8 @@ export const MetadataView = () => {
 
       <EditableStateField
         label="Username"
-        value={username}
-        setValue={setUsername}
+        value={speakerUsername}
+        setValue={setSpeakerUsername}
       />
       {/*Temporarily disable password field since it is not implemented.*/}
       {/*<EditableStateField*/}

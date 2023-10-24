@@ -12,7 +12,6 @@ import {
   MenuSeparator,
   MenuTrigger,
 } from "@ark-ui/solid";
-import { trpc } from "./client/trpcClient.ts";
 import { A, Route, Routes } from "@solidjs/router";
 import { WrenchIcon } from "./assets/WrenchIcon.tsx";
 import { isExceeded } from "./features/time/TimeLeftDisplay.tsx";
@@ -28,10 +27,6 @@ function App() {
     // Used to cause re-render of components that rely on current time.
     const intervalId = setInterval(() => {
       setCurrentTime(DateTime.now());
-    });
-
-    trpc.speaker.createSpeaker.mutate({}).then((reply) => {
-      console.info(`Created speaker with id: ${reply.speakerId}`);
     });
 
     return () => clearInterval(intervalId);

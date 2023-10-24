@@ -1,6 +1,9 @@
 import { createSignal, onMount } from "solid-js";
 import { EditableStateField } from "../features/speaker/EditableStateField.tsx";
-import { setUsername, username } from "../features/user/userState.ts";
+import {
+  setSpeakerUsername,
+  speakerUsername,
+} from "../features/user/userState.ts";
 import { loadQueryParams } from "./loadQueryParams.ts";
 import { trpc } from "../client/trpcClient.ts";
 
@@ -17,14 +20,14 @@ const Host = () => {
       <p>Enter a speaker username to send them messages.</p>
       <EditableStateField
         label={"Recipient speaker username"}
-        value={username}
-        setValue={setUsername}
+        value={speakerUsername}
+        setValue={setSpeakerUsername}
       />
       <div class="flex flex-col items-start">
         <label class="flex flex-col items-start gap-2 w-full">
           Send the speaker a private message
           <textarea
-            class="text-cyan-800 w-full"
+            class="text-cyan-800 w-full rounded-lg p-2"
             placeholder="Please repeat the audience's question."
             value={message()}
             onInput={(e) => setMessage(e.target.value)}
@@ -33,11 +36,11 @@ const Host = () => {
             disabled={message().length <= 5}
             class="bg-green-600 px-4 py-2 rounded-md disabled:bg-gray-500"
             onClick={async () => {
-              const speakerUsername = username();
-              if (speakerUsername) {
+              const username = speakerUsername();
+              if (username) {
                 // TODO handle error.
                 await trpc.message.speaker.mutate({
-                  speakerUsername,
+                  speakerUsername: username,
                   message: message(),
                 });
               }

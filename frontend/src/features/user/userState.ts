@@ -1,31 +1,18 @@
 import { createSignal } from "solid-js";
-import { trpc } from "../../client/trpcClient.ts";
-import { Unsubscribable } from "@trpc/server/observable";
 
 const [usernameInternal, setUsernameInternal] = createSignal<
   string | undefined
 >(undefined);
 
-export const usernameKey = "user";
+export const speakerUsernameKey = "speakerUsername";
 
-export const username = usernameInternal;
+export const speakerUsername = usernameInternal;
 
-const messageSubscriptions = new Set<Unsubscribable>();
-
-export const setUsername = (name: string) => {
-  if (username() !== name) {
-    messageSubscriptions.forEach((handle) => handle.unsubscribe());
-    const newSubscription = trpc.message.subscribeMessages.subscribe(
-      { speakerUsername: name },
-      { onData: ({ message }) => console.info(`Received message: ${message}`) },
-    );
-    messageSubscriptions.add(newSubscription);
-  }
-
+export const setSpeakerUsername = (name: string) => {
   setUsernameInternal(name);
 
   const urlParams = new URLSearchParams(window.location.search);
-  urlParams.set(usernameKey, name);
+  urlParams.set(speakerUsernameKey, name);
   const newUrl = new URL(window.location.toString());
   newUrl.search = urlParams.toString();
   window.history.pushState(null, "", newUrl);

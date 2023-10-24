@@ -1,5 +1,9 @@
 {
-  "scripts": {},
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "format": "turbo format"
+  },
   "devDependencies": {
     "husky": "^8.0.3"
   },

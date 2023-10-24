@@ -16,7 +16,7 @@ export function ConfigCard() {
           required
           placeholder="20.5"
           autofocus
-          class="bg-blue-200 rounded-lg px-2 w-full"
+          class="bg-blue-200 rounded-lg p-2 w-full"
           type="text"
           id="finishTime"
           onInput={(e) => setDurationInMinutes(e.target.value)}

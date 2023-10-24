@@ -4,6 +4,7 @@ import { loggedProcedure } from "../middlewares/middleware";
 import { router } from "../trpc";
 
 export const speakerRouter = router({
+  // Unused
   createSpeaker: loggedProcedure
     .input(z.object({}))
     .output(
