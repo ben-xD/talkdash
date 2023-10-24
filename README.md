@@ -1,7 +1,7 @@
 # TalkDash
 
 Tools for event hosts and presenters. 
-- Available on https://talkdash.pages.dev
+- Available on https://talkdash.orth.uk or https://talkdash.pages.dev
 - API on https://talkdash.fly.dev
 - API UI (using tRPC Panel) on https://talkdash.fly.dev/trpc
 
