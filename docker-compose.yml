@@ -1,34 +1,38 @@
 services:
-  pg_proxy:
-    image: ghcr.io/neondatabase/wsproxy:latest
-    environment:
-      # To use the service on your host (e.g. Postgres.app)
-      APPEND_PORT: "host.docker.internal:5432"
-      # To use the service defined in this file:
-      # APPEND_PORT: "postgres:5432"
-      ALLOW_ADDR_REGEX: ".*"
-      LOG_TRAFFIC: "true"
-    ports:
-      - "5433:80"
-      # prometheus
-      - "2112:2112"
-    # depends_on:
-    #   - postgres
-#  backend:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    command: "npm start"
-#    # command: tail -f /dev/null
-#    ports:
-#      - "4000:4000"
   # Based on https://gal.hagever.com/posts/running-vercel-postgres-locally and
   # https://github.com/neondatabase/wsproxy
-  # postgres:
-  #   image: "postgres:15.2-alpine"
-  #   environment:
-  #     POSTGRES_USER: zen
-  #     POSTGRES_PASSWORD: ""
-  #     POSTGRES_DB: talkdash
-  #   ports:
-  #     - "5432:5432"
+  db:
+    image: "postgres:15.2-alpine"
+    environment:
+      POSTGRES_USER: "user"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_DB: talkdash
+    ports:
+      - "5432:5432"
+  backend:
+    env_file: "backend/docker.env"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: "npm start"
+    # command: tail -f /dev/null
+    depends_on:
+      - "db"
+    ports:
+      - "4001:4000"
+  # If connecting from a serverless function, we need to use a websocket proxy to connection to neon database.
+  #  pg_proxy:
+  #    image: ghcr.io/neondatabase/wsproxy:latest
+  #    environment:
+  #      # To use the service on your host (e.g. Postgres.app)
+  #      APPEND_PORT: "host.docker.internal:5432"
+  #      # To use the service defined in this file:
+  #      # APPEND_PORT: "postgres:5432"
+  #      ALLOW_ADDR_REGEX: ".*"
+  #      LOG_TRAFFIC: "true"
+  #    ports:
+  #      - "5433:80"
+  #      # prometheus
+  #      - "2112:2112"
+  #    # depends_on:
+  #    #   - postgres

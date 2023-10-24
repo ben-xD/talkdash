@@ -10,6 +10,7 @@ import {
   trpcWebsocketApiPath,
 } from "./trpc/trpcPath";
 import { appRouter } from "./trpc/appRouter";
+import { env } from "./env";
 
 const fastify = Fastify({
   maxParamLength: 5000,
@@ -55,8 +56,9 @@ registerTrpcApis();
 
 (async () => {
   try {
-    const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 4000;
-    await fastify.listen({ port });
+    const address = env.INSIDE_DOCKER ? "0.0.0.0" : "127.0.0.1";
+    const port = env.PORT ? parseInt(env.PORT, 10) : 4000;
+    await fastify.listen({ port, host: address });
     console.info(
       chalk.green(
         `tRPC HTTP API on http://localhost:${port}${trpcHttpApiPath}`,

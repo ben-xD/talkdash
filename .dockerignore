@@ -2,6 +2,7 @@
 */Dockerfile
 */docker-compose.yml
 *.md
+.env
 .dockerignore
 */node_modules
 .git

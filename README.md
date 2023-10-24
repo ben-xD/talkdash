@@ -28,11 +28,14 @@ Still in development. It currently only shows the time elapsed and time remainin
     - Framework preset: `None` 
     - Build command: `npm install -g turbo && turbo build`
     - Build output directory: `frontend/dist`
+  - Fly: 
+    - Initialize project: `fly launch`
+    - Add secrets: `fly secrets set DATABASE_URL='...'` 
+    - Deploy: `fly deploy`
 
 ## TODOs
 
-- fix docker build (use turbo and pnpm)
-- Display messages in Speaker UI 
+- Display messages in Speaker UI
 - Fix env var config for turbo / backend
 - Add QR code to speaker page for username
 - Add scanner/camera for host and audience page
@@ -46,6 +49,7 @@ Still in development. It currently only shows the time elapsed and time remainin
   - Store questions, and cluster based on category/relevance. Use vectorize vector database.
   - Filter messages for safety.
 - Set up turbo, eslint and prettier
+- Consider: Compile to ESM, not CJS (libraries like chalk@5 and is-inside-container/is-docker don't support CJS).
 
 ## Performance?
 - Need performance? 

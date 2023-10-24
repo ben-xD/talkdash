@@ -1,8 +1,7 @@
 {
-	"scripts": {
-		"preinstall": "husky install"
-	},
-	"devDependencies": {
-		"husky": "^8.0.3"
-	}
+  "scripts": {},
+  "devDependencies": {
+    "husky": "^8.0.3"
+  },
+  "packageManager": "pnpm@8.9.2"
 }
