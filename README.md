@@ -1,8 +1,8 @@
 # TalkDash
 
 Tools for event hosts and presenters. 
-- Available on https://talkdash.pages.dev. 
-- API on https://talkdash.fly.dev.
+- Available on https://talkdash.pages.dev
+- API on https://talkdash.fly.dev
 - API UI (using tRPC Panel) on https://talkdash.fly.dev/trpc
 
 - Message event speakers whilst they talk. Messages will appear on the app. For example, remind them to **repeat the question** asked by someone. 

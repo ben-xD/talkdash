@@ -8,7 +8,7 @@
     "build": "tsc",
     "dev": "tsx watch src/backend.ts",
     "start": "node dist/src/backend.js",
-    "deploy": "fly deploy",
+    "deploy": "fly deploy ..",
     "lint": "prettier --check src && eslint src",
     "format": "prettier src --write && eslint src --fix",
     "db:proxy": "docker-compose up -d",

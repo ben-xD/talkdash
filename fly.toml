@@ -10,6 +10,7 @@ primary_region = "lhr"
 
 [env]
   PORT = "8080"
+  INSIDE_DOCKER = "true"
 
 [http_service]
   internal_port = 8080
