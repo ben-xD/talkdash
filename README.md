@@ -11,7 +11,7 @@ Tools for event hosts and presenters.
 Still in development. It currently only shows the time elapsed and time remaining.
 
 ## Technology
-- Frontend: [Solid](https://tailwindcss.com/), [Tailwind](https://tailwindcss.com/) and [Tanstack](https://tanstack.com/)
+- Frontend: [Solid](https://tailwindcss.com/), [Solid Router](https://docs.solidjs.com/guides/how-to-guides/routing-in-solid/solid-router), [Tailwind](https://tailwindcss.com/)
 - Backend: Node, Fastify, tRPC and zod.
   - Fastify for anything tRPC doesn't support: e.g. file uploads, 3rd party clients.
   - Consider Supabase for extra *firebasy features*.
@@ -39,7 +39,7 @@ Still in development. It currently only shows the time elapsed and time remainin
 - Fix env var config for turbo / backend
 - Add QR code to speaker page for username
 - Add scanner/camera for host and audience page
-- use env var to configure db logger, trpc logger and fastify logger
+- use env vars to configure db/drizzle logger, trpc logger and fastify logger
 - Bugs:
   - Can't click on mode buttons (Audience, Host) on mobile. 
   - Username is not shown in the URL when navigating from any page to the speaker page. 
