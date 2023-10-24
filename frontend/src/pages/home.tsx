@@ -10,8 +10,9 @@ const Home = () => {
     <div class="my-4 flex flex-col gap-4 max-w-[400px]">
       <p class="text-xl">Welcome 👋</p>
       <p>
-        Speakers see a <span class="font-bold">large stopwatch</span>. Event
-        hosts can send messages to speakers.
+        This is a stopwatch app for events. Speakers see a{" "}
+        <span class="font-bold">large stopwatch</span>. Event hosts can send
+        messages to speakers.
       </p>
       <p>
         Are you a{" "}
@@ -26,8 +27,8 @@ const Home = () => {
       </p>
       <p>
         <span class="font-bold">PS:</span> This is a free and open source app
-        using Solid, tRPC, WebSockets, Cloudflare Pages, Fly.io and more. Star
-        the{" "}
+        using Solid, tRPC, Fastify, Node, WebSockets, Cloudflare Pages, Fly.io
+        and more. Star the{" "}
         <a
           class="underline font-bold"
           href="https://github.com/ben-xD/talkdash"
@@ -35,6 +36,12 @@ const Home = () => {
           repo
         </a>
         ? 😉😜
+      </p>
+      <p>
+        By{" "}
+        <a class="underline font-bold" href="https://orth.uk/">
+          Ben Butterworth
+        </a>
       </p>
     </div>
   );

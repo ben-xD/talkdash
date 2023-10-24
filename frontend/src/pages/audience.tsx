@@ -7,10 +7,21 @@ const Audience = () => {
   });
 
   return (
-    <div>
-      <p>Audience Page</p>
+    <div class="max-w-[400px] flex flex-col gap-4 py-4">
+      <p class="font-bold">Audience Mode</p>
       <p>
-        The audience cannot do anything yet. Switch to{" "}
+        Ohhh dear. The audience cannot do anything yet. Want some features for
+        the audience? Find or create a{" "}
+        <a
+          href="https://github.com/ben-xD/talkdash/issues/new"
+          class="underline font-bold"
+        >
+          GitHub issue
+        </a>
+        .
+      </p>
+      <p>
+        Switch to{" "}
         <A class="underline font-bold" href="/speaker">
           Speaker
         </A>{" "}
