@@ -33,6 +33,7 @@ Still in development. It currently only shows the time elapsed and time remainin
     - Initialize project: `fly launch`
     - Add secrets: `fly secrets set DATABASE_URL='...'` 
     - Deploy: `fly deploy`
+- Image generated using [sdxl-emoji](https://replicate.com/fofr/sdxl-emoji) and edited using Modyfi.com.
 
 ## TODOs
 

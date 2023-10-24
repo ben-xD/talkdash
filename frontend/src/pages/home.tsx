@@ -1,5 +1,6 @@
 import { onMount } from "solid-js";
 import { A } from "@solidjs/router";
+import TalkDashImage from "../assets/talkdash.png";
 
 const Home = () => {
   onMount(() => {
@@ -25,6 +26,10 @@ const Home = () => {
         </A>
         ?
       </p>
+      <img
+        src={TalkDashImage}
+        alt={"Image of a blue bird called TalkDash."}
+      ></img>
       <p>
         <span class="font-bold">PS:</span> This is a free and open source app
         using Solid, tRPC, Fastify, Node, WebSockets, Cloudflare Pages, Fly.io
