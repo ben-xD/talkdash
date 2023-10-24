@@ -5,7 +5,7 @@ import {
   speakerUsername,
 } from "../features/user/userState.ts";
 import { loadQueryParams } from "./loadQueryParams.ts";
-import { trpc } from "../client/trpcClient.ts";
+import { trpc } from "../client/trpc.ts";
 
 const minLengthMessage = 5;
 
@@ -49,7 +49,7 @@ const Host = () => {
               const username = speakerUsername();
               if (username) {
                 // TODO handle error.
-                await trpc.message.speaker.mutate({
+                await trpc.message.sendMessageToSpeaker.mutate({
                   speakerUsername: username,
                   message: message(),
                 });

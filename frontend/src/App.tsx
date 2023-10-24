@@ -70,7 +70,7 @@ function App() {
                     <A href="/speaker">Speaker</A>
                   </MenuItem>
                   <MenuItem id="host" class="px-4 py-1">
-                    <A href="/host">Host</A>
+                    <A href="/host">Event Host</A>
                   </MenuItem>
                 </MenuItemGroup>
               </MenuContent>

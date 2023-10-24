@@ -2,11 +2,38 @@ import { MetadataView } from "../features/speaker/MetadataView.tsx";
 import { ConfigCard } from "../features/ConfigCard.tsx";
 import { TimeLeftDisplay } from "../features/time/TimeLeftDisplay.tsx";
 import { MessageView } from "../features/messages/MessageView.tsx";
-import { onMount } from "solid-js";
+import { onCleanup, onMount } from "solid-js";
 import { loadQueryParams } from "./loadQueryParams.ts";
 import { speakerUsername } from "../features/user/userState.ts";
 import { Unsubscribable } from "@trpc/server/observable";
-import { trpc } from "../client/trpcClient.ts";
+import { trpc } from "../client/trpc.ts";
+import {
+  receivedMessages,
+  setReceivedMessages,
+} from "../features/messages/receivedMessages.ts";
+import { DateTime } from "luxon";
+
+const minimumMessageDisplayTimeInMs = 7000;
+
+const removeOldestMessageAfterExpiry = (currentTime: DateTime) => {
+  // Remove oldest message if it's been displayed for a while and there's another message waiting.
+  const oldestMessage = receivedMessages[0]?.receivedAt;
+  if (
+    oldestMessage &&
+    oldestMessage.diff(currentTime).milliseconds > minimumMessageDisplayTimeInMs
+  ) {
+    setTimeout(() => {
+      if (receivedMessages.length > 1) {
+        console.info(
+          `Receiving the oldest message (${receivedMessages[0]}) after expiry ${minimumMessageDisplayTimeInMs}.`,
+        );
+        setReceivedMessages([...receivedMessages.slice(1)]);
+      }
+      // Remove more if there's more than 1.
+      removeOldestMessageAfterExpiry(DateTime.now());
+    }, minimumMessageDisplayTimeInMs);
+  }
+};
 
 const Speaker = () => {
   let messageSubscription: Unsubscribable | undefined = undefined;
@@ -19,12 +46,20 @@ const Speaker = () => {
       messageSubscription = trpc.message.subscribeMessages.subscribe(
         { speakerUsername: username },
         {
-          onData: ({ message }) => console.info(`Received message: ${message}`),
+          onData: ({ message }) => {
+            const receivedAt = DateTime.now();
+            console.info(`Received message: ${message} at ${receivedAt}`);
+            removeOldestMessageAfterExpiry(receivedAt);
+            setReceivedMessages([...receivedMessages, { receivedAt, message }]);
+          },
         },
       );
     }
+  });
 
-    return () => messageSubscription?.unsubscribe();
+  onCleanup(() => {
+    console.info("Unsubscribing from speaker messages");
+    messageSubscription?.unsubscribe();
   });
 
   return (

@@ -13,29 +13,39 @@ const observedMessage = z.object({
 type ObservedMessage = z.infer<typeof observedMessage>;
 
 type MessageObserver = Observer<ObservedMessage, Error>;
-const observerBySpeakerId = new Map<ObserverId, MessageObserver>();
+const observersBySpeakerId = new Map<ObserverId, Set<MessageObserver>>();
 
 export const messageRouter = router({
-  speaker: loggedProcedure
+  sendMessageToSpeaker: loggedProcedure
     .input(z.object({ speakerUsername: z.string(), message: z.string() }))
     .mutation(async ({ input }) => {
-      const observer = observerBySpeakerId.get(input.speakerUsername);
-      if (!observer) {
+      const observers = observersBySpeakerId.get(input.speakerUsername);
+      if (!observers) {
         throw new TRPCError({
           code: "NOT_FOUND",
           message: `Speaker with username ${input.speakerUsername} was not found, cannot send message.`,
         });
       } else {
-        observer.next({ message: input.message });
+        observers.forEach((speaker) =>
+          speaker.next({ message: input.message }),
+        );
       }
     }),
   subscribeMessages: loggedProcedure
     .input(z.object({ speakerUsername: z.string() }))
     .subscription(({ input }) =>
       observable<ObservedMessage, Error>((emit) => {
-        observerBySpeakerId.set(input.speakerUsername, emit);
+        let observers = observersBySpeakerId.get(input.speakerUsername);
+        if (!observers) {
+          observers = new Set();
+          observersBySpeakerId.set(input.speakerUsername, observers);
+        }
+        observers.add(emit);
         return () => {
-          observerBySpeakerId.delete(input.speakerUsername);
+          observers?.delete(emit);
+          if (observers?.size === 0) {
+            observersBySpeakerId.delete(input.speakerUsername);
+          }
         };
       }),
     ),

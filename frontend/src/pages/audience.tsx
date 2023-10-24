@@ -16,7 +16,7 @@ const Audience = () => {
         </A>{" "}
         or{" "}
         <A class="underline font-bold" href="/host">
-          Host
+          Event Host
         </A>{" "}
         mode.
       </p>
