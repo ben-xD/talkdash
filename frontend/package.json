@@ -13,6 +13,7 @@
   "dependencies": {
     "@ark-ui/solid": "^0.11.0",
     "@solidjs/router": "^0.8.3",
+    "@tailwindcss/container-queries": "^0.1.1",
     "@trpc/client": "^10.41.0",
     "@trpc/server": "^10.41.0",
     "@ts-rest/core": "^3.30.4",
@@ -26,12 +27,12 @@
     "@types/luxon": "^3.3.3",
     "autoprefixer": "^10.4.16",
     "eslint": "^8.52.0",
+    "eslint-config-talkdash": "workspace:*",
     "postcss": "^8.4.31",
     "prettier": "^3.0.3",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.2.2",
     "vite": "^4.4.5",
-    "vite-plugin-solid": "^2.7.0",
-    "eslint-config-talkdash": "workspace:*"
+    "vite-plugin-solid": "^2.7.0"
   }
 }

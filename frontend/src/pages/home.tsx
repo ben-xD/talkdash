@@ -7,8 +7,12 @@ const Home = () => {
   });
 
   return (
-    <div class="my-4 flex flex-col gap-2">
+    <div class="my-4 flex flex-col gap-4 max-w-[400px]">
       <p class="text-xl">Welcome 👋</p>
+      <p>
+        Hosts can message speakers remotely using their username. Both can see
+        the time remaining in their talk.
+      </p>
       <p>
         Are you a{" "}
         <A class="underline font-bold" href="/speaker">

@@ -11,6 +11,10 @@ const elapsedTime = () => {
 export const MetadataView = () => {
   return (
     <div class="py-4 my-2 p-4 rounded-xl flex flex-col gap-4 items-stretch">
+      <p>
+        <span class="font-bold tracking-tight">Speaker mode: </span>Choose a
+        talk length and start the timer.
+      </p>
       <div class="flex gap-2">
         <span class="font-bold">Elapsed:</span>
         <span>
