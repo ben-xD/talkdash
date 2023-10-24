@@ -54,23 +54,21 @@ function App() {
             <WrenchIcon />
           </MenuTrigger>
           <Portal>
-            <MenuPositioner>
-              <MenuContent class="text-blue-700 bg-white">
+            <MenuPositioner class="z-10">
+              <MenuContent class="text-blue-700 bg-white rounded-lg">
                 <MenuItemGroup id="modes" class="p">
-                  <MenuItemGroupLabel
-                    htmlFor="modes"
-                    class="font-bold px-4 py-4"
-                  >
+                  {/*Margins/padding don't work on the label 😢 */}
+                  <MenuItemGroupLabel htmlFor="modes" class="font-bold px-4">
                     Modes
                   </MenuItemGroupLabel>
                   <MenuSeparator />
-                  <MenuItem id="audience" class="px-4 py-1">
+                  <MenuItem id="audience" class="px-4 py-2">
                     <A href="/audience">Audience</A>
                   </MenuItem>
-                  <MenuItem id="speaker" class="px-4 py-1">
+                  <MenuItem id="speaker" class="px-4 py-w">
                     <A href="/speaker">Speaker</A>
                   </MenuItem>
-                  <MenuItem id="host" class="px-4 py-1">
+                  <MenuItem id="host" class="px-4 py-2">
                     <A href="/host">Event Host</A>
                   </MenuItem>
                 </MenuItemGroup>
