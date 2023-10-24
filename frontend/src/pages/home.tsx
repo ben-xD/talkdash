@@ -10,8 +10,8 @@ const Home = () => {
     <div class="my-4 flex flex-col gap-4 max-w-[400px]">
       <p class="text-xl">Welcome 👋</p>
       <p>
-        Hosts can message speakers remotely using their username. Both can see
-        the time remaining in their talk.
+        Speakers see a <span class="font-bold">large stopwatch</span>. Event
+        hosts can send messages to speakers.
       </p>
       <p>
         Are you a{" "}
@@ -23,6 +23,18 @@ const Home = () => {
           Event Host
         </A>
         ?
+      </p>
+      <p>
+        <span class="font-bold">PS:</span> This is a free and open source app
+        using Solid, tRPC, WebSockets, Cloudflare Pages, Fly.io and more. Star
+        the{" "}
+        <a
+          class="underline font-bold"
+          href="https://github.com/ben-xD/talkdash"
+        >
+          repo
+        </a>
+        ? 😉😜
       </p>
     </div>
   );
