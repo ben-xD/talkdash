@@ -28,6 +28,7 @@ Still in development. It currently only shows the time elapsed and time remainin
     - Framework preset: `None` 
     - Build command: `npm install -g turbo && turbo build`
     - Build output directory: `frontend/dist`
+    - Extra environment variable: `VITE_BACKEND_URL=wss://talkdash.fly.dev`
   - Fly: 
     - Initialize project: `fly launch`
     - Add secrets: `fly secrets set DATABASE_URL='...'` 
