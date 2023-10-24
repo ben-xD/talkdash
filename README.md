@@ -49,7 +49,6 @@ Still in development. It currently only shows the time elapsed and time remainin
   - Convert human-readable talk length into duration.
   - Store questions, and cluster based on category/relevance. Use vectorize vector database.
   - Filter messages for safety.
-- Set up turbo, eslint and prettier
 - Consider: Compile to ESM, not CJS (libraries like chalk@5 and is-inside-container/is-docker don't support CJS).
 
 ## Performance?
