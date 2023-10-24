@@ -36,7 +36,6 @@ Still in development. It currently only shows the time elapsed and time remainin
 
 ## TODOs
 
-- Display messages in Speaker UI
 - Fix env var config for turbo / backend
 - Add QR code to speaker page for username
 - Add scanner/camera for host and audience page
@@ -50,6 +49,7 @@ Still in development. It currently only shows the time elapsed and time remainin
   - Store questions, and cluster based on category/relevance. Use vectorize vector database.
   - Filter messages for safety.
 - Consider: Compile to ESM, not CJS (libraries like chalk@5 and is-inside-container/is-docker don't support CJS).
+- Consider: SSR on Cloudflare pages?
 
 ## Performance?
 - Need performance? 

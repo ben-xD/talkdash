@@ -17,15 +17,16 @@ const minimumMessageDisplayTimeInMs = 7000;
 
 const removeOldestMessageAfterExpiry = (currentTime: DateTime) => {
   // Remove oldest message if it's been displayed for a while and there's another message waiting.
-  const oldestMessage = receivedMessages[0]?.receivedAt;
+  const oldestMessageReceivedAt = receivedMessages[0]?.receivedAt;
   if (
-    oldestMessage &&
-    oldestMessage.diff(currentTime).milliseconds > minimumMessageDisplayTimeInMs
+    oldestMessageReceivedAt &&
+    currentTime.diff(oldestMessageReceivedAt).milliseconds >
+      minimumMessageDisplayTimeInMs
   ) {
     setTimeout(() => {
       if (receivedMessages.length > 1) {
         console.info(
-          `Receiving the oldest message (${receivedMessages[0]}) after expiry ${minimumMessageDisplayTimeInMs}.`,
+          `Removing the oldest message (${receivedMessages[0]}) after expiry ${minimumMessageDisplayTimeInMs}.`,
         );
         setReceivedMessages([...receivedMessages.slice(1)]);
       }
