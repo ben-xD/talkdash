@@ -19,6 +19,7 @@ import { GithubLogo } from "./assets/GithubLogo.tsx";
 
 const SpeakerPage = lazy(() => import("./pages/speaker.tsx"));
 const AudiencePage = lazy(() => import("./pages/audience.tsx"));
+const HomePage = lazy(() => import("./pages/home.tsx"));
 
 const HostPage = lazy(() => import("./pages/host.tsx"));
 
@@ -64,7 +65,7 @@ function App() {
                   </MenuItemGroupLabel>
                   <MenuSeparator />
                   <MenuItem id="audience" class="px-4 py-1">
-                    <A href="/">Audience</A>
+                    <A href="/audience">Audience</A>
                   </MenuItem>
                   <MenuItem id="speaker" class="px-4 py-1">
                     <A href="/speaker">Speaker</A>
@@ -79,7 +80,8 @@ function App() {
         </Menu>
       </div>
       <Routes>
-        <Route path="/" component={AudiencePage} />
+        <Route path="/" component={HomePage} />
+        <Route path="/audience" component={AudiencePage} />
         <Route path="/speaker" component={SpeakerPage} />
         <Route path="/host" component={HostPage} />
       </Routes>
