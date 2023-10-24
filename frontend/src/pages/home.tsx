@@ -32,8 +32,8 @@ const Home = () => {
       ></img>
       <p>
         <span class="font-bold">PS:</span> This is a free and open source app
-        using Solid, tRPC, Fastify, Node, WebSockets, Cloudflare Pages, Fly.io
-        and more. Star the{" "}
+        using Solid, Tailwind, tRPC, Fastify, Node, WebSockets, Cloudflare
+        Pages, Fly.io and more. Star the{" "}
         <a
           class="underline font-bold"
           href="https://github.com/ben-xD/talkdash"
