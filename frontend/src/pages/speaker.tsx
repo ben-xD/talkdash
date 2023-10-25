@@ -52,7 +52,7 @@ const Speaker = () => {
         {
           onData: ({ message }) => {
             const receivedAt = DateTime.now();
-            console.info(`Received message: ${message} at ${receivedAt}`);
+            console.info(`Received message at ${receivedAt}:\n${message}`);
             removeOldestMessageAfterExpiry(receivedAt);
             setReceivedMessages([...receivedMessages, { receivedAt, message }]);
           },
