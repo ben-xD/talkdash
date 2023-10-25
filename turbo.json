@@ -1,19 +1,19 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalPassThroughEnv": [],
-  "globalDotEnv": ["frontend/.env"],
   "pipeline": {
     "build": {
       "dependsOn": [
         "^build"
-      ]
+      ],
+      "outputs": ["dist/**"]
     },
     "frontend#build": {
-      "dependsOn": ["^build"],
-      "outputs": ["frontend/dist/**"]
-    },
-    "backend#build": {
-      "outputs": ["backend/dist/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "dotEnv": [".env"],
+      "outputs": ["dist/**"]
     },
     "dev": {
       "persistent": true
