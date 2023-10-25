@@ -23,7 +23,6 @@ Still in development. It currently only shows the time elapsed and time remainin
   - Temporarily disabled `trpc/context.ts` since I'm not persisting anything 
   - I don't really benefit from the "serverless" nature of Neon, since the backend is not serverless (because durable objects are not on the Cloudflare free tier, and also they tend to become expensive with use) 
   - However, I may use cloudflare workers in the future for other things, and using the neon serverless http API for that could be useful
-- API: [ts-rest](https://ts-rest.com/) and [zod](https://zod.dev/)
 - Deployment: [Fly.io](https://fly.io), [Cloudflare Pages, Cloudflare workers](https://www.cloudflare.com/en-gb/) (Fly.io for websocket connections, because Cloudflare Durable Objects are expensive)
   - Cloudflare pages build settings: 
     - Framework preset: `None` 
