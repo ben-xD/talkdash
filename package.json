@@ -2,10 +2,12 @@
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
-    "format": "turbo format"
+    "format": "turbo format",
+    "clean": "turbo clean"
   },
   "devDependencies": {
-    "husky": "^8.0.3"
+    "husky": "^8.0.3",
+    "rimraf": "^5.0.5"
   },
   "packageManager": "pnpm@8.9.2"
 }

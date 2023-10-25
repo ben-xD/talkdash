@@ -8,7 +8,8 @@
     "build": "tsc && vite build",
     "lint": "prettier --check src && eslint src",
     "format": "prettier src --write && eslint src --fix",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "clean": "rimraf dist"
   },
   "dependencies": {
     "@ark-ui/solid": "^0.11.0",
