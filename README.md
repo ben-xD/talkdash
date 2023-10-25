@@ -12,16 +12,17 @@ Still in development. It currently only shows the time elapsed and time remainin
 
 ## Technology
 - Frontend: [Solid](https://tailwindcss.com/), [Solid Router](https://docs.solidjs.com/guides/how-to-guides/routing-in-solid/solid-router), [Tailwind](https://tailwindcss.com/)
-- Backend: Node, Fastify, tRPC and zod.
-  - Fastify for anything tRPC doesn't support: e.g. file uploads, 3rd party clients.
-  - Consider Supabase for extra *firebasy features*.
+- Backend: Node, Fastify, tRPC and zod
+  - Fastify for anything tRPC doesn't support: e.g. file uploads, 3rd party clients
+  - Consider Supabase for extra *firebasy features*
   - Initially tried [Bun](https://bun.sh/) and [Bao](https://github.com/mattreid1/baojs)
     - Bao bun bug? Error: `TypeError: null is not an object (evaluating 'res.status')` internal to Bao, with no stack trace (Bun?). There was no way past this error, perhaps Bao is not compatible with the latest Bun. 
     - I wanted to use [Fastify](https://fastify.dev/) but Jarred said ['Fastify is not fast in bun.'](https://news.ycombinator.com/item?id=37800505).
     - Testing: [HTTPie](https://httpie.io/app) and [websocat](https://github.com/vi/websocat).
-- Database: Postgres (Neon) and drizzle orm. 
-  - I don't really benefit from the "serverless" nature of Neon, since the backend is not serverless (because durable objects are not on the Cloudflare free tier, and also they tend to become expensive with use). 
-  - However, I may use cloudflare workers in the future for other things, and using the neon serverless http API for that could be useful.
+- Database: Postgres (Neon) and drizzle orm 
+  - Temporarily disabled `trpc/context.ts` since I'm not persisting anything 
+  - I don't really benefit from the "serverless" nature of Neon, since the backend is not serverless (because durable objects are not on the Cloudflare free tier, and also they tend to become expensive with use) 
+  - However, I may use cloudflare workers in the future for other things, and using the neon serverless http API for that could be useful
 - API: [ts-rest](https://ts-rest.com/) and [zod](https://zod.dev/)
 - Deployment: [Fly.io](https://fly.io), [Cloudflare Pages, Cloudflare workers](https://www.cloudflare.com/en-gb/) (Fly.io for websocket connections, because Cloudflare Durable Objects are expensive)
   - Cloudflare pages build settings: 
@@ -33,7 +34,7 @@ Still in development. It currently only shows the time elapsed and time remainin
     - Initialize project: `fly launch`
     - Add secrets: `fly secrets set DATABASE_URL='...'` 
     - Deploy: `fly deploy`
-- Image generated using [sdxl-emoji](https://replicate.com/fofr/sdxl-emoji), background removed using Modyfi.com, optimised with https://tinypng.com/, and favicons generated using https://realfavicongenerator.net/.
+- Image generated using [sdxl-emoji](https://replicate.com/fofr/sdxl-emoji), background removed using Modyfi.com, optimised with https://tinypng.com/, and favicons generated using https://realfavicongenerator.net/
 
 ## TODOs
 
@@ -42,8 +43,8 @@ Still in development. It currently only shows the time elapsed and time remainin
 - Add scanner/camera for host and audience page
 - use env vars to configure db/drizzle logger, trpc logger and fastify logger
 - Bugs:
-  - Can't click on mode buttons (Audience, Host) on mobile. 
-  - Username is not shown in the URL when navigating from any page to the speaker page. 
+  - Can't click on mode buttons (Audience, Host) on mobile
+  - Username is not shown in the URL when navigating from any page to the speaker page 
   - 2 minutes will briefly show as 1 minute 60 seconds
 - AI ideas:
   - Convert human-readable talk length into duration.
