@@ -5,15 +5,16 @@ dotenv.config();
 
 const envValidator = z.object({
   CLOUDFLARE_WORKERS_AI_TOKEN: z.string(),
-  DATABASE_URL: z
-    .string()
-    .describe(
-      [
-        "Connection string to postgres database, starting with `postgres://`.",
-        "Can be local or remote. Get the remote database from your project.",
-        "https://console.neon.tech/app/projects/project-name",
-      ].join(" "),
-    ),
+  // Temporary disabled since we don't connect to a database.
+  // DATABASE_URL: z
+  //   .string()
+  //   .describe(
+  //     [
+  //       "Connection string to postgres database, starting with `postgres://`.",
+  //       "Can be local or remote. Get the remote database from your project.",
+  //       "https://console.neon.tech/app/projects/project-name",
+  //     ].join(" "),
+  //   ),
   PORT: z
     .string()
     .describe(
