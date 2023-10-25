@@ -40,12 +40,10 @@ Still in development. It currently only shows the time elapsed and time remainin
 
 ## TODOs
 
-- Fix env var config for turbo / backend
 - Add QR code to speaker page for username
 - Add scanner/camera for host and audience page
 - Bugs:
   - Can't click on mode buttons (Audience, Host) on mobile
-  - Username is not shown in the URL when navigating from any page to the speaker page 
   - 2 minutes will briefly show as 1 minute 60 seconds
 - AI ideas:
   - Convert text into emoji using llama2 cloudflare
