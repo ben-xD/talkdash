@@ -1,6 +1,9 @@
 import { env } from "../../env";
 
-async function run(model: string, input: any) {
+async function run(
+  model: string,
+  input: { messages: { role: string; content: string }[] },
+) {
   const response = await fetch(
     `https://api.cloudflare.com/client/v4/accounts/***REMOVED***/ai/run/${model}`,
     {
