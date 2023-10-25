@@ -25,13 +25,16 @@ Still in development. It currently only shows the time elapsed and time remainin
   - However, I may use cloudflare workers in the future for other things, and using the neon serverless http API for that could be useful
 - Deployment: [Fly.io](https://fly.io), [Cloudflare Pages, Cloudflare workers](https://www.cloudflare.com/en-gb/) (Fly.io for websocket connections, because Cloudflare Durable Objects are expensive)
   - Cloudflare pages build settings: 
-    - Framework preset: `None` 
+    - Framework preset: `None`
     - Build command: `npm install -g turbo && turbo build`
     - Build output directory: `frontend/dist`
     - Extra environment variable: `VITE_BACKEND_URL=wss://talkdash.fly.dev`
+    - Reminder: scale down to 1 machine using `flyctl scale count 1` because the backend is the message broker - we want all users connected to the same instance. See https://community.fly.io/t/how-deploy-to-just-one-machine/12510/2
   - Fly: 
     - Initialize project: `fly launch`
-    - Add secrets: `fly secrets set DATABASE_URL='...'` 
+    - Add secrets: 
+      - `fly secrets set CLOUDFLARE_WORKERS_AI_TOKEN='...'` taken from Cloudflare Workers AI.
+      - `fly secrets set DATABASE_URL='...'` taken from Neon.tech (not currently necessary)
     - Deploy: `fly deploy`
 - Image generated using [sdxl-emoji](https://replicate.com/fofr/sdxl-emoji), background removed using Modyfi.com, optimised with https://tinypng.com/, and favicons generated using https://realfavicongenerator.net/
 
@@ -46,9 +49,12 @@ Still in development. It currently only shows the time elapsed and time remainin
   - Username is not shown in the URL when navigating from any page to the speaker page 
   - 2 minutes will briefly show as 1 minute 60 seconds
 - AI ideas:
+  - Convert text into emoji using llama2 cloudflare
+  - record event host message from voice (STT) - whisper on Cloudflare
+  - Filter messages for safety and edit it for being funny. - not really posible
+  - Generate and play message audio (elevenlabs code `ElevenLabsJam`) - add play button.
   - Convert human-readable talk length into duration.
   - Store questions, and cluster based on category/relevance. Use vectorize vector database.
-  - Filter messages for safety.
 - Consider: Compile to ESM, not CJS (libraries like chalk@5 and is-inside-container/is-docker don't support CJS).
 - Consider: SSR on Cloudflare pages?
 

@@ -4,6 +4,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 const envValidator = z.object({
+  CLOUDFLARE_WORKERS_AI_TOKEN: z.string(),
   DATABASE_URL: z
     .string()
     .describe(

@@ -4,6 +4,7 @@ import { DateTime } from "luxon";
 export type ReceivedMessage = {
   receivedAt: DateTime;
   message: string;
+  emojiMessage: string;
 };
 export const [receivedMessages, setReceivedMessages] = createStore<
   ReceivedMessage[]

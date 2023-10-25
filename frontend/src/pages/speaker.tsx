@@ -50,11 +50,14 @@ const Speaker = () => {
       messageSubscription = trpc.message.subscribeMessages.subscribe(
         { speakerUsername: username },
         {
-          onData: ({ message }) => {
+          onData: ({ emojiMessage, message }) => {
             const receivedAt = DateTime.now();
             console.info(`Received message at ${receivedAt}:\n${message}`);
             removeOldestMessageAfterExpiry(receivedAt);
-            setReceivedMessages([...receivedMessages, { receivedAt, message }]);
+            setReceivedMessages([
+              ...receivedMessages,
+              { receivedAt, message, emojiMessage },
+            ]);
           },
         },
       );
