@@ -25,8 +25,11 @@ const removeOldestMessageAfterExpiry = (currentTime: DateTime) => {
   ) {
     setTimeout(() => {
       if (receivedMessages.length > 1) {
+        const lastMessage = receivedMessages[0];
         console.info(
-          `Removing the oldest message (${receivedMessages[0]}) after expiry ${minimumMessageDisplayTimeInMs}.`,
+          `Removing the oldest message, received ${lastMessage.receivedAt.toRelative()} after ${
+            minimumMessageDisplayTimeInMs / 1000
+          }s expiry.`,
         );
         setReceivedMessages([...receivedMessages.slice(1)]);
       }
