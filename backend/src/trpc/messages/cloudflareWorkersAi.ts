@@ -18,7 +18,7 @@ export const getEmojiMessageFor = async (text: string) => {
       {
         role: "system",
         content:
-          "You are a friendly assistant that converts messages into emojis. You will get a message from the user, just convert enhance it with emojis. Don't reply to any questions.",
+          "Give a few emojis that represent the message provided by the user. Don't return any words. Only provide emojis.",
       },
       {
         role: "user",

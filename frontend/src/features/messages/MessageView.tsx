@@ -24,7 +24,7 @@ export const MessageView = () => {
             return timeSinceReceived ? (
               <div class="flex gap-8 @container justify-between w-full items-center">
                 <p class="@lg:text-[4cqw] whitespace-pre-wrap">
-                  {message.emojiMessage}
+                  {message.emojiMessage} {message.message}
                 </p>
                 <p class="text-right">{timeSinceReceived()}</p>
               </div>
