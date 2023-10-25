@@ -51,7 +51,7 @@ Still in development. It currently only shows the time elapsed and time remainin
 - AI ideas:
   - Convert text into emoji using llama2 cloudflare
   - record event host message from voice (STT) - whisper on Cloudflare
-  - Filter messages for safety and edit it for being funny. - not really posible
+  - Filter messages for safety and edit it for being funny. - not really possible
   - Generate and play message audio (elevenlabs code `ElevenLabsJam`) - add play button.
   - Convert human-readable talk length into duration.
   - Store questions, and cluster based on category/relevance. Use vectorize vector database.
