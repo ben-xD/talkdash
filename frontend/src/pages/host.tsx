@@ -33,7 +33,7 @@ const Host = () => {
           for="submitMessage"
           class="flex flex-col items-start gap-2 w-full"
         >
-          Send the speaker a private message
+          Send the speaker a private message (min: 5 characters)
           <textarea
             autofocus
             minLength={minLengthMessage}
@@ -46,7 +46,9 @@ const Host = () => {
         <div class="flex w-full justify-end">
           <button
             id="submitMessage"
-            disabled={message().length <= minLengthMessage}
+            disabled={
+              !speakerUsername() || message().length <= minLengthMessage
+            }
             class="bg-green-600 px-4 py-2 rounded-md disabled:bg-gray-500 text-white"
             onClick={async () => {
               const username = speakerUsername();
