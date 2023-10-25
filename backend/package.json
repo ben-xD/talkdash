@@ -6,7 +6,7 @@
   "types": "src/index.ts",
   "scripts": {
     "build": "tsc",
-    "dev": "tsx watch src/backend.ts",
+    "dev": "tsx watch --clear-screen=false src/backend.ts",
     "start": "node dist/src/backend.js",
     "deploy": "fly deploy ..",
     "lint": "prettier --check src && eslint src",

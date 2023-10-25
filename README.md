@@ -84,3 +84,5 @@ Still in development. It currently only shows the time elapsed and time remainin
 ## Notes about weird things
 - I only installed husky because the `flyctl` CLI assumes you use it (possibly only for Node apps). Otherwise, `@flydotio/dockerfile` npm package fails to install with `sh: husky: command not found`.
   - I also need to `fly launch` in the root of the project, because husky relies on a git repo (can't be in a subdirectory).
+- Turbo repo's `turbo.json` issues:
+  - [`globalDotEnv`](https://turbo.build/repo/docs/reference/configuration#globaldotenv) works, but a task specific [`dotEnv`](https://turbo.build/repo/docs/reference/configuration#dotenv) doesn't. Therefore, to be safe, I cause all apps to rebuild when the a environment variable that is used in the build changes.
