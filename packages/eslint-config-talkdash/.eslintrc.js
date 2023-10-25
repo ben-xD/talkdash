@@ -20,9 +20,11 @@ module.exports = {
   plugins: [
     // To fix error: Definition for rule 'import/no-extraneous-dependencies' was not found
     "import",
-    "@typescript-eslint"
+    "@typescript-eslint",
   ],
   rules: {
+    // Automatically flag env vars missing from turbo.json
+    "turbo/no-undeclared-env-vars": "error",
     "import/prefer-default-export": "off",
     "no-console": "off",
     // Disable if it becomes really annoying
@@ -35,9 +37,5 @@ module.exports = {
       },
     ],
   },
-  ignorePatterns: [
-    "*.gen.ts",
-    "**/vite.config.ts",
-    "**/.eslintrc.js",
-  ],
+  ignorePatterns: ["*.gen.ts", "**/vite.config.ts", "**/.eslintrc.js"],
 };
