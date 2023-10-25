@@ -3,6 +3,12 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
+// TODO Replace environment variables usage with config files (yaml and zod).
+// TODO move the following logger options into the config file
+export const enableDatabaseLogging = false;
+export const enableFastityLogging = false;
+export const enableTrpcRequestLogging = false;
+
 const envValidator = z.object({
   CLOUDFLARE_WORKERS_AI_TOKEN: z.string(),
   // Temporary disabled since we don't connect to a database.

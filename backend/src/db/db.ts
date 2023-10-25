@@ -1,7 +1,7 @@
 import { Pool } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { migrate } from "drizzle-orm/node-postgres/migrator";
-import { env } from "../env";
+import { enableDatabaseLogging, env } from "../env";
 import { setupWsProxyConfig } from "./wsProxy";
 import * as schema from "./schema";
 
@@ -14,7 +14,7 @@ export const connectToDb = async () => {
   const connectionString = env.DATABASE_URL;
 
   const pool = new Pool({ connectionString });
-  const db = drizzle(pool, { logger: true, schema });
+  const db = drizzle(pool, { logger: enableDatabaseLogging, schema });
   await migrate(db, { migrationsFolder });
   return db;
 };

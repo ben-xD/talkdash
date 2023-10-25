@@ -43,7 +43,6 @@ Still in development. It currently only shows the time elapsed and time remainin
 - Fix env var config for turbo / backend
 - Add QR code to speaker page for username
 - Add scanner/camera for host and audience page
-- use env vars to configure db/drizzle logger, trpc logger and fastify logger
 - Bugs:
   - Can't click on mode buttons (Audience, Host) on mobile
   - Username is not shown in the URL when navigating from any page to the speaker page 
