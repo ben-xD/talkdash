@@ -4,7 +4,7 @@ import { EditableStateField } from "./EditableStateField.tsx";
 
 const elapsedTime = () => {
   const start = startTime();
-  if (!start) return { seconds: "00", minutes: "00", hours: "00" };
+  if (!start) return { formattedDifference: "00:00:00" };
   return difference(start, currentTime());
 };
 
@@ -17,9 +17,7 @@ export const MetadataView = () => {
       </p>
       <div class="flex gap-2">
         <span class="font-bold">Elapsed:</span>
-        <span>
-          {elapsedTime().hours}:{elapsedTime().minutes}:{elapsedTime().seconds}
-        </span>
+        <span>{elapsedTime().formattedDifference}</span>
       </div>
 
       <EditableStateField

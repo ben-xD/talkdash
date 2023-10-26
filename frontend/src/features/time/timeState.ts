@@ -14,16 +14,10 @@ export const [currentTime, setCurrentTime] = createSignal<DateTime>(
 export const difference = (start: DateTime, finish: DateTime) => {
   const isExceeded = finish < start;
   const difference = isExceeded ? start.diff(finish) : finish.diff(start);
-  const differenceSmh = difference
-    .shiftTo("seconds", "minutes", "hours")
-    .toObject();
+  const formattedDifference = difference.toFormat("hh:mm:ss");
   return {
     mode: isExceeded ? Mode.Exceeded : Mode.Running,
-    seconds: Math.round(differenceSmh.seconds as number)
-      .toString()
-      .padStart(2, "0"),
-    minutes: (differenceSmh.minutes as number).toString().padStart(2, "0"),
-    hours: (differenceSmh.hours as number).toString().padStart(2, "0"),
+    formattedDifference,
   };
 };
 

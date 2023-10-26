@@ -44,7 +44,6 @@ Still in development. It currently only shows the time elapsed and time remainin
 - Add scanner/camera for host and audience page
 - Bugs:
   - Can't click on mode buttons (Audience, Host) on mobile
-  - 2 minutes will briefly show as 1 minute 60 seconds
 - AI ideas:
   - Convert text into emoji using llama2 cloudflare
   - record event host message from voice (STT) - whisper on Cloudflare
