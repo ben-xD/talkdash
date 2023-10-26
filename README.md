@@ -5,10 +5,11 @@ Tools for event hosts and presenters.
 - API on https://talkdash.fly.dev
 - API UI (using tRPC Panel) on https://talkdash.fly.dev/trpc
 
-- Message event speakers whilst they talk. Messages will appear on the app. For example, remind them to **repeat the question** asked by someone. 
-- Adjust time remaining for the speaker remotely.
-
-Still in development. It currently only shows the time elapsed and time remaining.
+Features:
+- Show large (fullscreen) stopwatch and timer on speaker screen
+- Event hosts can text-message event speakers whilst they talk 
+  - For example, remind them to **repeat the question** asked by someone
+  - Messages are enhanced with Emojis using Cloudflare Workers AI
 
 ## Technology
 - Frontend: [Solid](https://tailwindcss.com/), [Solid Router](https://docs.solidjs.com/guides/how-to-guides/routing-in-solid/solid-router), [Tailwind](https://tailwindcss.com/)
@@ -40,19 +41,20 @@ Still in development. It currently only shows the time elapsed and time remainin
 
 ## TODOs
 
+- Improve UI using subtle shadows / elevation 
 - Add QR code to speaker page for username
 - Add scanner/camera for host and audience page
+- View and adjust time remaining for the speaker remotely as Event Host
 - Bugs:
   - Can't click on mode buttons (Audience, Host) on mobile
 - AI ideas:
-  - Convert text into emoji using llama2 cloudflare
   - record event host message from voice (STT) - whisper on Cloudflare
   - Filter messages for safety and edit it for being funny. - not really possible
   - Generate and play message audio (elevenlabs code `ElevenLabsJam`) - add play button.
   - Convert human-readable talk length into duration.
   - Store questions, and cluster based on category/relevance. Use vectorize vector database.
-- Consider: Compile to ESM, not CJS (libraries like chalk@5 and is-inside-container/is-docker don't support CJS).
-- Consider: SSR on Cloudflare pages?
+- Consider: Compile to ESM, not CJS (libraries like chalk@5 and is-inside-container/is-docker don't support CJS)
+- Consider: SSR on Cloudflare pages
 
 ## Performance?
 - Need performance? 
