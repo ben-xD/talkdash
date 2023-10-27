@@ -31,7 +31,7 @@ export const trpc = createTRPCProxyClient<AppRouter>({
         },
         onClose: () => {
           disconnectedCount += 1;
-          console.debug("tRPC websocket disconnected");
+          console.error("tRPC websocket disconnected");
           setIsConnected(false);
         },
       }),
