@@ -35,15 +35,15 @@ export const EditableStateField = ({ label, value, setValue }: Props) => {
             <EditableControl>
               {state().isEditing ? (
                 <>
-                  <EditableSubmitTrigger>
+                  <EditableSubmitTrigger class="hover:text-blue-100 active:text-white">
                     <CheckIcon />
                   </EditableSubmitTrigger>
-                  <EditableCancelTrigger>
+                  <EditableCancelTrigger class="hover:text-blue-100 active:text-white">
                     <XIcon />
                   </EditableCancelTrigger>
                 </>
               ) : (
-                <EditableEditTrigger>
+                <EditableEditTrigger class="hover:text-blue-100 active:text-white">
                   <PencilIcon />
                 </EditableEditTrigger>
               )}
