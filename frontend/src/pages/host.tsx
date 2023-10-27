@@ -26,7 +26,7 @@ const Host = () => {
         speaker username to send them messages.
       </p>
       <EditableStateField
-        label={"Recipient speaker username"}
+        label={"Speaker username"}
         value={speakerUsername}
         setValue={setSpeakerUsername}
       />
@@ -46,7 +46,10 @@ const Host = () => {
           for="submitMessage"
           class="flex flex-col items-start gap-2 w-full"
         >
-          Send the speaker a private message
+          <p>
+            Message{" "}
+            <span class="font-bold tracking-tight">{speakerUsername()}</span>
+          </p>
           <textarea
             autofocus
             minLength={minLengthMessage}
