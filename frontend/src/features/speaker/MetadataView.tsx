@@ -17,8 +17,7 @@ export const MetadataView = ({ reconnectAsSpeaker }: Props) => {
       <div class="flex justify-between items-start">
         <p>
           <span class="font-bold tracking-tight">Speaker mode: </span>
-          Choose a talk length and start the timer. Optional: share links with
-          hosts.
+          Choose a talk length and start the timer.
         </p>
         <div
           class="hover:text-blue-100 active:text-white cursor-pointer"
