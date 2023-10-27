@@ -20,12 +20,14 @@
     "@ts-rest/core": "^3.30.4",
     "backend": "workspace:*",
     "luxon": "^3.4.3",
+    "qrcode": "^1.5.3",
     "solid-js": "^1.7.8",
     "unique-names-generator": "^4.7.1",
     "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/luxon": "^3.3.3",
+    "@types/qrcode": "^1.5.4",
     "autoprefixer": "^10.4.16",
     "eslint": "^8.52.0",
     "eslint-config-talkdash": "workspace:*",

@@ -2,6 +2,10 @@ import { currentTime, difference, startTime } from "../time/timeState.ts";
 import { setSpeakerUsername, speakerUsername } from "../user/userState.ts";
 import { EditableStateField } from "./EditableStateField.tsx";
 import { ShareIcon } from "../../assets/ShareIcon.tsx";
+import { HoverCard } from "@ark-ui/solid";
+import { Portal } from "solid-js/web";
+import { QrCodeView } from "../../components/QrCodeView.tsx";
+import { createSignal, onMount } from "solid-js";
 
 const elapsedTime = () => {
   const start = startTime();
@@ -12,6 +16,20 @@ const elapsedTime = () => {
 type Props = { reconnectAsSpeaker: (speakerUsername: string) => void };
 
 export const MetadataView = ({ reconnectAsSpeaker }: Props) => {
+  const getHostUrl = (): URL => {
+    const hostUrl = new URL("../host", window.location.href);
+    const username = speakerUsername();
+    if (username) {
+      hostUrl.searchParams.set("speakerUsername", username);
+    }
+    return hostUrl;
+  };
+
+  const [hostUrl, setHostUrl] = createSignal<URL | undefined>();
+  onMount(() => {
+    setHostUrl(getHostUrl());
+  });
+
   return (
     <div class="py-4 my-2 p-4 rounded-xl flex flex-col gap-4 items-stretch w-full">
       <div class="flex justify-between items-start">
@@ -22,15 +40,29 @@ export const MetadataView = ({ reconnectAsSpeaker }: Props) => {
         <div
           class="hover:text-blue-100 active:text-white cursor-pointer"
           onClick={async () => {
-            const hostUrl = new URL("../host", window.location.href);
-            const username = speakerUsername();
-            if (username) {
-              hostUrl.searchParams.set("speakerUsername", username);
-            }
+            const hostUrl = getHostUrl();
             await navigator.clipboard.writeText(hostUrl.toString());
           }}
         >
-          <ShareIcon />
+          <HoverCard.Root>
+            <HoverCard.Trigger>
+              <ShareIcon />
+            </HoverCard.Trigger>
+            <Portal>
+              <HoverCard.Positioner class="z-20">
+                <HoverCard.Content class="bg-white p-4 rounded-lg">
+                  <HoverCard.Arrow>
+                    <HoverCard.ArrowTip />
+                  </HoverCard.Arrow>
+                  {hostUrl() ? (
+                    <QrCodeView text={hostUrl()!.toString()} />
+                  ) : (
+                    <></>
+                  )}
+                </HoverCard.Content>
+              </HoverCard.Positioner>
+            </Portal>
+          </HoverCard.Root>
         </div>
       </div>
       <div class="flex gap-2">
