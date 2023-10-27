@@ -41,7 +41,7 @@ Features:
 
 ## TODOs
 
-- Improve UI using subtle shadows / elevation 
+- Zen mode
 - Add QR code to speaker page for username
 - Add scanner/camera for host and audience page
 - View and adjust time remaining for the speaker remotely as Event Host
