@@ -58,7 +58,10 @@ function App() {
               <MenuContent class="bg-white rounded-lg shadow-md">
                 <MenuItemGroup id="modes" class="p">
                   {/*Margins/padding don't work on the label 😢 */}
-                  <MenuItemGroupLabel htmlFor="modes" class="font-bold px-4">
+                  <MenuItemGroupLabel
+                    htmlFor="modes"
+                    class="font-bold px-4 uppercase text-slate-500 text-sm"
+                  >
                     Modes
                   </MenuItemGroupLabel>
                   <MenuSeparator />
