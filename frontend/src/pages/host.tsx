@@ -6,14 +6,16 @@ import {
 } from "../features/user/userState.ts";
 import { loadQueryParams } from "./loadQueryParams.ts";
 import { trpc } from "../client/trpc.ts";
+import { TRPCClientError } from "@trpc/client";
 
 const minLengthMessage = 1;
 
 const Host = () => {
   const [message, setMessage] = createSignal("");
+  const [errorMessage, setErrorMessage] = createSignal<string>();
 
   onMount(() => {
-    document.title = "Event host · Talkdash";
+    document.title = "Event Host · Talkdash";
     loadQueryParams(false);
   });
 
@@ -29,6 +31,17 @@ const Host = () => {
         setValue={setSpeakerUsername}
       />
       <div class="flex flex-col text-cyan-800 bg-blue-50 items-start p-4 rounded-xl gap-8 shadow-lg">
+        {errorMessage() ? (
+          <div
+            class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative"
+            role="alert"
+          >
+            <strong class="font-bold">Error.</strong>
+            <span class="block sm:inline"> {errorMessage()}</span>
+          </div>
+        ) : (
+          <></>
+        )}
         <label
           for="submitMessage"
           class="flex flex-col items-start gap-2 w-full"
@@ -52,10 +65,19 @@ const Host = () => {
               const username = speakerUsername();
               if (username) {
                 // TODO handle error.
-                await trpc.message.sendMessageToSpeaker.mutate({
-                  speakerUsername: username,
-                  message: message(),
-                });
+                try {
+                  await trpc.message.sendMessageToSpeaker.mutate({
+                    speakerUsername: username,
+                    message: message(),
+                  });
+                  setErrorMessage();
+                } catch (e) {
+                  if (e instanceof TRPCClientError) {
+                    setErrorMessage(e.message);
+                  } else {
+                    setErrorMessage("An unknown error occurred.");
+                  }
+                }
               }
             }}
           >
