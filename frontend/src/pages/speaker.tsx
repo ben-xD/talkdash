@@ -73,7 +73,7 @@ const Speaker = () => {
     <div class="flex flex-col items-center">
       <div class="max-w-[400px] lg:max-w-4xl md:flex-row w-full flex flex-col items-stretch py-4">
         <MetadataView />
-        <div class="py-4 my-2 bg-blue-50 p-4 rounded-xl w-full">
+        <div class="py-4 my-2 bg-blue-50 p-4 rounded-xl w-full shadow-lg">
           <ConfigCard />
         </div>
       </div>

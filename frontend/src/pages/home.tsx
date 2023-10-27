@@ -29,6 +29,7 @@ const Home = () => {
       <img
         src={TalkDashImage}
         alt={"Image of a blue bird called TalkDash."}
+        class="drop-shadow-xl"
       ></img>
       <p>
         <span class="font-bold">PS:</span> This is a free and open source app

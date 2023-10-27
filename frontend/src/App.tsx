@@ -55,7 +55,7 @@ function App() {
           </MenuTrigger>
           <Portal>
             <MenuPositioner class="z-10">
-              <MenuContent class="text-blue-700 bg-white rounded-lg">
+              <MenuContent class="text-blue-700 bg-white rounded-lg shadow-md">
                 <MenuItemGroup id="modes" class="p">
                   {/*Margins/padding don't work on the label 😢 */}
                   <MenuItemGroupLabel htmlFor="modes" class="font-bold px-4">

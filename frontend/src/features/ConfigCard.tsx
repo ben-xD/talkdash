@@ -45,7 +45,7 @@ export function ConfigCard() {
               }
             }
           }}
-          class="bg-blue-200 rounded-lg p-2 w-full"
+          class="bg-blue-200 rounded-lg p-2 w-full shadow-inner"
           type="text"
           id="finishTime"
           value={textInputDurationInMinutes()}
@@ -55,14 +55,14 @@ export function ConfigCard() {
       <div class="flex flex-wrap gap-2 text-blue-50 w-full justify-between">
         <div class="flex gap-2">
           <button
-            class="px-4 py-2 rounded-md disabled:bg-gray-400 bg-gray-900"
+            class="px-4 py-2 rounded-md disabled:bg-gray-400 bg-gray-600 active:bg-gray-700 shadow"
             onClick={() => undo()}
             disabled={undoStack.length === 0}
           >
             <LeftIcon />
           </button>
           <button
-            class="px-4 py-2 rounded-md disabled:bg-gray-400 bg-gray-900"
+            class="px-4 py-2 rounded-md disabled:bg-gray-400 bg-gray-600 active:bg-gray-700 shadow"
             onClick={() => redo()}
             disabled={redoStack.length === 0}
           >
@@ -72,14 +72,14 @@ export function ConfigCard() {
         <div class="flex gap-2">
           <button
             disabled={!!finishTime() || !textInputDurationInMinutes()}
-            class="bg-green-600 px-4 py-2 rounded-md disabled:bg-gray-400"
+            class="bg-green-600 px-4 py-2 rounded-md disabled:bg-gray-400 shadow active:bg-green-700"
             onClick={onStart}
           >
             Start
           </button>
           <button
             disabled={!finishTime()}
-            class="bg-red-600 disabled:bg-gray-400 px-4 py-2 rounded-md"
+            class="bg-red-600 active:bg-red-700 disabled:bg-gray-400 px-4 py-2 rounded-md shadow"
             onClick={() => {
               setTimeAction({
                 finishTime: undefined,

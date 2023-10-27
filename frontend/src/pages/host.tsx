@@ -28,7 +28,7 @@ const Host = () => {
         value={speakerUsername}
         setValue={setSpeakerUsername}
       />
-      <div class="flex flex-col text-cyan-800 bg-blue-50 items-start p-4 rounded-xl gap-8">
+      <div class="flex flex-col text-cyan-800 bg-blue-50 items-start p-4 rounded-xl gap-8 shadow-lg">
         <label
           for="submitMessage"
           class="flex flex-col items-start gap-2 w-full"
@@ -37,7 +37,7 @@ const Host = () => {
           <textarea
             autofocus
             minLength={minLengthMessage}
-            class="text-cyan-800 w-full rounded-lg p-2 bg-blue-200"
+            class="text-cyan-800 w-full rounded-lg p-2 bg-blue-200 shadow-inner"
             placeholder="Please repeat the audience's question."
             value={message()}
             onInput={(e) => setMessage(e.target.value)}
@@ -49,7 +49,7 @@ const Host = () => {
             disabled={
               !speakerUsername() || message().length <= minLengthMessage
             }
-            class="bg-green-600 px-4 py-2 rounded-md disabled:bg-gray-500 text-white"
+            class="bg-green-600 px-4 py-2 rounded-md disabled:bg-gray-500 text-white shadow"
             onClick={async () => {
               const username = speakerUsername();
               if (username) {
