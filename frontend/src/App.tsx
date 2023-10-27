@@ -55,21 +55,39 @@ function App() {
           </MenuTrigger>
           <Portal>
             <MenuPositioner class="z-10">
-              <MenuContent class="text-blue-700 bg-white rounded-lg shadow-md">
+              <MenuContent class="bg-white rounded-lg shadow-md">
                 <MenuItemGroup id="modes" class="p">
                   {/*Margins/padding don't work on the label 😢 */}
                   <MenuItemGroupLabel htmlFor="modes" class="font-bold px-4">
                     Modes
                   </MenuItemGroupLabel>
                   <MenuSeparator />
-                  <MenuItem id="audience" class="px-4 py-2">
-                    <A href="/audience">Audience</A>
-                  </MenuItem>
-                  <MenuItem id="speaker" class="px-4 py-w">
-                    <A href="/speaker">Speaker</A>
+                  <MenuItem id="speaker" class="px-4 py-2">
+                    <A
+                      class="text-slate-700 hover:text-slate-500"
+                      href="/speaker"
+                      activeClass="text-blue-500 font-bold"
+                    >
+                      Speaker
+                    </A>
                   </MenuItem>
                   <MenuItem id="host" class="px-4 py-2">
-                    <A href="/host">Event Host</A>
+                    <A
+                      class="text-slate-700 hover:text-slate-500"
+                      href="/host"
+                      activeClass="text-blue-500 font-bold"
+                    >
+                      Event Host
+                    </A>
+                  </MenuItem>
+                  <MenuItem id="audience" class="px-4 py-2">
+                    <A
+                      class="text-slate-700 hover:text-slate-500"
+                      href="/audience"
+                      activeClass="text-blue-500 font-bold"
+                    >
+                      Audience
+                    </A>
                   </MenuItem>
                 </MenuItemGroup>
               </MenuContent>
