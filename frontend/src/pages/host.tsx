@@ -49,7 +49,7 @@ const Host = () => {
             disabled={
               !speakerUsername() || message().length <= minLengthMessage
             }
-            class="bg-green-600 px-4 py-2 rounded-md disabled:bg-gray-500 text-white shadow"
+            class="bg-green-600 px-4 py-2 rounded-md disabled:bg-gray-500 text-white shadow active:bg-green-700 hover:bg-green-500"
             onClick={async () => {
               const username = speakerUsername();
               if (username) {
