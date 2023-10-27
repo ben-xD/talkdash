@@ -47,8 +47,16 @@ const Host = () => {
           class="flex flex-col items-start gap-2 w-full"
         >
           <p>
-            Message{" "}
-            <span class="font-bold tracking-tight">{speakerUsername()}</span>
+            {!speakerUsername() || speakerUsername()?.length === 0 ? (
+              <span>{"Specify a speaker, then message them..."}</span>
+            ) : (
+              <p>
+                Message{" "}
+                <span class="font-bold tracking-tight">
+                  {speakerUsername()}
+                </span>
+              </p>
+            )}
           </p>
           <textarea
             autofocus
