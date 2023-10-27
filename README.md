@@ -12,7 +12,7 @@ Features:
   - Messages are enhanced with Emojis using Cloudflare Workers AI
 
 ## Technology
-- Frontend: [Solid](https://tailwindcss.com/), [Solid Router](https://docs.solidjs.com/guides/how-to-guides/routing-in-solid/solid-router), [Tailwind](https://tailwindcss.com/)
+- Frontend: [Solid](https://tailwindcss.com/), [Solid Router](https://docs.solidjs.com/guides/how-to-guides/routing-in-solid/solid-router), [Tailwind](https://tailwindcss.com/), [ARK UI](https://ark-ui.com/) (headless UI library)
 - Backend: Node, Fastify, tRPC and zod
   - Fastify for anything tRPC doesn't support: e.g. file uploads, 3rd party clients
   - Consider Supabase for extra *firebasy features*
