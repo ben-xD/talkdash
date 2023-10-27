@@ -11,8 +11,8 @@ export const loadQueryParams = (generateFallbackUsername = true) => {
 
   // if not found, create new speaker.
   if (!username && generateFallbackUsername) {
-    setSpeakerUsername(generateRandomUsername());
+    setSpeakerUsername(generateRandomUsername(), false);
   } else {
-    setSpeakerUsername(username ?? "");
+    setSpeakerUsername(username ?? "", false);
   }
 };

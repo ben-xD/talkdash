@@ -8,14 +8,21 @@ export const speakerUsernameKey = "speakerUsername";
 
 export const speakerUsername = usernameInternal;
 
-export const setSpeakerUsername = (name: string) => {
+export const setSpeakerUsername = (
+  name: string,
+  pushToHistory: boolean = true,
+) => {
   setUsernameInternal(name);
 
   const urlParams = new URLSearchParams(window.location.search);
   urlParams.set(speakerUsernameKey, name);
   const newUrl = new URL(window.location.toString());
   newUrl.search = urlParams.toString();
-  window.history.pushState(null, "", newUrl);
+  if (pushToHistory) {
+    window.history.pushState(null, "", newUrl);
+  } else {
+    window.history.replaceState(null, "", newUrl);
+  }
 };
 
 export const [password, setPassword] = createSignal<string | undefined>(
