@@ -41,7 +41,7 @@ Features:
 
 ## TODOs
 
-- Display disconnected from backend. 
+- Show speaker doesn't exist when the user is entered (even before message is sent).
 - Zen mode
 - Add QR code to speaker page for username
 - Add scanner/camera for host and audience page

@@ -16,6 +16,8 @@ import { A, Route, Routes } from "@solidjs/router";
 import { WrenchIcon } from "./assets/WrenchIcon.tsx";
 import { isExceeded } from "./features/time/TimeLeftDisplay.tsx";
 import { GithubLogo } from "./assets/GithubLogo.tsx";
+import { isConnected } from "./client/trpc.ts";
+import { DisconnectedAlert } from "./components/DisconnectedAlert.tsx";
 
 const SpeakerPage = lazy(() => import("./pages/speaker.tsx"));
 const AudiencePage = lazy(() => import("./pages/audience.tsx"));
@@ -98,6 +100,7 @@ function App() {
           </Portal>
         </Menu>
       </div>
+      {isConnected() || <DisconnectedAlert />}
       <Routes>
         <Route path="/" component={HomePage} />
         <Route path="/audience" component={AudiencePage} />
