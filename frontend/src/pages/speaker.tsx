@@ -6,12 +6,12 @@ import { onCleanup, onMount } from "solid-js";
 import { loadQueryParams } from "./loadQueryParams.ts";
 import { speakerUsername } from "../features/user/userState.ts";
 import { Unsubscribable } from "@trpc/server/observable";
-import { trpc } from "../client/trpc.ts";
 import {
   receivedMessages,
   setReceivedMessages,
 } from "../features/messages/receivedMessages.ts";
 import { DateTime } from "luxon";
+import { trpc } from "../client/trpc.ts";
 
 const minimumMessageDisplayTimeInMs = 7000;
 
@@ -42,25 +42,30 @@ const removeOldestMessageAfterExpiry = (currentTime: DateTime) => {
 const Speaker = () => {
   let messageSubscription: Unsubscribable | undefined = undefined;
 
+  const reconnectAsSpeaker = (speakerUsername: string) => {
+    messageSubscription?.unsubscribe();
+    messageSubscription = trpc.message.subscribeMessages.subscribe(
+      { speakerUsername },
+      {
+        onData: ({ emojiMessage, message }) => {
+          const receivedAt = DateTime.now();
+          console.info(`Received message at ${receivedAt}:\n${message}`);
+          removeOldestMessageAfterExpiry(receivedAt);
+          setReceivedMessages([
+            ...receivedMessages,
+            { receivedAt, message, emojiMessage },
+          ]);
+        },
+      },
+    );
+  };
+
   onMount(() => {
     document.title = "Speaker · Talkdash";
     loadQueryParams();
     const username = speakerUsername();
     if (username) {
-      messageSubscription = trpc.message.subscribeMessages.subscribe(
-        { speakerUsername: username },
-        {
-          onData: ({ emojiMessage, message }) => {
-            const receivedAt = DateTime.now();
-            console.info(`Received message at ${receivedAt}:\n${message}`);
-            removeOldestMessageAfterExpiry(receivedAt);
-            setReceivedMessages([
-              ...receivedMessages,
-              { receivedAt, message, emojiMessage },
-            ]);
-          },
-        },
-      );
+      reconnectAsSpeaker(username);
     }
   });
 
@@ -72,7 +77,7 @@ const Speaker = () => {
   return (
     <div class="flex flex-col items-center">
       <div class="max-w-[400px] lg:max-w-4xl md:flex-row w-full flex flex-col items-stretch py-4">
-        <MetadataView />
+        <MetadataView reconnectAsSpeaker={reconnectAsSpeaker} />
         <div class="py-4 my-2 bg-blue-50 p-4 rounded-xl w-full shadow-lg">
           <ConfigCard />
         </div>

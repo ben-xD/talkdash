@@ -9,7 +9,9 @@ const elapsedTime = () => {
   return difference(start, currentTime());
 };
 
-export const MetadataView = () => {
+type Props = { reconnectAsSpeaker: (speakerUsername: string) => void };
+
+export const MetadataView = ({ reconnectAsSpeaker }: Props) => {
   return (
     <div class="py-4 my-2 p-4 rounded-xl flex flex-col gap-4 items-stretch w-full">
       <div class="flex justify-between items-start">
@@ -40,7 +42,10 @@ export const MetadataView = () => {
       <EditableStateField
         label="Username"
         value={speakerUsername}
-        setValue={setSpeakerUsername}
+        setValue={(value) => {
+          setSpeakerUsername(value);
+          reconnectAsSpeaker(value);
+        }}
       />
       {/*Temporarily disable password field since it is not implemented.*/}
       {/*<EditableStateField*/}
