@@ -13,15 +13,15 @@ const Host = () => {
   const [message, setMessage] = createSignal("");
 
   onMount(() => {
-    document.title = "Host · Talkdash";
+    document.title = "Event host · Talkdash";
     loadQueryParams(false);
   });
 
   return (
     <div class="max-w-[400px] w-full my-4 gap-8 flex flex-col">
       <p>
-        <span class="font-bold tracking-tight">Host mode: </span>Enter a speaker
-        username to send them messages.
+        <span class="font-bold tracking-tight">Event host mode: </span>Enter a
+        speaker username to send them messages.
       </p>
       <EditableStateField
         label={"Recipient speaker username"}
