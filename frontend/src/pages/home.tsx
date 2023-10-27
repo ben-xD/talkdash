@@ -9,7 +9,7 @@ const Home = () => {
 
   return (
     <div class="my-4 flex flex-col gap-4 max-w-[400px]">
-      <p class="text-xl">Welcome 👋</p>
+      <p class="text-xl">Hey 👋</p>
       <p>
         This is a stopwatch app for events. Speakers see a{" "}
         <span class="font-bold">large stopwatch</span>. Event hosts can send
@@ -26,11 +26,7 @@ const Home = () => {
         </A>
         ?
       </p>
-      <img
-        src={TalkDashImage}
-        alt={"Image of a blue bird called TalkDash."}
-        class="drop-shadow-xl"
-      ></img>
+      <hr class="my-4" />
       <p>
         <span class="font-bold">PS:</span> This is a free and open source app
         using Solid, Tailwind, tRPC, Fastify, Node, WebSockets, Cloudflare
@@ -49,6 +45,11 @@ const Home = () => {
           Ben Butterworth
         </a>
       </p>
+      <img
+        src={TalkDashImage}
+        alt={"Image of a blue bird called TalkDash."}
+        class="drop-shadow-xl w-40"
+      ></img>
     </div>
   );
 };
