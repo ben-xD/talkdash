@@ -30,7 +30,7 @@ const Host = () => {
         value={speakerUsername}
         setValue={setSpeakerUsername}
       />
-      <div class="flex flex-col text-cyan-800 bg-blue-50 items-start p-4 rounded-xl gap-8 shadow-lg">
+      <div class="flex flex-col text-cyan-800 bg-blue-50 items-start p-4 rounded-xl shadow-lg gap-4">
         {errorMessage() ? (
           <div
             class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative"
@@ -56,7 +56,7 @@ const Host = () => {
             onInput={(e) => setMessage(e.target.value)}
           />
         </label>
-        <div class="flex w-full justify-end">
+        <div class="flex w-full justify-end mt-4">
           <button
             id="submitMessage"
             disabled={!speakerUsername() || message().length < minLengthMessage}
@@ -70,6 +70,7 @@ const Host = () => {
                     speakerUsername: username,
                     message: message(),
                   });
+                  setMessage("");
                   setErrorMessage();
                 } catch (e) {
                   if (e instanceof TRPCClientError) {
