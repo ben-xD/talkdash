@@ -43,8 +43,6 @@ Features:
 
 - Show speaker doesn't exist when the user is entered (even before message is sent).
 - Zen mode
-- Add QR code to speaker page for username
-- Add scanner/camera for host and audience page
 - View and adjust time remaining for the speaker remotely as Event Host
 - Bugs:
   - Can't click on mode buttons (Audience, Host) on mobile
