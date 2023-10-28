@@ -10,7 +10,7 @@ type ObserverId = string;
 
 const observedMessage = z.object({
   message: z.string(),
-  emojiMessage: z.string(),
+  emojiMessage: z.string().optional(),
 });
 type ObservedMessage = z.infer<typeof observedMessage>;
 
@@ -21,8 +21,12 @@ export const messageRouter = router({
   sendMessageToSpeaker: loggedProcedure
     .input(z.object({ speakerUsername: z.string(), message: z.string() }))
     .mutation(async ({ input }) => {
-      // TODO call the workers ai api to convert text to emoji.
-      const emojiMessage = await getEmojiMessageFor(input.message);
+      let emojiMessage: string | undefined = undefined;
+      try {
+        emojiMessage = await getEmojiMessageFor(input.message);
+      } catch (e) {
+        console.error(e);
+      }
 
       const observers = observersBySpeakerId.get(input.speakerUsername);
       if (!observers) {
