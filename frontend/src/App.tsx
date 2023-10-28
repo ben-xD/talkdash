@@ -20,6 +20,7 @@ import { isConnected, showReconnectedMessage } from "./client/trpc.js";
 import { DisconnectedAlert } from "./components/DisconnectedAlert.tsx";
 import { ReconnectedAlert } from "./components/ReconnectedAlert.tsx";
 import { ClockPage } from "./pages/clock.tsx";
+import { StopwatchPage } from "./pages/stopwatch.tsx";
 
 const SpeakerPage = lazy(() => import("./pages/speaker.tsx"));
 const AudiencePage = lazy(() => import("./pages/audience.tsx"));
@@ -113,13 +114,22 @@ function App() {
                     Extras
                   </MenuItemGroupLabel>
                   <MenuSeparator />
-                  <MenuItem id="audience" class="px-4 py-2">
+                  <MenuItem id="clock" class="px-4 py-2">
                     <A
                       class="text-slate-700 hover:text-slate-500"
                       href="/clock"
                       activeClass="text-blue-500 font-bold"
                     >
                       Clock
+                    </A>
+                  </MenuItem>
+                  <MenuItem id="Stopwatch" class="px-4 py-2">
+                    <A
+                      class="text-slate-700 hover:text-slate-500"
+                      href="/stopwatch"
+                      activeClass="text-blue-500 font-bold"
+                    >
+                      Stopwatch
                     </A>
                   </MenuItem>
                 </MenuItemGroup>
@@ -136,6 +146,7 @@ function App() {
         <Route path="/speaker" component={SpeakerPage} />
         <Route path="/host" component={HostPage} />
         <Route path="/clock" component={ClockPage} />
+        <Route path="/stopwatch" component={StopwatchPage} />
       </Routes>
     </div>
   );

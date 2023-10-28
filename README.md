@@ -10,6 +10,7 @@ Features:
 - Works offline 
   - On Chrome, you can install it
   - Some features require network connectivity (messaging)
+- Large clock and stopwatch pages
 
 ## Technology
 - Frontend: [Solid](https://tailwindcss.com/), [Solid Router](https://docs.solidjs.com/guides/how-to-guides/routing-in-solid/solid-router), [Tailwind](https://tailwindcss.com/), [ARK UI](https://ark-ui.com/) (headless UI library)
@@ -41,13 +42,12 @@ Features:
 
 ## TODOs
 
-- Add clock and stopwatch feature
 - Zen mode
 - View and adjust time remaining for the speaker remotely as Event Host
   - Keep timer working local-first (doesn't require connection)
   - Convert human-readable talk length into duration
 - Bugs:
-  - Can't click on mode buttons (Audience, Host) on mobile
+  - Can't click on navigation menu buttons (Audience, Host) on mobile
 - AI ideas:
   - record event host message from voice (STT) - whisper on Cloudflare - but won't be used at events to avoid distracing audience
   - Filter messages for safety and edit it for being funny - not really possible, Llama2 throws "ethics" error
