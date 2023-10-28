@@ -7,7 +7,9 @@ Features:
 - Event hosts can text-message event speakers whilst they talk 
   - For example, "you have 10 minutes left" and remind them to "repeat the audience questions"
   - Messages are enhanced with Emojis using Cloudflare Workers AI
-- Works offline. On Chrome, you can install it. Some features require network connectivity (messaging).
+- Works offline 
+  - On Chrome, you can install it
+  - Some features require network connectivity (messaging)
 
 ## Technology
 - Frontend: [Solid](https://tailwindcss.com/), [Solid Router](https://docs.solidjs.com/guides/how-to-guides/routing-in-solid/solid-router), [Tailwind](https://tailwindcss.com/), [ARK UI](https://ark-ui.com/) (headless UI library)
@@ -50,7 +52,7 @@ Features:
   - record event host message from voice (STT) - whisper on Cloudflare - but won't be used at events to avoid distracing audience
   - Filter messages for safety and edit it for being funny - not really possible, Llama2 throws "ethics" error
   - Text-to-speech and add play button on speaker screen - elevenlabs code `ElevenLabsJam` - ElevenLabs is expensive
-  - Store questions, and cluster based on category/relevance. Use vectorize vector database.
+  - Group similar messages together. Store questions, and cluster based on category/relevance. Use Workers AI vectorize database? 
 - Consider: SSR on Cloudflare pages
 
 ## Performance?
