@@ -8,8 +8,9 @@ Tools for event hosts and presenters.
 Features:
 - Show large (fullscreen) stopwatch and timer on speaker screen
 - Event hosts can text-message event speakers whilst they talk 
-  - For example, remind them to **repeat the question** asked by someone
+  - For example, "you have 10 minutes left" and remind them to "repeat the audience questions"
   - Messages are enhanced with Emojis using Cloudflare Workers AI
+- Works offline. On Chrome, you can install it. Some features require network connectivity (messaging).
 
 ## Technology
 - Frontend: [Solid](https://tailwindcss.com/), [Solid Router](https://docs.solidjs.com/guides/how-to-guides/routing-in-solid/solid-router), [Tailwind](https://tailwindcss.com/), [ARK UI](https://ark-ui.com/) (headless UI library)
