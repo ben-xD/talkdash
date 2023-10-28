@@ -1,4 +1,4 @@
-import { createSignal, onMount } from "solid-js";
+import { createEffect, createSignal, onMount } from "solid-js";
 import { EditableStateField } from "../features/speaker/EditableStateField.tsx";
 import {
   setSpeakerUsername,
@@ -7,12 +7,41 @@ import {
 import { loadQueryParams } from "./loadQueryParams.js";
 import { trpc } from "../client/trpc.js";
 import { TRPCClientError } from "@trpc/client";
+import { Unsubscribable } from "@trpc/server/observable";
 
 const minLengthMessage = 1;
+
+const [speakerExists, setSpeakerExists] = createSignal<boolean>();
 
 const Host = () => {
   const [message, setMessage] = createSignal("");
   const [errorMessage, setErrorMessage] = createSignal<string>();
+  let messageSubscription: Unsubscribable | undefined = undefined;
+
+  const reconnectAsHost = (speakerUsername: string) => {
+    setSpeakerExists(undefined);
+    messageSubscription?.unsubscribe();
+    messageSubscription = trpc.speaker.subscribeForSpeaker.subscribe(
+      { speakerUsername },
+      {
+        onData: ({ speakerUsername, type }) => {
+          console.info(`${speakerUsername} event: ${type}`);
+          if (type === "speakerCreated") {
+            setSpeakerExists(true);
+          } else if (type === "speakerDeleted") {
+            setSpeakerExists(false);
+          }
+        },
+      },
+    );
+  };
+
+  createEffect(() => {
+    const username = speakerUsername();
+    if (username) {
+      reconnectAsHost(username);
+    }
+  });
 
   onMount(() => {
     document.title = "Event Host · Talkdash";
@@ -53,8 +82,9 @@ const Host = () => {
               <p>
                 Message{" "}
                 <span class="font-bold tracking-tight">
-                  {speakerUsername()}
+                  "{speakerUsername()}"{" "}
                 </span>
+                {!speakerExists() ? <span>(speaker not found)</span> : <></>}
               </p>
             )}
           </p>

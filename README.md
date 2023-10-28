@@ -41,7 +41,6 @@ Features:
 
 ## TODOs
 
-- Show speaker doesn't exist when the user is entered (even before message is sent)
 - Add clock and stopwatch feature 
 - Zen mode
 - View and adjust time remaining for the speaker remotely as Event Host

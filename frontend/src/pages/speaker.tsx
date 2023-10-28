@@ -44,7 +44,7 @@ const Speaker = () => {
 
   const reconnectAsSpeaker = (speakerUsername: string) => {
     messageSubscription?.unsubscribe();
-    messageSubscription = trpc.message.subscribeMessages.subscribe(
+    messageSubscription = trpc.message.subscribeMessagesAsSpeaker.subscribe(
       { speakerUsername },
       {
         onData: ({ emojiMessage, message }) => {

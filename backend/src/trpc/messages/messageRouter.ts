@@ -4,6 +4,10 @@ import { loggedProcedure } from "../middlewares/middleware.js";
 import { router } from "../trpc.js";
 import { TRPCError } from "@trpc/server";
 import { getEmojiMessageFor } from "./cloudflareWorkersAi.js";
+import {
+  addSpeakerClient,
+  removeSpeakerClient,
+} from "../middlewares/speakerRouter.js";
 
 // All messages sent to client start with "Observed"
 type ObserverId = string;
@@ -12,10 +16,10 @@ const observedMessage = z.object({
   message: z.string(),
   emojiMessage: z.string().optional(),
 });
-type ObservedMessage = z.infer<typeof observedMessage>;
+type MessageEvent = z.infer<typeof observedMessage>;
 
-type MessageObserver = Observer<ObservedMessage, Error>;
-const observersBySpeakerId = new Map<ObserverId, Set<MessageObserver>>();
+type EventObserver = Observer<MessageEvent, Error>;
+const observersBySpeakerUsername = new Map<ObserverId, Set<EventObserver>>();
 
 export const messageRouter = router({
   sendMessageToSpeaker: loggedProcedure
@@ -28,7 +32,7 @@ export const messageRouter = router({
         console.error(e);
       }
 
-      const observers = observersBySpeakerId.get(input.speakerUsername);
+      const observers = observersBySpeakerUsername.get(input.speakerUsername);
       if (!observers) {
         throw new TRPCError({
           code: "NOT_FOUND",
@@ -40,22 +44,24 @@ export const messageRouter = router({
         );
       }
     }),
-  subscribeMessages: loggedProcedure
+  subscribeMessagesAsSpeaker: loggedProcedure
     .input(z.object({ speakerUsername: z.string() }))
     .subscription(({ input }) =>
-      observable<ObservedMessage, Error>((emit) => {
-        let observers = observersBySpeakerId.get(input.speakerUsername);
-        console.info(`Adding subscriber for ${input.speakerUsername}`);
+      observable<MessageEvent, Error>((emit) => {
+        addSpeakerClient(input.speakerUsername);
+        let observers = observersBySpeakerUsername.get(input.speakerUsername);
+        console.info(`Adding speaker client for ${input.speakerUsername}`);
         if (!observers) {
           observers = new Set();
-          observersBySpeakerId.set(input.speakerUsername, observers);
+          observersBySpeakerUsername.set(input.speakerUsername, observers);
         }
         observers.add(emit);
         return () => {
-          console.info(`Removing subscriber for ${input.speakerUsername}`);
+          removeSpeakerClient(input.speakerUsername);
+          console.info(`Removing speaker client for ${input.speakerUsername}`);
           observers?.delete(emit);
           if (observers?.size === 0) {
-            observersBySpeakerId.delete(input.speakerUsername);
+            observersBySpeakerUsername.delete(input.speakerUsername);
           }
         };
       }),
