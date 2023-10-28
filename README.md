@@ -3,7 +3,7 @@
 Tools for event hosts and presenters, available on https://talkdash.orth.uk
 
 Features:
-- Show large (fullscreen) stopwatch and timer on speaker screen
+- Show large (fullscreen) timer and timer on speaker screen
 - Event hosts can text-message event speakers whilst they talk 
   - For example, "you have 10 minutes left" and remind them to "repeat the audience questions"
   - Messages are enhanced with Emojis using Cloudflare Workers AI
@@ -44,7 +44,7 @@ Features:
 - Show speaker doesn't exist when the user is entered (even before message is sent)
 - Zen mode
 - View and adjust time remaining for the speaker remotely as Event Host
-  - Keep timer working local-first (doesn't require connection)`
+  - Keep timer working local-first (doesn't require connection)
   - Convert human-readable talk length into duration
 - Bugs:
   - Can't click on mode buttons (Audience, Host) on mobile

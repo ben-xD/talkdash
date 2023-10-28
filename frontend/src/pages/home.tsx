@@ -11,8 +11,8 @@ const Home = () => {
     <div class="my-4 flex flex-col gap-4 max-w-[400px]">
       <p class="text-xl">Hey 👋</p>
       <p>
-        This is a stopwatch app for events. Speakers see a{" "}
-        <span class="font-bold">large stopwatch</span>. Event hosts can send
+        This is a timer app for events. Speakers see a{" "}
+        <span class="font-bold">large timer</span>. Event hosts can send
         messages to speakers.
       </p>
       <p>

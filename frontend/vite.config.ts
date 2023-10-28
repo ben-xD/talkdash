@@ -19,7 +19,7 @@ export default defineConfig({
       manifest: {
         short_name: "TalkDash",
         name: "TalkDash",
-        description: "Remote stopwatch with messaging functionality.",
+        description: "Remote timer with messaging functionality.",
         id: "uk.orth.talkdash",
         start_url: "/",
         background_color: "#1d4ed8",
