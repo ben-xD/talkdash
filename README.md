@@ -41,16 +41,17 @@ Features:
 
 ## TODOs
 
-- Show speaker doesn't exist when the user is entered (even before message is sent).
+- Show speaker doesn't exist when the user is entered (even before message is sent)
 - Zen mode
 - View and adjust time remaining for the speaker remotely as Event Host
+  - Keep timer working local-first (doesn't require connection)`
+  - Convert human-readable talk length into duration
 - Bugs:
   - Can't click on mode buttons (Audience, Host) on mobile
 - AI ideas:
-  - record event host message from voice (STT) - whisper on Cloudflare
-  - Filter messages for safety and edit it for being funny. - not really possible
-  - Generate and play message audio (elevenlabs code `ElevenLabsJam`) - add play button.
-  - Convert human-readable talk length into duration.
+  - record event host message from voice (STT) - whisper on Cloudflare - but won't be used at events to avoid distracing audience
+  - Filter messages for safety and edit it for being funny - not really possible, Llama2 throws "ethics" error
+  - Text-to-speech and add play button on speaker screen - elevenlabs code `ElevenLabsJam` - ElevenLabs is expensive
   - Store questions, and cluster based on category/relevance. Use vectorize vector database.
 - Consider: Compile to ESM, not CJS (libraries like chalk@5 and is-inside-container/is-docker don't support CJS)
 - Consider: SSR on Cloudflare pages
