@@ -11,7 +11,6 @@ import {
 } from "./trpc/trpcPath.js";
 import { appRouter } from "./trpc/appRouter.js";
 import { enableFastityLogging, env } from "./env.js";
-import isInsideContainer from "is-inside-container";
 
 const fastify = Fastify({
   maxParamLength: 5000,
@@ -57,7 +56,7 @@ registerTrpcApis();
 
 (async () => {
   try {
-    const address = isInsideContainer() ? "0.0.0.0" : "127.0.0.1";
+    const address = env.INSIDE_DOCKER ? "0.0.0.0" : "127.0.0.1";
     const port = env.PORT ? parseInt(env.PORT, 10) : 4000;
     await fastify.listen({ port, host: address });
     console.info(
