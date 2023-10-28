@@ -19,6 +19,7 @@ import { GithubLogo } from "./assets/GithubLogo.tsx";
 import { isConnected, showReconnectedMessage } from "./client/trpc.js";
 import { DisconnectedAlert } from "./components/DisconnectedAlert.tsx";
 import { ReconnectedAlert } from "./components/ReconnectedAlert.tsx";
+import { ClockPage } from "./pages/clock.tsx";
 
 const SpeakerPage = lazy(() => import("./pages/speaker.tsx"));
 const AudiencePage = lazy(() => import("./pages/audience.tsx"));
@@ -108,6 +109,7 @@ function App() {
         <Route path="/audience" component={AudiencePage} />
         <Route path="/speaker" component={SpeakerPage} />
         <Route path="/host" component={HostPage} />
+        <Route path="/clock" component={ClockPage} />
       </Routes>
     </div>
   );

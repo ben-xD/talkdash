@@ -41,7 +41,7 @@ Features:
 
 ## TODOs
 
-- Add clock and stopwatch feature 
+- Add clock and stopwatch feature
 - Zen mode
 - View and adjust time remaining for the speaker remotely as Event Host
   - Keep timer working local-first (doesn't require connection)
