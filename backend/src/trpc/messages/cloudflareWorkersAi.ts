@@ -5,7 +5,7 @@ async function run(
   input: { messages: { role: string; content: string }[] },
 ) {
   const response = await fetch(
-    `https://api.cloudflare.com/client/v4/accounts/***REMOVED***/ai/run/${model}`,
+    `https://api.cloudflare.com/client/v4/accounts/${env.CLOUDFLARE_ACCOUNT_ID}/ai/run/${model}`,
     {
       headers: { Authorization: `Bearer ${env.CLOUDFLARE_WORKERS_AI_TOKEN}` },
       method: "POST",
