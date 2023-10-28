@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "outDir": "./dist",
     "esModuleInterop": true,
     "strict": true,
