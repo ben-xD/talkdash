@@ -19,5 +19,5 @@
 }
 
 .btn {
-    @apply bg-slate-600 active:bg-slate-700 hover:bg-slate-500  px-4 py-2 rounded-md disabled:bg-gray-400 shadow uppercase;
+    @apply bg-slate-600 active:bg-gray-600 hover:bg-gray-500 px-4 py-2 rounded-md disabled:bg-gray-400 shadow;
 }

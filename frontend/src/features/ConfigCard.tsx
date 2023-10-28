@@ -55,14 +55,14 @@ export function ConfigCard() {
       <div class="flex flex-wrap gap-2 text-blue-50 w-full justify-between">
         <div class="flex gap-2">
           <button
-            class="px-4 py-2 rounded-md disabled:bg-gray-400 bg-gray-600 active:bg-gray-700 shadow hover:bg-gray-500"
+            class="px-4 py-2 btn"
             onClick={() => undo()}
             disabled={undoStack.length === 0}
           >
             <LeftIcon />
           </button>
           <button
-            class="px-4 py-2 rounded-md disabled:bg-gray-400 bg-gray-600 active:bg-gray-700 shadow hover:bg-gray-500"
+            class="px-4 py-2 btn"
             onClick={() => redo()}
             disabled={redoStack.length === 0}
           >
