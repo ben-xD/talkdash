@@ -1,9 +1,6 @@
-# TalkDash
+# [TalkDash](https://talkdash.orth.uk)
 
-Tools for event hosts and presenters. 
-- Available on https://talkdash.orth.uk or https://talkdash.pages.dev
-- API on https://talkdash.fly.dev
-- API UI (using tRPC Panel) on https://talkdash.fly.dev/trpc
+Tools for event hosts and presenters, available on https://talkdash.orth.uk
 
 Features:
 - Show large (fullscreen) stopwatch and timer on speaker screen
@@ -67,6 +64,10 @@ Features:
   - to upgrade, run `npm install --global --upgrade pnpm`
 - Install turbo, run `pnpm install turbo --global`
 - `pnpm i`
+
+### Useful links
+- API on https://talkdash.fly.dev
+- API UI (using tRPC Panel) on https://talkdash.fly.dev/trpc
 
 ### Frontend
 - `cd frontend`
