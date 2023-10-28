@@ -53,7 +53,6 @@ Features:
   - Filter messages for safety and edit it for being funny - not really possible, Llama2 throws "ethics" error
   - Text-to-speech and add play button on speaker screen - elevenlabs code `ElevenLabsJam` - ElevenLabs is expensive
   - Store questions, and cluster based on category/relevance. Use vectorize vector database.
-- Consider: Compile to ESM, not CJS (libraries like chalk@5 and is-inside-container/is-docker don't support CJS)
 - Consider: SSR on Cloudflare pages
 
 ## Performance?
