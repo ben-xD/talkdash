@@ -62,6 +62,16 @@ function App() {
               <MenuContent class="bg-white rounded-lg shadow-md">
                 <MenuItemGroup id="modes" class="p">
                   {/*Margins/padding don't work on the label 😢 */}
+                  <MenuItem id="speaker" class="px-4 py-2">
+                    <A
+                      class="text-slate-700 hover:text-slate-500"
+                      href="/"
+                      end
+                      activeClass="text-blue-500 font-bold"
+                    >
+                      Home
+                    </A>
+                  </MenuItem>
                   <MenuItemGroupLabel
                     htmlFor="modes"
                     class="font-bold px-4 uppercase text-slate-500 text-sm"
@@ -94,6 +104,22 @@ function App() {
                       activeClass="text-blue-500 font-bold"
                     >
                       Audience
+                    </A>
+                  </MenuItem>
+                  <MenuItemGroupLabel
+                    htmlFor="modes"
+                    class="font-bold px-4 uppercase text-slate-500 text-sm"
+                  >
+                    Extras
+                  </MenuItemGroupLabel>
+                  <MenuSeparator />
+                  <MenuItem id="audience" class="px-4 py-2">
+                    <A
+                      class="text-slate-700 hover:text-slate-500"
+                      href="/clock"
+                      activeClass="text-blue-500 font-bold"
+                    >
+                      Clock
                     </A>
                   </MenuItem>
                 </MenuItemGroup>
