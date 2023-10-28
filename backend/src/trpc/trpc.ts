@@ -1,5 +1,5 @@
 import { initTRPC } from "@trpc/server";
-import { Context } from "./context";
+import { Context } from "./context.js";
 
 // Inspired by https://invertase.io/blog/astro-trpc-v10/ and https://trpc.io/docs/fetch
 const t = initTRPC.context<Context>().create({

@@ -1,6 +1,6 @@
 import type { Config } from "drizzle-kit";
-import { migrationsFolder } from "./src/db/db";
-import {env} from "./src/env";
+import { migrationsFolder } from "./src/db/db.js";
+import { env } from "./src/env.js";
 
 export default {
   schema: "./src/db/schema",

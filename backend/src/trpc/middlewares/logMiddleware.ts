@@ -1,5 +1,5 @@
-import { middleware } from "../trpc";
-import { enableTrpcRequestLogging } from "../../env";
+import { middleware } from "../trpc.js";
+import { enableTrpcRequestLogging } from "../../env.js";
 
 export const logMiddleware = middleware(async ({ path, ctx, next, type }) => {
   const appSubRouterName = path.split(".")[0];

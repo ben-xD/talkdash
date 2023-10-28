@@ -1,5 +1,5 @@
-import { currentTime, difference, startTime } from "../time/timeState.ts";
-import { setSpeakerUsername, speakerUsername } from "../user/userState.ts";
+import { currentTime, difference, startTime } from "../time/timeState.js";
+import { setSpeakerUsername, speakerUsername } from "../user/userState.js";
 import { EditableStateField } from "./EditableStateField.tsx";
 import { ShareIcon } from "../../assets/ShareIcon.tsx";
 import { HoverCard } from "@ark-ui/solid";

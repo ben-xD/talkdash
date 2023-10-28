@@ -1,5 +1,5 @@
 import { createSignal, For, onCleanup } from "solid-js";
-import { receivedMessages } from "./receivedMessages.ts";
+import { receivedMessages } from "./receivedMessages.js";
 
 export const MessageView = () => {
   return (

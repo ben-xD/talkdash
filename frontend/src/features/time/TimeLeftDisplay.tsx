@@ -1,4 +1,4 @@
-import { currentTime, difference, finishTime, Mode } from "./timeState.ts";
+import { currentTime, difference, finishTime, Mode } from "./timeState.js";
 
 const timeLeft = () => {
   const finish = finishTime();

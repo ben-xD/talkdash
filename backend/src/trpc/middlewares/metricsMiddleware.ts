@@ -1,4 +1,4 @@
-import { middleware } from "../trpc";
+import { middleware } from "../trpc.js";
 
 export const metricsMiddleware = middleware(async ({ ctx, next }) => {
   // TODO add metrics.

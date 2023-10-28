@@ -3,15 +3,15 @@ import { ConfigCard } from "../features/ConfigCard.tsx";
 import { TimeLeftDisplay } from "../features/time/TimeLeftDisplay.tsx";
 import { MessageView } from "../features/messages/MessageView.tsx";
 import { onCleanup, onMount } from "solid-js";
-import { loadQueryParams } from "./loadQueryParams.ts";
-import { speakerUsername } from "../features/user/userState.ts";
+import { loadQueryParams } from "./loadQueryParams.js";
+import { speakerUsername } from "../features/user/userState.js";
 import { Unsubscribable } from "@trpc/server/observable";
 import {
   receivedMessages,
   setReceivedMessages,
-} from "../features/messages/receivedMessages.ts";
+} from "../features/messages/receivedMessages.js";
 import { DateTime } from "luxon";
-import { trpc } from "../client/trpc.ts";
+import { trpc } from "../client/trpc.js";
 
 const minimumMessageDisplayTimeInMs = 7000;
 

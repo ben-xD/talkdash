@@ -1,9 +1,9 @@
 import { Pool } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { migrate } from "drizzle-orm/node-postgres/migrator";
-import { enableDatabaseLogging, env } from "../env";
-import { setupWsProxyConfig } from "./wsProxy";
-import * as schema from "./schema";
+import { enableDatabaseLogging, env } from "../env.js";
+import { setupWsProxyConfig } from "./wsProxy.js";
+import * as schema from "./schema/index.js";
 
 export const migrationsFolder = "./migrations";
 

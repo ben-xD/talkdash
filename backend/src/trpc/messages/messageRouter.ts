@@ -1,9 +1,9 @@
 import { observable, Observer } from "@trpc/server/observable";
 import { z } from "zod";
-import { loggedProcedure } from "../middlewares/middleware";
-import { router } from "../trpc";
+import { loggedProcedure } from "../middlewares/middleware.js";
+import { router } from "../trpc.js";
 import { TRPCError } from "@trpc/server";
-import { getEmojiMessageFor } from "./cloudflareWorkersAi";
+import { getEmojiMessageFor } from "./cloudflareWorkersAi.js";
 
 // All messages sent to client start with "Observed"
 type ObserverId = string;

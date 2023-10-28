@@ -7,7 +7,7 @@ import {
   textInputDurationInMinutes,
   undo,
   undoStack,
-} from "./time/timeState.ts";
+} from "./time/timeState.js";
 import { DateTime } from "luxon";
 import { RightIcon } from "../assets/RightIcon.tsx";
 import { LeftIcon } from "../assets/LeftIcon.tsx";

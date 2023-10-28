@@ -3,9 +3,9 @@ import { EditableStateField } from "../features/speaker/EditableStateField.tsx";
 import {
   setSpeakerUsername,
   speakerUsername,
-} from "../features/user/userState.ts";
-import { loadQueryParams } from "./loadQueryParams.ts";
-import { trpc } from "../client/trpc.ts";
+} from "../features/user/userState.js";
+import { loadQueryParams } from "./loadQueryParams.js";
+import { trpc } from "../client/trpc.js";
 import { TRPCClientError } from "@trpc/client";
 
 const minLengthMessage = 1;

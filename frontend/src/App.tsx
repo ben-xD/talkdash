@@ -1,5 +1,5 @@
 import { lazy, onMount } from "solid-js";
-import { setCurrentTime } from "./features/time/timeState.ts";
+import { setCurrentTime } from "./features/time/timeState.js";
 import { DateTime } from "luxon";
 import { Portal } from "solid-js/web";
 import {
@@ -13,10 +13,10 @@ import {
   MenuTrigger,
 } from "@ark-ui/solid";
 import { A, Route, Routes } from "@solidjs/router";
-import { WrenchIcon } from "./assets/WrenchIcon.tsx";
+import { WrenchIcon } from "./assets/WrenchIcon.jsx";
 import { isExceeded } from "./features/time/TimeLeftDisplay.tsx";
 import { GithubLogo } from "./assets/GithubLogo.tsx";
-import { isConnected, showReconnectedMessage } from "./client/trpc.ts";
+import { isConnected, showReconnectedMessage } from "./client/trpc.js";
 import { DisconnectedAlert } from "./components/DisconnectedAlert.tsx";
 import { ReconnectedAlert } from "./components/ReconnectedAlert.tsx";
 

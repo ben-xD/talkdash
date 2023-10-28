@@ -1,7 +1,7 @@
-import { procedure } from "../trpc";
-import { metricsMiddleware } from "./metricsMiddleware";
-import { logMiddleware } from "./logMiddleware";
-import { corsMiddleware } from "./corsMiddleware";
+import { procedure } from "../trpc.js";
+import { metricsMiddleware } from "./metricsMiddleware.js";
+import { logMiddleware } from "./logMiddleware.js";
+import { corsMiddleware } from "./corsMiddleware.js";
 
 export const publicProcedure = procedure
   .use(metricsMiddleware)

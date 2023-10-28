@@ -3,14 +3,14 @@ import Fastify from "fastify";
 import fastifyWebsocket from "@fastify/websocket";
 import chalk from "chalk";
 import { renderTrpcPanel } from "trpc-panel";
-import { createContext } from "./trpc/context";
+import { createContext } from "./trpc/context.js";
 import {
   trpcHttpApiPath,
   trpcPanelPath,
   trpcWebsocketApiPath,
-} from "./trpc/trpcPath";
-import { appRouter } from "./trpc/appRouter";
-import { enableFastityLogging, env } from "./env";
+} from "./trpc/trpcPath.js";
+import { appRouter } from "./trpc/appRouter.js";
+import { enableFastityLogging, env } from "./env.js";
 
 const fastify = Fastify({
   maxParamLength: 5000,

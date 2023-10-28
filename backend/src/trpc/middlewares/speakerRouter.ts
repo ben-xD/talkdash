@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
-import { loggedProcedure } from "./middleware";
-import { router } from "../trpc";
+import { loggedProcedure } from "./middleware.js";
+import { router } from "../trpc.js";
 
 export const speakerRouter = router({
   // Unused
