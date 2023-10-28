@@ -5,7 +5,6 @@ import {
 } from "../features/time/timeState.ts";
 import { createEffect, createSignal } from "solid-js";
 import { DateTime } from "luxon";
-import { Button } from "../components/Button.tsx";
 
 export const StopwatchPage = () => {
   const [time, setTime] = createSignal<string>();
@@ -26,23 +25,23 @@ export const StopwatchPage = () => {
   return (
     <div class="flex flex-col">
       <div class="flex gap-4 justify-center py-4">
-        <Button
+        <button
           disabled={!!startTime()}
-          class="bg-slate-600 active:bg-slate-700 hover:bg-slate-500"
+          class="btn"
           onClick={() => setStartTime(DateTime.now())}
         >
           Start
-        </Button>
-        <Button
+        </button>
+        <button
           disabled={!startTime()}
-          class="bg-slate-600 active:bg-slate-700 hover:bg-slate-500"
+          class="btn"
           onClick={() => {
             setStartTime(undefined);
             setTime(undefined);
           }}
         >
           Reset
-        </Button>
+        </button>
       </div>
       <p class="text-[20vw] md:max-xl:text-[20vw] text-center tracking-tight  select-none relative">
         {time() ?? "00:00:00"}
