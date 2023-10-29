@@ -3,10 +3,14 @@ import {
   setStartTime,
   startTime,
 } from "../features/time/timeState.ts";
-import { createEffect, createSignal } from "solid-js";
+import { createEffect, createSignal, onMount } from "solid-js";
 import { DateTime } from "luxon";
 
 export const StopwatchPage = () => {
+  onMount(() => {
+    document.title = "Stopwatch · Talkdash";
+  });
+
   const [time, setTime] = createSignal<string>();
   createEffect(() => {
     const start = startTime();
