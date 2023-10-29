@@ -22,6 +22,9 @@ import { ReconnectedAlert } from "./components/ReconnectedAlert.tsx";
 import { ClockPage } from "./pages/clock.tsx";
 import { StopwatchPage } from "./pages/stopwatch.tsx";
 
+/* eslint-disable solid/no-react-specific-props */
+//  because ARK-UI uses htmlFor. See https://github.com/chakra-ui/ark/issues/1601
+
 const SpeakerPage = lazy(() => import("./pages/speaker.tsx"));
 const AudiencePage = lazy(() => import("./pages/audience.tsx"));
 const HomePage = lazy(() => import("./pages/home.tsx"));
@@ -74,7 +77,7 @@ function App() {
                     </A>
                   </MenuItem>
                   <MenuItemGroupLabel
-                    for="modes"
+                    htmlFor="modes"
                     class="px-4 text-sm font-bold uppercase text-slate-500"
                   >
                     Modes
@@ -108,7 +111,7 @@ function App() {
                     </A>
                   </MenuItem>
                   <MenuItemGroupLabel
-                    for="modes"
+                    htmlFor="modes"
                     class="px-4 text-sm font-bold uppercase text-slate-500"
                   >
                     Extras
