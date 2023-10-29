@@ -49,7 +49,7 @@ const Host = () => {
   });
 
   return (
-    <div class="max-w-[400px] w-full my-4 gap-8 flex flex-col">
+    <div class="my-4 flex w-full max-w-[400px] flex-col gap-8">
       <p>
         <span class="font-bold tracking-tight">Event host mode: </span>Enter a
         speaker username to send them messages.
@@ -59,10 +59,10 @@ const Host = () => {
         value={speakerUsername}
         setValue={setSpeakerUsername}
       />
-      <div class="flex flex-col text-cyan-800 bg-blue-50 items-start p-4 rounded-xl shadow-lg gap-4">
+      <div class="flex flex-col items-start gap-4 rounded-xl bg-blue-50 p-4 text-cyan-800 shadow-lg">
         {errorMessage() ? (
           <div
-            class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative"
+            class="relative rounded-lg border border-red-400 bg-red-100 px-4 py-3 text-red-700"
             role="alert"
           >
             <strong class="font-bold">Error.</strong>
@@ -73,7 +73,7 @@ const Host = () => {
         )}
         <label
           for="submitMessage"
-          class="flex flex-col items-start gap-2 w-full"
+          class="flex w-full flex-col items-start gap-2"
         >
           <p>
             {!speakerUsername() || speakerUsername()?.length === 0 ? (
@@ -91,17 +91,17 @@ const Host = () => {
           <textarea
             autofocus
             minLength={minLengthMessage}
-            class="text-cyan-800 w-full rounded-lg p-2 bg-blue-200 shadow-inner"
+            class="w-full rounded-lg bg-blue-200 p-2 text-cyan-800 shadow-inner"
             placeholder="Please repeat the audience's question."
             value={message()}
             onInput={(e) => setMessage(e.target.value)}
           />
         </label>
-        <div class="flex w-full justify-end mt-4">
+        <div class="mt-4 flex w-full justify-end">
           <button
             id="submitMessage"
             disabled={!speakerUsername() || message().length < minLengthMessage}
-            class="bg-green-600 px-4 py-2 rounded-md disabled:bg-gray-500 text-white shadow active:bg-green-700 hover:bg-green-500"
+            class="rounded-md bg-green-600 px-4 py-2 text-white shadow hover:bg-green-500 active:bg-green-700 disabled:bg-gray-500"
             onClick={async () => {
               const username = speakerUsername();
               if (username) {

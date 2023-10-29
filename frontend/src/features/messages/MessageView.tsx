@@ -3,11 +3,11 @@ import { receivedMessages } from "./receivedMessages.js";
 
 export const MessageView = () => {
   return (
-    <div class="flex flex-col items-center w-full gap-4">
+    <div class="flex w-full flex-col items-center gap-4">
       <p class="font-bold tracking-tight">
         Recent messages ({receivedMessages.length})
       </p>
-      <div class="flex flex-col w-full gap-4">
+      <div class="flex w-full flex-col gap-4">
         <For each={receivedMessages}>
           {(message) => {
             const [timeSinceReceived, setTimeSinceReceived] = createSignal(
@@ -22,8 +22,8 @@ export const MessageView = () => {
             });
 
             return timeSinceReceived ? (
-              <div class="flex gap-8 @container justify-between w-full items-center">
-                <p class="@lg:text-[4cqw] whitespace-pre-wrap">
+              <div class="flex w-full items-center justify-between gap-8 @container">
+                <p class="whitespace-pre-wrap @lg:text-[4cqw]">
                   {message.emojiMessage
                     ? `${message.emojiMessage} ${message.message}`
                     : message.message}

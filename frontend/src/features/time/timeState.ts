@@ -32,7 +32,7 @@ export const [redoStack, setRedoStack] = createStore<TimeAction[]>([]);
 
 export const setTimeAction = (
   action: TimeAction,
-  clearRedoStack: boolean = true,
+  clearRedoStack = true,
 ) => {
   // add to undo stack whenever a change is made so we can undo it.
   setUndoStack([...undoStack, action]);

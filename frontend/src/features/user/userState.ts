@@ -10,7 +10,7 @@ export const speakerUsername = usernameInternal;
 
 export const setSpeakerUsername = (
   name: string,
-  pushToHistory: boolean = true,
+  pushToHistory = true,
 ) => {
   setUsernameInternal(name);
 

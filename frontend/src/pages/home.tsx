@@ -8,7 +8,7 @@ const Home = () => {
   });
 
   return (
-    <div class="my-4 flex flex-col gap-4 max-w-[400px]">
+    <div class="my-4 flex max-w-[400px] flex-col gap-4">
       <p class="text-xl">Hey 👋</p>
       <p>
         This is a timer app for events. Speakers see a{" "}
@@ -17,11 +17,11 @@ const Home = () => {
       </p>
       <p>
         Are you a{" "}
-        <A class="underline font-bold" href="/speaker">
+        <A class="font-bold underline" href="/speaker">
           Speaker
         </A>{" "}
         or an{" "}
-        <A class="underline font-bold" href="/host">
+        <A class="font-bold underline" href="/host">
           Event Host
         </A>
         ?
@@ -32,7 +32,7 @@ const Home = () => {
         using Solid, Tailwind, tRPC, Fastify, Node, WebSockets, Cloudflare
         Pages, Fly.io and more. Star the{" "}
         <a
-          class="underline font-bold"
+          class="font-bold underline"
           href="https://github.com/ben-xD/talkdash"
         >
           repo
@@ -41,14 +41,14 @@ const Home = () => {
       </p>
       <p>
         By{" "}
-        <a class="underline font-bold" href="https://orth.uk/">
+        <a class="font-bold underline" href="https://orth.uk/">
           Ben Butterworth
         </a>
       </p>
       <img
         src={TalkDashImage}
         alt={"Image of a blue bird called TalkDash."}
-        class="drop-shadow-xl w-40"
+        class="w-40 drop-shadow-xl"
       ></img>
     </div>
   );

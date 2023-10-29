@@ -28,7 +28,7 @@ export const StopwatchPage = () => {
 
   return (
     <div class="flex flex-col">
-      <div class="flex gap-4 justify-center py-4">
+      <div class="flex justify-center gap-4 py-4">
         <button
           disabled={!!startTime()}
           class="btn"
@@ -47,7 +47,7 @@ export const StopwatchPage = () => {
           Reset
         </button>
       </div>
-      <p class="text-[20vw] md:max-xl:text-[20vw] text-center tracking-tight  select-none relative">
+      <p class="relative select-none text-center text-[20vw]  tracking-tight md:max-xl:text-[20vw]">
         {time() ?? "00:00:00"}
       </p>
     </div>

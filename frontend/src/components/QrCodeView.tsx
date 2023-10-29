@@ -1,7 +1,7 @@
 import { onMount } from "solid-js";
 import QRCode from "qrcode";
 
-let canvasRef: HTMLCanvasElement | undefined = undefined;
+const canvasRef: HTMLCanvasElement | undefined = undefined;
 
 export const QrCodeView = ({ text }: { text: string }) => {
   onMount(() => {

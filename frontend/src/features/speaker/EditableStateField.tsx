@@ -29,7 +29,7 @@ export const EditableStateField = ({ label, value, setValue }: Props) => {
       {(state) => (
         <>
           <div class="flex justify-between">
-            <EditableLabel class="tracking-tight font-bold">
+            <EditableLabel class="font-bold tracking-tight">
               {label}
             </EditableLabel>
             <EditableControl>

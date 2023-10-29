@@ -31,14 +31,14 @@ export const MetadataView = ({ reconnectAsSpeaker }: Props) => {
   });
 
   return (
-    <div class="py-4 my-2 p-4 rounded-xl flex flex-col gap-4 items-stretch w-full">
-      <div class="flex justify-between items-start">
+    <div class="my-2 flex w-full flex-col items-stretch gap-4 rounded-xl p-4 py-4">
+      <div class="flex items-start justify-between">
         <p>
           <span class="font-bold tracking-tight">Speaker mode: </span>
           Choose a talk length and start the timer
         </p>
         <div
-          class="hover:text-blue-100 active:text-white cursor-pointer"
+          class="cursor-pointer hover:text-blue-100 active:text-white"
           onClick={async () => {
             const hostUrl = getHostUrl();
             await navigator.clipboard.writeText(hostUrl.toString());
@@ -50,7 +50,7 @@ export const MetadataView = ({ reconnectAsSpeaker }: Props) => {
             </HoverCard.Trigger>
             <Portal>
               <HoverCard.Positioner class="z-20">
-                <HoverCard.Content class="bg-white p-4 rounded-lg">
+                <HoverCard.Content class="rounded-lg bg-white p-4">
                   <HoverCard.Arrow>
                     <HoverCard.ArrowTip />
                   </HoverCard.Arrow>

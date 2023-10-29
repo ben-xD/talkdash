@@ -28,8 +28,8 @@ export function ConfigCard() {
   };
 
   return (
-    <div class="flex flex-col gap-8 text-cyan-800 z-10 relative items-stretch h-full justify-between">
-      <div class="flex flex-col gap-2 items-start">
+    <div class="relative z-10 flex h-full flex-col items-stretch justify-between gap-8 text-cyan-800">
+      <div class="flex flex-col items-start gap-2">
         <label class="whitespace-normal break-words" for="finishTime">
           Talk length (minutes)*
         </label>
@@ -45,24 +45,24 @@ export function ConfigCard() {
               }
             }
           }}
-          class="bg-blue-200 rounded-lg p-2 w-full shadow-inner"
+          class="w-full rounded-lg bg-blue-200 p-2 shadow-inner"
           type="text"
           id="finishTime"
           value={textInputDurationInMinutes()}
           onInput={(e) => setTextInputDurationInMinutes(e.target.value)}
         />
       </div>
-      <div class="flex flex-wrap gap-2 text-blue-50 w-full justify-between">
+      <div class="flex w-full flex-wrap justify-between gap-2 text-blue-50">
         <div class="flex gap-2">
           <button
-            class="px-4 py-2 btn"
+            class="btn px-4 py-2"
             onClick={() => undo()}
             disabled={undoStack.length === 0}
           >
             <LeftIcon />
           </button>
           <button
-            class="px-4 py-2 btn"
+            class="btn px-4 py-2"
             onClick={() => redo()}
             disabled={redoStack.length === 0}
           >
@@ -72,14 +72,14 @@ export function ConfigCard() {
         <div class="flex gap-2">
           <button
             disabled={!!finishTime() || !textInputDurationInMinutes()}
-            class="bg-green-600 px-4 py-2 rounded-md disabled:bg-gray-400 shadow active:bg-green-700 hover:bg-green-500"
+            class="rounded-md bg-green-600 px-4 py-2 shadow hover:bg-green-500 active:bg-green-700 disabled:bg-gray-400"
             onClick={onStart}
           >
             Start
           </button>
           <button
             disabled={!finishTime()}
-            class="bg-red-600 active:bg-red-700 disabled:bg-gray-400 px-4 py-2 rounded-md shadow hover:bg-red-500"
+            class="rounded-md bg-red-600 px-4 py-2 shadow hover:bg-red-500 active:bg-red-700 disabled:bg-gray-400"
             onClick={() => {
               setTimeAction({
                 finishTime: undefined,

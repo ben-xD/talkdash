@@ -1,15 +1,17 @@
 /*From https://fonts.google.com/specimen/Roboto+Mono?classification=Monospace*/
 @font-face {
-    font-family: "Roboto Mono";
-    src: url("../assets/fonts/RobotoMono-VariableFont_wght.ttf") format("truetype");
-    font-weight: 1 999;
-    font-stretch: 25% 150%;
+  font-family: "Roboto Mono";
+  src: url("../assets/fonts/RobotoMono-VariableFont_wght.ttf")
+    format("truetype");
+  font-weight: 1 999;
+  font-stretch: 25% 150%;
 }
 
 @font-face {
-    font-family: "Roboto Mono";
-    src: url("../assets/fonts/RobotoMono-VariableFont_wght.ttf") format("truetype");
-    font-weight: 1 999;
-    font-style: italic;
-    font-stretch: 25% 150%;
+  font-family: "Roboto Mono";
+  src: url("../assets/fonts/RobotoMono-VariableFont_wght.ttf")
+    format("truetype");
+  font-weight: 1 999;
+  font-style: italic;
+  font-stretch: 25% 150%;
 }

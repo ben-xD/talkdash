@@ -1,13 +1,13 @@
 export const ReconnectedAlert = () => {
   return (
     <div
-      class="mt-4 p-2 bg-green-200 items-center text-green-600 leading-none rounded-full flex lg:inline-flex"
+      class="mt-4 flex items-center rounded-full bg-green-200 p-2 leading-none text-green-600 lg:inline-flex"
       role="alert"
     >
-      <span class="flex rounded-full bg-green-600 text-white uppercase px-2 py-1 text-xs font-bold mr-3">
+      <span class="mr-3 flex rounded-full bg-green-600 px-2 py-1 text-xs font-bold uppercase text-white">
         Connected
       </span>
-      <span class="font-semibold mr-2 text-left flex-auto">
+      <span class="mr-2 flex-auto text-left font-semibold">
         You're back online
       </span>
     </div>

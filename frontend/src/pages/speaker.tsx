@@ -76,9 +76,9 @@ const Speaker = () => {
 
   return (
     <div class="flex flex-col items-center">
-      <div class="max-w-[400px] lg:max-w-4xl md:flex-row w-full flex flex-col items-stretch py-4">
+      <div class="flex w-full max-w-[400px] flex-col items-stretch py-4 md:flex-row lg:max-w-4xl">
         <MetadataView reconnectAsSpeaker={reconnectAsSpeaker} />
-        <div class="py-4 my-2 bg-blue-50 p-4 rounded-xl w-full shadow-lg">
+        <div class="my-2 w-full rounded-xl bg-blue-50 p-4 py-4 shadow-lg">
           <ConfigCard />
         </div>
       </div>

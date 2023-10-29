@@ -45,10 +45,10 @@ function App() {
 
   return (
     <div
-      class={`min-w-[320px] p-4 ${colors()} flex flex-col items-center min-h-screen`}
+      class={`min-w-[320px] p-4 ${colors()} flex min-h-screen flex-col items-center`}
     >
       <div class="flex items-center gap-4">
-        <p class="text-4xl font-bold tracking-tight text-center">
+        <p class="text-center text-4xl font-bold tracking-tight">
           <A href="/">TalkDash</A>
         </p>
         <a href="https://github.com/ben-xD/talkdash" target="_blank">
@@ -60,7 +60,7 @@ function App() {
           </MenuTrigger>
           <Portal>
             <MenuPositioner class="z-10">
-              <MenuContent class="bg-white rounded-lg shadow-md">
+              <MenuContent class="rounded-lg bg-white shadow-md">
                 <MenuItemGroup id="modes" class="p">
                   {/*Margins/padding don't work on the label 😢 */}
                   <MenuItem id="speaker" class="px-4 py-2">
@@ -75,7 +75,7 @@ function App() {
                   </MenuItem>
                   <MenuItemGroupLabel
                     htmlFor="modes"
-                    class="font-bold px-4 uppercase text-slate-500 text-sm"
+                    class="px-4 text-sm font-bold uppercase text-slate-500"
                   >
                     Modes
                   </MenuItemGroupLabel>
@@ -109,7 +109,7 @@ function App() {
                   </MenuItem>
                   <MenuItemGroupLabel
                     htmlFor="modes"
-                    class="font-bold px-4 uppercase text-slate-500 text-sm"
+                    class="px-4 text-sm font-bold uppercase text-slate-500"
                   >
                     Extras
                   </MenuItemGroupLabel>
