@@ -13,17 +13,27 @@ import { RightIcon } from "../assets/RightIcon.tsx";
 import { LeftIcon } from "../assets/LeftIcon.tsx";
 import { createSignal } from "solid-js";
 import { Alert } from "../components/Alert.tsx";
+import { trpc } from "../client/trpc.ts";
 
-// {/*TODO handle fuzzy input (e.g. 10 mins, 20 minutes, 1hr20m, average lifetime of an owl) */}
 export function ConfigCard() {
   const [errorMessage, setErrorMessage] = createSignal<string>();
 
-  const onStart = () => {
+  const isInputNumeric = () => {
+    const minutes = Number(textInputDurationInMinutes());
+    return !isNaN(minutes);
+  };
+
+  const onStart = async () => {
     const startTime = DateTime.now();
 
-    const minutes = Number(textInputDurationInMinutes());
-    if (isNaN(minutes)) {
-      setErrorMessage("Please enter a valid number of minutes.");
+    let minutes: number | undefined = parseFloat(textInputDurationInMinutes());
+    if (!isInputNumeric()) {
+      minutes = await trpc.speaker.estimateDurationInMinutesOf.query({
+        durationDescription: textInputDurationInMinutes(),
+      });
+    }
+    if (!minutes) {
+      setErrorMessage("Could not estimate duration.");
     } else {
       setErrorMessage(undefined);
       const finishTime = startTime.plus({ minutes });

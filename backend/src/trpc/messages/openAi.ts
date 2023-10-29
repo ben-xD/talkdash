@@ -5,13 +5,13 @@ const openai = new OpenAI({
   apiKey: env.OPENAI_API_KEY,
 });
 
-export const getDurationInSecondsFrom = async (text: string) => {
+export const getDurationInMinutesFrom = async (text: string) => {
   const chatCompletion = await openai.chat.completions.create({
     messages: [
       {
         role: "system",
         content:
-          "Convert the users next message content into a duration in seconds. Provide the user only 1 number, with no other words, units or formatting. For example, if the user says '5 minutes', you should return '300'. If the user says 'the time it takes for the average person to run 100m', you should return '20'.",
+          "Convert the users next message content into a duration in minutes. Provide the user only 1 number, with no other words, units or formatting. For example, if the user says '5 minutes', you should return '300'. If the user says 'the time it takes for the average person to run 100m', you should return '20'.",
       },
       {
         role: "user",

@@ -39,6 +39,7 @@ Features:
       - `fly secrets set DATABASE_URL='...'` taken from Neon.tech (not currently necessary)
     - Deploy: `fly deploy`
 - Image generated using [sdxl-emoji](https://replicate.com/fofr/sdxl-emoji), background removed using Modyfi.com, optimised with https://tinypng.com/, and favicons generated using https://realfavicongenerator.net/
+- OpenAI / GPT3.5 turbo: for converting text into durations (e.g. time for lunch -> 30 minutes) 
 
 ## TODOs
 
