@@ -1,4 +1,4 @@
-import { createEffect, createSignal } from "solid-js";
+import { createSignal } from "solid-js";
 import { DateTime } from "luxon";
 import { createStore } from "solid-js/store";
 import { trpc } from "../../client/trpc.ts";
@@ -18,7 +18,7 @@ export const [currentTime, setCurrentTime] = createSignal<DateTime>(
 );
 
 // Update servers whenever startTime or finishTime changes.
-createEffect(async () => {
+export const updateServerTimeState = async () => {
   const username = speakerUsername();
   const start = startTime()?.toMillis();
   const finish = finishTime()?.toMillis();
@@ -29,7 +29,7 @@ createEffect(async () => {
       finish,
     });
   }
-});
+};
 
 export type TimeAction =
   | {
@@ -46,20 +46,31 @@ export type TimeAction =
 export const [undoStack, setUndoStack] = createStore<TimeAction[]>([]);
 export const [redoStack, setRedoStack] = createStore<TimeAction[]>([]);
 
-export const setTimeAction = (action: TimeAction, clearRedoStack = true) => {
+export const setTimeAction = async (
+  action: TimeAction,
+  clearRedoStack = false,
+  addToUndoStack = true,
+) => {
+  console.count("setTimeAction");
   // add to undo stack whenever a change is made so we can undo it.
-  setUndoStack([...undoStack, action]);
+  if (addToUndoStack) {
+    console.debug("Adding to undo stack");
+    setUndoStack([...undoStack, action]);
+  }
   setFinishTime(action.finishTime);
   setStartTime(action.startTime);
+  setTextInputDurationInMinutes(action.userTalkLengthInput);
 
   if (clearRedoStack) {
     // The user performs an action after undoing, so we should clear the
     // redo stack so they can't redo something after their new action.
+    console.debug("Clearing redo stack");
     setRedoStack([]);
   }
+  await updateServerTimeState();
 };
 
-export const undo = () => {
+export const undo = async () => {
   // Pop the last undo and put it in redo.
   // Play the last action after that.
   const actionToUndo = undoStack.slice(-1).at(0);
@@ -69,24 +80,29 @@ export const undo = () => {
     setUndoStack(undoStack);
     setRedoStack([...redoStack, actionToUndo]);
     if (lastAction) {
-      setTextInputDurationInMinutes(lastAction.userTalkLengthInput);
-      setFinishTime(lastAction.finishTime);
-      setStartTime(lastAction.startTime);
+      await setTimeAction(lastAction, false, false);
     } else {
-      setFinishTime(undefined);
-      setStartTime(undefined);
+      await setTimeAction(
+        {
+          finishTime: undefined,
+          startTime: undefined,
+          userTalkLengthInput: "",
+        },
+        false,
+        false,
+      );
     }
   }
 };
 
-export const redo = () => {
+export const redo = async () => {
   // pop from redo stack.
   const actionToRedo = redoStack.slice(-1).at(0);
   setRedoStack([...redoStack.slice(0, -1)]);
   if (actionToRedo) {
     setTextInputDurationInMinutes(actionToRedo.userTalkLengthInput);
     setRedoStack([...redoStack]);
-    setTimeAction(actionToRedo, false);
+    await setTimeAction(actionToRedo);
   }
 };
 

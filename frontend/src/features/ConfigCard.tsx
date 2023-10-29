@@ -36,13 +36,23 @@ export function ConfigCard() {
       const startTime = DateTime.now();
       setErrorMessage(undefined);
       const finishTime = startTime.plus({ minutes });
-      setTimeAction({
-        finishTime,
-        startTime,
-        userTalkLengthInput: textInputDurationInMinutes(),
-      });
+      await setTimeAction(
+        {
+          finishTime,
+          startTime,
+          userTalkLengthInput: textInputDurationInMinutes(),
+        },
+        true,
+      );
     }
   };
+
+  const onReset = () =>
+    setTimeAction({
+      finishTime: undefined,
+      startTime: undefined,
+      userTalkLengthInput: textInputDurationInMinutes(),
+    });
 
   return (
     <div class="relative z-10 flex h-full flex-col items-stretch justify-between gap-8 text-blue-800">
@@ -94,13 +104,7 @@ export function ConfigCard() {
           <button
             disabled={!finishTime()}
             class="px-4 py-2 hover:text-blue-900 active:text-blue-700"
-            onClick={() => {
-              setTimeAction({
-                finishTime: undefined,
-                startTime: undefined,
-                userTalkLengthInput: textInputDurationInMinutes(),
-              });
-            }}
+            onClick={onReset}
           >
             Reset
           </button>

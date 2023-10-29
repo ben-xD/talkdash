@@ -9,6 +9,8 @@ import { trpc } from "../client/trpc.js";
 import { TRPCClientError } from "@trpc/client";
 import { Unsubscribable } from "@trpc/server/observable";
 import { Alert } from "../components/Alert.tsx";
+import { setFinishTime, setStartTime } from "../features/time/timeState.ts";
+import { DateTime } from "luxon";
 
 const minLengthMessage = 1;
 
@@ -25,12 +27,20 @@ const Host = () => {
     eventSubscription = trpc.host.subscribeForSpeakerEvents.subscribe(
       { speakerUsername },
       {
-        onData: ({ speakerUsername, type }) => {
+        onData: (event) => {
+          const { type } = event;
           console.info(`${speakerUsername} event: ${type}`);
           if (type === "speakerCreated") {
             setSpeakerExists(true);
           } else if (type === "speakerDeleted") {
             setSpeakerExists(false);
+          } else if (type === "speakerTimesUpdated") {
+            setStartTime(
+              event.start ? DateTime.fromMillis(event.start) : undefined,
+            );
+            setFinishTime(
+              event.finish ? DateTime.fromMillis(event.finish) : undefined,
+            );
           }
         },
       },
