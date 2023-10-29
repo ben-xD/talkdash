@@ -12,11 +12,20 @@ import {
 } from "../features/messages/receivedMessages.js";
 import { DateTime } from "luxon";
 import { trpc } from "../client/trpc.js";
+import { setFinishTime, setStartTime } from "../features/time/timeState.ts";
 
 const Speaker = () => {
   let messageSubscription: Unsubscribable | undefined = undefined;
 
-  const reconnectAsSpeaker = (speakerUsername: string) => {
+  const reconnectAsSpeaker = async (speakerUsername: string) => {
+    const times = await trpc.speaker.getTimeState.query({ speakerUsername });
+    if (times) {
+      setStartTime(times.start ? DateTime.fromMillis(times.start) : undefined);
+      setFinishTime(
+        times.finish ? DateTime.fromMillis(times.finish) : undefined,
+      );
+    }
+
     messageSubscription?.unsubscribe();
     messageSubscription = trpc.speaker.subscribeMessagesAsSpeaker.subscribe(
       { speakerUsername },

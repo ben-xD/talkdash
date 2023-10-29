@@ -46,7 +46,9 @@ export const emitToSpeakers = (speakerUsername: string, event: HostEvent) => {
 type SpeakerTimes = { start: number | undefined; finish: number | undefined };
 const timesBySpeakerId = new Map<string, SpeakerTimes>();
 
-export const getTimesFor = (speakerUsername: string) => {
+export const getTimesFor = (
+  speakerUsername: string,
+): SpeakerTimes | undefined => {
   return timesBySpeakerId.get(speakerUsername);
 };
 
@@ -66,6 +68,12 @@ export const speakerRouter = router({
         };
       }),
     ),
+  getTimeState: loggedProcedure
+    .input(z.object({ speakerUsername: z.string() }))
+    .query(async ({ input }) => {
+      const { speakerUsername } = input;
+      return getTimesFor(speakerUsername);
+    }),
   updateTimes: loggedProcedure
     .input(
       z.object({
