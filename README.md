@@ -47,7 +47,7 @@ Features:
   - Keep timer working local-first (doesn't require connection)
   - Convert human-readable talk length into duration
 - Bugs:
-  - Can't click on navigation menu buttons (Audience, Host) on mobile
+  - Can't click on navigation menu buttons (Audience, Host) on mobile. [Issue](https://github.com/chakra-ui/ark/issues/1600)
 - AI ideas:
   - record event host message from voice (STT) - whisper on Cloudflare - but won't be used at events to avoid distracing audience
   - Filter messages for safety and edit it for being funny - not really possible, Llama2 throws "ethics" error
