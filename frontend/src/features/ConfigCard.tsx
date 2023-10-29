@@ -21,18 +21,18 @@ export function ConfigCard() {
   const onStart = () => {
     const startTime = DateTime.now();
 
-    const minutes = parseFloat(textInputDurationInMinutes());
+    const minutes = Number(textInputDurationInMinutes());
     if (isNaN(minutes)) {
       setErrorMessage("Please enter a valid number of minutes.");
     } else {
       setErrorMessage(undefined);
+      const finishTime = startTime.plus({ minutes });
+      setTimeAction({
+        finishTime,
+        startTime,
+        userTalkLengthInput: textInputDurationInMinutes(),
+      });
     }
-    const finishTime = startTime.plus({ minutes });
-    setTimeAction({
-      finishTime,
-      startTime,
-      userTalkLengthInput: textInputDurationInMinutes(),
-    });
   };
 
   return (
