@@ -1,10 +1,8 @@
-import {
-  currentTime,
-  setStartTime,
-  startTime,
-} from "../features/time/timeState.ts";
+import { currentTime } from "../features/time/timeState.ts";
 import { createEffect, createSignal, onMount } from "solid-js";
 import { DateTime } from "luxon";
+
+const [startTime, setStartTime] = createSignal<DateTime>();
 
 export const StopwatchPage = () => {
   onMount(() => {
