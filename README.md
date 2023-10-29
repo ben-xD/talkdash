@@ -54,6 +54,7 @@ Features:
   - Text-to-speech and add play button on speaker screen - elevenlabs code `ElevenLabsJam` - ElevenLabs is expensive
   - Group similar messages together. Store questions, and cluster based on category/relevance. Use Workers AI vectorize database? 
 - Consider: SSR on Cloudflare pages
+- Use [postcss-nested](https://github.com/postcss/postcss-nested) if needed
 
 ## Performance?
 - Need performance? 
