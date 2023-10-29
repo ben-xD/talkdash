@@ -1,4 +1,4 @@
-import { createEffect, createSignal, onMount, Show } from "solid-js";
+import { createEffect, createSignal, onMount } from "solid-js";
 import { EditableStateField } from "../features/speaker/EditableStateField.tsx";
 import {
   setSpeakerUsername,
@@ -8,6 +8,7 @@ import { loadQueryParams } from "./loadQueryParams.js";
 import { trpc } from "../client/trpc.js";
 import { TRPCClientError } from "@trpc/client";
 import { Unsubscribable } from "@trpc/server/observable";
+import { Alert } from "../components/Alert.tsx";
 
 const minLengthMessage = 1;
 
@@ -60,15 +61,7 @@ const Host = () => {
         setValue={setSpeakerUsername}
       />
       <div class="flex flex-col items-start gap-4 rounded-xl bg-blue-50 p-4 text-cyan-800 shadow-lg">
-        <Show when={errorMessage()}>
-          <div
-            class="relative rounded-lg border border-red-400 bg-red-100 px-4 py-3 text-red-700"
-            role="alert"
-          >
-            <strong class="font-bold">Error.</strong>
-            <span class="block sm:inline"> {errorMessage()}</span>
-          </div>
-        </Show>
+        <Alert message={errorMessage()} />
         <label
           for="submitMessage"
           class="flex w-full flex-col items-start gap-2"

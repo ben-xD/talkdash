@@ -11,14 +11,22 @@ import {
 import { DateTime } from "luxon";
 import { RightIcon } from "../assets/RightIcon.tsx";
 import { LeftIcon } from "../assets/LeftIcon.tsx";
+import { createSignal } from "solid-js";
+import { Alert } from "../components/Alert.tsx";
 
 // {/*TODO handle fuzzy input (e.g. 10 mins, 20 minutes, 1hr20m, average lifetime of an owl) */}
 export function ConfigCard() {
+  const [errorMessage, setErrorMessage] = createSignal<string>();
+
   const onStart = () => {
     const startTime = DateTime.now();
 
-    // TODO handle parseFloat error.
     const minutes = parseFloat(textInputDurationInMinutes());
+    if (isNaN(minutes)) {
+      setErrorMessage("Please enter a valid number of minutes.");
+    } else {
+      setErrorMessage(undefined);
+    }
     const finishTime = startTime.plus({ minutes });
     setTimeAction({
       finishTime,
@@ -30,6 +38,7 @@ export function ConfigCard() {
   return (
     <div class="relative z-10 flex h-full flex-col items-stretch justify-between gap-8 text-blue-800">
       <div class="flex flex-col items-start gap-2">
+        <Alert message={errorMessage()} />
         <label class="whitespace-normal break-words" for="finishTime">
           Talk length (minutes)*
         </label>
