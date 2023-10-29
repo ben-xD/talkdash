@@ -17,12 +17,12 @@ const [speakerExists, setSpeakerExists] = createSignal<boolean>();
 const Host = () => {
   const [message, setMessage] = createSignal("");
   const [errorMessage, setErrorMessage] = createSignal<string>();
-  let messageSubscription: Unsubscribable | undefined = undefined;
+  let eventSubscription: Unsubscribable | undefined = undefined;
 
   const reconnectAsHost = (speakerUsername: string) => {
     setSpeakerExists(undefined);
-    messageSubscription?.unsubscribe();
-    messageSubscription = trpc.speaker.subscribeForSpeaker.subscribe(
+    eventSubscription?.unsubscribe();
+    eventSubscription = trpc.host.subscribeForSpeakerEvents.subscribe(
       { speakerUsername },
       {
         onData: ({ speakerUsername, type }) => {
@@ -98,7 +98,7 @@ const Host = () => {
               if (username) {
                 // TODO handle error.
                 try {
-                  await trpc.message.sendMessageToSpeaker.mutate({
+                  await trpc.host.sendMessageToSpeaker.mutate({
                     speakerUsername: username,
                     message: message(),
                   });

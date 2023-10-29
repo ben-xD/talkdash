@@ -3,100 +3,84 @@ import { loggedProcedure } from "./middleware.js";
 import { router } from "../trpc.js";
 import { observable, Observer } from "@trpc/server/observable";
 import { getDurationInMinutesFrom } from "../messages/openAi.js";
+import { TRPCError } from "@trpc/server";
+import {
+  addSpeakerClient,
+  emitToHosts,
+  removeSpeakerClient,
+} from "../messages/hostRouter.js";
 
-const speakerEvent = z.discriminatedUnion("type", [
-  z.object({ type: z.literal("speakerCreated"), speakerUsername: z.string() }),
-  z.object({ type: z.literal("speakerDeleted"), speakerUsername: z.string() }),
-]);
-type SpeakerEvent = z.infer<typeof speakerEvent>;
-
+// All messages sent to client start with "Observed"
 type ObserverId = string;
-type EventObserver = Observer<SpeakerEvent, Error>;
-const observersBySpeakerUsername = new Map<ObserverId, Set<EventObserver>>();
+
+// An event related to hosts. e.g. Host created message.
+const hostEvent = z.object({
+  message: z.string(),
+  emojiMessage: z.string().optional(),
+});
+type HostEvent = z.infer<typeof hostEvent>;
+
+type EventObserver = Observer<HostEvent, Error>;
+const speakerByUsername = new Map<ObserverId, Set<EventObserver>>();
+
+export const getSpeakersFor = (speakerUsername: string) => {
+  let speakers = speakerByUsername.get(speakerUsername);
+  if (speakers) return speakers;
+  const newSpeakers = new Set<EventObserver>();
+  speakerByUsername.set(speakerUsername, newSpeakers);
+  return newSpeakers;
+};
+
+export const emitToSpeakers = (speakerUsername: string, event: HostEvent) => {
+  const speakers = speakerByUsername.get(speakerUsername);
+  if (!speakers) {
+    throw new TRPCError({
+      code: "NOT_FOUND",
+      message: `Speaker with username ${speakerUsername} was not found, cannot send message.`,
+    });
+  } else {
+    speakers.forEach((speaker) => speaker.next(event));
+  }
+};
 
 export const speakerRouter = router({
+  subscribeMessagesAsSpeaker: loggedProcedure
+    .input(z.object({ speakerUsername: z.string() }))
+    .subscription(({ input }) =>
+      observable<HostEvent, Error>((emit) => {
+        addSpeakerClient(input.speakerUsername);
+        const speakers = getSpeakersFor(input.speakerUsername);
+        console.info(`Adding speaker client for ${input.speakerUsername}`);
+        speakers.add(emit);
+        return () => {
+          removeSpeakerClient(input.speakerUsername);
+          console.info(`Removing speaker client for ${input.speakerUsername}`);
+          speakers?.delete(emit);
+        };
+      }),
+    ),
+  updateTimes: loggedProcedure
+    .input(
+      z.object({
+        speakerUsername: z.string(),
+        start: z.number().optional(),
+        finish: z.number().optional(),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      const { speakerUsername, start, finish } = input;
+      console.debug(`Updating times for ${speakerUsername}`, { start, finish });
+      emitToHosts(speakerUsername, {
+        type: "speakerTimesUpdated",
+        speakerUsername,
+        start,
+        finish,
+      });
+    }),
   estimateDurationInMinutesOf: loggedProcedure
     .input(z.object({ durationDescription: z.string() }))
     .query(async ({ input }) => {
       // TODO rate limit this API.
       return getDurationInMinutesFrom(input.durationDescription);
     }),
-  subscribeForSpeaker: loggedProcedure
-    .input(z.object({ speakerUsername: z.string() }))
-    .subscription(async ({ input }) =>
-      observable<SpeakerEvent, Error>((emit) => {
-        const { speakerUsername } = input;
-        let observers = observersBySpeakerUsername.get(speakerUsername);
-        if (!observers) {
-          observers = new Set();
-          observersBySpeakerUsername.set(speakerUsername, observers);
-        }
-        console.info(`Adding subscriber for ${speakerUsername} speaker events`);
-        const speakerClientCount = countBySpeakerUsername.get(speakerUsername);
-        if (speakerClientCount && speakerClientCount >= 1) {
-          emit.next({
-            type: "speakerCreated",
-            speakerUsername,
-          });
-        }
-        observers.add(emit);
-        return () => {
-          console.info(
-            `Removing subscriber for ${speakerUsername} speaker events`,
-          );
-          observers?.delete(emit);
-          if (observers?.size === 0) {
-            observersBySpeakerUsername.delete(speakerUsername);
-          }
-        };
-      }),
-    ),
 });
-
-const countBySpeakerUsername = new Map<string, number>();
-
-// TODO make it generic and share with messageRouter.
-const emitToAll = (
-  observers: Set<EventObserver> | undefined,
-  event: SpeakerEvent,
-) => {
-  if (observers) {
-    console.debug(
-      `Sending event to speaker event observers: ${JSON.stringify(event)}`,
-    );
-    for (const observer of observers) {
-      observer.next(event);
-    }
-  }
-};
-
-export const addSpeakerClient = (speakerUsername: string) => {
-  let speakerCount = countBySpeakerUsername.get(speakerUsername);
-  if (speakerCount === undefined || speakerCount === 0) {
-    speakerCount = 1;
-    emitToAll(observersBySpeakerUsername.get(speakerUsername), {
-      type: "speakerCreated",
-      speakerUsername: speakerUsername,
-    });
-  } else {
-    speakerCount += 1;
-  }
-  countBySpeakerUsername.set(speakerUsername, speakerCount);
-};
-
-export const removeSpeakerClient = (speakerUsername: string) => {
-  let speakerCount = countBySpeakerUsername.get(speakerUsername);
-  if (speakerCount === undefined) {
-    throw new Error(
-      "Cannot remove speaker because it doesn't exist. This is a developer error.",
-    );
-  }
-  speakerCount -= 1;
-  countBySpeakerUsername.set(speakerUsername, speakerCount);
-  if (speakerCount <= 0) {
-    emitToAll(observersBySpeakerUsername.get(speakerUsername), {
-      type: "speakerDeleted",
-      speakerUsername: speakerUsername,
-    });
-  }
-};
