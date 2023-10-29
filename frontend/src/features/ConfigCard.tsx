@@ -50,11 +50,14 @@ export function ConfigCard() {
       <div class="flex flex-col items-start gap-2">
         <Alert message={errorMessage()} />
         <label class="whitespace-normal break-words" for="finishTime">
-          Talk length (minutes)*
+          Talk length
+          <p class="text-blue-400">
+            This can be number of minutes or free text
+          </p>
         </label>
         <input
           required
-          placeholder="20.5"
+          placeholder="time to eat lunch"
           autofocus
           onKeyUp={(e) => {
             // If user presses enter, submit

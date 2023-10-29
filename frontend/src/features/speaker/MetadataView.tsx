@@ -35,7 +35,7 @@ export const MetadataView = (props: Props) => {
       <div class="flex items-start justify-between">
         <p>
           <span class="font-bold tracking-tight">Speaker mode: </span>
-          Choose a talk length and start the timer
+          Choose a talk length and start the timer.
         </p>
         <div
           class="cursor-pointer hover:text-blue-100 active:text-white"
