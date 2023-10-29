@@ -2,6 +2,7 @@ import { z } from "zod";
 import { loggedProcedure } from "./middleware.js";
 import { router } from "../trpc.js";
 import { observable, Observer } from "@trpc/server/observable";
+import { getDurationInSecondsFrom } from "../messages/openAi.js";
 
 const speakerEvent = z.discriminatedUnion("type", [
   z.object({ type: z.literal("speakerCreated"), speakerUsername: z.string() }),
@@ -14,6 +15,12 @@ type EventObserver = Observer<SpeakerEvent, Error>;
 const observersBySpeakerUsername = new Map<ObserverId, Set<EventObserver>>();
 
 export const speakerRouter = router({
+  estimateDurationInMsOf: loggedProcedure
+    .input(z.object({ durationDescription: z.string() }))
+    .mutation(async ({ input }) => {
+      // TODO rate limit this API.
+      return getDurationInSecondsFrom(input.durationDescription);
+    }),
   subscribeForSpeaker: loggedProcedure
     .input(z.object({ speakerUsername: z.string() }))
     .subscription(async ({ input }) =>

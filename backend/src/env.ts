@@ -10,6 +10,7 @@ export const enableFastityLogging = false;
 export const enableTrpcRequestLogging = false;
 
 const envValidator = z.object({
+  OPENAI_API_KEY: z.string(),
   CLOUDFLARE_ACCOUNT_ID: z.string(),
   CLOUDFLARE_WORKERS_AI_TOKEN: z.string(),
   // Temporary disabled since we don't connect to a database.
