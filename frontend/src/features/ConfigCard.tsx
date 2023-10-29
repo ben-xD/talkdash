@@ -57,7 +57,7 @@ export function ConfigCard() {
         </label>
         <input
           required
-          placeholder="time to eat lunch"
+          placeholder="25 minutes + 5 minutes for questions"
           autofocus
           onKeyUp={(e) => {
             // If user presses enter, submit

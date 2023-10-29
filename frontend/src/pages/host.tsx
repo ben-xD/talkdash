@@ -83,7 +83,7 @@ const Host = () => {
             autofocus
             minLength={minLengthMessage}
             class="w-full rounded-lg bg-blue-200 p-2 text-cyan-800 shadow-inner"
-            placeholder="Please repeat the audience's question."
+            placeholder="Please repeat the audience's questions"
             value={message()}
             onInput={(e) => setMessage(e.target.value)}
           />
