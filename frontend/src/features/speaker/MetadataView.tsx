@@ -3,7 +3,7 @@ import { setSpeakerUsername, speakerUsername } from "../user/userState.js";
 import { EditableStateField } from "./EditableStateField.tsx";
 import { ShareIcon } from "../../assets/ShareIcon.tsx";
 import { HoverCard } from "@ark-ui/solid";
-import { Portal,  } from "solid-js/web";
+import { Portal } from "solid-js/web";
 import { QrCodeView } from "../../components/QrCodeView.tsx";
 import { createSignal, onMount, Show } from "solid-js";
 

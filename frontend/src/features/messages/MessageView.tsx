@@ -1,4 +1,4 @@
-import { createSignal, For, onCleanup } from "solid-js";
+import { createSignal, For, onCleanup, Show } from "solid-js";
 import { receivedMessages } from "./receivedMessages.js";
 
 export const MessageView = () => {
@@ -21,17 +21,17 @@ export const MessageView = () => {
               clearInterval(interval);
             });
 
-            return timeSinceReceived ? (
-              <div class="flex w-full items-center justify-between gap-8 @container">
-                <p class="whitespace-pre-wrap @lg:text-[4cqw]">
-                  {message.emojiMessage
-                    ? `${message.emojiMessage} ${message.message}`
-                    : message.message}
-                </p>
-                <p class="text-right">{timeSinceReceived()}</p>
-              </div>
-            ) : (
-              <></>
+            return (
+              <Show when={timeSinceReceived()}>
+                <div class="flex w-full items-center justify-between gap-8 @container">
+                  <p class="whitespace-pre-wrap @lg:text-[4cqw]">
+                    {message.emojiMessage
+                      ? `${message.emojiMessage} ${message.message}`
+                      : message.message}
+                  </p>
+                  <p class="text-right">{timeSinceReceived()}</p>
+                </div>
+              </Show>
             );
           }}
         </For>

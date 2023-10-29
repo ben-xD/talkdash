@@ -1,4 +1,4 @@
-import { lazy, onMount } from "solid-js";
+import { lazy, onMount, Show } from "solid-js";
 import { setCurrentTime } from "./features/time/timeState.js";
 import { DateTime } from "luxon";
 import { Portal } from "solid-js/web";
@@ -138,8 +138,12 @@ function App() {
           </Portal>
         </Menu>
       </div>
-      {isConnected() && showReconnectedMessage() ? <ReconnectedAlert /> : <></>}
-      {isConnected() || <DisconnectedAlert />}
+      <Show when={!isConnected()}>
+        <DisconnectedAlert />
+      </Show>
+      <Show when={isConnected() && showReconnectedMessage()}>
+        <ReconnectedAlert />
+      </Show>
       <Routes>
         <Route path="/" component={HomePage} />
         <Route path="/audience" component={AudiencePage} />
