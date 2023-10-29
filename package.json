@@ -2,6 +2,7 @@
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
+    "lint": "turbo lint",
     "format": "turbo format",
     "clean": "turbo clean"
   },

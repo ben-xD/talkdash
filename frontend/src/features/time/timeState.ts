@@ -30,10 +30,7 @@ export type TimeAction =
 export const [undoStack, setUndoStack] = createStore<TimeAction[]>([]);
 export const [redoStack, setRedoStack] = createStore<TimeAction[]>([]);
 
-export const setTimeAction = (
-  action: TimeAction,
-  clearRedoStack = true,
-) => {
+export const setTimeAction = (action: TimeAction, clearRedoStack = true) => {
   // add to undo stack whenever a change is made so we can undo it.
   setUndoStack([...undoStack, action]);
   setFinishTime(action.finishTime);

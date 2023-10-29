@@ -19,18 +19,18 @@ type Props = {
   setValue: (value: string) => void;
 };
 
-export const EditableStateField = ({ label, value, setValue }: Props) => {
+export const EditableStateField = (props: Props) => {
   return (
     <Editable
-      placeholder={`No ${label.toLowerCase()}`}
-      value={value()}
-      onSubmit={({ value }) => setValue(value)}
+      placeholder={`No ${props.label.toLowerCase()}`}
+      value={props.value()}
+      onSubmit={({ value }) => props.setValue(value)}
     >
       {(state) => (
         <>
           <div class="flex justify-between">
             <EditableLabel class="font-bold tracking-tight">
-              {label}
+              {props.label}
             </EditableLabel>
             <EditableControl>
               {state().isEditing ? (
@@ -50,7 +50,7 @@ export const EditableStateField = ({ label, value, setValue }: Props) => {
             </EditableControl>
           </div>
           <EditableArea>
-            <EditableInput class="w-full text-blue-600" value={value()} />
+            <EditableInput class="w-full text-blue-600" value={props.value()} />
             <EditablePreview />
           </EditableArea>
         </>

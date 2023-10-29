@@ -74,7 +74,7 @@ function App() {
                     </A>
                   </MenuItem>
                   <MenuItemGroupLabel
-                    htmlFor="modes"
+                    for="modes"
                     class="px-4 text-sm font-bold uppercase text-slate-500"
                   >
                     Modes
@@ -108,7 +108,7 @@ function App() {
                     </A>
                   </MenuItem>
                   <MenuItemGroupLabel
-                    htmlFor="modes"
+                    for="modes"
                     class="px-4 text-sm font-bold uppercase text-slate-500"
                   >
                     Extras

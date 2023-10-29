@@ -3,9 +3,9 @@ import { setSpeakerUsername, speakerUsername } from "../user/userState.js";
 import { EditableStateField } from "./EditableStateField.tsx";
 import { ShareIcon } from "../../assets/ShareIcon.tsx";
 import { HoverCard } from "@ark-ui/solid";
-import { Portal } from "solid-js/web";
+import { Portal,  } from "solid-js/web";
 import { QrCodeView } from "../../components/QrCodeView.tsx";
-import { createSignal, onMount } from "solid-js";
+import { createSignal, onMount, Show } from "solid-js";
 
 const elapsedTime = () => {
   const start = startTime();
@@ -15,7 +15,7 @@ const elapsedTime = () => {
 
 type Props = { reconnectAsSpeaker: (speakerUsername: string) => void };
 
-export const MetadataView = ({ reconnectAsSpeaker }: Props) => {
+export const MetadataView = (props: Props) => {
   const getHostUrl = (): URL => {
     const hostUrl = new URL("../host", window.location.href);
     const username = speakerUsername();
@@ -54,11 +54,12 @@ export const MetadataView = ({ reconnectAsSpeaker }: Props) => {
                   <HoverCard.Arrow>
                     <HoverCard.ArrowTip />
                   </HoverCard.Arrow>
-                  {hostUrl() ? (
-                    <QrCodeView text={hostUrl()!.toString()} />
-                  ) : (
-                    <></>
-                  )}
+                  <Show
+                    when={hostUrl()}
+                    fallback={<p>Couldn't get generate a QR code.</p>}
+                  >
+                    {(hostUrl) => <QrCodeView text={hostUrl.toString()} />}
+                  </Show>
                 </HoverCard.Content>
               </HoverCard.Positioner>
             </Portal>
@@ -75,7 +76,7 @@ export const MetadataView = ({ reconnectAsSpeaker }: Props) => {
         value={speakerUsername}
         setValue={(value) => {
           setSpeakerUsername(value);
-          reconnectAsSpeaker(value);
+          props.reconnectAsSpeaker(value);
         }}
       />
       {/*Temporarily disable password field since it is not implemented.*/}

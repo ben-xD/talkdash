@@ -8,10 +8,7 @@ export const speakerUsernameKey = "speakerUsername";
 
 export const speakerUsername = usernameInternal;
 
-export const setSpeakerUsername = (
-  name: string,
-  pushToHistory = true,
-) => {
+export const setSpeakerUsername = (name: string, pushToHistory = true) => {
   setUsernameInternal(name);
 
   const urlParams = new URLSearchParams(window.location.search);

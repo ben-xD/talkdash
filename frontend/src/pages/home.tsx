@@ -49,7 +49,7 @@ const Home = () => {
         src={TalkDashImage}
         alt={"Image of a blue bird called TalkDash."}
         class="w-40 drop-shadow-xl"
-      ></img>
+      />
     </div>
   );
 };

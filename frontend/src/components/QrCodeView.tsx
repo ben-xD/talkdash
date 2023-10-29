@@ -1,11 +1,11 @@
 import { onMount } from "solid-js";
 import QRCode from "qrcode";
 
-const canvasRef: HTMLCanvasElement | undefined = undefined;
+let canvasRef: HTMLCanvasElement | undefined;
 
-export const QrCodeView = ({ text }: { text: string }) => {
+export const QrCodeView = (props: { text: string }) => {
   onMount(() => {
-    QRCode.toCanvas(canvasRef, text, {
+    QRCode.toCanvas(canvasRef, props.text, {
       width: 350,
       color: {
         dark: "#3b82f6",
@@ -14,5 +14,5 @@ export const QrCodeView = ({ text }: { text: string }) => {
     });
   });
 
-  return <canvas ref={canvasRef}></canvas>;
+  return <canvas ref={canvasRef} />;
 };
