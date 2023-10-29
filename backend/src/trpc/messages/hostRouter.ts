@@ -6,6 +6,7 @@ import { getEmojiMessageFor } from "./cloudflareWorkersAi.js";
 import {
   emitToSpeakers,
   getSpeakersFor,
+  getTimesFor,
 } from "../middlewares/speakerRouter.js";
 import { emitToAll } from "../observers.js";
 
@@ -66,6 +67,16 @@ export const hostRouter = router({
             type: "speakerCreated",
             speakerUsername,
           });
+          const times = getTimesFor(speakerUsername);
+          if (times) {
+            const { start, finish } = times;
+            emit.next({
+              speakerUsername,
+              type: "speakerTimesUpdated",
+              start,
+              finish,
+            });
+          }
         }
         console.info(`Adding subscriber for ${speakerUsername} speaker events`);
         hosts.add(emit);

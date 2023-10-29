@@ -43,6 +43,13 @@ export const emitToSpeakers = (speakerUsername: string, event: HostEvent) => {
   }
 };
 
+type SpeakerTimes = { start: number | undefined; finish: number | undefined };
+const timesBySpeakerId = new Map<string, SpeakerTimes>();
+
+export const getTimesFor = (speakerUsername: string) => {
+  return timesBySpeakerId.get(speakerUsername);
+};
+
 export const speakerRouter = router({
   subscribeMessagesAsSpeaker: loggedProcedure
     .input(z.object({ speakerUsername: z.string() }))
@@ -70,6 +77,7 @@ export const speakerRouter = router({
     .mutation(async ({ input }) => {
       const { speakerUsername, start, finish } = input;
       console.debug(`Updating times for ${speakerUsername}`, { start, finish });
+      timesBySpeakerId.set(speakerUsername, { start, finish });
       emitToHosts(speakerUsername, {
         type: "speakerTimesUpdated",
         speakerUsername,
