@@ -42,7 +42,7 @@ Features:
 
 ## TODOs
 
-- Themes: users can select different colors, which would get different birds too 
+- Themes: users can select different colors, which would get different birds too
 - Zen mode
 - View and adjust time remaining for the speaker remotely as Event Host
   - Keep timer working local-first (doesn't require connection)
