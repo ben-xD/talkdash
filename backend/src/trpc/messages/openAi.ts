@@ -1,7 +1,9 @@
 import OpenAI from "openai";
 import { env } from "../../env.js";
 
+// Using Cloudflare AI Gateway as per https://developers.cloudflare.com/ai-gateway/get-started/connecting-applications#openai
 const openai = new OpenAI({
+  baseURL: `https://gateway.ai.cloudflare.com/v1/${env.CLOUDFLARE_ACCOUNT_ID}/talkdash-openai/openai`,
   apiKey: env.OPENAI_API_KEY,
 });
 
