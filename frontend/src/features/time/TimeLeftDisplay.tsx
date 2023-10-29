@@ -10,7 +10,7 @@ export const isExceeded = () => timeLeft().mode === Mode.Exceeded;
 
 export const TimeLeftDisplay = () => {
   return (
-    <div class="z-0 rounded-lg px-8 leading-[18vw]">
+    <div class="z-0 rounded-lg px-8 leading-[18vw] drop-shadow-lg">
       {isExceeded() ? (
         <h2 class="relative rounded-3xl text-center text-[14vw] tracking-tight text-red-50 md:max-xl:text-[18vw]">
           -{timeLeft().formattedDifference}

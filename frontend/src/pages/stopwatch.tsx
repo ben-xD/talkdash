@@ -45,7 +45,7 @@ export const StopwatchPage = () => {
           Start
         </button>
       </div>
-      <h2 class="relative select-none text-center text-[20vw] tracking-tight md:max-xl:text-[20vw]">
+      <h2 class="relative select-none text-center text-[20vw] tracking-tight drop-shadow-lg md:max-xl:text-[20vw]">
         {time() ?? "00:00:00"}
       </h2>
     </div>

@@ -7,7 +7,7 @@ export const ClockPage = () => {
   });
 
   return (
-    <h2 class="relative my-auto select-none text-center text-[20vw]  tracking-tight md:max-xl:text-[20vw]">
+    <h2 class="relative my-auto select-none text-center text-[20vw]  tracking-tight drop-shadow-lg md:max-xl:text-[20vw]">
       {currentTime().toFormat("HH:mm:ss")}
     </h2>
   );
