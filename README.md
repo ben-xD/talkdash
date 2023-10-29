@@ -43,7 +43,6 @@ Features:
 
 ## TODOs
 
-- show notification to host that the event has started
 - Nicer glow background 
 - Command + enter to send message
 - Command + K for command palette
