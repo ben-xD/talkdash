@@ -24,8 +24,6 @@ export function ConfigCard() {
   };
 
   const onStart = async () => {
-    const startTime = DateTime.now();
-
     let minutes: number | undefined = parseFloat(textInputDurationInMinutes());
     if (!isInputNumeric()) {
       minutes = await trpc.speaker.estimateDurationInMinutesOf.query({
@@ -35,6 +33,7 @@ export function ConfigCard() {
     if (!minutes) {
       setErrorMessage("Could not estimate duration.");
     } else {
+      const startTime = DateTime.now();
       setErrorMessage(undefined);
       const finishTime = startTime.plus({ minutes });
       setTimeAction({
