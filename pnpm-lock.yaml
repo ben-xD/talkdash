@@ -123,6 +123,9 @@ importers:
       solid-js:
         specifier: ^1.7.8
         version: 1.7.8
+      solid-toast:
+        specifier: ^0.5.0
+        version: 0.5.0(solid-js@1.7.8)
       unique-names-generator:
         specifier: ^4.7.1
         version: 4.7.1
@@ -5777,6 +5780,14 @@ packages:
       '@babel/types': 7.23.0
       solid-js: 1.7.8
     dev: true
+
+  /solid-toast@0.5.0(solid-js@1.7.8):
+    resolution: {integrity: sha512-t770JakjyS2P9b8Qa1zMLOD51KYKWXbTAyJePVUoYex5c5FH5S/HtUBUbZAWFcqRCKmAE8KhyIiCvDZA8bOnxQ==}
+    peerDependencies:
+      solid-js: ^1.5.4
+    dependencies:
+      solid-js: 1.7.8
+    dev: false
 
   /sonic-boom@3.7.0:
     resolution: {integrity: sha512-IudtNvSqA/ObjN97tfgNmOKyDOs4dNcg4cUUsHDebqsgb8wGBBwb31LIgShNO8fye0dFI52X1+tFoKKI6Rq1Gg==}

@@ -45,7 +45,7 @@ Features:
 
 - show notification to host that the event has started
 - Nicer glow background 
-- Command click to send message
+- Command + enter to send message
 - Command + K for command palette
 - Delete messages on host (individually and all)
 - Themes: users can select different colors, which would get different birds too

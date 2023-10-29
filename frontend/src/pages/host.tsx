@@ -17,6 +17,7 @@ import {
 import { DateTime } from "luxon";
 import { TimeLeft } from "../features/time/TimeLeft.tsx";
 import { ElapsedTime } from "../components/ElapsedTime.tsx";
+import { toast, Toaster } from "solid-toast";
 
 const minLengthMessage = 1;
 
@@ -41,6 +42,11 @@ const Host = () => {
           } else if (type === "speakerDeleted") {
             setSpeakerExists(false);
           } else if (type === "speakerTimesUpdated") {
+            if (!event.start && !event.finish) {
+              toast(() => <p class="text-cyan-800">The timer was reset</p>);
+            } else {
+              toast(() => <p class="text-cyan-800">The timer is running</p>);
+            }
             setStartTime(
               event.start ? DateTime.fromMillis(event.start) : undefined,
             );
@@ -67,6 +73,11 @@ const Host = () => {
 
   return (
     <div class="my-4 flex w-full max-w-[400px] flex-col gap-6">
+      <Toaster
+        toastOptions={{
+          position: "top-center",
+        }}
+      />
       <p>
         <span class="font-bold tracking-tight">Event host mode: </span>Enter a
         speaker username to send them messages.
