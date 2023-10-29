@@ -47,9 +47,9 @@ export const StopwatchPage = () => {
           Reset
         </button>
       </div>
-      <p class="relative select-none text-center text-[20vw]  tracking-tight md:max-xl:text-[20vw]">
+      <h2 class="relative select-none text-center text-[20vw]  tracking-tight md:max-xl:text-[20vw]">
         {time() ?? "00:00:00"}
-      </p>
+      </h2>
     </div>
   );
 };

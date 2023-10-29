@@ -51,9 +51,9 @@ function App() {
       class={`min-w-[320px] p-4 ${colors()} flex min-h-screen flex-col items-center`}
     >
       <div class="flex items-center gap-4">
-        <p class="text-center text-4xl font-bold tracking-tight">
+        <h1 class="text-center text-4xl font-bold tracking-tight">
           <A href="/">TalkDash</A>
-        </p>
+        </h1>
         <a href="https://github.com/ben-xD/talkdash" target="_blank">
           <GithubLogo />
         </a>

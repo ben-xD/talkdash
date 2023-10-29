@@ -4,9 +4,9 @@ import { receivedMessages } from "./receivedMessages.js";
 export const MessageView = () => {
   return (
     <div class="flex w-full flex-col items-center gap-4">
-      <p class="font-bold tracking-tight">
+      <h2 class="font-bold tracking-tight">
         Recent messages ({receivedMessages.length})
-      </p>
+      </h2>
       <div class="flex w-full flex-col gap-4">
         <For each={receivedMessages}>
           {(message) => {
