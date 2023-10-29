@@ -24,7 +24,7 @@ type EventObserver = Observer<HostEvent, Error>;
 const speakerByUsername = new Map<ObserverId, Set<EventObserver>>();
 
 export const getSpeakersFor = (speakerUsername: string) => {
-  let speakers = speakerByUsername.get(speakerUsername);
+  const speakers = speakerByUsername.get(speakerUsername);
   if (speakers) return speakers;
   const newSpeakers = new Set<EventObserver>();
   speakerByUsername.set(speakerUsername, newSpeakers);
