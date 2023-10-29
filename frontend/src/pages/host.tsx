@@ -9,7 +9,11 @@ import { trpc } from "../client/trpc.js";
 import { TRPCClientError } from "@trpc/client";
 import { Unsubscribable } from "@trpc/server/observable";
 import { Alert } from "../components/Alert.tsx";
-import { setFinishTime, setStartTime } from "../features/time/timeState.ts";
+import {
+  resetHistory,
+  setFinishTime,
+  setStartTime,
+} from "../features/time/timeState.ts";
 import { DateTime } from "luxon";
 import { TimeLeft } from "../features/time/TimeLeft.tsx";
 import { ElapsedTime } from "../components/ElapsedTime.tsx";
@@ -70,7 +74,10 @@ const Host = () => {
       <EditableStateField
         label={"Speaker username"}
         value={speakerUsername}
-        setValue={setSpeakerUsername}
+        setValue={(value) => {
+          resetHistory();
+          setSpeakerUsername(value);
+        }}
       />
       <ElapsedTime />
       <div class="flex gap-2 font-bold">

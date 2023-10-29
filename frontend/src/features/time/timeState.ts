@@ -46,6 +46,13 @@ export type TimeAction =
 export const [undoStack, setUndoStack] = createStore<TimeAction[]>([]);
 export const [redoStack, setRedoStack] = createStore<TimeAction[]>([]);
 
+export const resetHistory = () => {
+  setFinishTime(undefined);
+  setStartTime(undefined);
+  setUndoStack([]);
+  setRedoStack([]);
+};
+
 export const setTimeAction = async (
   action: TimeAction,
   clearRedoStack = false,
