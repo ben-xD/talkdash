@@ -43,9 +43,7 @@ const Host = () => {
           } else if (type === "speakerDeleted") {
             setSpeakerExists(false);
           } else if (type === "speakerTimesUpdated") {
-            if (!event.start && !event.finish) {
-              toast(() => <p class="text-cyan-800">The timer was reset</p>);
-            } else {
+            if (event.start && event.finish) {
               toast(() => <p class="text-cyan-800">The timer is running</p>);
             }
             setStartTime(
