@@ -70,6 +70,30 @@ const Host = () => {
     loadQueryParams(false);
   });
 
+  const [isSendDisabled, setIsSendDisabled] = createSignal(false);
+  const onSend = async () => {
+    const username = speakerUsername();
+    if (username) {
+      setIsSendDisabled(true);
+      try {
+        await trpc.host.sendMessageToSpeaker.mutate({
+          speakerUsername: username,
+          message: message(),
+        });
+        setMessage("");
+        setErrorMessage();
+      } catch (e) {
+        if (e instanceof TRPCClientError) {
+          setErrorMessage(e.message);
+        } else {
+          setErrorMessage("An unknown error occurred.");
+        }
+      } finally {
+        setIsSendDisabled(false);
+      }
+    }
+  };
+
   return (
     <div class="my-4 flex w-full max-w-[400px] flex-col gap-6">
       <Toast />
@@ -90,9 +114,6 @@ const Host = () => {
         <TimeLeft />
         <span class="font-normal">time left</span>
       </div>
-      {/*<div class="flex justify-center text-7xl tracking-tight drop-shadow-lg">*/}
-      {/*  <TimeLeft />*/}
-      {/*</div>*/}
       <div class="flex flex-col items-start gap-4 rounded-xl bg-blue-50 p-4 text-cyan-800 shadow-lg">
         <Alert message={errorMessage()} />
         <label
@@ -124,28 +145,13 @@ const Host = () => {
         <div class="mt-4 flex w-full justify-end">
           <button
             id="submitMessage"
-            disabled={!speakerUsername() || message().length < minLengthMessage}
+            disabled={
+              isSendDisabled() ||
+              !speakerUsername() ||
+              message().length < minLengthMessage
+            }
             class="rounded-md bg-blue-600 px-4 py-2 text-blue-50 shadow hover:bg-blue-500 active:bg-blue-700 disabled:bg-gray-400"
-            onClick={async () => {
-              const username = speakerUsername();
-              if (username) {
-                // TODO handle error.
-                try {
-                  await trpc.host.sendMessageToSpeaker.mutate({
-                    speakerUsername: username,
-                    message: message(),
-                  });
-                  setMessage("");
-                  setErrorMessage();
-                } catch (e) {
-                  if (e instanceof TRPCClientError) {
-                    setErrorMessage(e.message);
-                  } else {
-                    setErrorMessage("An unknown error occurred.");
-                  }
-                }
-              }
-            }}
+            onClick={onSend}
           >
             Send
           </button>
