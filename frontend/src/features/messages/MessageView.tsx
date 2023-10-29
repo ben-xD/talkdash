@@ -5,7 +5,7 @@ export const MessageView = () => {
   return (
     <div class="flex w-full flex-col items-center gap-4">
       <h2 class="font-bold tracking-tight">
-        Recent messages ({receivedMessages.length})
+        Messages ({receivedMessages.length})
       </h2>
       <div class="flex w-full flex-col gap-4">
         <For each={receivedMessages}>

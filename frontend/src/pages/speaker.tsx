@@ -13,32 +13,6 @@ import {
 import { DateTime } from "luxon";
 import { trpc } from "../client/trpc.js";
 
-const minimumMessageDisplayTimeInMs = 7000;
-
-const removeOldestMessageAfterExpiry = (currentTime: DateTime) => {
-  // Remove oldest message if it's been displayed for a while and there's another message waiting.
-  const oldestMessageReceivedAt = receivedMessages[0]?.receivedAt;
-  if (
-    oldestMessageReceivedAt &&
-    currentTime.diff(oldestMessageReceivedAt).milliseconds >
-      minimumMessageDisplayTimeInMs
-  ) {
-    setTimeout(() => {
-      if (receivedMessages.length > 1) {
-        const lastMessage = receivedMessages[0];
-        console.info(
-          `Removing the oldest message, received ${lastMessage.receivedAt.toRelative()} after ${
-            minimumMessageDisplayTimeInMs / 1000
-          }s expiry.`,
-        );
-        setReceivedMessages([...receivedMessages.slice(1)]);
-      }
-      // Remove more if there's more than 1.
-      removeOldestMessageAfterExpiry(DateTime.now());
-    }, minimumMessageDisplayTimeInMs);
-  }
-};
-
 const Speaker = () => {
   let messageSubscription: Unsubscribable | undefined = undefined;
 
@@ -50,10 +24,9 @@ const Speaker = () => {
         onData: ({ emojiMessage, message }) => {
           const receivedAt = DateTime.now();
           console.info(`Received message at ${receivedAt}:\n${message}`);
-          removeOldestMessageAfterExpiry(receivedAt);
           setReceivedMessages([
-            ...receivedMessages,
             { receivedAt, message, emojiMessage },
+            ...receivedMessages,
           ]);
         },
       },
