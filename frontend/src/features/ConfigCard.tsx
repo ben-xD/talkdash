@@ -28,7 +28,7 @@ export function ConfigCard() {
   };
 
   return (
-    <div class="relative z-10 flex h-full flex-col items-stretch justify-between gap-8 text-cyan-800">
+    <div class="relative z-10 flex h-full flex-col items-stretch justify-between gap-8 text-blue-800">
       <div class="flex flex-col items-start gap-2">
         <label class="whitespace-normal break-words" for="finishTime">
           Talk length (minutes)*
@@ -52,7 +52,7 @@ export function ConfigCard() {
           onInput={(e) => setTextInputDurationInMinutes(e.target.value)}
         />
       </div>
-      <div class="flex w-full flex-wrap justify-between gap-2 text-blue-50">
+      <div class="flex w-full flex-wrap justify-between gap-2">
         <div class="flex gap-2">
           <button
             class="btn px-4 py-2"
@@ -71,15 +71,8 @@ export function ConfigCard() {
         </div>
         <div class="flex gap-2">
           <button
-            disabled={!!finishTime() || !textInputDurationInMinutes()}
-            class="rounded-md bg-green-600 px-4 py-2 shadow hover:bg-green-500 active:bg-green-700 disabled:bg-gray-400"
-            onClick={onStart}
-          >
-            Start
-          </button>
-          <button
             disabled={!finishTime()}
-            class="rounded-md bg-red-600 px-4 py-2 shadow hover:bg-red-500 active:bg-red-700 disabled:bg-gray-400"
+            class="px-4 py-2 hover:text-blue-900 active:text-blue-700"
             onClick={() => {
               setTimeAction({
                 finishTime: undefined,
@@ -89,6 +82,13 @@ export function ConfigCard() {
             }}
           >
             Reset
+          </button>
+          <button
+            disabled={!!finishTime() || !textInputDurationInMinutes()}
+            class="rounded-md bg-blue-600 px-4 py-2 text-blue-50 shadow hover:bg-blue-500 active:bg-blue-700 disabled:bg-gray-400"
+            onClick={onStart}
+          >
+            Start
           </button>
         </div>
       </div>
