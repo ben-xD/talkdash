@@ -17,7 +17,8 @@ import {
 import { DateTime } from "luxon";
 import { TimeLeft } from "../features/time/TimeLeft.tsx";
 import { ElapsedTime } from "../components/ElapsedTime.tsx";
-import { toast, Toaster } from "solid-toast";
+import { toast } from "solid-toast";
+import { Toast } from "../components/Toast.tsx";
 
 const minLengthMessage = 1;
 
@@ -73,11 +74,7 @@ const Host = () => {
 
   return (
     <div class="my-4 flex w-full max-w-[400px] flex-col gap-6">
-      <Toaster
-        toastOptions={{
-          position: "top-center",
-        }}
-      />
+      <Toast />
       <p>
         <span class="font-bold tracking-tight">Event host mode: </span>Enter a
         speaker username to send them messages.

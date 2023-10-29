@@ -13,6 +13,8 @@ import {
 import { DateTime } from "luxon";
 import { trpc } from "../client/trpc.js";
 import { setFinishTime, setStartTime } from "../features/time/timeState.ts";
+import { Toast } from "../components/Toast.tsx";
+import { toast } from "solid-toast";
 
 const Speaker = () => {
   let messageSubscription: Unsubscribable | undefined = undefined;
@@ -24,6 +26,9 @@ const Speaker = () => {
       setFinishTime(
         times.finish ? DateTime.fromMillis(times.finish) : undefined,
       );
+      if (times.start && times.finish) {
+        toast(() => <p class="text-cyan-800">Restoring timer from cloud</p>);
+      }
     }
 
     messageSubscription?.unsubscribe();
@@ -58,6 +63,7 @@ const Speaker = () => {
 
   return (
     <div class="flex flex-col items-center">
+      <Toast />
       <div class="flex w-full max-w-[400px] flex-col items-stretch py-4 md:flex-row lg:max-w-4xl">
         <MetadataView reconnectAsSpeaker={reconnectAsSpeaker} />
         <div class="my-2 w-full rounded-xl bg-blue-50 p-4 py-4 shadow-lg">
