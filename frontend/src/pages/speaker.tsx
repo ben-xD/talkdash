@@ -1,6 +1,6 @@
 import { MetadataView } from "../features/speaker/MetadataView.tsx";
 import { ConfigCard } from "../features/ConfigCard.tsx";
-import { TimeLeftDisplay } from "../features/time/TimeLeftDisplay.tsx";
+import { TimeLeft } from "../features/time/TimeLeft.tsx";
 import { MessageView } from "../features/messages/MessageView.tsx";
 import { onCleanup, onMount } from "solid-js";
 import { loadQueryParams } from "./loadQueryParams.js";
@@ -55,8 +55,8 @@ const Speaker = () => {
           <ConfigCard />
         </div>
       </div>
-      <div class="my-2 flex justify-center">
-        <TimeLeftDisplay />
+      <div class="my-2 flex justify-center text-[14vw] leading-[18vw] tracking-tight drop-shadow-lg md:max-xl:text-[18vw]">
+        <TimeLeft />
       </div>
       <MessageView />
     </div>

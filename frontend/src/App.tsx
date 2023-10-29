@@ -14,7 +14,7 @@ import {
 } from "@ark-ui/solid";
 import { A, Route, Routes } from "@solidjs/router";
 import { WrenchIcon } from "./assets/WrenchIcon.jsx";
-import { isExceeded } from "./features/time/TimeLeftDisplay.tsx";
+import { isExceeded } from "./features/time/TimeLeft.tsx";
 import { GithubLogo } from "./assets/GithubLogo.tsx";
 import { isConnected, showReconnectedMessage } from "./client/trpc.js";
 import { DisconnectedAlert } from "./components/DisconnectedAlert.tsx";

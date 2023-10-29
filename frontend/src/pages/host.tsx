@@ -11,6 +11,8 @@ import { Unsubscribable } from "@trpc/server/observable";
 import { Alert } from "../components/Alert.tsx";
 import { setFinishTime, setStartTime } from "../features/time/timeState.ts";
 import { DateTime } from "luxon";
+import { TimeLeft } from "../features/time/TimeLeft.tsx";
+import { ElapsedTime } from "../components/ElapsedTime.tsx";
 
 const minLengthMessage = 1;
 
@@ -60,7 +62,7 @@ const Host = () => {
   });
 
   return (
-    <div class="my-4 flex w-full max-w-[400px] flex-col gap-8">
+    <div class="my-4 flex w-full max-w-[400px] flex-col gap-6">
       <p>
         <span class="font-bold tracking-tight">Event host mode: </span>Enter a
         speaker username to send them messages.
@@ -70,6 +72,14 @@ const Host = () => {
         value={speakerUsername}
         setValue={setSpeakerUsername}
       />
+      <ElapsedTime />
+      <div class="flex gap-2 font-bold">
+        <TimeLeft />
+        <span class="font-normal">time left</span>
+      </div>
+      {/*<div class="flex justify-center text-7xl tracking-tight drop-shadow-lg">*/}
+      {/*  <TimeLeft />*/}
+      {/*</div>*/}
       <div class="flex flex-col items-start gap-4 rounded-xl bg-blue-50 p-4 text-cyan-800 shadow-lg">
         <Alert message={errorMessage()} />
         <label

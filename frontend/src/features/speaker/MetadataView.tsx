@@ -1,4 +1,3 @@
-import { currentTime, difference, startTime } from "../time/timeState.js";
 import { setSpeakerUsername, speakerUsername } from "../user/userState.js";
 import { EditableStateField } from "./EditableStateField.tsx";
 import { ShareIcon } from "../../assets/ShareIcon.tsx";
@@ -6,12 +5,7 @@ import { HoverCard } from "@ark-ui/solid";
 import { Portal } from "solid-js/web";
 import { QrCodeView } from "../../components/QrCodeView.tsx";
 import { createSignal, onMount, Show } from "solid-js";
-
-const elapsedTime = () => {
-  const start = startTime();
-  if (!start) return { formattedDifference: "00:00:00" };
-  return difference(start, currentTime());
-};
+import { ElapsedTime } from "../../components/ElapsedTime.tsx";
 
 type Props = { reconnectAsSpeaker: (speakerUsername: string) => void };
 
@@ -66,10 +60,7 @@ export const MetadataView = (props: Props) => {
           </HoverCard.Root>
         </div>
       </div>
-      <div class="flex gap-2">
-        <span class="font-bold">Elapsed:</span>
-        <span>{elapsedTime().formattedDifference}</span>
-      </div>
+      <ElapsedTime />
 
       <EditableStateField
         label="Username"
