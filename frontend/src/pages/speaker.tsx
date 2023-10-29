@@ -12,7 +12,11 @@ import {
 } from "../features/messages/receivedMessages.js";
 import { DateTime } from "luxon";
 import { trpc } from "../client/trpc.js";
-import { setFinishTime, setStartTime } from "../features/time/timeState.ts";
+import {
+  setFinishTime,
+  setStartTime,
+  setTimeAction,
+} from "../features/time/timeState.ts";
 import { Toast } from "../components/Toast.tsx";
 import { toast } from "solid-toast";
 
@@ -21,14 +25,13 @@ const Speaker = () => {
 
   const reconnectAsSpeaker = async (speakerUsername: string) => {
     const times = await trpc.speaker.getTimeState.query({ speakerUsername });
-    if (times) {
-      setStartTime(times.start ? DateTime.fromMillis(times.start) : undefined);
-      setFinishTime(
-        times.finish ? DateTime.fromMillis(times.finish) : undefined,
-      );
-      if (times.start && times.finish) {
-        toast(() => <p class="text-cyan-800">Restoring timer from cloud</p>);
-      }
+    if (times && times.start && times.finish) {
+      await setTimeAction({
+        startTime: DateTime.fromMillis(times.start),
+        finishTime: DateTime.fromMillis(times.finish),
+        userTalkLengthInput: "",
+      });
+      toast(() => <p class="text-cyan-800">Restoring timer from cloud</p>);
     }
 
     messageSubscription?.unsubscribe();
