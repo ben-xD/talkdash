@@ -146,6 +146,7 @@ const Host = () => {
         <div class="mt-4 flex w-full justify-end">
           <button
             id="submitMessage"
+            aria-label={"Send message to speaker"}
             disabled={
               isSendDisabled() ||
               !speakerUsername() ||

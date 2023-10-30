@@ -43,7 +43,10 @@ export const EditableStateField = (props: Props) => {
                   </EditableCancelTrigger>
                 </>
               ) : (
-                <EditableEditTrigger class="hover:text-blue-100 active:text-white">
+                <EditableEditTrigger
+                  aria-label="Edit"
+                  class="hover:text-blue-100 active:text-white"
+                >
                   <PencilIcon />
                 </EditableEditTrigger>
               )}

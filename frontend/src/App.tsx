@@ -54,11 +54,15 @@ function App() {
         <h1 class="text-center text-4xl font-bold tracking-tight">
           <A href="/">TalkDash</A>
         </h1>
-        <a href="https://github.com/ben-xD/talkdash" target="_blank">
+        <a
+          href="https://github.com/ben-xD/talkdash"
+          target="_blank"
+          aria-label="Link to GitHub project"
+        >
           <GithubLogo />
         </a>
         <Menu>
-          <MenuTrigger>
+          <MenuTrigger aria-label={"Navigation menu"}>
             <WrenchIcon />
           </MenuTrigger>
           <Portal>

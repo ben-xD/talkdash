@@ -39,7 +39,9 @@ export const MetadataView = (props: Props) => {
           }}
         >
           <HoverCard.Root>
-            <HoverCard.Trigger>
+            <HoverCard.Trigger
+              aria-label={"Copy URL for hosts users to clipboard"}
+            >
               <ShareIcon />
             </HoverCard.Trigger>
             <Portal>
