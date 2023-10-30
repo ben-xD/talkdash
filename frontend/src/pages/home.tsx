@@ -1,6 +1,6 @@
 import { onMount } from "solid-js";
 import { A } from "@solidjs/router";
-import TalkDashImage from "../assets/talkdash.png";
+import TalkDashImage from "../assets/talkdash-160x160.webp";
 
 const Home = () => {
   onMount(() => {
