@@ -28,7 +28,7 @@ export const MetadataView = (props: Props) => {
     <div class="my-2 flex w-full flex-col items-stretch gap-4 rounded-xl p-4 py-4">
       <div class="flex items-start justify-between">
         <p>
-          <span class="font-bold tracking-tight">Speaker mode: </span>
+          <span class="font-bold tracking-tight">Speaker mode. </span>
           Choose a talk length and start the timer.
         </p>
         <div

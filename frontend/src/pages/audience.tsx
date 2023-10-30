@@ -9,7 +9,7 @@ const Audience = () => {
   return (
     <div class="flex max-w-[400px] flex-col gap-4 py-4">
       <p>
-        <span class="font-bold">Audience mode:</span> Ohhh dear. The audience
+        <span class="font-bold">Audience mode.</span> Ohhh dear. The audience
         cannot do anything yet. Want some features for the audience? Find or
         create a{" "}
         <a

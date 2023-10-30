@@ -99,7 +99,7 @@ const Host = () => {
     <div class="my-4 flex w-full max-w-[400px] flex-col gap-6">
       <Toast />
       <p>
-        <span class="font-bold tracking-tight">Event host mode: </span>Enter a
+        <span class="font-bold tracking-tight">Event host mode. </span>Enter a
         speaker username to send them messages.
       </p>
       <EditableStateField
