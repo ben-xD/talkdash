@@ -46,7 +46,6 @@ Features:
 - Nicer glow background 
 - Command + enter to send message
 - Command + K for command palette
-- Delete messages on host (individually and all)
 - Themes: users can select different colors, which would get different birds too
 - Zen mode
 - View and adjust time remaining for the speaker remotely as Event Host

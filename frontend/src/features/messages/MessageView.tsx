@@ -1,12 +1,21 @@
 import { createSignal, For, onCleanup, Show } from "solid-js";
-import { receivedMessages } from "./receivedMessages.js";
+import { receivedMessages, setReceivedMessages } from "./receivedMessages.js";
+import { TrashIcon } from "../../assets/TrashIcon.tsx";
 
 export const MessageView = () => {
   return (
     <div class="flex w-full flex-col items-center gap-4">
-      <h2 class="font-bold tracking-tight">
-        Messages ({receivedMessages.length})
-      </h2>
+      <div class="flex gap-8">
+        <h2 class="font-bold tracking-tight">
+          Messages ({receivedMessages.length})
+        </h2>
+        <div
+          class="hover:text-blue-100 active:text-white"
+          onClick={() => setReceivedMessages([])}
+        >
+          <TrashIcon />
+        </div>
+      </div>
       <div class="flex w-full flex-col gap-4">
         <For each={receivedMessages}>
           {(message) => {
@@ -29,7 +38,18 @@ export const MessageView = () => {
                       ? `${message.emojiMessage} ${message.message}`
                       : message.message}
                   </p>
-                  <p class="text-right">{timeSinceReceived()}</p>
+                  <div class="flex gap-8 hover:text-blue-100 active:text-white">
+                    <p class="text-right">{timeSinceReceived()}</p>
+                    <div
+                      onClick={() =>
+                        setReceivedMessages((messages) =>
+                          messages.filter((m) => m.message !== message.message),
+                        )
+                      }
+                    >
+                      <TrashIcon />
+                    </div>
+                  </div>
                 </div>
               </Show>
             );
