@@ -37,6 +37,7 @@ const Speaker = () => {
         onData: ({ emojiMessage, message }) => {
           const receivedAt = DateTime.now();
           console.info(`Received message at ${receivedAt}:\n${message}`);
+          toast(() => <p class="text-cyan-800">Message received</p>);
           setReceivedMessages([
             { receivedAt, message, emojiMessage },
             ...receivedMessages,

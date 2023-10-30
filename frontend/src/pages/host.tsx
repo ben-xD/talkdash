@@ -80,6 +80,7 @@ const Host = () => {
           speakerUsername: username,
           message: message(),
         });
+        toast(() => <p class="text-cyan-800">Message sent</p>);
         setMessage("");
         setErrorMessage();
       } catch (e) {
