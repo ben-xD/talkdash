@@ -54,7 +54,7 @@ export const MetadataView = (props: Props) => {
                     when={hostUrl()}
                     fallback={<h2>Couldn't get generate a QR code.</h2>}
                   >
-                    {(hostUrl) => <QrCodeView text={hostUrl.toString()} />}
+                    {(hostUrl) => <QrCodeView text={hostUrl().toString()} />}
                   </Show>
                 </HoverCard.Content>
               </HoverCard.Positioner>
