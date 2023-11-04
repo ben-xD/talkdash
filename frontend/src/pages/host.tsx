@@ -79,11 +79,13 @@ const Host = () => {
     if (username) {
       setIsSendDisabled(true);
       try {
+        // TODO figure out how to handle the error when the websocket connection is broken.
+        // We don't know when requests fail because the websocket is broken, so we can't show an error to user
+        // See https://github.com/trpc/trpc/discussions/4606
         await trpc.host.sendMessageToSpeaker.mutate({
           speakerUsername: username,
           message: message(),
         });
-        toast(() => <p class="text-cyan-800">Message sent</p>);
         setMessage("");
         setErrorMessage();
       } catch (e) {
@@ -140,7 +142,7 @@ const Host = () => {
           <textarea
             autofocus
             minLength={minLengthMessage}
-            class="w-full rounded-lg bg-blue-200 p-2 text-cyan-800 shadow-inner"
+            class="min-h-[4rem] w-full rounded-lg bg-blue-200 p-2 text-cyan-800 shadow-inner"
             placeholder="Please repeat the audience's questions"
             value={message()}
             onInput={(e) => setMessage(e.target.value)}
@@ -160,7 +162,7 @@ const Host = () => {
             onClick={onSend}
           >
             <p
-              class={cn("animate__animated  duration-75", {
+              class={cn("animate__animated", {
                 animate__backOutRight: isSending(),
               })}
             >

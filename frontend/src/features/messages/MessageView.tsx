@@ -32,7 +32,7 @@ export const MessageView = () => {
 
             return (
               <Show when={timeSinceReceived()}>
-                <div class="flex w-full items-center justify-between gap-8 @container">
+                <div class="animate-jackInTheBox flex w-full transform items-center justify-between gap-8 @container">
                   <p class="whitespace-pre-wrap @lg:text-[4cqw]">
                     {message.emojiMessage
                       ? `${message.emojiMessage} ${message.message}`

@@ -70,7 +70,7 @@ const Speaker = () => {
           <ConfigCard />
         </div>
       </div>
-      <div class="my-8 justify-center text-center">
+      <div class="mb-8 justify-center text-center">
         <div class="flex text-[16vw] leading-[16vw] tracking-tight drop-shadow-lg md:max-xl:text-[18vw]">
           <TimeLeft />
         </div>

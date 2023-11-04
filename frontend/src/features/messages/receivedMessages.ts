@@ -9,4 +9,4 @@ export type ReceivedMessage = {
 export const [receivedMessages, setReceivedMessages] = createStore<
   ReceivedMessage[]
 >([]);
-// For testing: [{ message: "hi there", receivedAt: DateTime.now() }]
+// For testing: [{ message: "hi there", receivedAt: DateTime.now(), emojiMessage: "emoji" }]
