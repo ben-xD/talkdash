@@ -8,3 +8,7 @@
 /*@import "./utilities.css";*/
 
 @import "fonts.css";
+
+body {
+    @apply overflow-x-hidden;
+}
