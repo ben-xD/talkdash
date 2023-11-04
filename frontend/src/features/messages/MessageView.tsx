@@ -5,16 +5,14 @@ import { TrashIcon } from "../../assets/TrashIcon.tsx";
 export const MessageView = () => {
   return (
     <div class="flex w-full flex-col items-center gap-4">
-      <div class="flex gap-8">
+      <div class="flex items-center gap-8">
         <h2 class="font-bold tracking-tight">
           Messages ({receivedMessages.length})
         </h2>
-        <div
-          class="hover:text-blue-100 active:text-white"
+        <TrashIcon
+          class="h-12 w-12 p-3 hover:text-blue-100 active:text-white"
           onClick={() => setReceivedMessages([])}
-        >
-          <TrashIcon />
-        </div>
+        />
       </div>
       <div class="flex w-full flex-col gap-4">
         <For each={receivedMessages}>
@@ -32,23 +30,24 @@ export const MessageView = () => {
 
             return (
               <Show when={timeSinceReceived()}>
-                <div class="animate-jackInTheBox flex w-full transform items-center justify-between gap-8 @container">
+                <div class="animate-jackInTheBox flex w-full items-center justify-between gap-8 @container">
                   <p class="whitespace-pre-wrap @lg:text-[4cqw]">
                     {message.emojiMessage
                       ? `${message.emojiMessage} ${message.message}`
                       : message.message}
                   </p>
-                  <div class="flex gap-8 hover:text-blue-100 active:text-white">
+                  <div class="flex items-center gap-8">
                     <p class="text-right">{timeSinceReceived()}</p>
-                    <div
+                    <TrashIcon
+                      class={
+                        "h-12 w-12 p-3 hover:text-blue-100 active:text-white"
+                      }
                       onClick={() =>
                         setReceivedMessages((messages) =>
                           messages.filter((m) => m.message !== message.message),
                         )
                       }
-                    >
-                      <TrashIcon />
-                    </div>
+                    />
                   </div>
                 </div>
               </Show>
