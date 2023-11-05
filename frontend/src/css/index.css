@@ -1,4 +1,3 @@
-
 @import "tailwindcss/base";
 /*@import "./base.css";*/
 
@@ -11,7 +10,7 @@
 @import "fonts.css";
 
 body {
-    @apply overflow-x-hidden;
+  @apply overflow-x-hidden;
 }
 
 /* Can't apply third party classes using tailwind */
