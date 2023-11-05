@@ -44,14 +44,14 @@ function App() {
   const colors = () =>
     isExceeded()
       ? "bg-gradient-to-r from-amber-500 to-red-500 text-red-50 dark:from-gray-800 dark:to-gray-700 dark:text-gray-100"
-      : "bg-gradient-to-r from-cyan-500 to-blue-500 text-blue-50 dark:from-gray-800 dark:to-gray-700 dark:text-gray-300";
+      : "bg-gradient-to-r from-cyan-500 to-blue-500 text-blue-50 dark:from-gray-800 dark:to-gray-900 dark:text-gray-300";
 
   return (
     <div
       class={`min-w-[320px] p-4 ${colors()} flex min-h-screen flex-col items-center`}
     >
       <div class="flex items-center gap-4">
-        <h1 class="text-center text-4xl font-bold tracking-tight">
+        <h1 class="text-center text-4xl font-bold tracking-tight dark:bg-gradient-to-r dark:from-cyan-400 dark:to-blue-500 dark:bg-clip-text dark:text-transparent">
           <A href="/">TalkDash</A>
         </h1>
         <a
