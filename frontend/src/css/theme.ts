@@ -7,16 +7,12 @@ import { createSignal } from "solid-js";
 // - A solid signal for the current theme, to update UI controls
 // Significantly adapted on top of https://tailwindcss.com/docs/dark-mode#toggling-dark-mode-manually
 
-export enum Theme {
-  Dark = "dark",
-  Light = "light",
-  System = "system",
-}
+export type Theme = "dark" | "light" | "system";
 
 const localStorageThemeKey = "theme";
 
 const [internalTheme, setThemeSignal] = createSignal<Theme>();
-export const theme = internalTheme;
+export const theme = () => internalTheme();
 
 const getSystemTheme = () => {
   return window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -39,11 +35,17 @@ const updatePageTheme = (theme: "light" | "dark") => {
 /// Call it once when loading the page
 export const loadThemeOntoPage = () => {
   const persistedTheme = getPersistedTheme();
-  if (persistedTheme) {
-    setThemeSignal(theme);
+  // Even though dark and light have the same conditional block,
+  // we need to duplicate it because of solid. Otherwise, the signal value is `undefined` instead of
+  // the values we pass it (dark or light).
+  if (persistedTheme === "dark") {
+    setThemeSignal("dark");
+    updatePageTheme(persistedTheme);
+  } else if (persistedTheme === "light") {
+    setThemeSignal("light");
     updatePageTheme(persistedTheme);
   } else {
-    setThemeSignal(Theme.System);
+    setThemeSignal("system");
     updatePageTheme(getSystemTheme());
   }
 
@@ -58,22 +60,18 @@ export const loadThemeOntoPage = () => {
     });
 };
 
-// Call it whenever the user changes the theme in the app (not OS/system theme)
-export const setTheme = (theme: Theme) => {
+// Call it whenever the user changes the theme in the app (not when OS/system theme changes)
+export const setUserSelectedTheme = (theme: Theme) => {
   setThemeSignal(theme);
   switch (theme) {
-    case Theme.Dark:
-      localStorage.theme = "dark";
-      updatePageTheme(Theme.Dark);
+    case "dark":
+    case "light":
+      localStorage.theme = theme;
+      updatePageTheme(theme);
       break;
-    case Theme.Light:
-      localStorage.theme = "light";
-      updatePageTheme(Theme.Light);
-      break;
-    case Theme.System:
+    case "system":
       localStorage.removeItem(localStorageThemeKey);
       updatePageTheme(getSystemTheme());
-
       break;
   }
 };

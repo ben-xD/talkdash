@@ -1,6 +1,6 @@
 import { Menu } from "@ark-ui/solid";
 import { Portal } from "solid-js/web";
-import { setTheme, theme, Theme } from "../../css/theme.ts";
+import { setUserSelectedTheme, theme } from "../../css/theme.ts";
 import { MenuTypography } from "./MenuTypography.tsx";
 import { cn } from "../../css/tailwind.ts";
 
@@ -21,27 +21,27 @@ export const ThemeMenu = () => {
             <MenuTypography>
               <Menu.Item
                 class={cn("px-4 py-2", {
-                  "font-bold text-blue-500": theme() === Theme.System,
+                  "font-bold text-blue-500": theme() === "system",
                 })}
-                onClick={() => setTheme(Theme.System)}
+                onClick={() => setUserSelectedTheme("system")}
                 id="system"
               >
                 System
               </Menu.Item>
               <Menu.Item
                 class={cn("px-4 py-2", {
-                  "font-bold text-blue-500": theme() === Theme.Dark,
+                  "font-bold text-blue-500": theme() === "dark",
                 })}
-                onClick={() => setTheme(Theme.Dark)}
+                onClick={() => setUserSelectedTheme("dark")}
                 id="dark"
               >
                 Dark
               </Menu.Item>
               <Menu.Item
                 class={cn("px-4 py-2", {
-                  "font-bold text-blue-500": theme() === Theme.Light,
+                  "font-bold text-blue-500": theme() === "light",
                 })}
-                onClick={() => setTheme(Theme.Light)}
+                onClick={() => setUserSelectedTheme("light")}
                 id="light"
               >
                 Light
