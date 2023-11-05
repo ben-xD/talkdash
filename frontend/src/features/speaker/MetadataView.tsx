@@ -46,7 +46,7 @@ export const MetadataView = (props: Props) => {
             </HoverCard.Trigger>
             <Portal>
               <HoverCard.Positioner class="z-20">
-                <HoverCard.Content class="rounded-lg bg-white p-4">
+                <HoverCard.Content class="rounded-lg bg-white p-4 dark:bg-gray-800">
                   <HoverCard.Arrow>
                     <HoverCard.ArrowTip />
                   </HoverCard.Arrow>
@@ -54,7 +54,19 @@ export const MetadataView = (props: Props) => {
                     when={hostUrl()}
                     fallback={<h2>Couldn't get generate a QR code.</h2>}
                   >
-                    {(hostUrl) => <QrCodeView text={hostUrl().toString()} />}
+                    {(hostUrl) => (
+                      <>
+                        <QrCodeView
+                          class="dark:hidden"
+                          text={hostUrl().toString()}
+                        />
+                        <QrCodeView
+                          class="light:hidden"
+                          isDarkMode={true}
+                          text={hostUrl().toString()}
+                        />
+                      </>
+                    )}
                   </Show>
                 </HoverCard.Content>
               </HoverCard.Positioner>

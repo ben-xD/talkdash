@@ -1,4 +1,5 @@
 import { currentTime, difference, finishTime, Mode } from "./timeState.js";
+import { cn } from "../../css/tailwind.ts";
 
 const timeLeft = () => {
   const finish = finishTime();
@@ -10,7 +11,12 @@ export const isExceeded = () => timeLeft().mode === Mode.Exceeded;
 
 export const TimeLeft = () => {
   return (
-    <p class={`relative text-center ${isExceeded() ? "text-red-50" : ""}`}>
+    <p
+      class={cn("relative text-center", {
+        "text-red-50 dark:rounded-3xl dark:bg-gradient-to-r dark:from-violet-600 dark:via-violet-300 dark:to-lime-400 dark:bg-clip-text dark:text-transparent":
+          isExceeded(),
+      })}
+    >
       {isExceeded() ? "-" : ""}
       {timeLeft().formattedDifference}
     </p>
