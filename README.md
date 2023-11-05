@@ -80,6 +80,7 @@ Features:
 ### Frontend
 - `cd frontend`
 - Run commands listed in `package.json`.
+- Install [Solid Devtools chrome extension](https://chrome.google.com/webstore/detail/solid-devtools/kmcfjchnmmaeeagadbhoofajiopoceel). See more on https://github.com/thetarnav/solid-devtools/tree/main/packages/extension#getting-started
 
 ### Backend
 - cd `backend`

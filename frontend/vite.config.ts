@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import solid from "vite-plugin-solid";
+import solidDevtools from "solid-devtools/vite";
 import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig({
@@ -7,6 +8,10 @@ export default defineConfig({
   // when both the frontend and backend are started.
   clearScreen: false,
   plugins: [
+    solidDevtools({
+      /* features options - all disabled by default */
+      autoname: true, // e.g. enable autoname
+    }),
     solid(),
     VitePWA({
       registerType: "autoUpdate",
