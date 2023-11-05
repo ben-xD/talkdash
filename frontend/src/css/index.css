@@ -1,3 +1,11 @@
+/*While it's easier to write custom classes in your .css file, I'd recommend doing so in the tailwind.config.js
+as it's compatible with the Tailwind CSS IntelliSense VS Code extension which gives you autocomplete
+and hover preview. https://www.themosaad.com/blog/two-years-of-tailwind-css
+I guess this refers to writing a plugin that defines more component styles (classes).
+See https://tailwindcss.com/docs/adding-custom-styles#writing-plugins
+With custom classes in css, I have intellisense, but probably from Webstorm instead of tailwind, with no hover preview.
+*/
+
 @import "tailwindcss/base";
 /*@import "./base.css";*/
 
