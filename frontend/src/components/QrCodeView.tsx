@@ -1,13 +1,12 @@
 import { onMount } from "solid-js";
 import QRCode from "qrcode";
 
-let canvasRef: HTMLCanvasElement | undefined;
-
 export const QrCodeView = (props: {
   text: string;
   isDarkMode?: boolean;
   class?: string;
 }) => {
+  let canvasRef: HTMLCanvasElement | undefined;
   onMount(() => {
     const color = props.isDarkMode
       ? {

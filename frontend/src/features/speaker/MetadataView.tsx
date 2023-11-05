@@ -61,7 +61,7 @@ export const MetadataView = (props: Props) => {
                           text={hostUrl().toString()}
                         />
                         <QrCodeView
-                          class="light:hidden"
+                          class="hidden dark:flex"
                           isDarkMode={true}
                           text={hostUrl().toString()}
                         />
