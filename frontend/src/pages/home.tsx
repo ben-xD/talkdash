@@ -29,8 +29,8 @@ const Home = () => {
       <hr class="my-4" />
       <p>
         <span class="font-bold">PS:</span> This is a free and open source app
-        using Solid, Tailwind, tRPC, Fastify, Node, WebSockets, Cloudflare
-        Pages, Fly.io and more. Star the{" "}
+        using Solid, Tailwind, Ark UI, tRPC, Fastify, Node, WebSockets,
+        Cloudflare Pages, Fly.io and more. Star the{" "}
         <a
           class="font-bold underline"
           href="https://github.com/ben-xD/talkdash"
