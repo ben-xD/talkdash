@@ -45,11 +45,13 @@ const Home = () => {
           Ben Butterworth
         </a>
       </p>
-      <img
-        src={TalkDashImage}
-        alt={"Image of a blue bird called TalkDash."}
-        class="w-40 drop-shadow-xl dark:brightness-90"
-      />
+      <a href="https://orth.uk/">
+        <img
+          src={TalkDashImage}
+          alt={"Image of a blue bird called TalkDash."}
+          class="w-40 drop-shadow-xl dark:brightness-90"
+        />
+      </a>
     </div>
   );
 };
