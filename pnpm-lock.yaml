@@ -160,6 +160,9 @@ importers:
       eslint-plugin-solid:
         specifier: ^0.13.0
         version: 0.13.0(eslint@8.52.0)(typescript@5.2.2)
+      eslint-plugin-tailwindcss:
+        specifier: ^3.13.0
+        version: 3.13.0(tailwindcss@3.3.3)
       postcss:
         specifier: ^8.4.31
         version: 8.4.31
@@ -3823,6 +3826,17 @@ packages:
     transitivePeerDependencies:
       - supports-color
       - typescript
+    dev: true
+
+  /eslint-plugin-tailwindcss@3.13.0(tailwindcss@3.3.3):
+    resolution: {integrity: sha512-Fcep4KDRLWaK3KmkQbdyKHG0P4GdXFmXdDaweTIPcgOP60OOuWFbh1++dufRT28Q4zpKTKaHwTsXPJ4O/EjU2Q==}
+    engines: {node: '>=12.13.0'}
+    peerDependencies:
+      tailwindcss: ^3.3.2
+    dependencies:
+      fast-glob: 3.3.1
+      postcss: 8.4.31
+      tailwindcss: 3.3.3
     dev: true
 
   /eslint-plugin-turbo@1.10.16(eslint@8.52.0):

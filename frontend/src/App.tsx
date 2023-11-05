@@ -68,7 +68,7 @@ function App() {
           <Portal>
             <MenuPositioner class="z-10">
               <MenuContent class="rounded-lg bg-white shadow-md">
-                <MenuItemGroup id="modes" class="p">
+                <MenuItemGroup id="modes">
                   {/*Margins/padding don't work on the label 😢 */}
                   <MenuItem id="speaker" class="px-4 py-2">
                     <A
