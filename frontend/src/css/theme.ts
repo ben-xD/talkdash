@@ -35,14 +35,8 @@ const updatePageTheme = (theme: "light" | "dark") => {
 /// Call it once when loading the page
 export const loadThemeOntoPage = () => {
   const persistedTheme = getPersistedTheme();
-  // Even though dark and light have the same conditional block,
-  // we need to duplicate it because of solid. Otherwise, the signal value is `undefined` instead of
-  // the values we pass it (dark or light).
-  if (persistedTheme === "dark") {
-    setThemeSignal("dark");
-    updatePageTheme(persistedTheme);
-  } else if (persistedTheme === "light") {
-    setThemeSignal("light");
+  if (persistedTheme) {
+    setThemeSignal(persistedTheme);
     updatePageTheme(persistedTheme);
   } else {
     setThemeSignal("system");
