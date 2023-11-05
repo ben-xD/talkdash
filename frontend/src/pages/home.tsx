@@ -48,7 +48,7 @@ const Home = () => {
       <img
         src={TalkDashImage}
         alt={"Image of a blue bird called TalkDash."}
-        class="w-40 drop-shadow-xl"
+        class="w-40 drop-shadow-xl dark:brightness-90"
       />
     </div>
   );
