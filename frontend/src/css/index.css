@@ -1,3 +1,4 @@
+
 @import "tailwindcss/base";
 /*@import "./base.css";*/
 
@@ -12,3 +13,9 @@
 body {
     @apply overflow-x-hidden;
 }
+
+/* Can't apply third party classes using tailwind */
+/*@import "animate.css"; even when this is the top of the file*/
+/*.ben {*/
+/*    @apply animate__animated;*/
+/*}*/
