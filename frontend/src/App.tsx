@@ -5,7 +5,6 @@ import { Portal } from "solid-js/web";
 import {
   Menu,
   MenuContent,
-  MenuItem,
   MenuItemGroup,
   MenuItemGroupLabel,
   MenuPositioner,
@@ -21,6 +20,9 @@ import { DisconnectedAlert } from "./components/DisconnectedAlert.tsx";
 import { ReconnectedAlert } from "./components/ReconnectedAlert.tsx";
 import { ClockPage } from "./pages/clock.tsx";
 import { StopwatchPage } from "./pages/stopwatch.tsx";
+import { loadThemeOntoPage } from "./css/theme.ts";
+import { ThemeMenu } from "./components/Menu/ThemeMenu.tsx";
+import { MenuItemLink } from "./components/Menu/MenuItemLink.tsx";
 
 /* eslint-disable solid/no-react-specific-props */
 //  because ARK-UI uses htmlFor. See https://github.com/chakra-ui/ark/issues/1601
@@ -33,6 +35,8 @@ const HostPage = lazy(() => import("./pages/host.tsx"));
 
 function App() {
   onMount(() => {
+    loadThemeOntoPage();
+
     // Used to cause re-render of components that rely on current time.
     const intervalId = setInterval(() => {
       setCurrentTime(DateTime.now());
@@ -70,16 +74,7 @@ function App() {
               <MenuContent class="rounded-lg bg-white shadow-md">
                 <MenuItemGroup id="modes">
                   {/*Margins/padding don't work on the label 😢 */}
-                  <MenuItem id="speaker" class="px-4 py-2">
-                    <A
-                      class="text-slate-700 hover:text-slate-500"
-                      href="/"
-                      end
-                      activeClass="text-blue-500 font-bold"
-                    >
-                      Home
-                    </A>
-                  </MenuItem>
+                  <MenuItemLink path="/" title={"Home"} exactPath />
                   <MenuItemGroupLabel
                     htmlFor="modes"
                     class="px-4 text-sm font-bold uppercase text-slate-500"
@@ -87,33 +82,9 @@ function App() {
                     Modes
                   </MenuItemGroupLabel>
                   <MenuSeparator />
-                  <MenuItem id="speaker" class="px-4 py-2">
-                    <A
-                      class="text-slate-700 hover:text-slate-500"
-                      href="/speaker"
-                      activeClass="text-blue-500 font-bold"
-                    >
-                      Speaker
-                    </A>
-                  </MenuItem>
-                  <MenuItem id="host" class="px-4 py-2">
-                    <A
-                      class="text-slate-700 hover:text-slate-500"
-                      href="/host"
-                      activeClass="text-blue-500 font-bold"
-                    >
-                      Event Host
-                    </A>
-                  </MenuItem>
-                  <MenuItem id="audience" class="px-4 py-2">
-                    <A
-                      class="text-slate-700 hover:text-slate-500"
-                      href="/audience"
-                      activeClass="text-blue-500 font-bold"
-                    >
-                      Audience
-                    </A>
-                  </MenuItem>
+                  <MenuItemLink path="/speaker" title={"Speaker"} />
+                  <MenuItemLink path="/host" title={"Event Host"} />
+                  <MenuItemLink path="/audience" title={"Audience"} />
                   <MenuItemGroupLabel
                     htmlFor="modes"
                     class="px-4 text-sm font-bold uppercase text-slate-500"
@@ -121,24 +92,9 @@ function App() {
                     Extras
                   </MenuItemGroupLabel>
                   <MenuSeparator />
-                  <MenuItem id="clock" class="px-4 py-2">
-                    <A
-                      class="text-slate-700 hover:text-slate-500"
-                      href="/clock"
-                      activeClass="text-blue-500 font-bold"
-                    >
-                      Clock
-                    </A>
-                  </MenuItem>
-                  <MenuItem id="Stopwatch" class="px-4 py-2">
-                    <A
-                      class="text-slate-700 hover:text-slate-500"
-                      href="/stopwatch"
-                      activeClass="text-blue-500 font-bold"
-                    >
-                      Stopwatch
-                    </A>
-                  </MenuItem>
+                  <MenuItemLink path="/clock" title={"Clock"} />
+                  <MenuItemLink path="/stopwatch" title={"Stopwatch"} />
+                  <ThemeMenu />
                 </MenuItemGroup>
               </MenuContent>
             </MenuPositioner>
