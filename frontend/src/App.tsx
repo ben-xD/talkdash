@@ -44,7 +44,7 @@ function App() {
   const colors = () =>
     isExceeded()
       ? "bg-gradient-to-r from-amber-500 to-red-500 text-red-50 dark:from-gray-800 dark:to-gray-700 dark:text-gray-100"
-      : "bg-gradient-to-r from-cyan-500 to-blue-500 text-blue-50 dark:from-gray-800 dark:to-gray-700 dark:text-gray-100";
+      : "bg-gradient-to-r from-cyan-500 to-blue-500 text-blue-50 dark:from-gray-800 dark:to-gray-700 dark:text-gray-300";
 
   return (
     <div

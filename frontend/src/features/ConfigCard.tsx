@@ -55,7 +55,7 @@ export function ConfigCard() {
     });
 
   return (
-    <div class="relative z-10 flex h-full flex-col items-stretch justify-between gap-8 text-blue-800">
+    <div class="relative z-10 flex h-full flex-col items-stretch justify-between gap-8 text-blue-800 dark:text-blue-200">
       <div class="flex flex-col items-start gap-2">
         <Alert message={errorMessage()} />
         <label class="whitespace-normal break-words" for="finishTime">
@@ -76,7 +76,7 @@ export function ConfigCard() {
               }
             }
           }}
-          class="w-full rounded-lg bg-blue-200 p-2 shadow-inner"
+          class="w-full rounded-lg bg-blue-200 p-2 shadow-inner dark:bg-blue-500"
           type="text"
           id="finishTime"
           value={textInputDurationInMinutes()}
@@ -106,7 +106,7 @@ export function ConfigCard() {
           <button
             aria-label={"Reset"}
             disabled={!finishTime()}
-            class="px-4 py-2 hover:text-blue-900 active:text-blue-700"
+            class="px-4 py-2 hover:text-blue-900 active:text-blue-700 dark:hover:text-blue-100 dark:active:text-blue-300"
             onClick={onReset}
           >
             Reset
