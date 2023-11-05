@@ -43,6 +43,8 @@ Features:
 
 ## TODOs
 
+- Implement audience mode
+- Add password for event host controls 
 - Nicer glow background 
 - Command + enter to send message
 - Command + K for command palette
