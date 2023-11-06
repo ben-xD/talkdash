@@ -14,9 +14,11 @@ import { LeftIcon } from "../assets/LeftIcon.tsx";
 import { createSignal } from "solid-js";
 import { Alert } from "../components/Alert.tsx";
 import { trpc } from "../client/trpc.ts";
+import { Checkbox, CheckedState } from "@ark-ui/solid";
 
 export function ConfigCard() {
   const [errorMessage, setErrorMessage] = createSignal<string>();
+  const [isPrivateMode, setIsPrivateMode] = createSignal<CheckedState>(true);
 
   const isInputNumeric = () => {
     const minutes = Number(textInputDurationInMinutes());
@@ -76,6 +78,28 @@ export function ConfigCard() {
               }
             }
           }}
+          class="w-full rounded-lg bg-blue-200 p-2 shadow-inner dark:bg-blue-500"
+          type="text"
+          id="finishTime"
+          value={textInputDurationInMinutes()}
+          onInput={(e) => setTextInputDurationInMinutes(e.target.value)}
+        />
+      </div>
+      <div class="flex flex-col items-start gap-2">
+        <Checkbox.Root
+          onChange={(e) => setIsPrivateMode(e.checked)}
+          checked={true}
+        >
+          <Checkbox.Label>Private mode</Checkbox.Label>
+          <Checkbox.Control class="h-10 w-10 bg-red-500 text-black accent-white" />
+        </Checkbox.Root>
+        <label class="whitespace-normal break-words" for="isPrivateMode">
+          Event host usernames
+          <p class="text-blue-400">Specify users that manage your talk</p>
+        </label>
+        <input
+          required
+          placeholder="username1, username2"
           class="w-full rounded-lg bg-blue-200 p-2 shadow-inner dark:bg-blue-500"
           type="text"
           id="finishTime"
