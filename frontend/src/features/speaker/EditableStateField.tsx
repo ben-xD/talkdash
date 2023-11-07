@@ -1,14 +1,4 @@
-import {
-  Editable,
-  EditableArea,
-  EditableCancelTrigger,
-  EditableControl,
-  EditableEditTrigger,
-  EditableInput,
-  EditableLabel,
-  EditablePreview,
-  EditableSubmitTrigger,
-} from "@ark-ui/solid";
+import { Editable } from "@ark-ui/solid";
 import { CheckIcon } from "../../assets/CheckIcon.tsx";
 import { XIcon } from "../../assets/XIcon.tsx";
 import { PencilIcon } from "../../assets/PencilIcon.tsx";
@@ -21,7 +11,7 @@ type Props = {
 
 export const EditableStateField = (props: Props) => {
   return (
-    <Editable
+    <Editable.Root
       placeholder={`No ${props.label.toLowerCase()}`}
       value={props.value()}
       onSubmit={({ value }) => props.setValue(value)}
@@ -29,35 +19,38 @@ export const EditableStateField = (props: Props) => {
       {(state) => (
         <>
           <div class="flex justify-between">
-            <EditableLabel class="font-bold tracking-tight">
+            <Editable.Label class="font-bold tracking-tight">
               {props.label}
-            </EditableLabel>
-            <EditableControl>
+            </Editable.Label>
+            <Editable.Control>
               {state().isEditing ? (
-                <>
-                  <EditableSubmitTrigger class="hover:text-blue-100 active:text-white">
-                    <CheckIcon />
-                  </EditableSubmitTrigger>
-                  <EditableCancelTrigger class="hover:text-blue-100 active:text-white">
-                    <XIcon />
-                  </EditableCancelTrigger>
-                </>
+                <div class="relative bottom-2 flex gap-2">
+                  <Editable.SubmitTrigger class="rounded ring-1 ring-blue-100 hover:text-blue-100 active:text-white">
+                    <CheckIcon class="bg-gray-200 bg-opacity-25" />
+                  </Editable.SubmitTrigger>
+                  <Editable.CancelTrigger class="rounded ring-1 ring-blue-100 hover:text-blue-100 active:text-white">
+                    <XIcon class="bg-gray-200 bg-opacity-25" />
+                  </Editable.CancelTrigger>
+                </div>
               ) : (
-                <EditableEditTrigger
+                <Editable.EditTrigger
                   aria-label="Edit"
                   class="hover:text-blue-100 active:text-white"
                 >
                   <PencilIcon />
-                </EditableEditTrigger>
+                </Editable.EditTrigger>
               )}
-            </EditableControl>
+            </Editable.Control>
           </div>
-          <EditableArea>
-            <EditableInput class="w-full text-blue-600" value={props.value()} />
-            <EditablePreview />
-          </EditableArea>
+          <Editable.Area class="rounded hover:bg-gray-200 hover:bg-opacity-25">
+            <Editable.Input
+              class="w-full text-blue-600"
+              value={props.value()}
+            />
+            <Editable.Preview />
+          </Editable.Area>
         </>
       )}
-    </Editable>
+    </Editable.Root>
   );
 };
