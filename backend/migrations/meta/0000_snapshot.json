@@ -1,11 +1,11 @@
 {
+  "id": "682be65c-0b37-4c54-9acc-d2c97bda59c5",
+  "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
-  "id": "0e887ae4-b3af-490c-a63c-202c72d77b3f",
-  "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "messsages": {
-      "name": "messsages",
+    "messages": {
+      "name": "messages",
       "schema": "",
       "columns": {
         "id": {

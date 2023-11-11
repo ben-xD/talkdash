@@ -2,7 +2,7 @@ import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const messagesTable = pgTable("messsages", {
+export const messagesTable = pgTable("messages", {
   id: uuid("id").primaryKey(),
   fromUserId: uuid("from_user_id"),
   toUserId: uuid("to_user_id").notNull(),

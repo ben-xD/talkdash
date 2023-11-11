@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS "messsages" (
+CREATE TABLE IF NOT EXISTS "messages" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"from_user_id" uuid,
 	"to_user_id" uuid NOT NULL,
