@@ -51,5 +51,11 @@ const envValidator = z.object({
       ].join(" "),
     ),
   INSIDE_DOCKER: z.coerce.boolean().default(false),
+  // TODO Document
+  AUTH_SECRET: z.string(),
+  GITHUB_ID: z.string(),
+  GITHUB_SECRET: z.string(),
+  GOOGLE_CLIENT_ID: z.string(),
+  GOOGLE_CLIENT_SECRET: z.string(),
 });
 export const env = envValidator.parse(process.env);

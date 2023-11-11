@@ -33,6 +33,8 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@auth/core": "^0.18.0",
+    "@auth/drizzle-adapter": "^0.3.6",
     "@fastify/websocket": "^8.2.0",
     "@neondatabase/serverless": "^0.6.0",
     "@trpc/server": "^10.41.0",
