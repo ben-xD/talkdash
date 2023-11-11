@@ -36,10 +36,10 @@ Features:
 
 ## TODOs
 
-- Implement audience mode
-- Implement user accounts
+- Implement user accounts using Clerk
   - For event hosts
   - For audience
+- Implement audience mode
 - Add access control for event host controls
 - Nicer glow background 
 - Command + enter to send message
