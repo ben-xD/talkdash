@@ -66,7 +66,7 @@ Features:
   - consider [Elysia](https://elysiajs.com/) on Bun instead of tRPC on Node.
 
 ## Contributing
-- Install nvm, run `nvm install` and `nvm use`
+- Install nvm, run `nvm install` and `nvm alias default` to set the default node version to the one in `.nvmrc`.
 - Install pnpm: `npm install --global pnpm`
   - to upgrade, run `npm install --global --upgrade pnpm`
 - Install turbo, run `pnpm install turbo --global`
