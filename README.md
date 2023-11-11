@@ -32,12 +32,6 @@ Features:
     - Build output directory: `frontend/dist`
     - Extra environment variable: `VITE_BACKEND_URL=wss://talkdash.fly.dev`
     - Reminder: scale down to 1 machine using `flyctl scale count 1` because the backend is the message broker - we want all users connected to the same instance. See https://community.fly.io/t/how-deploy-to-just-one-machine/12510/2
-  - Fly: 
-    - Initialize project: `fly launch`
-    - Add secrets: 
-      - `fly secrets set CLOUDFLARE_WORKERS_AI_TOKEN='...'` taken from Cloudflare Workers AI.
-      - `fly secrets set DATABASE_URL='...'` taken from Neon.tech (not currently necessary)
-    - Deploy: `fly deploy`
 - Image generated using [sdxl-emoji](https://replicate.com/fofr/sdxl-emoji), background removed using Modyfi.com, optimised with https://tinypng.com/, and favicons generated using https://realfavicongenerator.net/
 - OpenAI / GPT3.5 turbo: for converting text into durations (e.g. time for lunch -> 30 minutes) 
 
@@ -58,6 +52,7 @@ Features:
   - Convert human-readable talk length into duration
 - Bugs:
   - Can't click on navigation menu buttons (Audience, Host) on mobile. [Issue](https://github.com/chakra-ui/ark/issues/1600)
+  - Don't show disconnected / connected for 1 second (delay it so it doesn't glitch)
 - AI ideas:
   - record event host message from voice (STT) - whisper on Cloudflare - but won't be used at events to avoid distracing audience
   - Filter messages for safety and edit it for being funny - not really possible, Llama2 throws "ethics" error
@@ -84,6 +79,9 @@ Features:
 
 ### Frontend
 - `cd frontend`
+- Create a Cloudflare account (free) and add a new Cloudflare Pages project. Connect it to a GitHub repository.
+- Optional: add a custom subdomain, for example, this project uses `talkdash.orth.uk`.
+  - See https://developers.cloudflare.com/pages/platform/custom-domains/#disable-access-to-pagesdev-subdomain to make preview deployments private or to redirect example.pages.dev to your custom domain
 - Run commands listed in `package.json`.
 - Install [Solid Devtools chrome extension](https://chrome.google.com/webstore/detail/solid-devtools/kmcfjchnmmaeeagadbhoofajiopoceel). See more on https://github.com/thetarnav/solid-devtools/tree/main/packages/extension#getting-started
 
@@ -91,8 +89,12 @@ Features:
 - cd `backend`
 - Deployment
   - Install [flyctl](https://fly.io/docs/hands-on/install-flyctl/)
+  - Initialize project: `fly launch`
   - Set up for this project: Run `fly launch` in `backend/` giving it the name `talkdash`
   - deploy: run `fly deploy`
+  - create env file: `cp backend/.env.example backend/.env`
+  - Add secrets (`fly secrets set NAME=VALUE` for all the variables in `backend/.env`). For example, `fly secrets set CLOUDFLARE_WORKERS_AI_TOKEN='...'`
+  - Deploy: `fly deploy`
 
 ## Notes about weird things
 - I only installed husky because the `flyctl` CLI assumes you use it (possibly only for Node apps). Otherwise, `@flydotio/dockerfile` npm package fails to install with `sh: husky: command not found`.
