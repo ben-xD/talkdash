@@ -1,10 +1,10 @@
 import type { Config } from "drizzle-kit";
-import { migrationsFolder } from "./src/db/db.js";
 import { env } from "./src/env.js";
 
 export default {
-  schema: "./src/db/schema",
-  out: migrationsFolder,
+  // Warning: using `./src/db/schema/index` or `/src/db/schema/` doesn't work
+  schema: "./src/db/schema/index.ts",
+  out: "./migrations",
   // Does pg work with neon?
   // Yes, I'm just using pg/postgres-node, without the neon serverless drivers.
   driver: "pg",
