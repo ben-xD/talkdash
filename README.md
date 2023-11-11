@@ -22,7 +22,6 @@ Features:
     - I wanted to use [Fastify](https://fastify.dev/) but Jarred said ['Fastify is not fast in bun.'](https://news.ycombinator.com/item?id=37800505).
     - Testing: [HTTPie](https://httpie.io/app) and [websocat](https://github.com/vi/websocat).
 - Database: Postgres (Neon) and drizzle orm 
-  - Temporarily disabled `trpc/context.ts` since I'm not persisting anything 
   - I don't really benefit from the "serverless" nature of Neon, since the backend is not serverless (because durable objects are not on the Cloudflare free tier, and also they tend to become expensive with use) 
   - However, I may use cloudflare workers in the future for other things, and using the neon serverless http API for that could be useful
 - Deployment: [Fly.io](https://fly.io), [Cloudflare Pages, Cloudflare workers](https://www.cloudflare.com/en-gb/) (Fly.io for websocket connections, because Cloudflare Durable Objects are expensive)
@@ -95,6 +94,8 @@ Features:
   - create env file: `cp backend/.env.example backend/.env`
   - Add secrets (`fly secrets set NAME=VALUE` for all the variables in `backend/.env`). For example, `fly secrets set CLOUDFLARE_WORKERS_AI_TOKEN='...'`
   - Deploy: `fly deploy`
+- Reminders:
+  - If you see `Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string` when starting the backend, your local database might not set up.
 
 ## Notes about weird things
 - I only installed husky because the `flyctl` CLI assumes you use it (possibly only for Node apps). Otherwise, `@flydotio/dockerfile` npm package fails to install with `sh: husky: command not found`.

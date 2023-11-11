@@ -16,7 +16,6 @@ const envValidator = z.object({
   // Temporary disabled since we don't connect to a database.
   DATABASE_URL: z
     .string()
-    .default("UNSET") // temporary set because we don't connect to db
     .describe(
       [
         "Connection string to postgres database, starting with `postgres://`.",

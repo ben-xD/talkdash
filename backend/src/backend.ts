@@ -1,58 +1,22 @@
-import { fastifyTRPCPlugin } from "@trpc/server/adapters/fastify";
-import Fastify from "fastify";
-import fastifyWebsocket from "@fastify/websocket";
+import Fastify, { FastifyInstance } from "fastify";
 import chalk from "chalk";
-import { renderTrpcPanel } from "trpc-panel";
-import { createContext } from "./trpc/context.js";
 import {
   trpcHttpApiPath,
   trpcPanelPath,
   trpcWebsocketApiPath,
-} from "./trpc/trpcPath.js";
-import { appRouter } from "./trpc/appRouter.js";
+} from "./trpc/path.js";
 import { enableFastityLogging, env } from "./env.js";
+import { registerTrpcApis, registerTrpcPanel } from "./fastify/trpcRoutes.js";
+import { createAuthJsConfig } from "./auth/auth.js";
+import { Auth } from "@auth/core";
 
 const fastify = Fastify({
   maxParamLength: 5000,
   logger: enableFastityLogging,
 });
 
-function registerTrpcPanel() {
-  const trpcPanelApp = renderTrpcPanel(appRouter, { url: trpcHttpApiPath });
-  // trpc panels uses the HTTP API, not websocket.
-  fastify.get(trpcPanelPath, (_request, reply) => {
-    reply.header("Content-Type", "text/html").send(trpcPanelApp);
-  });
-}
-
-function registerTrpcApis() {
-  // Websocket server
-  fastify.register(fastifyWebsocket, { prefix: trpcWebsocketApiPath });
-
-  // HTTP API
-  fastify.register(fastifyTRPCPlugin, {
-    prefix: trpcHttpApiPath,
-    // The fastify TRPC plugin's trpc options is not typed.
-    // type TrpcOptions = Parameters<typeof initTRPC.create>[0] & {router: Router<any>};
-    trpcOptions: {
-      router: appRouter,
-      createContext,
-    },
-  });
-
-  // Websocket API
-  fastify.register(fastifyTRPCPlugin, {
-    prefix: trpcWebsocketApiPath,
-    useWSS: true,
-    trpcOptions: {
-      router: appRouter,
-      createContext,
-    },
-  });
-}
-
-registerTrpcPanel();
-registerTrpcApis();
+registerTrpcPanel(fastify);
+registerTrpcApis(fastify);
 
 (async () => {
   try {

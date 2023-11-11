@@ -1,18 +1,19 @@
 import { inferAsyncReturnType } from "@trpc/server";
 
 import { CreateFastifyContextOptions } from "@trpc/server/adapters/fastify";
+import { connectToDb } from "../db/db.js";
 
-// Not currently using database.
-// const dbPromise = connectToDb();
+const dbPromise = connectToDb();
 
 export async function createContext({ req, res }: CreateFastifyContextOptions) {
   // const db = await dbPromise;
   // TODO auth / check headers
 
+  const db = await dbPromise;
   return {
     req,
     res,
-    // db,
+    db,
   };
 }
 export type Context = inferAsyncReturnType<typeof createContext>;
