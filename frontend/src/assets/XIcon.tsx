@@ -1,6 +1,6 @@
 import { cn } from "../css/tailwind.ts";
 
-export const XIcon = (props: { class: string }) => (
+export const XIcon = (props: { class?: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
