@@ -1,4 +1,4 @@
-import Fastify, { FastifyInstance } from "fastify";
+import Fastify from "fastify";
 import chalk from "chalk";
 import {
   trpcHttpApiPath,
@@ -7,8 +7,10 @@ import {
 } from "./trpc/path.js";
 import { enableFastityLogging, env } from "./env.js";
 import { registerTrpcApis, registerTrpcPanel } from "./fastify/trpcRoutes.js";
-import { createAuthJsConfig } from "./auth/auth.js";
-import { Auth } from "@auth/core";
+import { registerAuthApis } from "./fastify/authRoutes.js";
+import { connectToDb } from "./db/db.js";
+
+const dbPromise = connectToDb();
 
 const fastify = Fastify({
   maxParamLength: 5000,
@@ -16,7 +18,9 @@ const fastify = Fastify({
 });
 
 registerTrpcPanel(fastify);
-registerTrpcApis(fastify);
+const db = await dbPromise;
+registerTrpcApis(fastify, db);
+registerAuthApis(fastify, db);
 
 (async () => {
   try {

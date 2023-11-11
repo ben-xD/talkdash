@@ -1,8 +1,8 @@
 import { initTRPC } from "@trpc/server";
-import { Context } from "./context.js";
+import { TrpcContext } from "./trpcContext.js";
 
 // Inspired by https://invertase.io/blog/astro-trpc-v10/ and https://trpc.io/docs/fetch
-const t = initTRPC.context<Context>().create({
+const t = initTRPC.context<TrpcContext>().create({
   // Don't use superjson, since fastify already parses objects.
   // TODO: Does fastify use superjson, or is it less powerful? (i.e. no datetime or nested objects serde)
   // transformer: superjson,
