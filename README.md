@@ -43,9 +43,8 @@ Features:
 
 ## TODOs
 
-- FIX: why is session null in subsequent calls? Using a Map and getting the session works. I can't mutate context?
-  - tRPC seems to reset all the direct properties of the context
-  - If you change a property of a property, there are no issues
+- TODO show logged in page after logging in or signing up
+- Implement GitHub and Google OAuth. See https://lucia-auth.com/oauth/
 - Horizontal scalability and lower latency? I have a single Node backend
   - Even if clients pick the region consistently, they still need to talk to each other
   - Using tRPC subscriptions means we need 1 tRPC application to connect to all clients, making it a single point of failure  
@@ -64,7 +63,6 @@ Features:
   - Implement updating user information (for example, name)
   - Test error edge cases and returned codes
   - Support event hosts and audience
-  - Implement GitHub and Google OAuth. See https://lucia-auth.com/oauth/
   - Implement rate limiting for auth endpoints using Redis, Upstash, or Cloudflare-KV?
 - Fix type safety: When lucia promise is not awaited, typescript doesn't detect it.
 - Implement audience mode
