@@ -27,6 +27,7 @@ const createAndSetSessionCookie = (
   res.status(302);
 };
 
+const emailSchema = z.string().email().min(5);
 const passwordSchema = z
   .string()
   .min(8, { message: "Password must be at least 8 characters long" })
@@ -49,7 +50,7 @@ export const authRouter = router({
     .input(
       z.object({
         name: z.string(),
-        email: z.string(),
+        email: emailSchema,
         password: passwordSchema,
       }),
     )
@@ -91,7 +92,7 @@ export const authRouter = router({
       }
     }),
   logIn: loggedProcedure
-    .input(z.object({ email: z.string(), password: passwordSchema }))
+    .input(z.object({ email: emailSchema, password: passwordSchema }))
     .mutation(async ({ ctx, input }) => {
       try {
         const key = await ctx.auth.useKey(
@@ -121,7 +122,7 @@ export const authRouter = router({
       }
     }),
   deleteUser: protectedProcedure
-    .input(z.object({ email: z.string(), password: passwordSchema }))
+    .input(z.object({ email: emailSchema, password: passwordSchema }))
     .mutation(async ({ ctx, input }) => {
       try {
         // Requires password even if logged in
@@ -153,6 +154,6 @@ export const authRouter = router({
   // resetPasswordChangePassword: loggedProcedure
   // updateUser: protectedProcedure
   //   // TODO check password again even if logged in
-  //   .input(z.object({ email: z.string(), password: passwordSchema, newName: z.string() }))
+  //   .input(z.object({ email: emailSchema, password: passwordSchema, newName: z.string() }))
   //   .mutation(async ({ ctx, input }) => {}),
 });
