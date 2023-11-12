@@ -9,7 +9,6 @@ import { LuciaError, Session } from "lucia";
 import { TRPCError } from "@trpc/server";
 import { Auth } from "./auth.js";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { assertUnreachable } from "../typescriptTricks.js";
 
 // FIXME these routes assume http by using functions like `header()`. This works with the HTTP API,
 // but websockets don't have headers. Instead, we will stop using tRPC over websockets and partykit.
@@ -56,7 +55,7 @@ const createSessionAndSetClientAuthentication = async (
       setSessionAndRedirectCookie(auth, req, res, session);
       return {};
     default:
-      return assertUnreachable(authMode);
+      return authMode satisfies never;
   }
 };
 
