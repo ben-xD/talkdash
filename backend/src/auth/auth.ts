@@ -6,6 +6,10 @@ import { fastify } from "lucia/middleware";
 
 export const createAuth = (dbPool: Pool) =>
   lucia({
+    csrfProtection: {
+      // Is this necessary?
+      // host: "localhost:4000",
+    },
     env: env.ENVIRONMENT === "development" ? "DEV" : "PROD",
     adapter: pg(dbPool, {
       // table names defined in db/schema
@@ -14,6 +18,7 @@ export const createAuth = (dbPool: Pool) =>
       session: "user_session",
     }),
     middleware: fastify(),
+    // Not the session, but the session cookie. See https://lucia-auth.com/basics/using-cookies/
     sessionCookie: { expires: false },
     getUserAttributes: (data) => {
       return {
