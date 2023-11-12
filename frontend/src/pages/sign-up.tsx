@@ -1,5 +1,5 @@
-import { AuthCard } from "../components/AuthCard.tsx";
-import { trpc } from "../client/trpc.ts";
+import { AuthCard } from "../components/AuthCard";
+import { trpc } from "../client/trpc";
 
 export const SignUpPage = () => {
   return (
@@ -7,14 +7,14 @@ export const SignUpPage = () => {
       title="Get started"
       subtitle="Create a new account"
       mode="sign-up"
-      onSubmit={async (email, password) => {
-        await trpc.auth.signUpWithEmail.mutate({
+      onSubmit={(email, password) =>
+        trpc.auth.signUpWithEmail.mutate({
           email,
           password,
           name: "",
           authMode: "session",
-        });
-      }}
+        })
+      }
     />
   );
 };

@@ -1,5 +1,5 @@
-import { currentTime, difference, finishTime, Mode } from "./timeState.js";
-import { cn } from "../../css/tailwind.ts";
+import { currentTime, difference, finishTime, Mode } from "./timeState";
+import { cn } from "../../css/tailwind";
 
 const timeLeft = () => {
   const finish = finishTime();

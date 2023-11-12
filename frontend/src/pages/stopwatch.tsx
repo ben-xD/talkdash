@@ -1,4 +1,4 @@
-import { currentTime } from "../features/time/timeState.ts";
+import { currentTime } from "../features/time/timeState";
 import { createEffect, createSignal, onMount } from "solid-js";
 import { DateTime } from "luxon";
 

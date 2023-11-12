@@ -1,6 +1,6 @@
 import { createSignal, For, onCleanup, Show } from "solid-js";
-import { receivedMessages, setReceivedMessages } from "./receivedMessages.js";
-import { TrashIcon } from "../../assets/TrashIcon.tsx";
+import { receivedMessages, setReceivedMessages } from "./receivedMessages";
+import { TrashIcon } from "../../assets/TrashIcon";
 
 export const MessageView = () => {
   return (

@@ -1,4 +1,4 @@
-import { currentTime } from "../features/time/timeState.ts";
+import { currentTime } from "../features/time/timeState";
 import { onMount } from "solid-js";
 
 export const ClockPage = () => {

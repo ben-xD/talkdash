@@ -1,5 +1,5 @@
 import { JSX } from "solid-js";
-import { cn } from "../css/tailwind.ts";
+import { cn } from "../css/tailwind";
 
 export const TrashIcon = (props: JSX.SvgSVGAttributes<SVGSVGElement>) => (
   <svg

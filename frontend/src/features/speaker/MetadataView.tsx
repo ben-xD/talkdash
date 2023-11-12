@@ -1,11 +1,11 @@
-import { setSpeakerUsername, speakerUsername } from "../user/userState.js";
-import { EditableStateField } from "./EditableStateField.tsx";
-import { ShareIcon } from "../../assets/ShareIcon.tsx";
+import { setSpeakerUsername, speakerUsername } from "../user/userState";
+import { EditableStateField } from "./EditableStateField";
+import { ShareIcon } from "../../assets/ShareIcon";
 import { HoverCard } from "@ark-ui/solid";
 import { Portal } from "solid-js/web";
-import { QrCodeView } from "../../components/QrCodeView.tsx";
+import { QrCodeView } from "../../components/QrCodeView";
 import { createSignal, onMount, Show } from "solid-js";
-import { ElapsedTime } from "../../components/ElapsedTime.tsx";
+import { ElapsedTime } from "../../components/ElapsedTime";
 
 type Props = { reconnectAsSpeaker: (speakerUsername: string) => void };
 

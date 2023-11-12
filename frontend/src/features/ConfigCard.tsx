@@ -9,12 +9,12 @@ import {
   undoStack,
 } from "./time/timeState.js";
 import { DateTime } from "luxon";
-import { RightIcon } from "../assets/RightIcon.tsx";
-import { LeftIcon } from "../assets/LeftIcon.tsx";
+import { RightIcon } from "../assets/RightIcon";
+import { LeftIcon } from "../assets/LeftIcon";
 import { createSignal } from "solid-js";
-import { Alert } from "../components/Alert.tsx";
-import { trpc } from "../client/trpc.ts";
-import { Card } from "../components/Card.tsx";
+import { Alert } from "../components/Alert";
+import { trpc } from "../client/trpc";
+import { Card } from "../components/Card";
 
 export function ConfigCard() {
   const [errorMessage, setErrorMessage] = createSignal<string>();

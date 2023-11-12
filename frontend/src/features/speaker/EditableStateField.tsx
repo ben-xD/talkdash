@@ -9,9 +9,9 @@ import {
   EditablePreview,
   EditableSubmitTrigger,
 } from "@ark-ui/solid";
-import { CheckIcon } from "../../assets/CheckIcon.tsx";
-import { XIcon } from "../../assets/XIcon.tsx";
-import { PencilIcon } from "../../assets/PencilIcon.tsx";
+import { CheckIcon } from "../../assets/CheckIcon";
+import { XIcon } from "../../assets/XIcon";
+import { PencilIcon } from "../../assets/PencilIcon";
 
 type Props = {
   label: string;

@@ -1,8 +1,8 @@
 import { Menu } from "@ark-ui/solid";
 import { Portal } from "solid-js/web";
-import { setUserSelectedTheme, theme } from "../../css/theme.ts";
-import { MenuTypography } from "./MenuTypography.tsx";
-import { cn } from "../../css/tailwind.ts";
+import { setUserSelectedTheme, theme } from "../../css/theme";
+import { MenuTypography } from "./MenuTypography";
+import { cn } from "../../css/tailwind";
 
 export const ThemeMenu = () => {
   return (

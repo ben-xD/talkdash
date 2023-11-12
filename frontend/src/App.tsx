@@ -1,21 +1,18 @@
 import { lazy, onMount, Show } from "solid-js";
-import { setCurrentTime } from "./features/time/timeState.js";
+import { setCurrentTime } from "./features/time/timeState";
 import { DateTime } from "luxon";
 import { A, Route, Routes } from "@solidjs/router";
-import { isExceeded } from "./features/time/TimeLeft.tsx";
-import { GithubLogo } from "./assets/GithubLogo.tsx";
-import { isConnected, showReconnectedMessage } from "./client/trpc.js";
-import { DisconnectedAlert } from "./components/DisconnectedAlert.tsx";
-import { ReconnectedAlert } from "./components/ReconnectedAlert.tsx";
-import { ClockPage } from "./pages/clock.tsx";
-import { StopwatchPage } from "./pages/stopwatch.tsx";
-import { loadThemeOntoPage } from "./css/theme.ts";
-import { AppMenu } from "./components/Menu/AppMenu.tsx";
-import { SignInPage } from "./pages/sign-in.tsx";
-import { SignUpPage } from "./pages/sign-up.tsx";
-
-/* eslint-disable solid/no-react-specific-props */
-//  because ARK-UI uses htmlFor. See https://github.com/chakra-ui/ark/issues/1601
+import { isExceeded } from "./features/time/TimeLeft";
+import { GithubLogo } from "./assets/GithubLogo";
+import { DisconnectedAlert } from "./components/DisconnectedAlert";
+import { ReconnectedAlert } from "./components/ReconnectedAlert";
+import { ClockPage } from "./pages/clock";
+import { StopwatchPage } from "./pages/stopwatch";
+import { loadThemeOntoPage } from "./css/theme";
+import { AppMenu } from "./components/Menu/AppMenu";
+import { SignInPage } from "./pages/sign-in";
+import { SignUpPage } from "./pages/sign-up";
+import { isConnected, showReconnectedMessage } from "./client/trpc";
 
 const SpeakerPage = lazy(() => import("./pages/speaker.tsx"));
 const AudiencePage = lazy(() => import("./pages/audience.tsx"));

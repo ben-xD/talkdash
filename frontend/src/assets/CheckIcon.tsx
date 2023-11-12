@@ -1,4 +1,4 @@
-import { cn } from "../css/tailwind.ts";
+import { cn } from "../css/tailwind";
 
 export const CheckIcon = (props: { class?: string }) => (
   <svg

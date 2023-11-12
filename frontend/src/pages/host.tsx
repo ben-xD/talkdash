@@ -1,25 +1,25 @@
 import { createEffect, createSignal, onMount } from "solid-js";
-import { EditableStateField } from "../features/speaker/EditableStateField.tsx";
+import { EditableStateField } from "../features/speaker/EditableStateField";
 import {
   setSpeakerUsername,
   speakerUsername,
 } from "../features/user/userState.js";
-import { loadQueryParams } from "./loadQueryParams.js";
-import { trpc } from "../client/trpc.js";
+import { loadQueryParams } from "./loadQueryParams";
+import { trpc } from "../client/trpc";
 import { TRPCClientError } from "@trpc/client";
 import { Unsubscribable } from "@trpc/server/observable";
-import { Alert } from "../components/Alert.tsx";
+import { Alert } from "../components/Alert";
 import {
   resetHistory,
   setFinishTime,
   setStartTime,
-} from "../features/time/timeState.ts";
+} from "../features/time/timeState";
 import { DateTime } from "luxon";
-import { TimeLeft } from "../features/time/TimeLeft.tsx";
-import { ElapsedTime } from "../components/ElapsedTime.tsx";
+import { TimeLeft } from "../features/time/TimeLeft";
+import { ElapsedTime } from "../components/ElapsedTime";
 import { toast } from "solid-toast";
-import { Toast } from "../components/Toast.tsx";
-import { cn } from "../css/tailwind.ts";
+import { Toast } from "../components/Toast";
+import { cn } from "../css/tailwind";
 
 const minLengthMessage = 1;
 

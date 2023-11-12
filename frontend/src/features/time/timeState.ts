@@ -1,8 +1,8 @@
 import { createSignal } from "solid-js";
 import { DateTime } from "luxon";
 import { createStore } from "solid-js/store";
-import { trpc } from "../../client/trpc.ts";
-import { speakerUsername } from "../user/userState.ts";
+import { trpc } from "../../client/trpc";
+import { speakerUsername } from "../user/userState";
 
 export const [textInputDurationInMinutes, setTextInputDurationInMinutes] =
   createSignal("");

@@ -1,6 +1,6 @@
 import { JSX } from "solid-js";
 import { ClassValue } from "clsx";
-import { cn } from "../css/tailwind.ts";
+import { cn } from "../css/tailwind";
 
 export const Card = (props: { children?: JSX.Element; class?: ClassValue }) => {
   return (

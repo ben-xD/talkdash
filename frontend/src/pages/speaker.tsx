@@ -1,19 +1,19 @@
-import { MetadataView } from "../features/speaker/MetadataView.tsx";
-import { ConfigCard } from "../features/ConfigCard.tsx";
-import { TimeLeft } from "../features/time/TimeLeft.tsx";
-import { MessageView } from "../features/messages/MessageView.tsx";
+import { MetadataView } from "../features/speaker/MetadataView";
+import { ConfigCard } from "../features/ConfigCard";
+import { TimeLeft } from "../features/time/TimeLeft";
+import { MessageView } from "../features/messages/MessageView";
 import { onCleanup, onMount } from "solid-js";
-import { loadQueryParams } from "./loadQueryParams.js";
-import { speakerUsername } from "../features/user/userState.js";
+import { loadQueryParams } from "./loadQueryParams";
+import { speakerUsername } from "../features/user/userState";
 import { Unsubscribable } from "@trpc/server/observable";
 import {
   receivedMessages,
   setReceivedMessages,
-} from "../features/messages/receivedMessages.js";
+} from "../features/messages/receivedMessages";
 import { DateTime } from "luxon";
-import { trpc } from "../client/trpc.js";
-import { setTimeAction } from "../features/time/timeState.ts";
-import { Toast } from "../components/Toast.tsx";
+import { trpc } from "../client/trpc";
+import { setTimeAction } from "../features/time/timeState";
+import { Toast } from "../components/Toast";
 import { toast } from "solid-toast";
 
 const Speaker = () => {

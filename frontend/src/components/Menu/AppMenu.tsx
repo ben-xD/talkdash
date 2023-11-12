@@ -7,11 +7,14 @@ import {
   MenuSeparator,
   MenuTrigger,
 } from "@ark-ui/solid";
-import { WrenchIcon } from "../../assets/WrenchIcon.tsx";
+import { WrenchIcon } from "../../assets/WrenchIcon";
 import { Portal } from "solid-js/web";
-import { MenuItemLink } from "./MenuItemLink.tsx";
-import { ThemeMenu } from "./ThemeMenu.tsx";
+import { MenuItemLink } from "./MenuItemLink";
+import { ThemeMenu } from "./ThemeMenu";
 import { createSignal, onMount, Show } from "solid-js";
+
+/* eslint-disable solid/no-react-specific-props */
+//  because ARK-UI uses htmlFor. See https://github.com/chakra-ui/ark/issues/1601
 
 const cookieRegExpMatcher = (cookieName: string) =>
   new RegExp(`^(.*;)?\\s*${cookieName}\\s*=\\s*[^;]+(.*)?$`);

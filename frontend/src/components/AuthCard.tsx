@@ -1,4 +1,4 @@
-import { Card } from "./Card.tsx";
+import { Card } from "./Card";
 import { A } from "@solidjs/router";
 import { createStore } from "solid-js/store";
 
@@ -8,16 +8,21 @@ export const AuthCard = (props: {
   mode: "sign-in" | "sign-up";
   onSubmit: (username: string, password: string) => void;
 }) => {
-  const label = props.mode === "sign-in" ? "Sign In" : "Sign Up";
-  const switchLabel = props.mode === "sign-in" ? "Sign Up" : "Sign In";
-  const switchPath = props.mode === "sign-in" ? "/sign-up" : "/sign-in";
-  const switchQuestion =
+  const label = () => (props.mode === "sign-in" ? "Sign In" : "Sign Up");
+  const switchLabel = () => (props.mode === "sign-in" ? "Sign Up" : "Sign In");
+  const switchPath = () => (props.mode === "sign-in" ? "/sign-up" : "/sign-in");
+  const switchQuestion = () =>
     props.mode === "sign-in" ? "Don't have an account?" : "Have an account?";
 
   const [fields, setFields] = createStore<{ email: string; password: string }>({
     email: "",
     password: "",
   });
+
+  const onSubmit = () => {
+    const { email, password } = fields;
+    props.onSubmit(email, password);
+  };
 
   return (
     <div class="flex flex-1 flex-col justify-center py-8">
@@ -43,7 +48,7 @@ export const AuthCard = (props: {
                     id="email"
                     type="text"
                     onInput={(e) => setFields("email", e.target.value)}
-                  ></input>
+                  />
                 </div>
                 <div class="flex flex-col gap-2">
                   <label for="password">Password</label>
@@ -51,24 +56,18 @@ export const AuthCard = (props: {
                     id="password"
                     type="password"
                     onInput={(e) => setFields("password", e.target.value)}
-                  ></input>
+                  />
                 </div>
               </div>
             </div>
           </div>
-          <button
-            class="btn"
-            onClick={() => {
-              const { email, password } = fields;
-              props.onSubmit(email, password);
-            }}
-          >
-            {label}
+          <button class="btn" onClick={onSubmit}>
+            {label()}
           </button>
           <p class="text-center text-sm">
-            {switchQuestion}{" "}
-            <A class="underline hover:text-blue-200" href={switchPath}>
-              {switchLabel}
+            {switchQuestion()}{" "}
+            <A class="underline hover:text-blue-200" href={switchPath()}>
+              {switchLabel()}
             </A>
           </p>
         </div>
