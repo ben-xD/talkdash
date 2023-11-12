@@ -7,7 +7,6 @@ import {
 } from "./trpc/path.js";
 import { enableFastityLogging, env } from "./env.js";
 import { registerTrpcApis, registerTrpcPanel } from "./fastify/trpcRoutes.js";
-import { registerAuthApis } from "./fastify/authRoutes.js";
 import { connectToDb } from "./db/db.js";
 
 const dbPromise = connectToDb();
@@ -20,7 +19,6 @@ const fastify = Fastify({
 registerTrpcPanel(fastify);
 const db = await dbPromise;
 registerTrpcApis(fastify, db);
-registerAuthApis(fastify, db);
 
 (async () => {
   try {
