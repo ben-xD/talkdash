@@ -1,8 +1,9 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="All" type="CompoundRunConfigurationType">
-    <toRun name="Frontend (browser)" type="JavascriptDebugType" />
-    <toRun name="Backend" type="js.build_tools.npm" />
-    <toRun name="Frontend (vite)" type="js.build_tools.npm" />
+    <toRun name="FE · Chrome" type="JavascriptDebugType" />
+    <toRun name="BE" type="js.build_tools.npm" />
+    <toRun name="FE · server" type="js.build_tools.npm" />
+    <toRun name="BE · DB Studio" type="js.build_tools.npm" />
     <method v="2" />
   </configuration>
 </component>

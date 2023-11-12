@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Frontend (vite)" type="js.build_tools.npm">
-    <package-json value="$PROJECT_DIR$/frontend/package.json" />
+  <configuration default="false" name="BE" type="js.build_tools.npm">
+    <package-json value="$PROJECT_DIR$/backend/package.json" />
     <command value="run" />
     <scripts>
       <script value="dev" />
