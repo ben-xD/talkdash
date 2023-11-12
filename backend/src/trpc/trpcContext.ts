@@ -4,6 +4,8 @@ import { CreateFastifyContextOptions } from "@trpc/server/adapters/fastify";
 import { Database } from "../db/db.js";
 import { Auth } from "../auth/auth.js";
 
+//  This is only called when the http request is made. Not for every websocket message.
+// We identify it's the same user in the same context by updating the ctx.session in the authRouter.
 export const createTrpcCreateContext =
   (db: Database, auth: Auth) =>
   async ({ req, res }: CreateFastifyContextOptions) => {

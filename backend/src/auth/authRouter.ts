@@ -18,13 +18,13 @@ const setSessionCookie = (
   session: Session,
 ) => {
   const referer = req.headers["referer"];
+  const sessionCookie = auth.createSessionCookie(session);
   if (referer && new URL(referer).pathname === "/trpc") {
-    // Don't do anything because the client app is trpc-panel (generated UI testing similar to Swagger UI)
+    res.header("Set-Cookie", sessionCookie.serialize()); // store session cookie on client
+    // Don't redirect because the client app is trpc-panel (generated UI testing similar to Swagger UI)
     return;
   }
-  const sessionCookie = auth.createSessionCookie(session);
   res.header("Location", "/"); // redirect to profile page
-  res.header("Set-Cookie", sessionCookie.serialize()); // store session cookie on client
   res.status(302);
 };
 
@@ -34,6 +34,7 @@ const createSessionAndSetClientAuthentication = async (
   res: FastifyReply,
   userId: string,
   authMode: AuthMode,
+  setCurrentSession: (session: Session) => void,
 ) => {
   const session = await auth.createSession({
     userId,
@@ -41,6 +42,8 @@ const createSessionAndSetClientAuthentication = async (
       created_at: new Date(),
     },
   });
+  // TODO is this necessary and working?
+  setCurrentSession(session);
 
   switch (authMode) {
     case "token":
@@ -111,6 +114,7 @@ export const authRouter = router({
           ctx.res,
           userId,
           input.authMode,
+          (session) => (ctx.session = session),
         );
       } catch (e) {
         if (e instanceof LuciaError && e.message === `AUTH_DUPLICATE_KEY_ID`) {
@@ -146,6 +150,7 @@ export const authRouter = router({
           ctx.res,
           key.userId,
           input.authMode,
+          (session) => (ctx.session = session),
         );
       } catch (e) {
         if (e instanceof LuciaError) {

@@ -20,7 +20,11 @@ Features:
     - Bao bun bug? Error: `TypeError: null is not an object (evaluating 'res.status')` internal to Bao, with no stack trace (Bun?). There was no way past this error, perhaps Bao is not compatible with the latest Bun. 
     - I wanted to use [Fastify](https://fastify.dev/) but Jarred said ['Fastify is not fast in bun.'](https://news.ycombinator.com/item?id=37800505).
     - Testing: [HTTPie](https://httpie.io/app) and [websocat](https://github.com/vi/websocat).
-    - Drizzle not generating any migration files when using bun. [GitHub issue](https://github.com/drizzle-team/drizzle-kit-mirror/issues/199) 
+    - Drizzle not generating any migration files when using bun. [GitHub issue](https://github.com/drizzle-team/drizzle-kit-mirror/issues/199)
+  - APIs. Unauthenticated clients can connect to the websocket, use basic APIs, call the APIs to authenticate, and call authorized APIs.
+    - All APIs support WebSocket
+    - [Subscriptions](https://trpc.io/docs/subscriptions) (server sending messages to client) are not supported by the HTTP API
+    - The API supports cookies and bearer token authentication based on the API request
 - Database: Postgres (Neon) and drizzle orm
   - I don't really benefit from the "serverless" nature of Neon, since the backend is not serverless (because durable objects are not on the Cloudflare free tier, and also they tend to become expensive with use) 
   - However, I may use cloudflare workers in the future for other things, and using the neon serverless http API for that could be useful
