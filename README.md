@@ -15,15 +15,16 @@ Features:
 ## Technology
 - Frontend: [Solid](https://tailwindcss.com/), [Solid Router](https://docs.solidjs.com/guides/how-to-guides/routing-in-solid/solid-router), [Tailwind](https://tailwindcss.com/), [ARK UI](https://ark-ui.com/) (headless UI library)
 - Backend: Node, Fastify, tRPC and zod
-  - Fastify for anything tRPC doesn't support: e.g. file uploads, 3rd party clients
-  - Consider Supabase for extra *firebasy features*
+  - Fastify for anything tRPC doesn't support: e.g. file uploads, 3rd party clients, rigid authentication libraries
   - Initially tried [Bun](https://bun.sh/) and [Bao](https://github.com/mattreid1/baojs)
     - Bao bun bug? Error: `TypeError: null is not an object (evaluating 'res.status')` internal to Bao, with no stack trace (Bun?). There was no way past this error, perhaps Bao is not compatible with the latest Bun. 
     - I wanted to use [Fastify](https://fastify.dev/) but Jarred said ['Fastify is not fast in bun.'](https://news.ycombinator.com/item?id=37800505).
     - Testing: [HTTPie](https://httpie.io/app) and [websocat](https://github.com/vi/websocat).
-- Database: Postgres (Neon) and drizzle orm 
+    - Drizzle not generating any migration files when using bun. [GitHub issue](https://github.com/drizzle-team/drizzle-kit-mirror/issues/199) 
+- Database: Postgres (Neon) and drizzle orm
   - I don't really benefit from the "serverless" nature of Neon, since the backend is not serverless (because durable objects are not on the Cloudflare free tier, and also they tend to become expensive with use) 
   - However, I may use cloudflare workers in the future for other things, and using the neon serverless http API for that could be useful
+  - Local postgres database is used locally
 - Deployment: [Fly.io](https://fly.io), [Cloudflare Pages, Cloudflare workers](https://www.cloudflare.com/en-gb/) (Fly.io for websocket connections, because Cloudflare Durable Objects are expensive)
   - Cloudflare pages build settings: 
     - Framework preset: `None`
@@ -33,12 +34,20 @@ Features:
     - Reminder: scale down to 1 machine using `flyctl scale count 1` because the backend is the message broker - we want all users connected to the same instance. See https://community.fly.io/t/how-deploy-to-just-one-machine/12510/2
 - Image generated using [sdxl-emoji](https://replicate.com/fofr/sdxl-emoji), background removed using Modyfi.com, optimised with https://tinypng.com/, and favicons generated using https://realfavicongenerator.net/
 - OpenAI / GPT3.5 turbo: for converting text into durations (e.g. time for lunch -> 30 minutes) 
+  - I use [Cloudflare AI Gateway](https://developers.cloudflare.com/ai-gateway/) to measure the usage and cost of OpenAI API usage for this app
 
 ## TODOs
 
-- Implement user accounts using Clerk
-  - For event hosts
-  - For audience
+- Fix type safety: When lucia promise is not awaited, typescript doesn't detect it. 
+- Authentication
+  - Implement UI for user accounts (email sign up, login, sign out, set public password)
+  - Implement email verification 
+  - Implement password reset
+  - Implement updating user information (for example, name)
+  - Test error edge cases and returned codes
+  - Support event hosts and audience
+  - Implement GitHub and Google OAuth. See https://lucia-auth.com/oauth/
+  - Implement rate limiting for auth endpoints using Redis, Upstash, or Cloudflare-KV?
 - Implement audience mode
 - Add access control for event host controls
 - Nicer glow background 

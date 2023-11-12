@@ -1,14 +1,14 @@
 import { observable, Observer } from "@trpc/server/observable";
 import { z } from "zod";
-import { loggedProcedure } from "../middlewares/middleware.js";
-import { router } from "../trpc.js";
+import { loggedProcedure } from "../../trpc/middlewares/middleware.js";
+import { router } from "../../trpc/trpc.js";
 import { getEmojiMessageFor } from "./cloudflareWorkersAi.js";
 import {
   emitToSpeakers,
   getSpeakersFor,
   getTimesFor,
-} from "../middlewares/speakerRouter.js";
-import { emitToAll } from "../observers.js";
+} from "../../trpc/middlewares/speakerRouter.js";
+import { emitToAll } from "../../trpc/observers.js";
 
 // An event related to speakers
 const speakerEvent = z.discriminatedUnion("type", [

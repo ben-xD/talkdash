@@ -1,11 +1,12 @@
 import { procedure } from "../trpc.js";
-import { metricsMiddleware } from "./metricsMiddleware.js";
-import { logMiddleware } from "./logMiddleware.js";
-import { corsMiddleware } from "./corsMiddleware.js";
+import { trpcMetricsMiddleware } from "./trpcMetricsMiddleware.js";
+import { trpcLogMiddleware } from "./trpcLogMiddleware.js";
+import { trpcCorsMiddleware } from "./trpcCorsMiddleware.js";
+import { trpcAuthMiddleware } from "../../auth/trpcAuthMiddleware.js";
 
 export const publicProcedure = procedure
-  .use(metricsMiddleware)
-  .use(corsMiddleware);
-export const loggedProcedure = publicProcedure.use(logMiddleware);
-// export const protectedProcedure = loggedProcedure.use(authMiddleware);
+  .use(trpcMetricsMiddleware)
+  .use(trpcCorsMiddleware);
+export const loggedProcedure = publicProcedure.use(trpcLogMiddleware);
+export const protectedProcedure = loggedProcedure.use(trpcAuthMiddleware);
 // export const adminProcedure = loggedProcedure.use(adminAuthMiddleware);
