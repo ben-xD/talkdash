@@ -9,6 +9,7 @@ export const createAuth = (dbPool: Pool) =>
     csrfProtection: {
       // Is this necessary?
       // host: "localhost:4000",
+      // host: "talkdash.orth.uk",
     },
     env: env.ENVIRONMENT === "development" ? "DEV" : "PROD",
     adapter: pg(dbPool, {

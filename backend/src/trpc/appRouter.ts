@@ -8,7 +8,7 @@ import { authRouter } from "../auth/authRouter.js";
 // Warning: any empty routers will cause trpc panel to fail to load in the browser.
 export const appRouter = router({
   // Empty input because trpc panel won't show it otherwise.
-  health: loggedProcedure.input(z.object({})).query(({ ctx, input }) => {
+  health: loggedProcedure.input(z.object({})).query(({ ctx }) => {
     console.log(JSON.stringify(ctx.session));
     return "ok 👻";
   }),
