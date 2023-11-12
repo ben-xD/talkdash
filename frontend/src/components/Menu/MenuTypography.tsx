@@ -1,7 +1,13 @@
 import { JSX } from "solid-js";
+import { cn } from "../../css/tailwind.ts";
 
-export const MenuTypography = (props: { children: JSX.Element }) => {
+export const MenuTypography = (props: {
+  children: JSX.Element;
+  class?: string;
+}) => {
   return (
-    <div class="text-slate-700 hover:text-slate-500">{props.children}</div>
+    <div class={cn("text-slate-700 hover:text-slate-500", props.class)}>
+      {props.children}
+    </div>
   );
 };

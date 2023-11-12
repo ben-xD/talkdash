@@ -82,7 +82,7 @@ export const speakerRouter = router({
         finish: z.number().optional(),
       }),
     )
-    .mutation(async ({ input, ctx }) => {
+    .mutation(async ({ input }) => {
       const { speakerUsername, start, finish } = input;
       console.debug(`Updating times for ${speakerUsername}`, { start, finish });
       timesBySpeakerId.set(speakerUsername, { start, finish });

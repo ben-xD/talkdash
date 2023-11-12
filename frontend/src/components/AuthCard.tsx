@@ -1,10 +1,12 @@
 import { Card } from "./Card";
 import { A } from "@solidjs/router";
 import { createStore } from "solid-js/store";
+import { Alert } from "./Alert.tsx";
 
 export const AuthCard = (props: {
   title: string;
   subtitle: string;
+  errorMessage?: string;
   mode: "sign-in" | "sign-up";
   onSubmit: (username: string, password: string) => void;
 }) => {
@@ -31,6 +33,7 @@ export const AuthCard = (props: {
           <div>
             <h1 class="lg:text-2xl">{props.title}</h1>
             <h2 class="text-sm">{props.subtitle}</h2>
+            <Alert class="mt-4" message={props.errorMessage} />
           </div>
           <div class="flex flex-col gap-4">
             {/*<div>*/}

@@ -9,7 +9,7 @@ export const ThemeMenu = () => {
     <Menu>
       <MenuTypography>
         <Menu.TriggerItem>
-          <div class="flex w-full justify-between px-4 py-2">
+          <div class="flex w-full justify-between px-4 py-2 hover:cursor-pointer">
             <p>Theme</p>
             <p>&gt;</p>
           </div>

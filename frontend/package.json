@@ -13,8 +13,10 @@
   },
   "dependencies": {
     "@ark-ui/solid": "^0.11.0",
+    "@solid-primitives/storage": "^2.1.1",
     "@solidjs/router": "^0.8.3",
     "@tailwindcss/container-queries": "^0.1.1",
+    "@tanstack/solid-query": "^5.8.2",
     "@trpc/client": "^10.41.0",
     "@trpc/server": "^10.41.0",
     "@ts-rest/core": "^3.30.4",
@@ -30,6 +32,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^5.6.0",
     "@types/luxon": "^3.3.3",
     "@types/qrcode": "^1.5.4",
     "autoprefixer": "^10.4.16",

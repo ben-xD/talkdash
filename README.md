@@ -1,6 +1,7 @@
 # [TalkDash](https://talkdash.orth.uk)
 
-Tools for event hosts and presenters, available on https://talkdash.orth.uk
+Tools for event hosts and presenters, available on https://talkdash.orth.uk. 
+A more bleeding edge, unstable version is available on https://v2.talkdash.orth.uk/
 
 Features:
 - Show large (fullscreen) timer and timer on speaker screen

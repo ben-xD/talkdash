@@ -1,7 +1,7 @@
 import { createTRPCProxyClient, createWSClient, wsLink } from "@trpc/client";
 import type { AppRouter } from "backend";
 import { trpcWebsocketApiPath } from "backend";
-import { createSignal } from "solid-js";
+import { createEffect, createSignal } from "solid-js";
 import { makePersisted } from "@solid-primitives/storage";
 
 export const backendUrl = import.meta.env.VITE_BACKEND_URL || "/";
@@ -15,7 +15,18 @@ export const showReconnectedMessage = showReconnectedMessageInternal;
 
 export const isConnected = isConnectedInternal;
 
-const [bearerToken, setBearerTokenInternal] = makePersisted(createSignal(""));
+const [bearerToken, setBearerTokenInternal] = makePersisted(
+  createSignal<string>(),
+  {
+    name: "session_id",
+  },
+);
+export const isSignedIn = () => !!bearerToken();
+
+createEffect(() => {
+  console.debug(`isSignedIn(): ${isSignedIn()}`);
+});
+
 export const setBearerToken = setBearerTokenInternal;
 
 export const trpc = createTRPCProxyClient<AppRouter>({
@@ -50,3 +61,9 @@ export const trpc = createTRPCProxyClient<AppRouter>({
     }),
   ],
 });
+
+export const signOut = async () => {
+  setBearerToken(undefined);
+  await trpc.auth.signOut.mutate();
+  window.location.reload();
+};

@@ -15,6 +15,7 @@ export const createTrpcCreateContext =
     const authRequest = auth.handleRequest(req, res);
     // Using cookies: https://lucia-auth.com/basics/using-cookies/
     // TODO check session is null when called from untrusted origin
+    // if session is defined, it's valid request. See https://lucia-auth.com/basics/using-cookies/
     let session = await authRequest.validate();
 
     if (!session) {
@@ -22,16 +23,13 @@ export const createTrpcCreateContext =
       session = await authRequest.validateBearerToken();
     }
 
-    const connectionContext = {} satisfies ConnectionContext;
-
     return {
       req,
       res,
       db,
       auth,
-      // if session is defined, it's valid request. See https://lucia-auth.com/basics/using-cookies/
       session,
-      connectionContext,
+      connectionContext: {} satisfies ConnectionContext as ConnectionContext,
     };
   };
 

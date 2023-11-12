@@ -5,7 +5,7 @@ export const MenuItemButton = (
   props: { title: string; onClick: () => void } & Omit<MenuItemProps, "id">,
 ) => {
   return (
-    <MenuTypography>
+    <MenuTypography class="hover:cursor-pointer">
       <MenuItem class="px-4 py-2" {...props} id={props.title}>
         {props.title}
       </MenuItem>

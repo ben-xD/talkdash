@@ -11,26 +11,22 @@ import { WrenchIcon } from "../../assets/WrenchIcon";
 import { Portal } from "solid-js/web";
 import { MenuItemLink } from "./MenuItemLink";
 import { ThemeMenu } from "./ThemeMenu";
-import { createSignal, onMount, Show } from "solid-js";
+import { Show } from "solid-js";
+import { isSignedIn, signOut } from "../../client/trpc.ts";
+import { MenuItemButton } from "./MenuItemButton.tsx";
 
 /* eslint-disable solid/no-react-specific-props */
 //  because ARK-UI uses htmlFor. See https://github.com/chakra-ui/ark/issues/1601
 
-const cookieRegExpMatcher = (cookieName: string) =>
-  new RegExp(`^(.*;)?\\s*${cookieName}\\s*=\\s*[^;]+(.*)?$`);
+// const cookieRegExpMatcher = (cookieName: string) =>
+//   new RegExp(`^(.*;)?\\s*${cookieName}\\s*=\\s*[^;]+(.*)?$`);
 // https://stackoverflow.com/a/25617724/7365866
 // auth_session set by backend/lucia
 // example cookie: auth_session=asdasfafa
-const authCookieMatcher = cookieRegExpMatcher("auth_session");
-const hasAuthCookie = () => !!document.cookie.match(authCookieMatcher);
+// const authCookieMatcher = cookieRegExpMatcher("auth_session");
+// const hasAuthCookie = () => !!document.cookie.match(authCookieMatcher);
 
 export const AppMenu = () => {
-  const [isLoggedIn, setIsLoggedIn] = createSignal<boolean>();
-
-  onMount(() => {
-    setIsLoggedIn(hasAuthCookie());
-  });
-
   return (
     <Menu>
       <MenuTrigger aria-label={"Navigation menu"}>
@@ -69,9 +65,12 @@ export const AppMenu = () => {
             >
               Account
             </MenuItemGroupLabel>
-            <Show when={!isLoggedIn()}>
+            <Show when={!isSignedIn()}>
               <MenuItemLink path="/sign-in" title={"Sign in"} />
-              {/*<MenuItemLink path="/sign-up" title={"Sign up"} />*/}
+              <MenuItemLink path="/sign-up" title={"Sign up"} />
+            </Show>
+            <Show when={isSignedIn()}>
+              <MenuItemButton title={"Sign out"} onClick={signOut} />
             </Show>
           </MenuContent>
         </MenuPositioner>

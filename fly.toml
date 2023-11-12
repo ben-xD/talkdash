@@ -1,16 +1,16 @@
-# fly.toml app configuration file generated for talkdash on 2023-10-21T20:55:23+01:00
+# fly.toml app configuration file generated for talkdash-private on 2023-11-12T20:46:01Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "talkdash"
+app = "talkdash-private"
 primary_region = "lhr"
 
 [build]
 
 [env]
-  PORT = "8080"
   INSIDE_DOCKER = "true"
+  PORT = "8080"
 
 [http_service]
   internal_port = 8080

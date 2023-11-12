@@ -5,38 +5,37 @@ import {
 } from "../trpc/middlewares/middleware.js";
 import { z } from "zod";
 import { uuid } from "../uuid.js";
-import { LuciaError, Session } from "lucia";
+import { LuciaError } from "lucia";
 import { TRPCError } from "@trpc/server";
 import { Auth } from "./auth.js";
-import { FastifyReply, FastifyRequest } from "fastify";
 import { ConnectionContext } from "../trpc/trpcContext.js";
 
 // FIXME these routes assume http by using functions like `header()`. This works with the HTTP API,
 // but websockets don't have headers. Instead, we will stop using tRPC over websockets and partykit.
 
-const setSessionAndRedirectCookie = (
-  auth: Auth,
-  req: FastifyRequest,
-  res: FastifyReply,
-  session: Session,
-) => {
-  const referer = req.headers["referer"];
-  const sessionCookie = auth.createSessionCookie(session);
-  if (referer && new URL(referer).pathname === "/trpc") {
-    res.header("Set-Cookie", sessionCookie.serialize()); // store session cookie on client
-    // Don't redirect because the client app is trpc-panel (generated UI testing similar to Swagger UI)
-    return;
-  }
-  res.header("Location", "/");
-  res.status(302);
-};
+// const setSessionAndRedirectCookie = (
+//   auth: Auth,
+//   req: FastifyRequest,
+//   res: FastifyReply,
+//   session: Session,
+// ) => {
+//   const referer = req.headers["referer"];
+//   const sessionCookie = auth.createSessionCookie(session);
+//   if (referer && new URL(referer).pathname === "/trpc") {
+//     res.header("Set-Cookie", sessionCookie.serialize()); // store session cookie on client
+//     // Don't redirect because the client app is trpc-panel (generated UI testing similar to Swagger UI)
+//     return;
+//   }
+//   res.header("Location", "/");
+//   res.status(302);
+// };
 
 const createSessionAndSetClientAuthentication = async (
   auth: Auth,
-  req: FastifyRequest,
-  res: FastifyReply,
+  // req: FastifyRequest,
+  // res: FastifyReply,
   userId: string,
-  authMode: AuthMode,
+  // authMode: AuthMode,
   connectionContext: ConnectionContext,
 ) => {
   const session = await auth.createSession({
@@ -114,10 +113,10 @@ export const authRouter = router({
 
         return createSessionAndSetClientAuthentication(
           ctx.auth,
-          ctx.req,
-          ctx.res,
+          // ctx.req,
+          // ctx.res,
           userId,
-          input.authMode,
+          // input.authMode,
           ctx.connectionContext,
         );
       } catch (e) {
@@ -133,7 +132,7 @@ export const authRouter = router({
         throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
       }
     }),
-  signIn: loggedProcedure
+  signInWithEmail: loggedProcedure
     .input(
       z.object({
         email: emailSchema,
@@ -141,6 +140,7 @@ export const authRouter = router({
         authMode: authModeSchema,
       }),
     )
+    .output(z.object({ bearerToken: z.string() }))
     .mutation(async ({ ctx, input }) => {
       try {
         const key = await ctx.auth.useKey(
@@ -150,10 +150,10 @@ export const authRouter = router({
         );
         return createSessionAndSetClientAuthentication(
           ctx.auth,
-          ctx.req,
-          ctx.res,
+          // ctx.req,
+          // ctx.res,
           key.userId,
-          input.authMode,
+          // input.authMode,
           ctx.connectionContext,
         );
       } catch (e) {
@@ -161,10 +161,10 @@ export const authRouter = router({
           console.error(e);
           throw new TRPCError({
             code: "UNAUTHORIZED",
-            message: "Invalid combination of email and password",
+            message: "Invalid login.",
           });
         }
-        return new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
       }
     }),
   deleteUser: protectedProcedure
@@ -188,12 +188,17 @@ export const authRouter = router({
       }
     }),
   signOut: protectedProcedure.mutation(async ({ ctx }) => {
-    await ctx.auth.invalidateSession(ctx.session.sessionId);
+    if (ctx.connectionContext.session) {
+      await ctx.auth.invalidateSession(ctx.connectionContext.session.sessionId);
+    } else {
+      await ctx.auth.invalidateSession(ctx.session.sessionId);
+    }
+    // TODO only set cookie headers when it's HTTP, not websocket
     // create blank session cookie
-    const sessionCookie = ctx.auth.createSessionCookie(null);
-    ctx.res.header("Location", "/sign-in");
-    ctx.res.header("Set-Cookie", sessionCookie.serialize());
-    ctx.res.status(302);
+    // const sessionCookie = ctx.auth.createSessionCookie(null);
+    // ctx.res.header("Location", "/sign-in");
+    // ctx.res.header("Set-Cookie", sessionCookie.serialize());
+    // ctx.res.status(302);
   }),
   // TODO implement password reset
   // resetPasswordSendEmail: loggedProcedure
