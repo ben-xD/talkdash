@@ -10,6 +10,7 @@ export const createTrpcCreateContext =
     // See https://lucia-auth.com/reference/lucia/interfaces/auth/#handlerequest
     // and https://lucia-auth.com/reference/lucia/modules/middleware/
     const authRequest = auth.handleRequest(req, res);
+    // if session is defined, it's valid request. See https://lucia-auth.com/basics/using-cookies/
     const session = await authRequest.validate();
 
     return {

@@ -1,5 +1,5 @@
-export const trpcHttpApiPath = "/trpc/api";
-export const trpcWebsocketApiPath = "/trpc/api/ws";
+export const trpcHttpApiPath = "/trpc/api/v1";
+export const trpcWebsocketApiPath = "/trpc/api/v1/ws";
 export const trpcPanelPath = "/trpc";
 
 // Authentication
