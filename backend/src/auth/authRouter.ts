@@ -11,7 +11,10 @@ import { Auth } from "./auth.js";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { assertUnreachable } from "../typescriptTricks.js";
 
-const setSessionCookie = (
+// FIXME these routes assume http by using functions like `header()`. This works with the HTTP API,
+// but websockets don't have headers. Instead, we will stop using tRPC over websockets and partykit.
+
+const setSessionAndRedirectCookie = (
   auth: Auth,
   req: FastifyRequest,
   res: FastifyReply,
@@ -24,7 +27,7 @@ const setSessionCookie = (
     // Don't redirect because the client app is trpc-panel (generated UI testing similar to Swagger UI)
     return;
   }
-  res.header("Location", "/"); // redirect to profile page
+  res.header("Location", "/");
   res.status(302);
 };
 
@@ -50,7 +53,7 @@ const createSessionAndSetClientAuthentication = async (
       // pilcrow: session ids are bearer tokens 😄
       return { bearerToken: session.sessionId };
     case "session":
-      setSessionCookie(auth, req, res, session);
+      setSessionAndRedirectCookie(auth, req, res, session);
       return {};
     default:
       return assertUnreachable(authMode);
@@ -129,7 +132,7 @@ export const authRouter = router({
         throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
       }
     }),
-  logIn: loggedProcedure
+  signIn: loggedProcedure
     .input(
       z.object({
         email: emailSchema,
@@ -167,7 +170,7 @@ export const authRouter = router({
     .input(z.object({ email: emailSchema, password: passwordSchema }))
     .mutation(async ({ ctx, input }) => {
       try {
-        // Requires password even if logged in
+        // Requires password even if signed in
         const key = await ctx.auth.useKey(
           "email",
           input.email.toLowerCase(),
@@ -183,11 +186,11 @@ export const authRouter = router({
         });
       }
     }),
-  logOut: protectedProcedure.mutation(async ({ ctx }) => {
+  signOut: protectedProcedure.mutation(async ({ ctx }) => {
     await ctx.auth.invalidateSession(ctx.session.sessionId);
     // create blank session cookie
     const sessionCookie = ctx.auth.createSessionCookie(null);
-    ctx.res.header("Location", "/login");
+    ctx.res.header("Location", "/sign-in");
     ctx.res.header("Set-Cookie", sessionCookie.serialize());
     ctx.res.status(302);
   }),
@@ -195,7 +198,7 @@ export const authRouter = router({
   // resetPasswordSendEmail: loggedProcedure
   // resetPasswordChangePassword: loggedProcedure
   // updateUser: protectedProcedure
-  //   // TODO check password again even if logged in
+  //   // TODO check password again even if signed in
   //   .input(z.object({ email: emailSchema, password: passwordSchema, newName: z.string() }))
   //   .mutation(async ({ ctx, input }) => {}),
 });

@@ -14,6 +14,7 @@ import { LeftIcon } from "../assets/LeftIcon.tsx";
 import { createSignal } from "solid-js";
 import { Alert } from "../components/Alert.tsx";
 import { trpc } from "../client/trpc.ts";
+import { Card } from "../components/Card.tsx";
 
 export function ConfigCard() {
   const [errorMessage, setErrorMessage] = createSignal<string>();
@@ -55,7 +56,7 @@ export function ConfigCard() {
     });
 
   return (
-    <div class="relative z-10 flex h-full flex-col items-stretch justify-between gap-8 text-blue-800 dark:text-blue-200">
+    <Card class="my-2 w-full p-4">
       <div class="flex flex-col items-start gap-2">
         <Alert message={errorMessage()} />
         <label class="whitespace-normal break-words" for="finishTime">
@@ -121,6 +122,6 @@ export function ConfigCard() {
           </button>
         </div>
       </div>
-    </div>
+    </Card>
   );
 }

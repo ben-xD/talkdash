@@ -42,6 +42,15 @@ Features:
 
 ## TODOs
 
+- Horizontal scalability and lower latency? I have a single Node backend
+  - Even if clients pick the region consistently, they still need to talk to each other
+  - Using tRPC subscriptions means we need 1 tRPC application to connect to all clients, making it a single point of failure  
+  - Try partykit for everything that needs realtime functionality
+    - Everything else is tRPC over websocket or HTTP, but without "subscriptions" 
+    - We won't benefit from the subscriptions procedures
+  - Alternatively, deploy a separate "notification" tRPC backend, that all clients connect to. (A single point of failure, but dedicated only to subscriptions).
+    - However, this means there'll still work to write routers for authentication for websockets
+  - Also, using Websockets for tRPC prevents me from redirect users using `Location` and setting cookies, since the user doesn't get any headers as response.
 - Authentication
   - Implement UI for user accounts (email sign up, login, sign out, set public password)
   - Implement email verification 
