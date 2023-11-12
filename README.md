@@ -42,7 +42,6 @@ Features:
 
 ## TODOs
 
-- Fix type safety: When lucia promise is not awaited, typescript doesn't detect it. 
 - Authentication
   - Implement UI for user accounts (email sign up, login, sign out, set public password)
   - Implement email verification 
@@ -52,6 +51,7 @@ Features:
   - Support event hosts and audience
   - Implement GitHub and Google OAuth. See https://lucia-auth.com/oauth/
   - Implement rate limiting for auth endpoints using Redis, Upstash, or Cloudflare-KV?
+- Fix type safety: When lucia promise is not awaited, typescript doesn't detect it.
 - Implement audience mode
 - Add access control for event host controls
 - Nicer glow background 
