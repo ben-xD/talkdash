@@ -33,12 +33,20 @@ Features:
     - Reminder: scale down to 1 machine using `flyctl scale count 1` because the backend is the message broker - we want all users connected to the same instance. See https://community.fly.io/t/how-deploy-to-just-one-machine/12510/2
 - Image generated using [sdxl-emoji](https://replicate.com/fofr/sdxl-emoji), background removed using Modyfi.com, optimised with https://tinypng.com/, and favicons generated using https://realfavicongenerator.net/
 - OpenAI / GPT3.5 turbo: for converting text into durations (e.g. time for lunch -> 30 minutes) 
+  - I use [Cloudflare AI Gateway](https://developers.cloudflare.com/ai-gateway/) to measure the usage and cost of OpenAI API usage for this app
 
 ## TODOs
 
-- Implement user accounts using Clerk
-  - For event hosts
-  - For audience
+- Fix type safety: When lucia promise is not awaited, typescript doesn't detect it. 
+- Authentication
+  - Implement UI for user accounts (email sign up, login, sign out, set public password)
+  - Implement email verification 
+  - Implement password reset
+  - Implement updating user information (for example, name)
+  - Test error edge cases and returned codes
+  - Support event hosts and audience
+  - Implement GitHub and Google OAuth. See https://lucia-auth.com/oauth/
+  - Implement rate limiting for auth endpoints using Redis, Upstash, or Cloudflare-KV?
 - Implement audience mode
 - Add access control for event host controls
 - Nicer glow background 

@@ -2,13 +2,13 @@ import { z } from "zod";
 import { loggedProcedure } from "./middleware.js";
 import { router } from "../trpc.js";
 import { observable, Observer } from "@trpc/server/observable";
-import { getDurationInMinutesFrom } from "../messages/openAi.js";
+import { getDurationInMinutesFrom } from "../../features/messages/openAi.js";
 import { TRPCError } from "@trpc/server";
 import {
   addSpeakerClient,
   emitToHosts,
   removeSpeakerClient,
-} from "../messages/hostRouter.js";
+} from "../../features/messages/hostRouter.js";
 
 // All messages sent to client start with "Observed"
 type ObserverId = string;

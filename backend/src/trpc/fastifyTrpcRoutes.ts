@@ -3,16 +3,21 @@ import {
   trpcHttpApiPath,
   trpcPanelPath,
   trpcWebsocketApiPath,
-} from "../trpc/path.js";
+} from "./path.js";
 import { fastifyTRPCPlugin } from "@trpc/server/adapters/fastify";
-import { appRouter } from "../trpc/appRouter.js";
-import { createTrpcCreateContext } from "../trpc/trpcContext.js";
+import { appRouter } from "./appRouter.js";
+import { createTrpcCreateContext } from "./trpcContext.js";
 import { FastifyInstance } from "fastify";
 import { renderTrpcPanel } from "trpc-panel";
 import { Database } from "../db/db.js";
+import { Auth } from "../auth/auth.js";
 
-export function registerTrpcApis(fastify: FastifyInstance, db: Database) {
-  const createContext = createTrpcCreateContext(db);
+export function registerTrpcApis(
+  fastify: FastifyInstance,
+  db: Database,
+  auth: Auth,
+) {
+  const createContext = createTrpcCreateContext(db, auth);
 
   // Websocket server
   fastify.register(fastifyWebsocket, { prefix: trpcWebsocketApiPath });

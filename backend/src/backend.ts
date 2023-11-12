@@ -6,11 +6,12 @@ import {
   trpcWebsocketApiPath,
 } from "./trpc/path.js";
 import { enableFastityLogging, env } from "./env.js";
-import { registerTrpcApis, registerTrpcPanel } from "./fastify/trpcRoutes.js";
-import { registerAuthApis } from "./fastify/authRoutes.js";
+import {
+  registerTrpcApis,
+  registerTrpcPanel,
+} from "./trpc/fastifyTrpcRoutes.js";
 import { connectToDb } from "./db/db.js";
-
-const dbPromise = connectToDb();
+import { createAuth } from "./auth/auth.js";
 
 const fastify = Fastify({
   maxParamLength: 5000,
@@ -18,9 +19,9 @@ const fastify = Fastify({
 });
 
 registerTrpcPanel(fastify);
-const db = await dbPromise;
-registerTrpcApis(fastify, db);
-registerAuthApis(fastify, db);
+const { dbPool, db } = await connectToDb();
+const auth = createAuth(dbPool);
+registerTrpcApis(fastify, db, auth);
 
 (async () => {
   try {

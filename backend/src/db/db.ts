@@ -13,10 +13,10 @@ export const connectToDb = async () => {
   }
   const connectionString = env.DATABASE_URL;
 
-  const pool = new pg.Pool({ connectionString });
-  const db = drizzle(pool, { logger: enableDatabaseLogging, schema });
+  const dbPool = new pg.Pool({ connectionString });
+  const db = drizzle(dbPool, { logger: enableDatabaseLogging, schema });
   await migrate(db, { migrationsFolder });
-  return db;
+  return { db, dbPool };
 };
 
 export type Database = NodePgDatabase<typeof schema>;

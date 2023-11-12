@@ -1,6 +1,6 @@
 import { middleware } from "../trpc.js";
 
-export const corsMiddleware = middleware(async ({ ctx, next }) =>
+export const trpcCorsMiddleware = middleware(async ({ ctx, next }) =>
   // TODO check what the arguments are when using fastify trpc integration
 
   // TODO only allow allowlisted domains in production
