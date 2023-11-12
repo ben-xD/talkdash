@@ -9,6 +9,7 @@ import { LuciaError, Session } from "lucia";
 import { TRPCError } from "@trpc/server";
 import { Auth } from "./auth.js";
 import { FastifyReply, FastifyRequest } from "fastify";
+import { ConnectionContext } from "../trpc/trpcContext.js";
 
 // FIXME these routes assume http by using functions like `header()`. This works with the HTTP API,
 // but websockets don't have headers. Instead, we will stop using tRPC over websockets and partykit.
@@ -36,7 +37,7 @@ const createSessionAndSetClientAuthentication = async (
   res: FastifyReply,
   userId: string,
   authMode: AuthMode,
-  setCurrentSession: (session: Session) => void,
+  connectionContext: ConnectionContext,
 ) => {
   const session = await auth.createSession({
     userId,
@@ -44,19 +45,19 @@ const createSessionAndSetClientAuthentication = async (
       created_at: new Date(),
     },
   });
-  // TODO is this necessary and working?
-  setCurrentSession(session);
-
-  switch (authMode) {
-    case "token":
-      // pilcrow: session ids are bearer tokens 😄
-      return { bearerToken: session.sessionId };
-    case "session":
-      setSessionAndRedirectCookie(auth, req, res, session);
-      return {};
-    default:
-      return authMode satisfies never;
-  }
+  connectionContext.session = session;
+  return { bearerToken: session.sessionId };
+  // TODO only set cookie headers when it's HTTP, not websocket
+  // switch (authMode) {
+  //   case "token":
+  //     // pilcrow: session ids are bearer tokens 😄
+  //     return { bearerToken: session.sessionId };
+  //   case "session":
+  //     setSessionAndRedirectCookie(auth, req, res, session);
+  //     return {};
+  //   default:
+  //     return authMode satisfies never;
+  // }
 };
 
 const emailSchema = z.string().email().min(5);
@@ -93,6 +94,7 @@ export const authRouter = router({
         authMode: authModeSchema,
       }),
     )
+    .output(z.object({ bearerToken: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const userId = uuid();
       try {
@@ -116,7 +118,7 @@ export const authRouter = router({
           ctx.res,
           userId,
           input.authMode,
-          (session) => (ctx.session = session),
+          ctx.connectionContext,
         );
       } catch (e) {
         if (e instanceof LuciaError && e.message === `AUTH_DUPLICATE_KEY_ID`) {
@@ -152,7 +154,7 @@ export const authRouter = router({
           ctx.res,
           key.userId,
           input.authMode,
-          (session) => (ctx.session = session),
+          ctx.connectionContext,
         );
       } catch (e) {
         if (e instanceof LuciaError) {
@@ -200,4 +202,17 @@ export const authRouter = router({
   //   // TODO check password again even if signed in
   //   .input(z.object({ email: emailSchema, password: passwordSchema, newName: z.string() }))
   //   .mutation(async ({ ctx, input }) => {}),
+  authenticateWebsocketConnection: loggedProcedure
+    .input(z.object({ bearerToken: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      // We can't mutate `ctx.session` directly because it will be reset in the next procedure. Similarly, this won't work
+      // ctx.test = { name: "procedure 1" };
+      // This happens because of tRPC's implementation details: we'd edit a temporary context for that procedure
+      // because tRPC merges 2 contexts together when moving between middlewares.
+      // If you edit anything inside specific properties, these will exist because they are copied from the original context.
+      ctx.connectionContext.session = await ctx.auth.validateSession(
+        input.bearerToken,
+      );
+      return;
+    }),
 });

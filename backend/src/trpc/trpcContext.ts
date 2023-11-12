@@ -3,6 +3,7 @@ import { inferAsyncReturnType } from "@trpc/server";
 import { CreateFastifyContextOptions } from "@trpc/server/adapters/fastify";
 import { Database } from "../db/db.js";
 import { Auth } from "../auth/auth.js";
+import { Session } from "lucia";
 
 //  This is only called when the http request is made. Not for every websocket message.
 // We identify it's the same user in the same context by updating the ctx.session in the authRouter.
@@ -21,6 +22,8 @@ export const createTrpcCreateContext =
       session = await authRequest.validateBearerToken();
     }
 
+    const connectionContext = {} satisfies ConnectionContext;
+
     return {
       req,
       res,
@@ -28,9 +31,12 @@ export const createTrpcCreateContext =
       auth,
       // if session is defined, it's valid request. See https://lucia-auth.com/basics/using-cookies/
       session,
+      connectionContext,
     };
   };
 
 export type TrpcContext = inferAsyncReturnType<
   ReturnType<typeof createTrpcCreateContext>
 >;
+
+export type ConnectionContext = { session?: Session };
