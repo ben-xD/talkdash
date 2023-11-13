@@ -6,6 +6,7 @@ import { Portal } from "solid-js/web";
 import { QrCodeView } from "../../components/QrCodeView";
 import { createSignal, onMount, Show } from "solid-js";
 import { ElapsedTime } from "../../components/ElapsedTime";
+import { A } from "@solidjs/router";
 
 type Props = { reconnectAsSpeaker: (speakerUsername: string) => void };
 
@@ -29,7 +30,15 @@ export const MetadataView = (props: Props) => {
       <div class="flex items-start justify-between">
         <p>
           <span class="font-bold tracking-tight">Speaker mode. </span>
-          Choose a talk length and start the timer.
+          Choose a talk length and start the timer.{" "}
+          <A class="link" href="/sign-in">
+            Sign in
+          </A>{" "}
+          or{" "}
+          <A class="link" href="/sign-up">
+            sign up
+          </A>{" "}
+          to control who can send you messages.
         </p>
         <div
           class="cursor-pointer hover:text-blue-100 active:text-white"

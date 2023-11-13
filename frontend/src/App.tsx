@@ -13,6 +13,7 @@ import { AppMenu } from "./components/Menu/AppMenu";
 import { SignInPage } from "./pages/sign-in";
 import { SignUpPage } from "./pages/sign-up";
 import { isConnected, showReconnectedMessage } from "./client/trpc";
+import { OAuthCallbackPage } from "./pages/OAuthCallback.tsx";
 
 const SpeakerPage = lazy(() => import("./pages/speaker.tsx"));
 const AudiencePage = lazy(() => import("./pages/audience.tsx"));
@@ -69,6 +70,7 @@ function App() {
         <Route path="/stopwatch" component={StopwatchPage} />
         <Route path="/sign-in" component={SignInPage} />
         <Route path="/sign-up" component={SignUpPage} />
+        <Route path="/auth/callback/:provider" component={OAuthCallbackPage} />
       </Routes>
     </div>
   );

@@ -1,4 +1,4 @@
-import { AuthCard } from "../components/AuthCard";
+import { AuthCard } from "../features/auth/AuthCard.tsx";
 import { isSignedIn, setBearerToken, trpc } from "../client/trpc";
 import { TRPCClientError } from "@trpc/client";
 import { createSignal, onMount } from "solid-js";

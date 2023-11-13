@@ -1,7 +1,10 @@
-import { Card } from "./Card";
+import { Card } from "../../components/Card.tsx";
 import { A } from "@solidjs/router";
 import { createStore } from "solid-js/store";
-import { Alert } from "./Alert.tsx";
+import { Alert } from "../../components/Alert.tsx";
+import { trpc } from "../../client/trpc.ts";
+import { LOCAL_STORAGE_OAUTH_STATE } from "./constants.ts";
+import { OAuthProviders } from "talkdash-schema";
 
 export const AuthCard = (props: {
   title: string;
@@ -26,6 +29,18 @@ export const AuthCard = (props: {
     props.onSubmit(email, password);
   };
 
+  const signInWithOAuth = async (provider: OAuthProviders) => {
+    const { redirectTo, state } = await trpc.auth.signInWithOAuth.mutate({
+      provider,
+    });
+    window.localStorage.setItem(LOCAL_STORAGE_OAUTH_STATE, state);
+    window.location.replace(redirectTo);
+  };
+
+  const onGitHubSignIn = async () => signInWithOAuth("github");
+
+  const onGoogleSignIn = () => signInWithOAuth("google");
+
   return (
     <div class="flex flex-1 flex-col justify-center py-8">
       <Card class="flex flex-col p-4">
@@ -36,13 +51,17 @@ export const AuthCard = (props: {
             <Alert class="mt-4" message={props.errorMessage} />
           </div>
           <div class="flex flex-col gap-4">
-            {/*<div>*/}
-            {/*  <p>Oauth option 1</p>*/}
-            {/*  <p>Oauth option 2</p>*/}
-            {/*</div>*/}
-            {/*<div class="flex justify-center text-sm">*/}
-            {/*  <span class="bg-background text-foreground px-2 text-sm">or</span>*/}
-            {/*</div>*/}
+            <div class="flex flex-col gap-4 text-center">
+              <button class="btn-secondary" onClick={onGitHubSignIn}>
+                Continue with GitHub
+              </button>
+              <button class="btn-secondary" onClick={onGoogleSignIn}>
+                Continue with Google
+              </button>
+            </div>
+            <div class="flex justify-center text-sm">
+              <span class="bg-background text-foreground px-2 text-sm">or</span>
+            </div>
             <div>
               <div class="flex flex-col gap-4">
                 <div class="flex flex-col gap-2">

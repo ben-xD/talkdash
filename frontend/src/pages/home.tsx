@@ -1,6 +1,7 @@
 import { onMount } from "solid-js";
 import { A } from "@solidjs/router";
 import TalkDashImage from "../assets/talkdash-160x160.webp";
+import { isSignedIn } from "../client/trpc.ts";
 
 const Home = () => {
   onMount(() => {
@@ -9,7 +10,11 @@ const Home = () => {
 
   return (
     <div class="my-4 flex max-w-[400px] flex-col gap-4">
-      <p class="text-xl">Hey 👋</p>
+      {isSignedIn() ? (
+        <p class="text-xl">Welcome 👋, you're logged in</p>
+      ) : (
+        <p class="text-xl">Hey 👋</p>
+      )}
       <p>
         This is a timer app for events. Speakers see a{" "}
         <span class="font-bold">large timer</span>. Event hosts can send

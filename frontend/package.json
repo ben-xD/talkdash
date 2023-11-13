@@ -25,6 +25,7 @@
     "clsx": "^2.0.0",
     "luxon": "^3.4.3",
     "qrcode": "^1.5.3",
+    "talkdash-schema": "workspace:*",
     "solid-js": "^1.7.8",
     "solid-toast": "^0.5.0",
     "tailwind-merge": "^2.0.0",
