@@ -1,5 +1,5 @@
 import { middleware } from "../trpc.js";
-import { enableTrpcRequestLogging } from "../../env.js";
+import { env } from "../../env.js";
 
 export const trpcLogMiddleware = middleware(
   async ({ path, ctx, next, type }) => {
@@ -7,7 +7,7 @@ export const trpcLogMiddleware = middleware(
     const start = Date.now();
     const result = await next({ ctx });
     const durationMs = Date.now() - start;
-    if (enableTrpcRequestLogging) {
+    if (env.LOG_TRPC_REQUEST) {
       console.info(
         JSON.stringify({
           path,

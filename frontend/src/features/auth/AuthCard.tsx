@@ -39,7 +39,7 @@ export const AuthCard = (props: {
 
   const onGitHubSignIn = async () => signInWithOAuth("github");
 
-  const onGoogleSignIn = () => signInWithOAuth("google");
+  // const onGoogleSignIn = () => signInWithOAuth("google");
 
   return (
     <div class="flex flex-1 flex-col justify-center py-8">
@@ -60,7 +60,7 @@ export const AuthCard = (props: {
               {/*</button>*/}
             </div>
             <div class="flex justify-center text-sm">
-              <span class="bg-background text-foreground px-2 text-sm">or</span>
+              <span class="px-2 text-sm">or</span>
             </div>
             <div>
               <div class="flex flex-col gap-4">

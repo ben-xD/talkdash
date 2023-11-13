@@ -3,7 +3,7 @@
 }
 
 .btn-secondary {
-  @apply rounded-md bg-blue-50 px-4 outline outline-1 outline-blue-200 py-2 text-blue-600 shadow hover:bg-blue-100 active:bg-blue-300 disabled:bg-transparent disabled:text-gray-500 disabled:shadow-none;
+  @apply rounded-md bg-blue-50 px-4 py-2 text-blue-600 shadow outline outline-1 outline-blue-200 hover:bg-blue-100 active:bg-blue-300 disabled:bg-transparent disabled:text-gray-500 disabled:shadow-none;
 }
 
 .link {

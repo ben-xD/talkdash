@@ -1,13 +1,14 @@
 import { z } from "zod";
 import * as dotenv from "dotenv";
 
-// TODO Replace environment variables usage with config files (yaml and zod).
-// TODO move the following logger options into the config file
-export const enableDatabaseLogging = false;
-export const enableFastityLogging = false;
-export const enableTrpcRequestLogging = false;
+// You may consider using config files instead of environment variables (yaml and zod)
+// however, changing configs becomes harder when Kubernetes is not used.
+// For example, how do you swap config files in Fly.io?
 
 const envValidator = z.object({
+  LOG_FASTIFY: z.coerce.boolean().default(false),
+  LOG_DATABASE: z.coerce.boolean().default(false),
+  LOG_TRPC_REQUEST: z.coerce.boolean().default(false),
   OPENAI_API_KEY: z.string(),
   CLOUDFLARE_ACCOUNT_ID: z.string(),
   CLOUDFLARE_WORKERS_AI_TOKEN: z.string(),
@@ -55,6 +56,19 @@ const envValidator = z.object({
   GOOGLE_SECRET: z.string(),
   GOOGLE_REDIRECT_URI: z.string(),
 });
+
+// Possible approach when using config instead of environment variables
+// const configSchema = z.object({
+//   oAuth: z
+//     .object({
+//       google: z.object({
+//         clientId: z.string(),
+//         clientSecret: z.string(),
+//         redirectUri: z.string(),
+//       }),
+//     })
+//     .optional(),
+// });
 
 // Load environment variables just before reading and validating them
 dotenv.config();

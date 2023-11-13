@@ -11,7 +11,6 @@ import { FastifyInstance } from "fastify";
 import { renderTrpcPanel } from "trpc-panel";
 import { Database } from "../db/db.js";
 import { Auth, OAuths } from "../auth/auth.js";
-import { GithubAuth } from "@lucia-auth/oauth/providers";
 
 export function registerTrpcApis(
   fastify: FastifyInstance,

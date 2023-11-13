@@ -5,19 +5,17 @@ import {
   trpcPanelPath,
   trpcWebsocketApiPath,
 } from "./trpc/path.js";
-import { enableFastityLogging, env } from "./env.js";
+import { env } from "./env.js";
 import {
   registerTrpcApis,
   registerTrpcPanel,
 } from "./trpc/fastifyTrpcRoutes.js";
 import { connectToDb } from "./db/db.js";
 import { createAuth, createOAuths } from "./auth/auth.js";
-import { github } from "@lucia-auth/oauth/providers";
-import { Auth } from "lucia";
 
 const fastify = Fastify({
   maxParamLength: 5000,
-  logger: enableFastityLogging,
+  logger: env.LOG_FASTIFY,
 });
 
 registerTrpcPanel(fastify);
