@@ -55,9 +55,9 @@ export const AuthCard = (props: {
               <button class="btn-secondary" onClick={onGitHubSignIn}>
                 Continue with GitHub
               </button>
-              <button class="btn-secondary" onClick={onGoogleSignIn}>
-                Continue with Google
-              </button>
+              {/*<button class="btn-secondary" onClick={onGoogleSignIn}>*/}
+              {/*  Continue with Google*/}
+              {/*</button>*/}
             </div>
             <div class="flex justify-center text-sm">
               <span class="bg-background text-foreground px-2 text-sm">or</span>
