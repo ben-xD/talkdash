@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "prettier --check src && eslint src",
-    "format": "prettier src --write && eslint src --fix",
+    "lint:fix": "prettier src --write && eslint src --fix",
     "preview": "vite preview",
     "clean": "rimraf dist"
   },

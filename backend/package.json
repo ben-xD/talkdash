@@ -11,7 +11,7 @@
     "start": "node dist/src/backend.js",
     "deploy": "fly deploy ..",
     "lint": "prettier --check src && eslint src",
-    "format": "prettier src --write && eslint src --fix",
+    "lint:fix": "prettier src --write && eslint src --fix",
     "db:proxy": "docker-compose up -d",
     "db:logs": "docker logs talkdash-pg_proxy-1 -f",
     "db:gen": "tsx node_modules/drizzle-kit/bin.cjs generate:pg",

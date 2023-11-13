@@ -19,7 +19,7 @@
       "persistent": true
     },
     "lint": {},
-    "format": {},
+    "lint:fix": {},
     "clean": {}
   }
 }
