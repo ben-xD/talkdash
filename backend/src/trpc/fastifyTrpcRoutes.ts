@@ -10,14 +10,16 @@ import { createTrpcCreateContext } from "./trpcContext.js";
 import { FastifyInstance } from "fastify";
 import { renderTrpcPanel } from "trpc-panel";
 import { Database } from "../db/db.js";
-import { Auth } from "../auth/auth.js";
+import { Auth, OAuths } from "../auth/auth.js";
+import { GithubAuth } from "@lucia-auth/oauth/providers";
 
 export function registerTrpcApis(
   fastify: FastifyInstance,
   db: Database,
   auth: Auth,
+  oAuths: OAuths,
 ) {
-  const createContext = createTrpcCreateContext(db, auth);
+  const createContext = createTrpcCreateContext(db, auth, oAuths);
 
   // Websocket server
   fastify.register(fastifyWebsocket, { prefix: trpcWebsocketApiPath });

@@ -1,8 +1,6 @@
 import { z } from "zod";
 import * as dotenv from "dotenv";
 
-dotenv.config();
-
 // TODO Replace environment variables usage with config files (yaml and zod).
 // TODO move the following logger options into the config file
 export const enableDatabaseLogging = false;
@@ -51,5 +49,13 @@ const envValidator = z.object({
       ].join(" "),
     ),
   INSIDE_DOCKER: z.coerce.boolean().default(false),
+  GITHUB_ID: z.string(),
+  GITHUB_SECRET: z.string(),
+  GOOGLE_ID: z.string(),
+  GOOGLE_SECRET: z.string(),
+  GOOGLE_REDIRECT_URI: z.string(),
 });
+
+// Load environment variables just before reading and validating them
+dotenv.config();
 export const env = envValidator.parse(process.env);

@@ -3,6 +3,12 @@ import { lucia } from "lucia";
 import { env } from "../env.js";
 import { Pool } from "pg";
 import { fastify } from "lucia/middleware";
+import {
+  github,
+  GithubUserAuth,
+  google,
+  GoogleUserAuth,
+} from "@lucia-auth/oauth/providers";
 
 export const createAuth = (dbPool: Pool) =>
   lucia({
@@ -36,3 +42,24 @@ export const createAuth = (dbPool: Pool) =>
   });
 
 export type Auth = ReturnType<typeof createAuth>;
+
+export const createOAuths = (auth: Auth) => {
+  return {
+    google: google(auth, {
+      clientId: env.GOOGLE_ID,
+      clientSecret: env.GOOGLE_SECRET,
+      redirectUri: env.GOOGLE_REDIRECT_URI,
+      // scope: ,
+      // accessType: ,
+    }),
+    github: github(auth, {
+      clientId: env.GITHUB_ID,
+      clientSecret: env.GITHUB_SECRET,
+      // scope: ,
+      // redirectUri: ,
+    }),
+  };
+};
+export type OAuths = ReturnType<typeof createOAuths>;
+export type GithubUser = GithubUserAuth<Auth>;
+export type GoogleUser = GoogleUserAuth<Auth>;

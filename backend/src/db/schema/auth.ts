@@ -11,21 +11,24 @@ export const user = pgTable("user", {
   id: varchar("id", {
     length: userIdLength,
   }).primaryKey(),
+  // Defaults to null, but the user can set it
   name: varchar("name", {
     length: 255,
   }),
-  // lucia-auth will store the email in id of the key table in the format `email:name@example.com`.
-  // This is called provider id in the code. Therefore, we don't need the email column here.
-  // email: varchar("email", {
-  //   // email address must not exceed 254 characters. See https://stackoverflow.com/a/574698/7365866
-  //   length: 254,
-  // }).unique(),
   createdAt: timestamp("created_at"),
   updatedAt: timestamp("updated_at"),
+  email: varchar("email", {
+    // lucia-auth will store the email in id of the key table in the format `email:name@example.com` when
+    // email provider is used. This is called provider id in the code. However, lucia won't store the email from
+    // outh providers.
+    // email address must not exceed 254 characters. See https://stackoverflow.com/a/574698/7365866
+    length: 254,
+  }).unique(),
 });
 
 export const userSession = pgTable("user_session", {
   id: varchar("id", {
+    // TODO should this be as long as the email + provider name? 128 might be too short.
     length: 128,
   }).primaryKey(),
   userId: varchar("user_id", {

@@ -2,13 +2,13 @@ import { inferAsyncReturnType } from "@trpc/server";
 
 import { CreateFastifyContextOptions } from "@trpc/server/adapters/fastify";
 import { Database } from "../db/db.js";
-import { Auth } from "../auth/auth.js";
+import { Auth, OAuths } from "../auth/auth.js";
 import { Session } from "lucia";
 
 //  This is only called when the http request is made. Not for every websocket message.
 // We identify it's the same user in the same context by updating the ctx.session in the authRouter.
 export const createTrpcCreateContext =
-  (db: Database, auth: Auth) =>
+  (db: Database, auth: Auth, oAuths: OAuths) =>
   async ({ req, res }: CreateFastifyContextOptions) => {
     // See https://lucia-auth.com/reference/lucia/interfaces/auth/#handlerequest
     // and https://lucia-auth.com/reference/lucia/modules/middleware/
@@ -28,6 +28,7 @@ export const createTrpcCreateContext =
       res,
       db,
       auth,
+      oAuths,
       session,
       connectionContext: {} satisfies ConnectionContext as ConnectionContext,
     };

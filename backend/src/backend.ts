@@ -11,7 +11,9 @@ import {
   registerTrpcPanel,
 } from "./trpc/fastifyTrpcRoutes.js";
 import { connectToDb } from "./db/db.js";
-import { createAuth } from "./auth/auth.js";
+import { createAuth, createOAuths } from "./auth/auth.js";
+import { github } from "@lucia-auth/oauth/providers";
+import { Auth } from "lucia";
 
 const fastify = Fastify({
   maxParamLength: 5000,
@@ -21,7 +23,8 @@ const fastify = Fastify({
 registerTrpcPanel(fastify);
 const { dbPool, db } = await connectToDb();
 const auth = createAuth(dbPool);
-registerTrpcApis(fastify, db, auth);
+const oAuths = createOAuths(auth);
+registerTrpcApis(fastify, db, auth, oAuths);
 
 (async () => {
   try {

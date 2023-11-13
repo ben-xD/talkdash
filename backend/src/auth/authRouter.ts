@@ -9,6 +9,12 @@ import { LuciaError } from "lucia";
 import { TRPCError } from "@trpc/server";
 import { Auth } from "./auth.js";
 import { ConnectionContext } from "../trpc/trpcContext.js";
+import { OAuthRequestError } from "@lucia-auth/oauth";
+import { oAuthProviders } from "talkdash-schema";
+import {
+  getOrCreateUserFromGithubUser,
+  getOrCreateUserFromGoogleUser,
+} from "./oauth.js";
 
 // FIXME these routes assume http by using functions like `header()`. This works with the HTTP API,
 // but websockets don't have headers. Instead, we will stop using tRPC over websockets and partykit.
@@ -108,6 +114,7 @@ export const authRouter = router({
             name: input.name,
             created_at: new Date(),
             updated_at: new Date(),
+            email: null,
           },
         });
 
@@ -190,8 +197,13 @@ export const authRouter = router({
   signOut: protectedProcedure.mutation(async ({ ctx }) => {
     if (ctx.connectionContext.session) {
       await ctx.auth.invalidateSession(ctx.connectionContext.session.sessionId);
-    } else {
+    } else if (ctx.session) {
       await ctx.auth.invalidateSession(ctx.session.sessionId);
+    } else {
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "You are already signed out.",
+      });
     }
     // TODO only set cookie headers when it's HTTP, not websocket
     // create blank session cookie
@@ -219,5 +231,69 @@ export const authRouter = router({
         input.bearerToken,
       );
       return;
+    }),
+  signInWithOAuth: loggedProcedure
+    .input(z.object({ provider: oAuthProviders }))
+    .output(z.object({ redirectTo: z.string().url(), state: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      if (input.provider === "github") {
+        const [url, state] = await ctx.oAuths.github.getAuthorizationUrl();
+        return {
+          redirectTo: url.toString(),
+          state,
+        };
+      } else if (input.provider === "google") {
+        const [url, state] = await ctx.oAuths.google.getAuthorizationUrl();
+        return {
+          redirectTo: url.toString(),
+          state,
+        };
+      }
+      input.provider satisfies never;
+      throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+    }),
+  validateCallback: loggedProcedure
+    .input(z.object({ provider: oAuthProviders, code: z.string() }))
+    .output(z.object({ bearerToken: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      try {
+        if (input.provider === "github") {
+          const githubUser = await ctx.oAuths.github.validateCallback(
+            input.code,
+          );
+          // TODO store more information from user?
+          // TODO ensure their data is deleted when the user is deleted
+          const user = await getOrCreateUserFromGithubUser(githubUser);
+          return createSessionAndSetClientAuthentication(
+            ctx.auth,
+            user.userId,
+            ctx.connectionContext,
+          );
+        } else if (input.provider === "google") {
+          const googleUser = await ctx.oAuths.google.validateCallback(
+            input.code,
+          );
+          const user = await getOrCreateUserFromGoogleUser(googleUser);
+          return createSessionAndSetClientAuthentication(
+            ctx.auth,
+            user.userId,
+            ctx.connectionContext,
+          );
+        } else {
+          input.provider satisfies never;
+          throw new TRPCError({
+            code: "METHOD_NOT_SUPPORTED",
+            message: "OAuth provider not supported",
+          });
+        }
+      } catch (e) {
+        console.error({ e });
+        if (e instanceof OAuthRequestError) {
+          // const { request, response } = e;
+          // TODO understand all error cases and show useful error to user
+          throw new TRPCError({ code: "UNAUTHORIZED" });
+        }
+        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+      }
     }),
 });
