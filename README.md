@@ -44,6 +44,7 @@ Features:
 ## TODOs
 
 - TODO show logged in page after logging in or signing up
+- Redirect to `/sign-in` if 401 error is received
 - Implement GitHub and Google OAuth. See https://lucia-auth.com/oauth/
 - Horizontal scalability and lower latency? I have a single Node backend
   - Even if clients pick the region consistently, they still need to talk to each other
