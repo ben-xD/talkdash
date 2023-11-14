@@ -1,4 +1,5 @@
 {
+  "name": "@talkdash/root",
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",

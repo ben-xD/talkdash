@@ -9,7 +9,7 @@ import { LuciaError } from "lucia";
 import { TRPCError } from "@trpc/server";
 import { assertProviderExists } from "./auth.js";
 import { OAuthRequestError } from "@lucia-auth/oauth";
-import { oAuthProviders } from "talkdash-schema";
+import { oAuthProviders } from "@talkdash/schema";
 import {
   getOrCreateUserFromGithubUser,
   getOrCreateUserFromGoogleUser,

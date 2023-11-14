@@ -14,7 +14,7 @@ import {
   GoogleAuth,
   GoogleUserAuth,
 } from "@lucia-auth/oauth/providers";
-import { OAuthProviders } from "talkdash-schema";
+import { OAuthProviders } from "@talkdash/schema";
 import { TRPCError } from "@trpc/server";
 
 export const createAuth = (dbPool: Pool) =>

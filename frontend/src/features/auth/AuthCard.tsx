@@ -4,7 +4,7 @@ import { createStore } from "solid-js/store";
 import { Alert } from "../../components/Alert.tsx";
 import { trpc } from "../../client/trpc.ts";
 import { LOCAL_STORAGE_OAUTH_STATE } from "./constants.ts";
-import { OAuthProviders } from "talkdash-schema";
+import { OAuthProviders } from "@talkdash/schema";
 
 export const AuthCard = (props: {
   title: string;

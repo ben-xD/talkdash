@@ -1,7 +1,7 @@
 import { useNavigate, useParams, useSearchParams } from "@solidjs/router";
 import { onMount } from "solid-js";
 import { setBearerToken, trpc } from "../client/trpc.ts";
-import { oAuthProviders } from "talkdash-schema";
+import { oAuthProviders } from "@talkdash/schema";
 import { LOCAL_STORAGE_OAUTH_STATE } from "../features/auth/constants.ts";
 
 export const OAuthCallbackPage = () => {

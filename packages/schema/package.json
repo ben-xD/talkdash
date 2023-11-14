@@ -1,5 +1,5 @@
 {
-  "name": "talkdash-schema",
+  "name": "@talkdash/schema",
   "version": "1.0.0",
   "description": "",
   "type": "module",

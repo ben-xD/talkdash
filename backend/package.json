@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "@talkdash/backend",
   "version": "1.0.0",
   "description": "",
   "type": "module",
@@ -49,7 +49,7 @@
     "lucia": "^2.7.4",
     "openai": "^4.14.1",
     "pg": "^8.11.3",
-    "talkdash-schema": "workspace:*",
+    "@talkdash/schema": "workspace:*",
     "superjson": "^2.0.0",
     "trpc-panel": "^1.3.4",
     "tsx": "^3.14.0",

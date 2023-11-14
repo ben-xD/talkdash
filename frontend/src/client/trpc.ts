@@ -4,8 +4,8 @@ import {
   loggerLink,
   wsLink,
 } from "@trpc/client";
-import type { AppRouter } from "backend";
-import { trpcWebsocketApiPath } from "backend";
+import type { AppRouter } from "@talkdash/backend";
+import { trpcWebsocketApiPath } from "@talkdash/backend";
 import { createEffect, createSignal } from "solid-js";
 import { makePersisted } from "@solid-primitives/storage";
 
