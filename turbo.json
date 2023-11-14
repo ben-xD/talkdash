@@ -15,6 +15,10 @@
       "dotEnv": [".env"],
       "outputs": ["dist/**"]
     },
+    // Only backend needs the schema build, since frontend uses vite and will transpile the schema automatically
+    "@talkdash/backend#dev": {
+      "dependsOn": ["@talkdash/schema#build"]
+    },
     "dev": {
       "persistent": true
     },

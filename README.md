@@ -133,3 +133,4 @@ Features:
     - It turns out I just misunderstood. The `dotEnv` path is relative to the "workspace", which is the **app** folder, **not** the repo root. I still need to define it, even when turbo detects `frontend/` is a vite project. It doesn't know to look in `.env` for environment variables.
   - Note: We don't rebuild the backend when the `.env` changes, because `.env` do not affect code generation. This is different in the frontend, where the variables are hardcoded into the JS bundle.
   - See https://turbo.build/repo/docs/core-concepts/caching/environment-variable-inputs for more information about environment variables.
+  - Allow JSON comments in Webstorm. Look for `Compliance with JSON standard` in Settings.

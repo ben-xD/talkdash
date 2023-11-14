@@ -7,8 +7,10 @@
     "isolatedModules": true,
     "preserveWatchOutput": true,
     "skipLibCheck": true,
-    "noEmit": true,
-    "strict": true
+    "strict": true,
+    "outDir": "dist",
+    "declaration": true
   },
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }
