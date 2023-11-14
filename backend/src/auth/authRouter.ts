@@ -7,87 +7,19 @@ import { z } from "zod";
 import { uuid } from "../uuid.js";
 import { LuciaError } from "lucia";
 import { TRPCError } from "@trpc/server";
-import { Auth } from "./auth.js";
-import { ConnectionContext } from "../trpc/trpcContext.js";
+import { assertProviderExists } from "./auth.js";
 import { OAuthRequestError } from "@lucia-auth/oauth";
 import { oAuthProviders } from "talkdash-schema";
 import {
   getOrCreateUserFromGithubUser,
   getOrCreateUserFromGoogleUser,
 } from "./oauth.js";
-
-// FIXME these routes assume http by using functions like `header()`. This works with the HTTP API,
-// but websockets don't have headers. Instead, we will stop using tRPC over websockets and partykit.
-
-// const setSessionAndRedirectCookie = (
-//   auth: Auth,
-//   req: FastifyRequest,
-//   res: FastifyReply,
-//   session: Session,
-// ) => {
-//   const referer = req.headers["referer"];
-//   const sessionCookie = auth.createSessionCookie(session);
-//   if (referer && new URL(referer).pathname === "/trpc") {
-//     res.header("Set-Cookie", sessionCookie.serialize()); // store session cookie on client
-//     // Don't redirect because the client app is trpc-panel (generated UI testing similar to Swagger UI)
-//     return;
-//   }
-//   res.header("Location", "/");
-//   res.status(302);
-// };
-
-const createSessionAndSetClientAuthentication = async (
-  auth: Auth,
-  // req: FastifyRequest,
-  // res: FastifyReply,
-  userId: string,
-  // authMode: AuthMode,
-  connectionContext: ConnectionContext,
-) => {
-  const session = await auth.createSession({
-    userId,
-    attributes: {
-      created_at: new Date(),
-    },
-  });
-  connectionContext.session = session;
-  return { bearerToken: session.sessionId };
-  // TODO only set cookie headers when it's HTTP, not websocket
-  // switch (authMode) {
-  //   case "token":
-  //     // pilcrow: session ids are bearer tokens 😄
-  //     return { bearerToken: session.sessionId };
-  //   case "session":
-  //     setSessionAndRedirectCookie(auth, req, res, session);
-  //     return {};
-  //   default:
-  //     return authMode satisfies never;
-  // }
-};
-
-const emailSchema = z.string().email().min(5);
-const passwordSchema = z
-  .string()
-  .min(8, { message: "Password must be at least 8 characters long" })
-  .max(128, { message: "Password must be no more than 128 characters long" })
-  .regex(/[a-z]/, {
-    message: "Password must contain at least one lowercase letter",
-  })
-  .regex(/[A-Z]/, {
-    message: "Password must contain at least one uppercase letter",
-  })
-  .regex(/[0-9]/, { message: "Password must contain at least one digit" })
-  .regex(/[^A-Za-z0-9]/, {
-    message: "Password must contain at least one special character",
-  });
-const authModeSchema = z
-  .union([z.literal("token"), z.literal("session")])
-  .default("session");
-// const authModeSchema = z.enum(["token", "session"]).default("session");
-
-// This started as the tRPC + fastify implementation of https://lucia-auth.com/guidebook/sign-in-with-username-and-password/
-// Also useful: https://lucia-auth.com/basics/users/
-export type AuthMode = z.infer<typeof authModeSchema>;
+import {
+  authModeSchema,
+  createSessionAndSetClientAuthentication,
+  emailSchema,
+  passwordSchema,
+} from "./schema.js";
 
 export const authRouter = router({
   signUpWithEmail: loggedProcedure
@@ -157,10 +89,7 @@ export const authRouter = router({
         );
         return createSessionAndSetClientAuthentication(
           ctx.auth,
-          // ctx.req,
-          // ctx.res,
           key.userId,
-          // input.authMode,
           ctx.connectionContext,
         );
       } catch (e) {
@@ -243,7 +172,10 @@ export const authRouter = router({
           state,
         };
       } else if (input.provider === "google") {
-        const [url, state] = await ctx.oAuths.google.getAuthorizationUrl();
+        const [url, state] = await assertProviderExists(
+          ctx.oAuths.google,
+          "google",
+        ).getAuthorizationUrl();
         return {
           redirectTo: url.toString(),
           state,
@@ -270,9 +202,10 @@ export const authRouter = router({
             ctx.connectionContext,
           );
         } else if (input.provider === "google") {
-          const googleUser = await ctx.oAuths.google.validateCallback(
-            input.code,
-          );
+          const googleUser = await assertProviderExists(
+            ctx.oAuths.google,
+            "google",
+          ).validateCallback(input.code);
           const user = await getOrCreateUserFromGoogleUser(googleUser);
           return createSessionAndSetClientAuthentication(
             ctx.auth,

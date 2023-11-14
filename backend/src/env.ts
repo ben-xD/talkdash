@@ -5,7 +5,7 @@ import * as dotenv from "dotenv";
 // however, changing configs becomes harder when Kubernetes is not used.
 // For example, how do you swap config files in Fly.io?
 
-const envValidator = z.object({
+const envSchema = z.object({
   LOG_FASTIFY: z.coerce.boolean().default(false),
   LOG_DATABASE: z.coerce.boolean().default(false),
   LOG_TRPC_REQUEST: z.coerce.boolean().default(false),
@@ -50,12 +50,23 @@ const envValidator = z.object({
       ].join(" "),
     ),
   INSIDE_DOCKER: z.coerce.boolean().default(false),
+  AUTH_GOOGLE: z.coerce
+    .boolean()
+    .default(false)
+    .describe("Enable Google OAuth."),
+});
+
+export const githubOAuthConfigSchema = z.object({
   GITHUB_ID: z.string(),
   GITHUB_SECRET: z.string(),
+});
+
+export const googleOAuthConfigSchema = z.object({
   GOOGLE_ID: z.string(),
   GOOGLE_SECRET: z.string(),
   GOOGLE_REDIRECT_URI: z.string(),
 });
+export type GoogleOAuthConfig = z.infer<typeof googleOAuthConfigSchema>;
 
 // Possible approach when using config instead of environment variables
 // const configSchema = z.object({
@@ -72,4 +83,4 @@ const envValidator = z.object({
 
 // Load environment variables just before reading and validating them
 dotenv.config();
-export const env = envValidator.parse(process.env);
+export const env = envSchema.parse(process.env);

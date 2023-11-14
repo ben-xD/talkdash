@@ -1,14 +1,21 @@
 import { pg } from "@lucia-auth/adapter-postgresql";
 import { lucia } from "lucia";
-import { env } from "../env.js";
+import {
+  env,
+  githubOAuthConfigSchema,
+  googleOAuthConfigSchema,
+} from "../env.js";
 import { Pool } from "pg";
 import { fastify } from "lucia/middleware";
 import {
   github,
   GithubUserAuth,
   google,
+  GoogleAuth,
   GoogleUserAuth,
 } from "@lucia-auth/oauth/providers";
+import { OAuthProviders } from "talkdash-schema";
+import { TRPCError } from "@trpc/server";
 
 export const createAuth = (dbPool: Pool) =>
   lucia({
@@ -44,17 +51,23 @@ export const createAuth = (dbPool: Pool) =>
 export type Auth = ReturnType<typeof createAuth>;
 
 export const createOAuths = (auth: Auth) => {
-  return {
-    google: google(auth, {
-      clientId: env.GOOGLE_ID,
-      clientSecret: env.GOOGLE_SECRET,
-      redirectUri: env.GOOGLE_REDIRECT_URI,
+  let googleAuth: GoogleAuth<Auth> | undefined = undefined;
+  if (env.AUTH_GOOGLE) {
+    const googleConfig = googleOAuthConfigSchema.parse(process.env);
+    googleAuth = google(auth, {
+      clientId: googleConfig.GOOGLE_ID,
+      clientSecret: googleConfig.GOOGLE_SECRET,
+      redirectUri: googleConfig.GOOGLE_REDIRECT_URI,
       // scope: ,
-      // accessType: ,
-    }),
+    });
+  }
+
+  let githubConfig = githubOAuthConfigSchema.parse(process.env);
+  return {
+    google: googleAuth,
     github: github(auth, {
-      clientId: env.GITHUB_ID,
-      clientSecret: env.GITHUB_SECRET,
+      clientId: githubConfig.GITHUB_ID,
+      clientSecret: githubConfig.GITHUB_SECRET,
       // scope: ,
       // redirectUri: ,
     }),
@@ -63,3 +76,16 @@ export const createOAuths = (auth: Auth) => {
 export type OAuths = ReturnType<typeof createOAuths>;
 export type GithubUser = GithubUserAuth<Auth>;
 export type GoogleUser = GoogleUserAuth<Auth>;
+
+export const assertProviderExists = <T extends unknown>(
+  provider: T,
+  name: OAuthProviders,
+): NonNullable<T> => {
+  if (!provider) {
+    throw new TRPCError({
+      code: "METHOD_NOT_SUPPORTED",
+      message: `OAuth provider ${name} not available`,
+    });
+  }
+  return provider;
+};

@@ -43,6 +43,7 @@ Features:
 
 ## TODOs
 
+- Disable Google Auth fully (make it easy to toggle)
 - TODO show logged in page after logging in or signing up
 - Redirect to `/sign-in` if 401 error is received
 - Implement GitHub and Google OAuth. See https://lucia-auth.com/oauth/
