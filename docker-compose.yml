@@ -9,17 +9,17 @@ services:
       POSTGRES_DB: talkdash
     ports:
       - "5432:5432"
-#  backend:
-#    env_file: "backend/docker.env"
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    command: "npm start"
-#    # command: tail -f /dev/null
-#    depends_on:
-#      - "db"
-#    ports:
-#      - "4001:4000"
+  backend:
+    env_file: "backend/docker.env"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: "npm start"
+    # command: tail -f /dev/null
+    depends_on:
+      - "db"
+    ports:
+      - "4001:4000"
   # If connecting from a serverless function, we need to use a websocket proxy to connection to neon database.
   #  pg_proxy:
   #    image: ghcr.io/neondatabase/wsproxy:latest
