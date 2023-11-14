@@ -62,7 +62,7 @@ export const createOAuths = (auth: Auth) => {
     });
   }
 
-  let githubConfig = githubOAuthConfigSchema.parse(process.env);
+  const githubConfig = githubOAuthConfigSchema.parse(process.env);
   return {
     google: googleAuth,
     github: github(auth, {
@@ -77,7 +77,7 @@ export type OAuths = ReturnType<typeof createOAuths>;
 export type GithubUser = GithubUserAuth<Auth>;
 export type GoogleUser = GoogleUserAuth<Auth>;
 
-export const assertProviderExists = <T extends unknown>(
+export const assertProviderExists = <T>(
   provider: T,
   name: OAuthProviders,
 ): NonNullable<T> => {
