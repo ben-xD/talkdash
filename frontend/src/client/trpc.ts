@@ -1,4 +1,9 @@
-import { createTRPCProxyClient, createWSClient, wsLink } from "@trpc/client";
+import {
+  createTRPCProxyClient,
+  createWSClient,
+  loggerLink,
+  wsLink,
+} from "@trpc/client";
 import type { AppRouter } from "backend";
 import { trpcWebsocketApiPath } from "backend";
 import { createEffect, createSignal } from "solid-js";
@@ -31,6 +36,12 @@ export const setBearerToken = setBearerTokenInternal;
 
 export const trpc = createTRPCProxyClient<AppRouter>({
   links: [
+    loggerLink({
+      enabled: (opts) =>
+        (process.env.NODE_ENV === "development" &&
+          typeof window !== "undefined") ||
+        (opts.direction === "down" && opts.result instanceof Error),
+    }),
     wsLink({
       client: createWSClient({
         url: backendUrl + trpcWebsocketApiPath,
