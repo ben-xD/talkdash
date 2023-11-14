@@ -43,10 +43,8 @@ Features:
 
 ## TODOs
 
-- Disable Google Auth fully (make it easy to toggle)
 - TODO show logged in page after logging in or signing up
 - Redirect to `/sign-in` if 401 error is received
-- Implement GitHub and Google OAuth. See https://lucia-auth.com/oauth/
 - Horizontal scalability and lower latency? I have a single Node backend
   - Even if clients pick the region consistently, they still need to talk to each other
   - Using tRPC subscriptions means we need 1 tRPC application to connect to all clients, making it a single point of failure  
