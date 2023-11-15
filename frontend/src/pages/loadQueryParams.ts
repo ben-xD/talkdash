@@ -2,7 +2,7 @@ import {
   setSpeakerUsername,
   speakerUsernameKey,
 } from "../features/user/userState.js";
-import { generateRandomUsername } from "../names";
+import { generateRandomUsername } from "../features/names";
 
 export const loadQueryParams = (generateFallbackUsername = true) => {
   // Read URL path param to get speaker ID.

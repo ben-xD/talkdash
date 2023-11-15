@@ -134,3 +134,6 @@ Features:
   - Note: We don't rebuild the backend when the `.env` changes, because `.env` do not affect code generation. This is different in the frontend, where the variables are hardcoded into the JS bundle.
   - See https://turbo.build/repo/docs/core-concepts/caching/environment-variable-inputs for more information about environment variables.
   - Allow JSON comments in Webstorm. Look for `Compliance with JSON standard` in Settings.
+
+## Useful
+- Use [madge](https://github.com/pahen/madge) and graphviz to visualise relationships between files

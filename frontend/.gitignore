@@ -2,3 +2,6 @@
 
 # Vite PWA Plugin
 dev-dist
+
+# Graphviz
+graph.svg
