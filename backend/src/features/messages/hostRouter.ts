@@ -44,16 +44,26 @@ export const hostRouter = router({
   sendMessageToSpeaker: loggedProcedure
     .input(z.object({ speakerUsername: z.string(), message: z.string() }))
     .mutation(async ({ input }) => {
-      let emojiMessage: string | undefined = undefined;
       try {
-        emojiMessage = await getEmojiMessageFor(input.message);
+        const emojiMessage = await getEmojiMessageFor(input.message);
+        // const [editedMessage, emojiMessage] = await Promise.all([
+        //   editMessageIfDangerous(input.message),
+        //   getEmojiMessageFor(input.message),
+        // ]);
+        emitToSpeakers(input.speakerUsername, {
+          message: input.message,
+          emojiMessage,
+        });
       } catch (e) {
+        console.error(
+          "Emitting original message without emoji because an API call went wrong.",
+          e,
+        );
+        emitToSpeakers(input.speakerUsername, {
+          message: input.message,
+        });
         console.error(e);
       }
-      emitToSpeakers(input.speakerUsername, {
-        message: input.message,
-        emojiMessage,
-      });
     }),
   subscribeForSpeakerEvents: loggedProcedure
     .input(z.object({ speakerUsername: z.string() }))
