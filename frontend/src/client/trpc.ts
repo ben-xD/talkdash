@@ -21,6 +21,8 @@ export const showReconnectedMessage = showReconnectedMessageInternal;
 export const isConnected = isConnectedInternal;
 
 const [bearerToken, setBearerTokenInternal] = makePersisted(
+  // we don't destructure because makePersisted wants the entire signal
+  // eslint-disable-next-line solid/reactivity
   createSignal<string>(),
   {
     name: "session_id",
@@ -38,8 +40,7 @@ export const trpc = createTRPCProxyClient<AppRouter>({
   links: [
     loggerLink({
       enabled: (opts) =>
-        (process.env.NODE_ENV === "development" &&
-          typeof window !== "undefined") ||
+        (import.meta.env.DEV && typeof window !== "undefined") ||
         (opts.direction === "down" && opts.result instanceof Error),
     }),
     wsLink({

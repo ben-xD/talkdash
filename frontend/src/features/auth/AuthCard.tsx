@@ -25,8 +25,7 @@ export const AuthCard = (props: {
   });
 
   const onSubmit = () => {
-    const { email, password } = fields;
-    props.onSubmit(email, password);
+    props.onSubmit(fields.email, fields.password);
   };
 
   const signInWithOAuth = async (provider: OAuthProviders) => {
