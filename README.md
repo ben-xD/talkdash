@@ -43,10 +43,11 @@ Features:
 
 ## TODOs
 
-- Set up email verification. Consider [resend](https://resend.com/)
-  - Either use solid (experimental, not explored) or React with [jsx-email](https://github.com/shellscape/jsx-email) + [tailwind](https://www.npmjs.com/package/@jsx-email/tailwind)
-  - or just use resend's `render`: https://react.email/docs/utilities/render
-  - or write content into Strapi and pull into email.
+- Set up email verification
+  - just use react, [resend](https://resend.com/) and resend's `render`: https://react.email/docs/utilities/render (write templates?), or
+    - write content into https://payloadcms.com/, https://prismic.io/, Strapi, or Builder. and pull into email template? and other parts of website.
+  - Either use solid (experimental, not explored), or 
+  - React with [jsx-email](https://github.com/shellscape/jsx-email) + [tailwind](https://www.npmjs.com/package/@jsx-email/tailwind), or
 - TODO show logged in page after logging in or signing up
 - Redirect to `/sign-in` if 401 error is received
 - Horizontal scalability and lower latency? I have a single Node backend
