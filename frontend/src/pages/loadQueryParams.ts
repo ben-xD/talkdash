@@ -10,6 +10,15 @@ import { generateRandomUsername } from "../features/names";
 import { UserRole } from "@talkdash/schema";
 
 export const loadQueryParams = (role: UserRole) => {
+  // This function is called in Solid's onMount.
+  // When users navigate from 1 page to another, `window.location` is not updated with the new page.
+  // setTimeout ensures the window.location is updated with the new page.
+  setTimeout(() => {
+    loadQueryParamsPrivate(role);
+  }, 0);
+};
+
+const loadQueryParamsPrivate = (role: UserRole) => {
   const urlParams = new URLSearchParams(window.location.search);
   const speakerUsername = urlParams.get(speakerUsernameKey);
   const hostUsername = urlParams.get(hostUsernameKey);
