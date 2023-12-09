@@ -2,6 +2,9 @@ import { onMount } from "solid-js";
 import { A } from "@solidjs/router";
 import TalkDashImage from "../assets/talkdash-160x160.webp";
 import { isSignedIn } from "../client/trpc.ts";
+import { UsersIcon } from "../assets/UsersIcon.tsx";
+import { MicIcon } from "../assets/MicIcon.tsx";
+import { ConfettiIcon } from "../assets/ConfettiIcon.tsx";
 
 const Home = () => {
   onMount(() => {
@@ -20,17 +23,23 @@ const Home = () => {
         <span class="font-bold">large timer</span>. Event hosts can send
         messages to speakers.
       </p>
-      <p>
-        Are you a{" "}
-        <A class="font-bold underline" href="/speaker">
-          Speaker
-        </A>{" "}
-        or an{" "}
-        <A class="font-bold underline" href="/host">
-          Event Host
-        </A>
-        ?
-      </p>
+      <div class="flex flex-col gap-4">
+        <p>What's your role?</p>
+        <div class="flex flex-wrap justify-between">
+          <A class="flex flex-col items-center" href="/speaker">
+            <MicIcon />
+            <p>Speaker</p>
+          </A>
+          <A class="flex flex-col items-center" href="/audience">
+            <UsersIcon />
+            <p>Audience</p>
+          </A>
+          <A class="flex flex-col items-center" href="/host">
+            <ConfettiIcon />
+            <p>Event Host</p>
+          </A>
+        </div>
+      </div>
       <hr class="my-4" />
       <p>
         <span class="font-bold">PS:</span> This is a free and open source app
