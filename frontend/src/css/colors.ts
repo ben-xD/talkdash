@@ -53,10 +53,8 @@ const variants = [
 ] as const;
 
 export const [colorScheme, setColorScheme] = makePersisted(
-  // When changing this,we should also update the default colors in css variables
-  // we don't destructure because makePersisted wants the entire signal
   // eslint-disable-next-line solid/reactivity
-  createSignal<ColorScheme>(ColorScheme.blue),
+  createSignal<ColorScheme>(ColorScheme.purple),
   { name: "color_scheme" },
 );
 
