@@ -9,3 +9,11 @@
 .link {
   @apply underline hover:text-primary-200;
 }
+
+.input {
+  @apply w-full rounded-lg bg-primary-200 p-2 shadow-inner dark:bg-primary-500 dark:text-primary-50 dark:placeholder-primary-200;
+}
+
+.textarea {
+  @apply w-full rounded-lg bg-primary-200 p-2 shadow-inner dark:bg-primary-500 dark:text-primary-50 dark:placeholder-primary-200;
+}

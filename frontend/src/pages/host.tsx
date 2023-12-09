@@ -122,7 +122,7 @@ const Host = () => {
         <TimeLeft />
         <span class="font-normal">time left</span>
       </div>
-      <div class="flex flex-col items-start gap-4 rounded-xl bg-primary-50 p-4 text-secondary-800 shadow-lg dark:bg-primary-900 dark:text-primary-200">
+      <div class=" flex flex-col items-start gap-4 rounded-xl bg-primary-50 p-4 text-secondary-800 shadow-lg dark:bg-primary-900 dark:text-primary-200">
         <Alert message={errorMessage()} />
         <label
           for="submitMessage"
@@ -144,7 +144,7 @@ const Host = () => {
           <textarea
             autofocus
             minLength={minLengthMessage}
-            class="min-h-[4rem] w-full rounded-lg bg-primary-200 p-2 shadow-inner dark:bg-primary-500"
+            class="textarea min-h-[4rem]"
             placeholder="Please repeat the audience's questions"
             value={message()}
             onInput={(e) => setMessage(e.target.value)}

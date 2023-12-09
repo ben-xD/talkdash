@@ -61,7 +61,7 @@ export function ConfigCard() {
         <Alert message={errorMessage()} />
         <label class="whitespace-normal break-words" for="finishTime">
           Talk length
-          <p class="text-primary-400">
+          <p class="text-primary-600 dark:text-primary-400">
             This can be number of minutes or free text
           </p>
         </label>
@@ -77,7 +77,7 @@ export function ConfigCard() {
               }
             }
           }}
-          class="w-full rounded-lg bg-primary-200 p-2 shadow-inner dark:bg-primary-500"
+          class="input"
           type="text"
           id="finishTime"
           value={textInputDurationInMinutes()}

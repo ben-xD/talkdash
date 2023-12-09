@@ -43,7 +43,7 @@ function App() {
       class={`min-w-[320px] p-4 ${colors()} flex min-h-screen flex-col items-center`}
     >
       <div class="flex items-center gap-4">
-        <h1 class="text-center text-4xl font-bold tracking-tight dark:bg-gradient-to-r dark:from-cyan-400 dark:to-blue-500 dark:bg-clip-text dark:text-transparent">
+        <h1 class="text-center text-4xl font-bold tracking-tight dark:bg-gradient-to-r dark:from-secondary-400 dark:to-primary-500 dark:bg-clip-text dark:text-transparent">
           <A href="/">TalkDash</A>
         </h1>
         <a
