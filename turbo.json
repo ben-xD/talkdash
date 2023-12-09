@@ -24,6 +24,7 @@
     },
     "lint": {},
     "lint:fix": {},
-    "clean": {}
+    "clean": {},
+    "db": {}
   }
 }
