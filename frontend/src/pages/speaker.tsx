@@ -51,11 +51,13 @@ const Speaker = () => {
 
   onMount(() => {
     document.title = "Speaker · Talkdash";
-    loadQueryParams("speaker");
-    const username = speakerUsername();
-    if (username) {
-      reconnectAsSpeaker(username);
-    }
+    setTimeout(() => {
+      loadQueryParams("speaker");
+      const username = speakerUsername();
+      if (username) {
+        reconnectAsSpeaker(username);
+      }
+    }, 0);
   });
 
   onCleanup(() => {

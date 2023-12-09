@@ -20,7 +20,8 @@ export const SendMessageCard = () => {
   const [isSendDisabled, setIsSendDisabled] = createSignal(false);
 
   let eventSubscription: Unsubscribable | undefined = undefined;
-  const reconnectAsHost = (speakerUsername: string) => {
+  const reconnectAsSender = (speakerUsername?: string) => {
+    if (!speakerUsername) return;
     setSpeakerExists(undefined);
     eventSubscription?.unsubscribe();
     eventSubscription = trpc.sender.subscribeForSpeakerEvents.subscribe(
@@ -52,10 +53,7 @@ export const SendMessageCard = () => {
   };
 
   createEffect(() => {
-    const username = speakerUsername();
-    if (username) {
-      reconnectAsHost(username);
-    }
+    reconnectAsSender(speakerUsername());
   });
 
   const onSend = async () => {

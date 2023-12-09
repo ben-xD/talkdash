@@ -6,7 +6,7 @@ import {
   setSpeakerUsername,
   speakerUsername,
 } from "../features/user/userState.js";
-import { loadQueryParams } from "./loadQueryParams";
+import { loadQueryParamsWithDelay } from "./loadQueryParams";
 import { resetHistory } from "../features/time/timeState";
 import { TimeLeft } from "../features/time/TimeLeft";
 import { ElapsedTime } from "../components/ElapsedTime";
@@ -16,7 +16,7 @@ import { SendMessageCard } from "../components/SendMessageCard.tsx";
 const Host = () => {
   onMount(() => {
     document.title = "Event Host · Talkdash";
-    loadQueryParams("host");
+    loadQueryParamsWithDelay("host");
   });
 
   return (

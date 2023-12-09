@@ -1,5 +1,5 @@
 import { onMount } from "solid-js";
-import { loadQueryParams } from "./loadQueryParams.ts";
+import { loadQueryParamsWithDelay } from "./loadQueryParams.ts";
 import { Toast } from "../components/Toast.tsx";
 import { EditableStateField } from "../features/speaker/EditableStateField.tsx";
 import {
@@ -14,7 +14,7 @@ import { SendMessageCard } from "../components/SendMessageCard.tsx";
 const Audience = () => {
   onMount(() => {
     document.title = "Audience · Talkdash";
-    loadQueryParams("audience");
+    loadQueryParamsWithDelay("audience");
   });
 
   return (
