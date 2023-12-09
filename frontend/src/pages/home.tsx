@@ -20,8 +20,8 @@ const Home = () => {
       )}
       <p>
         This is a timer app for events. Speakers see a{" "}
-        <span class="font-bold">large timer</span>. Event hosts can send
-        messages to speakers.
+        <span class="font-bold">large timer</span>. Audience and hosts can send
+        them messages.
       </p>
       <div class="flex flex-col gap-4">
         <p>What's your role?</p>
