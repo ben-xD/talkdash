@@ -17,16 +17,16 @@ export const loadQueryParams = (role: UserRole) => {
 
   switch (role) {
     case "host":
+      setSpeakerUsername(speakerUsername ?? undefined, false);
       if (hostUsername) {
-        setSpeakerUsername(speakerUsername ?? undefined, false);
         setHostUsername(hostUsername, false);
       } else {
         setHostUsername(generateRandomUsername(), false);
       }
       return;
     case "audience":
+      setSpeakerUsername(speakerUsername ?? undefined, false);
       if (audienceUsername) {
-        setSpeakerUsername(speakerUsername ?? undefined, false);
         setAudienceUsername(audienceUsername, false);
       } else {
         setAudienceUsername(generateRandomUsername(), false);
