@@ -34,12 +34,8 @@ export const MetadataView = (props: Props) => {
           Choose a talk length and start the timer.{" "}
           <Show when={!isSignedIn()}>
             <span>
-              <A class="link" href="/sign-in">
-                Sign in
-              </A>{" "}
-              or{" "}
               <A class="link" href="/sign-up">
-                sign up
+                Sign up
               </A>{" "}
               to control who can send you messages.
             </span>

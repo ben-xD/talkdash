@@ -67,6 +67,7 @@ export const AuthCard = (props: {
                   <label for="email">Email</label>
                   <input
                     id="email"
+                    class="input"
                     type="text"
                     onInput={(e) => setFields("email", e.target.value)}
                   />
@@ -75,6 +76,7 @@ export const AuthCard = (props: {
                   <label for="password">Password</label>
                   <input
                     id="password"
+                    class="input"
                     type="password"
                     onInput={(e) => setFields("password", e.target.value)}
                   />

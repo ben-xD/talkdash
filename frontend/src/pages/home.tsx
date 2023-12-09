@@ -26,15 +26,24 @@ const Home = () => {
       <div class="flex flex-col gap-4">
         <p>What's your role?</p>
         <div class="flex flex-wrap justify-between">
-          <A class="flex flex-col items-center" href="/speaker">
+          <A
+            class="flex flex-col items-center hover:text-primary-200"
+            href="/speaker"
+          >
             <MicIcon />
             <p>Speaker</p>
           </A>
-          <A class="flex flex-col items-center" href="/audience">
+          <A
+            class="flex flex-col items-center hover:text-primary-200"
+            href="/audience"
+          >
             <UsersIcon />
             <p>Audience</p>
           </A>
-          <A class="flex flex-col items-center" href="/host">
+          <A
+            class="flex flex-col items-center hover:text-primary-200"
+            href="/host"
+          >
             <ConfettiIcon />
             <p>Event Host</p>
           </A>
