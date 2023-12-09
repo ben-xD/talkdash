@@ -33,7 +33,9 @@ export const MessageView = () => {
                 <div class="flex w-full animate-jackInTheBox items-center justify-between gap-8 @container">
                   <p class="whitespace-pre-wrap @lg:text-[4cqw]">
                     {message.emojiMessage
-                      ? `${message.emojiMessage.trim()} ${message.message}`
+                      ? `${message.emojiMessage.replace("\n", "").trim()} ${
+                          message.message
+                        }`
                       : message.message}
                   </p>
                   <div class="flex items-center gap-8">
