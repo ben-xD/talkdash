@@ -37,31 +37,31 @@ export const colorRolesByColorScheme: Record<
   },
 } as const;
 
-// we don't destructure because makePersisted wants the entire signal
-// eslint-disable-next-line solid/reactivity
+const colorRoles = ["primary", "secondary", "bg"] as const;
+const variants = [
+  "50",
+  "100",
+  "200",
+  "300",
+  "400",
+  "500",
+  "600",
+  "700",
+  "800",
+  "900",
+  "950",
+] as const;
+
 export const [colorScheme, setColorScheme] = makePersisted(
   // When changing this,we should also update the default colors in css variables
+  // we don't destructure because makePersisted wants the entire signal
+  // eslint-disable-next-line solid/reactivity
   createSignal<ColorScheme>(ColorScheme.blue),
   { name: "color_scheme" },
 );
 
 createEffect(() => {
   const selectedColorScheme = colorScheme();
-  const colorRoles = ["primary", "secondary", "bg"] as const;
-  const variants = [
-    "50",
-    "100",
-    "200",
-    "300",
-    "400",
-    "500",
-    "600",
-    "700",
-    "800",
-    "900",
-    "950",
-  ] as const;
-
   const colorRoleColors = colorRolesByColorScheme[selectedColorScheme];
   for (const role of colorRoles) {
     const colorRole = colorRoleColors[role];
