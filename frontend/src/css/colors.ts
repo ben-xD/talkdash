@@ -67,6 +67,7 @@ createEffect(() => {
     const colorRole = colorRoleColors[role];
     for (const variant of variants) {
       const tailwindColor = colors[colorRole];
+      // Edit css variable, as per https://stackoverflow.com/a/41371037/7365866
       document.documentElement.style.setProperty(
         `--${role}-${variant}`,
         tailwindColor[variant],
