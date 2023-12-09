@@ -10,7 +10,7 @@ export const MessageView = () => {
           Messages ({receivedMessages.length})
         </h2>
         <TrashIcon
-          class="hover:text-primary-100 h-12 w-12 p-3 active:text-white"
+          class="h-12 w-12 p-3 hover:text-primary-100 active:text-white"
           onClick={() => setReceivedMessages([])}
         />
       </div>
@@ -40,7 +40,7 @@ export const MessageView = () => {
                     <p class="text-right">{timeSinceReceived()}</p>
                     <TrashIcon
                       class={
-                        "hover:text-primary-100 h-12 w-12 p-3 active:text-white"
+                        "h-12 w-12 p-3 hover:text-primary-100 active:text-white"
                       }
                       onClick={() =>
                         setReceivedMessages((messages) =>

@@ -24,7 +24,7 @@ export const ColorSchemeMenu = () => {
                 {([key, value]) => (
                   <Menu.Item
                     class={cn("px-4 py-2", {
-                      "text-primary-500 font-bold": colorScheme() === value,
+                      "font-bold text-primary-500": colorScheme() === value,
                     })}
                     onClick={() => setColorScheme(value)}
                     id={value}

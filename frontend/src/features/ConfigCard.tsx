@@ -77,7 +77,7 @@ export function ConfigCard() {
               }
             }
           }}
-          class="bg-primary-200 dark:bg-primary-500 w-full rounded-lg p-2 shadow-inner"
+          class="w-full rounded-lg bg-primary-200 p-2 shadow-inner dark:bg-primary-500"
           type="text"
           id="finishTime"
           value={textInputDurationInMinutes()}
@@ -107,7 +107,7 @@ export function ConfigCard() {
           <button
             aria-label={"Reset"}
             disabled={!finishTime()}
-            class="hover:text-primary-900 active:text-primary-700 dark:hover:text-primary-100 dark:active:text-primary-300 px-4 py-2"
+            class="px-4 py-2 hover:text-primary-900 active:text-primary-700 dark:hover:text-primary-100 dark:active:text-primary-300"
             onClick={onReset}
           >
             Reset
@@ -115,7 +115,7 @@ export function ConfigCard() {
           <button
             aria-label={"Start"}
             disabled={!!finishTime() || !textInputDurationInMinutes()}
-            class="bg-primary-600 hover:bg-primary-500 active:bg-primary-700 text-primary-50 rounded-md px-4 py-2 shadow disabled:bg-gray-400"
+            class="rounded-md bg-primary-600 px-4 py-2 text-primary-50 shadow hover:bg-primary-500 active:bg-primary-700 disabled:bg-gray-400"
             onClick={onStart}
           >
             Start

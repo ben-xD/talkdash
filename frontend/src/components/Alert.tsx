@@ -6,7 +6,7 @@ export const Alert = (props: { message?: string; class?: string }) => {
     <Show when={props.message}>
       <div
         class={cn(
-          "text-danger-700 relative rounded-lg border border-red-400 bg-red-100 px-4 py-3",
+          "relative rounded-lg border border-red-400 bg-red-100 px-4 py-3 text-danger-700",
           props.class,
         )}
         role="alert"

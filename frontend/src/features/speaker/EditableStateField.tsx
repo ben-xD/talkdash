@@ -54,7 +54,7 @@ export const EditableStateField = (props: Props) => {
           </div>
           <EditableArea>
             <EditableInput
-              class="text-primary-600 w-full"
+              class="w-full text-primary-600"
               value={props.value()}
             />
             <EditablePreview />

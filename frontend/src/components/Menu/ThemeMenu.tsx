@@ -21,7 +21,7 @@ export const ThemeMenu = () => {
             <MenuTypography>
               <Menu.Item
                 class={cn("px-4 py-2", {
-                  "text-primary-500 font-bold": theme() === "system",
+                  "font-bold text-primary-500": theme() === "system",
                 })}
                 onClick={() => setUserSelectedTheme("system")}
                 id="system"
@@ -30,7 +30,7 @@ export const ThemeMenu = () => {
               </Menu.Item>
               <Menu.Item
                 class={cn("px-4 py-2", {
-                  "text-primary-500 font-bold": theme() === "dark",
+                  "font-bold text-primary-500": theme() === "dark",
                 })}
                 onClick={() => setUserSelectedTheme("dark")}
                 id="dark"
@@ -39,7 +39,7 @@ export const ThemeMenu = () => {
               </Menu.Item>
               <Menu.Item
                 class={cn("px-4 py-2", {
-                  "text-primary-500 font-bold": theme() === "light",
+                  "font-bold text-primary-500": theme() === "light",
                 })}
                 onClick={() => setUserSelectedTheme("light")}
                 id="light"
