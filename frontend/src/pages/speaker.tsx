@@ -27,7 +27,7 @@ const Speaker = () => {
         finishTime: DateTime.fromMillis(times.finish),
         userTalkLengthInput: "",
       });
-      toast(() => <p class="text-cyan-800">Restoring timer from cloud</p>);
+      toast(() => <p class="text-secondary-800">Restoring timer from cloud</p>);
     }
 
     messageSubscription?.unsubscribe();
@@ -37,7 +37,7 @@ const Speaker = () => {
         onData: ({ emojiMessage, message }) => {
           const receivedAt = DateTime.now();
           console.info(`Received message at ${receivedAt}:\n${message}`);
-          toast(() => <p class="text-cyan-800">Message received</p>);
+          toast(() => <p class="text-secondary-800">Message received</p>);
           setReceivedMessages([
             { receivedAt, message, emojiMessage },
             ...receivedMessages,
@@ -72,7 +72,7 @@ const Speaker = () => {
         <div class="flex text-[16vw] leading-[16vw] tracking-tight drop-shadow-lg md:max-xl:text-[18vw]">
           <TimeLeft />
         </div>
-        <p class="font-normal text-blue-100">time left</p>
+        <p class="text-primary-100 font-normal">time left</p>
       </div>
       <MessageView />
     </div>

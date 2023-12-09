@@ -15,7 +15,7 @@ export const MenuItemLink = (
         <A
           end={props.exactPath}
           href={props.path}
-          activeClass="text-blue-500 font-bold"
+          activeClass="text-primary-500 font-bold"
         >
           {props.title}
         </A>

@@ -46,7 +46,9 @@ const Host = () => {
             setSpeakerExists(false);
           } else if (type === "speakerTimesUpdated") {
             if (event.start && event.finish) {
-              toast(() => <p class="text-cyan-800">The timer is running</p>);
+              toast(() => (
+                <p class="text-secondary-800">The timer is running</p>
+              ));
             }
             setStartTime(
               event.start ? DateTime.fromMillis(event.start) : undefined,
@@ -120,7 +122,7 @@ const Host = () => {
         <TimeLeft />
         <span class="font-normal">time left</span>
       </div>
-      <div class="flex flex-col items-start gap-4 rounded-xl bg-blue-50 p-4 text-cyan-800 shadow-lg dark:bg-blue-900 dark:text-blue-200">
+      <div class="bg-primary-50 dark:bg-primary-900 dark:text-primary-200 text-secondary-800 flex flex-col items-start gap-4 rounded-xl p-4 shadow-lg">
         <Alert message={errorMessage()} />
         <label
           for="submitMessage"
@@ -142,7 +144,7 @@ const Host = () => {
           <textarea
             autofocus
             minLength={minLengthMessage}
-            class="min-h-[4rem] w-full rounded-lg bg-blue-200 p-2 shadow-inner dark:bg-blue-500"
+            class="bg-primary-200 dark:bg-primary-500 min-h-[4rem] w-full rounded-lg p-2 shadow-inner"
             placeholder="Please repeat the audience's questions"
             value={message()}
             onInput={(e) => setMessage(e.target.value)}
@@ -157,7 +159,7 @@ const Host = () => {
               !speakerUsername() ||
               message().length < minLengthMessage
             }
-            class="rounded-md bg-blue-600 px-4 py-2 text-blue-50 shadow hover:bg-blue-500 active:bg-blue-700 disabled:bg-gray-400"
+            class="bg-primary-600 hover:bg-primary-500 active:bg-primary-700 text-primary-50 rounded-md px-4 py-2 shadow disabled:bg-gray-400"
             onAnimationEnd={() => setIsSending(false)}
             onClick={onSend}
           >

@@ -61,7 +61,7 @@ export function ConfigCard() {
         <Alert message={errorMessage()} />
         <label class="whitespace-normal break-words" for="finishTime">
           Talk length
-          <p class="text-blue-400">
+          <p class="text-primary-400">
             This can be number of minutes or free text
           </p>
         </label>
@@ -77,7 +77,7 @@ export function ConfigCard() {
               }
             }
           }}
-          class="w-full rounded-lg bg-blue-200 p-2 shadow-inner dark:bg-blue-500"
+          class="bg-primary-200 dark:bg-primary-500 w-full rounded-lg p-2 shadow-inner"
           type="text"
           id="finishTime"
           value={textInputDurationInMinutes()}
@@ -107,7 +107,7 @@ export function ConfigCard() {
           <button
             aria-label={"Reset"}
             disabled={!finishTime()}
-            class="px-4 py-2 hover:text-blue-900 active:text-blue-700 dark:hover:text-blue-100 dark:active:text-blue-300"
+            class="hover:text-primary-900 active:text-primary-700 dark:hover:text-primary-100 dark:active:text-primary-300 px-4 py-2"
             onClick={onReset}
           >
             Reset
@@ -115,7 +115,7 @@ export function ConfigCard() {
           <button
             aria-label={"Start"}
             disabled={!!finishTime() || !textInputDurationInMinutes()}
-            class="rounded-md bg-blue-600 px-4 py-2 text-blue-50 shadow hover:bg-blue-500 active:bg-blue-700 disabled:bg-gray-400"
+            class="bg-primary-600 hover:bg-primary-500 active:bg-primary-700 text-primary-50 rounded-md px-4 py-2 shadow disabled:bg-gray-400"
             onClick={onStart}
           >
             Start

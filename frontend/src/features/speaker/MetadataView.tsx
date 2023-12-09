@@ -46,7 +46,7 @@ export const MetadataView = (props: Props) => {
           </Show>
         </p>
         <div
-          class="cursor-pointer hover:text-blue-100 active:text-white"
+          class="hover:text-primary-100 cursor-pointer active:text-white"
           onClick={async () => {
             const hostUrl = getHostUrl();
             await navigator.clipboard.writeText(hostUrl.toString());

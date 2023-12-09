@@ -1,6 +1,6 @@
 export const GithubLogo = () => (
   <svg
-    class="hover:text-blue-200"
+    class="hover:text-primary-200"
     width="24"
     height="24"
     viewBox="0 0 15 15"

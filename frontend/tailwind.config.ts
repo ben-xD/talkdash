@@ -1,3 +1,5 @@
+const colors = require("tailwindcss/colors");
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
@@ -11,6 +13,21 @@ export default {
       animation: {
         // Animation provided by animate.css, see https://animate.style/
         jackInTheBox: "jackInTheBox 0.5s ease-in-out 1",
+      },
+      colors: {
+        primary: colors.blue,
+        secondary: colors.cyan,
+        bg: colors.blue,
+        // More color themes:
+        // primary: colors.green,
+        // secondary: colors.emerald,
+        // bg: colors.green,
+        // primary: colors.indigo,
+        // secondary: colors.rose,
+        // bg: colors.indigo,
+        primaryDark: colors.white,
+        danger: colors.red,
+        dangerSecondary: colors.amber,
       },
     },
   },

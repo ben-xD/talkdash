@@ -35,17 +35,17 @@ export const EditableStateField = (props: Props) => {
             <EditableControl>
               {state().isEditing ? (
                 <>
-                  <EditableSubmitTrigger class="hover:text-blue-100 active:text-white">
+                  <EditableSubmitTrigger class="hover:text-primary-100 active:text-white">
                     <CheckIcon />
                   </EditableSubmitTrigger>
-                  <EditableCancelTrigger class="hover:text-blue-100 active:text-white">
+                  <EditableCancelTrigger class="hover:text-primary-100 active:text-white">
                     <XIcon />
                   </EditableCancelTrigger>
                 </>
               ) : (
                 <EditableEditTrigger
                   aria-label="Edit"
-                  class="hover:text-blue-100 active:text-white"
+                  class="hover:text-primary-100 active:text-white"
                 >
                   <PencilIcon />
                 </EditableEditTrigger>
@@ -53,7 +53,10 @@ export const EditableStateField = (props: Props) => {
             </EditableControl>
           </div>
           <EditableArea>
-            <EditableInput class="w-full text-blue-600" value={props.value()} />
+            <EditableInput
+              class="text-primary-600 w-full"
+              value={props.value()}
+            />
             <EditablePreview />
           </EditableArea>
         </>

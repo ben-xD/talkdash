@@ -6,7 +6,7 @@ export const Card = (props: { children?: JSX.Element; class?: ClassValue }) => {
   return (
     <div
       class={cn(
-        "z-10 h-full rounded-xl bg-blue-50 text-blue-800 shadow-lg dark:bg-blue-900 dark:text-blue-200",
+        "bg-primary-50 text-primary-800 dark:bg-primary-900 dark:text-primary-200 z-10 h-full rounded-xl shadow-lg",
         props.class,
       )}
     >
