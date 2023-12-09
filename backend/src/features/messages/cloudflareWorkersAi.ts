@@ -48,7 +48,7 @@ export const getEmojiMessageFor = async (message: string) => {
       {
         role: "system",
         content:
-          "Give a few emojis (less than 5) that represent the message provided by the user. Don't return any words. Only provide emojis.",
+          "Give a few emojis (less than 5) that represent the message provided by the user. Don't return any words. Only provide emoji characters.",
       },
       {
         role: "user",
