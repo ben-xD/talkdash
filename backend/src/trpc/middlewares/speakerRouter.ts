@@ -9,7 +9,7 @@ import {
   addSpeakerClient,
   emitToHosts,
   removeSpeakerClient,
-} from "../../features/messages/hostRouter.js";
+} from "../../features/messages/senderRouter.js";
 
 // All messages sent to client start with "Observed"
 type ObserverId = string;

@@ -4,6 +4,7 @@ import { CreateFastifyContextOptions } from "@trpc/server/adapters/fastify";
 import { Database } from "../db/db.js";
 import { Auth, OAuths } from "../auth/auth.js";
 import { Session } from "lucia";
+import { SenderRole } from "@talkdash/schema";
 
 //  This is only called when the http request is made. Not for every websocket message.
 // We identify it's the same user in the same context by updating the ctx.session in the authRouter.
@@ -41,4 +42,5 @@ export type TrpcContext = inferAsyncReturnType<
 export type ConnectionContext = {
   session?: Session;
   username?: string;
+  role?: SenderRole;
 };

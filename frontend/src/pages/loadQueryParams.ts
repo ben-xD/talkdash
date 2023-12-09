@@ -1,32 +1,45 @@
 import {
+  audienceUsernameKey,
   hostUsernameKey,
+  setAudienceUsername,
   setHostUsername,
   setSpeakerUsername,
   speakerUsernameKey,
 } from "../features/user/userState.js";
 import { generateRandomUsername } from "../features/names";
+import { UserRole } from "@talkdash/schema";
 
-export const loadQueryParams = (mode: "speaker" | "host") => {
-  // Read URL path param to get speaker ID.
+export const loadQueryParams = (role: UserRole) => {
   const urlParams = new URLSearchParams(window.location.search);
-
   const speakerUsername = urlParams.get(speakerUsernameKey);
-  if (speakerUsername) {
-    setSpeakerUsername(speakerUsername, false);
-  }
-
   const hostUsername = urlParams.get(hostUsernameKey);
-  if (hostUsername) {
-    setHostUsername(hostUsername, false);
-  }
+  const audienceUsername = urlParams.get(audienceUsernameKey);
 
-  // if not found, create new speaker
-  if (!speakerUsername && mode === "speaker") {
-    setSpeakerUsername(generateRandomUsername(), false);
-  } else if (!hostUsername && mode === "host") {
-    setHostUsername(generateRandomUsername(), false);
-  } else {
-    console.error("Unhandled mode: username not being set or generated");
-    // setSpeakerUsername(username ?? "", false);
+  switch (role) {
+    case "host":
+      if (hostUsername) {
+        setSpeakerUsername(speakerUsername ?? undefined, false);
+        setHostUsername(hostUsername, false);
+      } else {
+        setHostUsername(generateRandomUsername(), false);
+      }
+      return;
+    case "audience":
+      if (audienceUsername) {
+        setSpeakerUsername(speakerUsername ?? undefined, false);
+        setAudienceUsername(audienceUsername, false);
+      } else {
+        setAudienceUsername(generateRandomUsername(), false);
+      }
+      return;
+    case "speaker":
+      if (speakerUsername) {
+        setSpeakerUsername(speakerUsername, false);
+      } else {
+        setSpeakerUsername(generateRandomUsername(), false);
+      }
+      return;
+    default:
+      return role satisfies never;
   }
 };

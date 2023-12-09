@@ -9,7 +9,7 @@ import {
   getTimesFor,
 } from "../../trpc/middlewares/speakerRouter.js";
 import { emitToAll } from "../../trpc/observers.js";
-import { Sender } from "@talkdash/schema";
+import { Sender, senderRole } from "@talkdash/schema";
 
 // An event related to speakers
 const speakerEvent = z.discriminatedUnion("type", [
@@ -41,22 +41,23 @@ export const emitToHosts = (speakerUsername: string, event: SpeakerEvent) => {
   emitToAll(hosts, event);
 };
 
-export const hostRouter = router({
+export const senderRouter = router({
   setUsername: loggedProcedure
-    .input(z.object({ newUsername: z.string().optional() }))
+    .input(z.object({ newUsername: z.string().optional(), role: senderRole }))
     .mutation(async ({ ctx, input }) => {
       const oldUsername = ctx.connectionContext.username;
-      const { newUsername: username } = input;
+      const { newUsername: username, role } = input;
       ctx.connectionContext.username = username;
+      ctx.connectionContext.role = role;
       console.info(`${oldUsername} is now known as ${username}`);
     }),
   sendMessageToSpeaker: loggedProcedure
     .input(z.object({ speakerUsername: z.string(), message: z.string() }))
     .mutation(async ({ input, ctx }) => {
-      const senderUsername = ctx.connectionContext.username;
+      const { username, role } = ctx.connectionContext;
       const sender: Sender = {
-        role: "host",
-        username: senderUsername,
+        role,
+        username,
       };
       try {
         const emojiMessage = await getEmojiMessageFor(input.message);

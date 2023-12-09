@@ -1,36 +1,45 @@
 import { onMount } from "solid-js";
-import { A } from "@solidjs/router";
+import { loadQueryParams } from "./loadQueryParams.ts";
+import { Toast } from "../components/Toast.tsx";
+import { EditableStateField } from "../features/speaker/EditableStateField.tsx";
+import {
+  audienceUsername,
+  setAudienceUsername,
+  setSpeakerUsername,
+  speakerUsername,
+} from "../features/user/userState.ts";
+import { resetHistory } from "../features/time/timeState.ts";
+import { SendMessageCard } from "../components/SendMessageCard.tsx";
 
 const Audience = () => {
   onMount(() => {
     document.title = "Audience · Talkdash";
+    loadQueryParams("audience");
   });
 
   return (
-    <div class="flex max-w-[400px] flex-col gap-4 py-4">
+    <div class="my-4 flex w-full max-w-[400px] flex-col gap-6">
+      <Toast />
       <p>
-        <span class="font-bold">Audience mode.</span> Ohhh dear. The audience
-        cannot do anything yet. Want some features for the audience? Find or
-        create a{" "}
-        <a
-          href="https://github.com/ben-xD/talkdash/issues/new"
-          class="font-bold underline"
-        >
-          GitHub issue
-        </a>
-        .
+        <span class="font-bold">Audience mode. </span>Enter a speaker username
+        to send them messages.
       </p>
-      <p>
-        Switch to{" "}
-        <A class="font-bold underline" href="/speaker">
-          Speaker
-        </A>{" "}
-        or{" "}
-        <A class="font-bold underline" href="/host">
-          Event Host
-        </A>{" "}
-        mode.
-      </p>
+      <EditableStateField
+        label={"Your name"}
+        value={audienceUsername}
+        setValue={(value) => {
+          setAudienceUsername(value);
+        }}
+      />
+      <EditableStateField
+        label={"Speaker username"}
+        value={speakerUsername}
+        setValue={(value) => {
+          resetHistory();
+          setSpeakerUsername(value);
+        }}
+      />
+      <SendMessageCard />
     </div>
   );
 };
