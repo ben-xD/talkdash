@@ -38,4 +38,7 @@ export type TrpcContext = inferAsyncReturnType<
   ReturnType<typeof createTrpcCreateContext>
 >;
 
-export type ConnectionContext = { session?: Session };
+export type ConnectionContext = {
+  session?: Session;
+  username?: string;
+};

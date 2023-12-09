@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { loggedProcedure } from "./middleware.js";
+import { HostEvent } from "@talkdash/schema";
 import { router } from "../trpc.js";
 import { observable, Observer } from "@trpc/server/observable";
 import { getDurationInMinutesFrom } from "../../features/messages/openAi.js";
@@ -12,13 +13,6 @@ import {
 
 // All messages sent to client start with "Observed"
 type ObserverId = string;
-
-// An event related to hosts. e.g. Host created message.
-const hostEvent = z.object({
-  message: z.string(),
-  emojiMessage: z.string().optional(),
-});
-type HostEvent = z.infer<typeof hostEvent>;
 
 type EventObserver = Observer<HostEvent, Error>;
 const speakerByUsername = new Map<ObserverId, Set<EventObserver>>();

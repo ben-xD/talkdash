@@ -34,12 +34,14 @@ const Speaker = () => {
     messageSubscription = trpc.speaker.subscribeMessagesAsSpeaker.subscribe(
       { speakerUsername },
       {
-        onData: ({ emojiMessage, message }) => {
+        onData: ({ emojiMessage, message, sender }) => {
           const receivedAt = DateTime.now();
-          console.info(`Received message at ${receivedAt}:\n${message}`);
+          console.info(
+            `Received message at ${receivedAt}:\n${message} from ${sender.username}`,
+          );
           toast(() => <p class="text-secondary-800">Message received</p>);
           setReceivedMessages([
-            { receivedAt, message, emojiMessage },
+            { receivedAt, message, emojiMessage, sender },
             ...receivedMessages,
           ]);
         },
@@ -49,7 +51,7 @@ const Speaker = () => {
 
   onMount(() => {
     document.title = "Speaker · Talkdash";
-    loadQueryParams();
+    loadQueryParams("speaker");
     const username = speakerUsername();
     if (username) {
       reconnectAsSpeaker(username);

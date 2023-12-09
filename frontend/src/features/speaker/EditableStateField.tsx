@@ -22,7 +22,7 @@ type Props = {
 export const EditableStateField = (props: Props) => {
   return (
     <Editable
-      placeholder={`No ${props.label.toLowerCase()}`}
+      placeholder={`Not set`}
       value={props.value()}
       onSubmit={({ value }) => props.setValue(value)}
     >

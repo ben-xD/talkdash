@@ -1,6 +1,8 @@
 import { createEffect, createSignal, onMount } from "solid-js";
 import { EditableStateField } from "../features/speaker/EditableStateField";
 import {
+  hostUsername,
+  setHostUsername,
   setSpeakerUsername,
   speakerUsername,
 } from "../features/user/userState.js";
@@ -71,7 +73,7 @@ const Host = () => {
 
   onMount(() => {
     document.title = "Event Host · Talkdash";
-    loadQueryParams(false);
+    loadQueryParams("host");
   });
 
   const [isSendDisabled, setIsSendDisabled] = createSignal(false);
@@ -81,6 +83,8 @@ const Host = () => {
     if (username) {
       setIsSendDisabled(true);
       try {
+        // TODO get the host username, and send it in the context
+
         // TODO figure out how to handle the error when the websocket connection is broken.
         // We don't know when requests fail because the websocket is broken, so we can't show an error to user
         // See https://github.com/trpc/trpc/discussions/4606
@@ -109,6 +113,13 @@ const Host = () => {
         <span class="font-bold tracking-tight">Event host mode. </span>Enter a
         speaker username to send them messages.
       </p>
+      <EditableStateField
+        label={"Your name"}
+        value={hostUsername}
+        setValue={(value) => {
+          setHostUsername(value);
+        }}
+      />
       <EditableStateField
         label={"Speaker username"}
         value={speakerUsername}

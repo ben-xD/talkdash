@@ -33,11 +33,21 @@ export const MessageView = () => {
                 <div class="flex w-full animate-jackInTheBox items-center justify-between gap-8 @container">
                   <p class="whitespace-pre-wrap @lg:text-[4cqw]">
                     {message.emojiMessage
-                      ? `${message.emojiMessage} ${message.message}`
+                      ? `${message.emojiMessage.trim()} ${message.message}`
                       : message.message}
                   </p>
                   <div class="flex items-center gap-8">
-                    <p class="text-right">{timeSinceReceived()}</p>
+                    <div class="flex flex-col items-end">
+                      <p class="text-right">{timeSinceReceived()}</p>
+                      {message.sender && (
+                        <p>
+                          from {message.sender.role}{" "}
+                          <span class="font-bold">
+                            {message.sender.username}
+                          </span>
+                        </p>
+                      )}
+                    </div>
                     <TrashIcon
                       class={
                         "h-12 w-12 p-3 hover:text-primary-100 active:text-white"

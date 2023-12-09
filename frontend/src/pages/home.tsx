@@ -28,17 +28,17 @@ const Home = () => {
         <div class="flex flex-wrap justify-between">
           <A
             class="flex flex-col items-center hover:text-primary-200"
-            href="/speaker"
-          >
-            <MicIcon />
-            <p>Speaker</p>
-          </A>
-          <A
-            class="flex flex-col items-center hover:text-primary-200"
             href="/audience"
           >
             <UsersIcon />
             <p>Audience</p>
+          </A>
+          <A
+            class="flex flex-col items-center hover:text-primary-200"
+            href="/speaker"
+          >
+            <MicIcon />
+            <p>Speaker</p>
           </A>
           <A
             class="flex flex-col items-center hover:text-primary-200"
