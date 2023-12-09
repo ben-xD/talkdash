@@ -14,6 +14,7 @@ import { ThemeMenu } from "./ThemeMenu";
 import { Show } from "solid-js";
 import { isSignedIn, signOut } from "../../client/trpc.ts";
 import { MenuItemButton } from "./MenuItemButton.tsx";
+import { ColorSchemeMenu } from "./ColorSchemeMenu.tsx";
 
 /* eslint-disable solid/no-react-specific-props */
 //  because ARK-UI uses htmlFor. See https://github.com/chakra-ui/ark/issues/1601
@@ -58,6 +59,7 @@ export const AppMenu = () => {
               <MenuItemLink path="/clock" title={"Clock"} />
               <MenuItemLink path="/stopwatch" title={"Stopwatch"} />
               <ThemeMenu />
+              <ColorSchemeMenu />
             </MenuItemGroup>
             <MenuItemGroupLabel
               htmlFor="modes"
