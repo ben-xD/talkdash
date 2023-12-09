@@ -15,10 +15,13 @@ export default {
         jackInTheBox: "jackInTheBox 0.5s ease-in-out 1",
       },
       colors: {
-        primary: colors.blue,
+        primary: colors.sky,
         secondary: colors.cyan,
-        bg: colors.blue,
+        bg: colors.indigo,
         // More color themes:
+        // primary: colors.lime,
+        // secondary: colors.teal,
+        // bg: colors.lime,
         // primary: colors.green,
         // secondary: colors.emerald,
         // bg: colors.green,
