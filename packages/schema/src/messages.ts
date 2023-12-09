@@ -10,12 +10,12 @@ export const sender = z.object({
 export type Sender = z.infer<typeof sender>;
 
 // An event related to hosts. e.g. Host created message.
-export const hostEvent = z.object({
+export const senderEvent = z.object({
   message: z.string(),
   emojiMessage: z.string().optional(),
   sender,
 });
-export type HostEvent = z.infer<typeof hostEvent>;
+export type SenderEvent = z.infer<typeof senderEvent>;
 
 export const userRole = z.union([
   z.literal("host"),

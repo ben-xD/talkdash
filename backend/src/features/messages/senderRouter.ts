@@ -26,19 +26,19 @@ type SpeakerEvent = z.infer<typeof speakerEvent>;
 
 type ObserverId = string;
 type EventObserver = Observer<SpeakerEvent, Error>;
-const hostBySpeakerUsername = new Map<ObserverId, Set<EventObserver>>();
+const sendersBySpeakerUsername = new Map<ObserverId, Set<EventObserver>>();
 
-const getHostsFor = (speakerUsername: string) => {
-  const hosts = hostBySpeakerUsername.get(speakerUsername);
-  if (hosts) return hosts;
-  const newHosts = new Set<EventObserver>();
-  hostBySpeakerUsername.set(speakerUsername, newHosts);
-  return newHosts;
+const getSendersFor = (speakerUsername: string) => {
+  const senders = sendersBySpeakerUsername.get(speakerUsername);
+  if (senders) return senders;
+  const newSenders = new Set<EventObserver>();
+  sendersBySpeakerUsername.set(speakerUsername, newSenders);
+  return newSenders;
 };
 
-export const emitToHosts = (speakerUsername: string, event: SpeakerEvent) => {
-  const hosts = getHostsFor(speakerUsername);
-  emitToAll(hosts, event);
+export const emitToSenders = (speakerUsername: string, event: SpeakerEvent) => {
+  const senders = getSendersFor(speakerUsername);
+  emitToAll(senders, event);
 };
 
 export const senderRouter = router({
@@ -88,7 +88,7 @@ export const senderRouter = router({
       observable<SpeakerEvent, Error>((emit) => {
         const { speakerUsername } = input;
         const speakers = getSpeakersFor(speakerUsername);
-        const hosts = getHostsFor(speakerUsername);
+        const sender = getSendersFor(speakerUsername);
         if (speakers && speakers.size >= 1) {
           emit.next({
             type: "speakerCreated",
@@ -106,12 +106,12 @@ export const senderRouter = router({
           }
         }
         console.info(`Adding subscriber for ${speakerUsername} speaker events`);
-        hosts.add(emit);
+        sender.add(emit);
         return () => {
           console.info(
             `Removing subscriber for ${speakerUsername} speaker events`,
           );
-          hosts?.delete(emit);
+          sender?.delete(emit);
         };
       }),
     ),
@@ -123,7 +123,7 @@ export const addSpeakerClient = (speakerUsername: string) => {
   let speakerCount = countBySpeakerUsername.get(speakerUsername);
   if (speakerCount === undefined || speakerCount === 0) {
     speakerCount = 1;
-    emitToAll(hostBySpeakerUsername.get(speakerUsername), {
+    emitToAll(sendersBySpeakerUsername.get(speakerUsername), {
       type: "speakerCreated",
       speakerUsername: speakerUsername,
     });
@@ -143,7 +143,7 @@ export const removeSpeakerClient = (speakerUsername: string) => {
   speakerCount -= 1;
   countBySpeakerUsername.set(speakerUsername, speakerCount);
   if (speakerCount <= 0) {
-    emitToAll(hostBySpeakerUsername.get(speakerUsername), {
+    emitToAll(sendersBySpeakerUsername.get(speakerUsername), {
       type: "speakerDeleted",
       speakerUsername: speakerUsername,
     });

@@ -1,20 +1,20 @@
 import { z } from "zod";
 import { loggedProcedure } from "./middleware.js";
-import { HostEvent } from "@talkdash/schema";
+import { SenderEvent } from "@talkdash/schema";
 import { router } from "../trpc.js";
 import { observable, Observer } from "@trpc/server/observable";
 import { getDurationInMinutesFrom } from "../../features/messages/openAi.js";
 import { TRPCError } from "@trpc/server";
 import {
   addSpeakerClient,
-  emitToHosts,
+  emitToSenders,
   removeSpeakerClient,
 } from "../../features/messages/senderRouter.js";
 
 // All messages sent to client start with "Observed"
 type ObserverId = string;
 
-type EventObserver = Observer<HostEvent, Error>;
+type EventObserver = Observer<SenderEvent, Error>;
 const speakerByUsername = new Map<ObserverId, Set<EventObserver>>();
 
 export const getSpeakersFor = (speakerUsername: string) => {
@@ -25,7 +25,7 @@ export const getSpeakersFor = (speakerUsername: string) => {
   return newSpeakers;
 };
 
-export const emitToSpeakers = (speakerUsername: string, event: HostEvent) => {
+export const emitToSpeakers = (speakerUsername: string, event: SenderEvent) => {
   const speakers = speakerByUsername.get(speakerUsername);
   if (!speakers) {
     throw new TRPCError({
@@ -50,7 +50,7 @@ export const speakerRouter = router({
   subscribeMessagesAsSpeaker: loggedProcedure
     .input(z.object({ speakerUsername: z.string() }))
     .subscription(({ input }) =>
-      observable<HostEvent, Error>((emit) => {
+      observable<SenderEvent, Error>((emit) => {
         addSpeakerClient(input.speakerUsername);
         const speakers = getSpeakersFor(input.speakerUsername);
         console.info(`Adding speaker client for ${input.speakerUsername}`);
@@ -80,7 +80,7 @@ export const speakerRouter = router({
       const { speakerUsername, start, finish } = input;
       console.debug(`Updating times for ${speakerUsername}`, { start, finish });
       timesBySpeakerId.set(speakerUsername, { start, finish });
-      emitToHosts(speakerUsername, {
+      emitToSenders(speakerUsername, {
         type: "speakerTimesUpdated",
         speakerUsername,
         start,
