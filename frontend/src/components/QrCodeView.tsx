@@ -2,6 +2,7 @@ import { createEffect } from "solid-js";
 import QRCode from "qrcode";
 import { cn } from "../css/tailwind.ts";
 import { bgColor, primaryColor } from "../css/colors.ts";
+import { createWindowSizeSignal } from "../window/useWindowSize.ts";
 
 export const QrCodeView = (props: {
   text: string;
@@ -9,7 +10,9 @@ export const QrCodeView = (props: {
   class?: string;
 }) => {
   let canvasRef: HTMLCanvasElement | undefined;
-  const renderQrToCanvas = () => {
+  const size = createWindowSizeSignal();
+
+  const renderQrToCanvas = (width: number) => {
     const color = props.isDarkMode
       ? {
           light: primaryColor(),
@@ -20,13 +23,13 @@ export const QrCodeView = (props: {
           light: bgColor(),
         };
     QRCode.toCanvas(canvasRef, props.text, {
-      width: 350,
+      width,
       color,
     });
   };
 
   createEffect(() => {
-    renderQrToCanvas();
+    renderQrToCanvas(size().width * 0.5);
   });
 
   return (
