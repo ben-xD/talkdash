@@ -59,10 +59,14 @@ export const [colorScheme, setColorScheme] = makePersisted(
 const [primaryColorInternal, setPrimaryColor] = createSignal<
   string | undefined
 >(undefined);
+const [secondaryColorInternal, setSecondaryColor] = createSignal<
+  string | undefined
+>(undefined);
 const [bgColorInternal, setBgColor] = createSignal<string | undefined>(
   undefined,
 );
 export const primaryColor = primaryColorInternal;
+export const secondaryColor = secondaryColorInternal;
 export const bgColor = bgColorInternal;
 
 createEffect(() => {
@@ -82,6 +86,8 @@ createEffect(() => {
 
   const primaryTailwindColor = colors[roleColors.primary];
   setPrimaryColor(primaryTailwindColor[500]);
+  const secondaryTailwindColor = colors[roleColors.secondary];
+  setSecondaryColor(secondaryTailwindColor[500]);
   const bgTailwindColor = colors[roleColors.bg];
   setBgColor(bgTailwindColor[100]);
 });
