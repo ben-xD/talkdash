@@ -12,36 +12,36 @@ const Home = () => {
   });
 
   return (
-    <div class="my-4 flex max-w-[400px] flex-col gap-4">
+    <div class="my-4 flex max-w-[400px] flex-col gap-12">
       {isSignedIn() ? (
         <p class="text-xl">Welcome 👋, you're logged in</p>
       ) : (
         <p class="text-xl">Hey 👋</p>
       )}
       <p>
-        This is a timer app for events. Speakers see a{" "}
+        This is a timer for events. Speakers see a{" "}
         <span class="font-bold">large timer</span>. Audience and hosts can send
         them messages.
       </p>
-      <div class="flex flex-col gap-4">
+      <div class="flex flex-col gap-8">
         <p>What's your role?</p>
-        <div class="flex flex-wrap justify-between">
+        <div class="flex flex-wrap justify-between gap-4 text-center">
           <A
-            class="flex flex-col items-center hover:text-primary-200"
+            class="flex grow basis-0 flex-col items-center justify-center gap-2 rounded-lg p-4 outline outline-primary-100 hover:text-primary-200"
             href="/audience"
           >
             <UsersIcon />
             <p>Audience</p>
           </A>
           <A
-            class="flex flex-col items-center hover:text-primary-200"
+            class="flex grow basis-0 flex-col items-center justify-center gap-2 rounded-lg p-4 outline outline-primary-100 hover:text-primary-200"
             href="/speaker"
           >
             <MicIcon />
             <p>Speaker</p>
           </A>
           <A
-            class="flex flex-col items-center hover:text-primary-200"
+            class="flex grow basis-0 flex-col items-center justify-center gap-2 rounded-lg p-4 outline outline-primary-100 hover:text-primary-200"
             href="/host"
           >
             <ConfettiIcon />
@@ -49,32 +49,21 @@ const Home = () => {
           </A>
         </div>
       </div>
-      <hr class="my-4" />
-      <p>
-        <span class="font-bold">PS:</span> This is a free and open source app
-        using Solid, Tailwind, Ark UI, tRPC, Fastify, Node, WebSockets,
-        Cloudflare Pages, Fly.io and more. Star the{" "}
-        <a
-          class="font-bold underline"
-          href="https://github.com/ben-xD/talkdash"
-        >
-          repo
+      <div class="flex flex-col gap-4">
+        <p>
+          By{" "}
+          <a class="font-bold underline" href="https://orth.uk/">
+            Ben Butterworth
+          </a>
+        </p>
+        <a href="https://orth.uk/">
+          <img
+            src={TalkDashImage}
+            alt={"Image of a blue bird called TalkDash."}
+            class="w-40 drop-shadow-xl dark:brightness-90"
+          />
         </a>
-        ? 😉😜
-      </p>
-      <p>
-        By{" "}
-        <a class="font-bold underline" href="https://orth.uk/">
-          Ben Butterworth
-        </a>
-      </p>
-      <a href="https://orth.uk/">
-        <img
-          src={TalkDashImage}
-          alt={"Image of a blue bird called TalkDash."}
-          class="w-40 drop-shadow-xl dark:brightness-90"
-        />
-      </a>
+      </div>
     </div>
   );
 };
