@@ -1,8 +1,18 @@
-import { createEffect } from "solid-js";
+import { createEffect, createSignal } from "solid-js";
 import QRCode from "qrcode";
 import { cn } from "../css/tailwind.ts";
 import { bgColor, primaryColor } from "../css/colors.ts";
 import { createWindowSizeSignal } from "../window/useWindowSize.ts";
+import { makePersisted } from "@solid-primitives/storage";
+
+export const [isQrCodeShown, setIsQrCodeShown] = makePersisted(
+  // we don't destructure because makePersisted wants the entire signal
+  // eslint-disable-next-line solid/reactivity
+  createSignal<boolean>(false),
+  {
+    name: "is_qr_code_shown",
+  },
+);
 
 export const QrCodeView = (props: {
   text: string;

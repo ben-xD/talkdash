@@ -15,7 +15,7 @@ import { trpc } from "../client/trpc";
 import { setTimeAction } from "../features/time/timeState";
 import { Toast } from "../components/Toast";
 import { toast } from "solid-toast";
-import { QrCodeView } from "../components/QrCodeView.tsx";
+import { isQrCodeShown, QrCodeView } from "../components/QrCodeView.tsx";
 
 const Speaker = () => {
   let messageSubscription: Unsubscribable | undefined = undefined;
@@ -99,12 +99,14 @@ const Speaker = () => {
       >
         {(shareUrl) => (
           <>
-            <QrCodeView class="dark:hidden" text={shareUrl().toString()} />
-            <QrCodeView
-              class="hidden dark:flex"
-              isDarkMode={true}
-              text={shareUrl().toString()}
-            />
+            <Show when={isQrCodeShown()}>
+              <QrCodeView class="dark:hidden" text={shareUrl().toString()} />
+              <QrCodeView
+                class="hidden dark:flex"
+                isDarkMode={true}
+                text={shareUrl().toString()}
+              />
+            </Show>
           </>
         )}
       </Show>
