@@ -35,7 +35,7 @@ export const AppMenu = () => {
       </MenuTrigger>
       <Portal>
         <MenuPositioner class="">
-          <MenuContent class="rounded-lg bg-white shadow-md">
+          <MenuContent class="z-30 rounded-lg bg-white shadow-md">
             <MenuItemGroup id="modes">
               {/*Margins/padding don't work on the label 😢 */}
               <MenuItemLink path="/" title={"Home"} exactPath />
