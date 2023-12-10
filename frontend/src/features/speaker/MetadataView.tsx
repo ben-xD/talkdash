@@ -12,8 +12,8 @@ import { isSignedIn } from "../../client/trpc.ts";
 type Props = { reconnectAsSpeaker: (speakerUsername: string) => void };
 
 export const MetadataView = (props: Props) => {
-  const getHostUrl = (): URL => {
-    const hostUrl = new URL("../host", window.location.href);
+  const getShareUrl = (): URL => {
+    const hostUrl = new URL("../", window.location.href);
     const username = speakerUsername();
     if (username) {
       hostUrl.searchParams.set("speakerUsername", username);
@@ -21,9 +21,9 @@ export const MetadataView = (props: Props) => {
     return hostUrl;
   };
 
-  const [hostUrl, setHostUrl] = createSignal<URL | undefined>();
+  const [shareUrl, setShareUrl] = createSignal<URL | undefined>();
   onMount(() => {
-    setHostUrl(getHostUrl());
+    setShareUrl(getShareUrl());
   });
 
   return (
@@ -44,14 +44,12 @@ export const MetadataView = (props: Props) => {
         <div
           class="cursor-pointer hover:text-primary-100 active:text-white"
           onClick={async () => {
-            const hostUrl = getHostUrl();
+            const hostUrl = getShareUrl();
             await navigator.clipboard.writeText(hostUrl.toString());
           }}
         >
           <HoverCard.Root>
-            <HoverCard.Trigger
-              aria-label={"Copy URL for hosts users to clipboard"}
-            >
+            <HoverCard.Trigger aria-label={"Copy URL to speaker to clipboard"}>
               <ShareIcon />
             </HoverCard.Trigger>
             <Portal>
@@ -61,7 +59,7 @@ export const MetadataView = (props: Props) => {
                     <HoverCard.ArrowTip />
                   </HoverCard.Arrow>
                   <Show
-                    when={hostUrl()}
+                    when={shareUrl()}
                     fallback={<h2>Couldn't get generate a QR code.</h2>}
                   >
                     {(hostUrl) => (

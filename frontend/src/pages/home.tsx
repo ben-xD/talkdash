@@ -1,5 +1,5 @@
 import { onMount } from "solid-js";
-import { A } from "@solidjs/router";
+import { A, useSearchParams } from "@solidjs/router";
 import TalkDashImage from "../assets/talkdash-160x160.webp";
 import { isSignedIn } from "../client/trpc.ts";
 import { UsersIcon } from "../assets/UsersIcon.tsx";
@@ -10,6 +10,14 @@ const Home = () => {
   onMount(() => {
     document.title = "Talkdash";
   });
+
+  const [searchParams] = useSearchParams<{
+    speakerUsername?: string;
+  }>();
+  const queryParamWithSpeakerUsername = () =>
+    searchParams.speakerUsername
+      ? `?speakerUsername=${searchParams.speakerUsername}`
+      : "";
 
   return (
     <div class="my-4 flex max-w-[400px] flex-col gap-12">
@@ -28,7 +36,7 @@ const Home = () => {
         <div class="flex flex-wrap justify-between gap-4 text-center">
           <A
             class="flex w-24 shrink-0 grow flex-col items-center justify-center gap-2 rounded-lg p-4 outline outline-primary-50 hover:text-primary-200"
-            href="/audience"
+            href={`/audience${queryParamWithSpeakerUsername()}`}
           >
             <UsersIcon />
             <p>Audience</p>
@@ -42,7 +50,7 @@ const Home = () => {
           </A>
           <A
             class="flex w-24 shrink-0 grow flex-col items-center justify-center gap-2 rounded-lg p-4 outline outline-primary-50 hover:text-primary-200"
-            href="/host"
+            href={`/host${queryParamWithSpeakerUsername()}`}
           >
             <ConfettiIcon />
             <p>Event Host</p>
