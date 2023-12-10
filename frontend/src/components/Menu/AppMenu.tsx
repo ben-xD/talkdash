@@ -40,7 +40,7 @@ export const AppMenu = () => {
               {/*Margins/padding don't work on the label 😢 */}
               <MenuItemLink path="/" title={"Home"} exactPath />
               <MenuItemGroupLabel
-                htmlFor="modes"
+                for="modes"
                 class="px-4 text-sm font-bold uppercase text-slate-500"
               >
                 Modes
@@ -50,7 +50,7 @@ export const AppMenu = () => {
               <MenuItemLink path="/host" title={"Event Host"} />
               <MenuItemLink path="/audience" title={"Audience"} />
               <MenuItemGroupLabel
-                htmlFor="modes"
+                for="modes"
                 class="px-4 text-sm font-bold uppercase text-slate-500"
               >
                 Extras
@@ -62,7 +62,7 @@ export const AppMenu = () => {
               <ColorSchemeMenu />
             </MenuItemGroup>
             <MenuItemGroupLabel
-              htmlFor="modes"
+              for="modes"
               class="px-4 text-sm font-bold uppercase text-slate-500"
             >
               Account

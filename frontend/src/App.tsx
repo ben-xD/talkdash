@@ -1,27 +1,16 @@
-import { lazy, onMount, Show } from "solid-js";
+import { JSX, onMount, Show } from "solid-js";
 import { setCurrentTime } from "./features/time/timeState";
 import { DateTime } from "luxon";
-import { A, Route, Routes } from "@solidjs/router";
+import { A } from "@solidjs/router";
 import { isExceeded } from "./features/time/TimeLeft";
 import { GithubLogo } from "./assets/GithubLogo";
 import { DisconnectedAlert } from "./components/DisconnectedAlert";
 import { ReconnectedAlert } from "./components/ReconnectedAlert";
-import { ClockPage } from "./pages/clock";
-import { StopwatchPage } from "./pages/stopwatch";
 import { loadThemeOntoPage } from "./css/theme";
 import { AppMenu } from "./components/Menu/AppMenu";
-import { SignInPage } from "./pages/sign-in";
-import { SignUpPage } from "./pages/sign-up";
 import { isConnected, showReconnectedMessage } from "./client/trpc";
-import { OAuthCallbackPage } from "./pages/OAuthCallback.tsx";
 
-const SpeakerPage = lazy(() => import("./pages/speaker.tsx"));
-const AudiencePage = lazy(() => import("./pages/audience.tsx"));
-const HomePage = lazy(() => import("./pages/home.tsx"));
-
-const HostPage = lazy(() => import("./pages/host.tsx"));
-
-function App() {
+function App(props: { children?: JSX.Element }) {
   onMount(() => {
     loadThemeOntoPage();
 
@@ -61,17 +50,7 @@ function App() {
       <Show when={isConnected() && showReconnectedMessage()}>
         <ReconnectedAlert />
       </Show>
-      <Routes>
-        <Route path="/" component={HomePage} />
-        <Route path="/audience" component={AudiencePage} />
-        <Route path="/speaker" component={SpeakerPage} />
-        <Route path="/host" component={HostPage} />
-        <Route path="/clock" component={ClockPage} />
-        <Route path="/stopwatch" component={StopwatchPage} />
-        <Route path="/sign-in" component={SignInPage} />
-        <Route path="/sign-up" component={SignUpPage} />
-        <Route path="/auth/callback/:provider" component={OAuthCallbackPage} />
-      </Routes>
+      {props.children}
     </div>
   );
 }

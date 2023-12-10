@@ -1,14 +1,4 @@
-import {
-  Editable,
-  EditableArea,
-  EditableCancelTrigger,
-  EditableControl,
-  EditableEditTrigger,
-  EditableInput,
-  EditableLabel,
-  EditablePreview,
-  EditableSubmitTrigger,
-} from "@ark-ui/solid";
+import { Editable } from "@ark-ui/solid";
 import { CheckIcon } from "../../assets/CheckIcon";
 import { XIcon } from "../../assets/XIcon";
 import { PencilIcon } from "../../assets/PencilIcon";
@@ -21,46 +11,46 @@ type Props = {
 
 export const EditableStateField = (props: Props) => {
   return (
-    <Editable
+    <Editable.Root
       placeholder={`Not set`}
       value={props.value()}
-      onSubmit={({ value }) => props.setValue(value)}
+      onValueCommit={(e) => props.setValue(e.value)}
     >
       {(state) => (
         <>
           <div class="flex justify-between">
-            <EditableLabel class="font-bold tracking-tight">
+            <Editable.Label class="font-bold tracking-tight">
               {props.label}
-            </EditableLabel>
-            <EditableControl>
+            </Editable.Label>
+            <Editable.Control>
               {state().isEditing ? (
                 <>
-                  <EditableSubmitTrigger class="hover:text-primary-100 active:text-white">
+                  <Editable.SubmitTrigger class="hover:text-primary-100 active:text-white">
                     <CheckIcon />
-                  </EditableSubmitTrigger>
-                  <EditableCancelTrigger class="hover:text-primary-100 active:text-white">
+                  </Editable.SubmitTrigger>
+                  <Editable.CancelTrigger class="hover:text-primary-100 active:text-white">
                     <XIcon />
-                  </EditableCancelTrigger>
+                  </Editable.CancelTrigger>
                 </>
               ) : (
-                <EditableEditTrigger
+                <Editable.EditTrigger
                   aria-label="Edit"
                   class="hover:text-primary-100 active:text-white"
                 >
                   <PencilIcon />
-                </EditableEditTrigger>
+                </Editable.EditTrigger>
               )}
-            </EditableControl>
+            </Editable.Control>
           </div>
-          <EditableArea>
-            <EditableInput
+          <Editable.Area>
+            <Editable.Input
               class="w-full text-primary-600"
               value={props.value()}
             />
-            <EditablePreview />
-          </EditableArea>
+            <Editable.Preview />
+          </Editable.Area>
         </>
       )}
-    </Editable>
+    </Editable.Root>
   );
 };
