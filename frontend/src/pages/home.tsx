@@ -23,25 +23,25 @@ const Home = () => {
         <span class="font-bold">large timer</span>. Audience and hosts can send
         them messages.
       </p>
-      <div class="flex flex-col gap-8">
+      <div class="flex flex-col gap-8 text-sm">
         <p>What's your role?</p>
         <div class="flex flex-wrap justify-between gap-4 text-center">
           <A
-            class="flex grow basis-0 flex-col items-center justify-center gap-2 rounded-lg p-4 outline outline-primary-100 hover:text-primary-200"
+            class="flex w-24 shrink-0 grow flex-col items-center justify-center gap-2 rounded-lg p-4 outline outline-primary-100 hover:text-primary-200"
             href="/audience"
           >
             <UsersIcon />
             <p>Audience</p>
           </A>
           <A
-            class="flex grow basis-0 flex-col items-center justify-center gap-2 rounded-lg p-4 outline outline-primary-100 hover:text-primary-200"
+            class="flex w-24 shrink-0 grow flex-col items-center justify-center gap-2 rounded-lg p-4 outline outline-primary-100 hover:text-primary-200"
             href="/speaker"
           >
             <MicIcon />
             <p>Speaker</p>
           </A>
           <A
-            class="flex grow basis-0 flex-col items-center justify-center gap-2 rounded-lg p-4 outline outline-primary-100 hover:text-primary-200"
+            class="flex w-24 shrink-0 grow flex-col items-center justify-center gap-2 rounded-lg p-4 outline outline-primary-100 hover:text-primary-200"
             href="/host"
           >
             <ConfettiIcon />
