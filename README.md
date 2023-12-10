@@ -43,7 +43,6 @@ Features:
 
 ## TODOs
 
-- Update QRCode colour and fix z-index
 - Audience messaging can be disabled by speaker and host
 - Responsive layout for received messages
 - Rebuild schema package when files change

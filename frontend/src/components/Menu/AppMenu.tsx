@@ -34,7 +34,7 @@ export const AppMenu = () => {
         <WrenchIcon />
       </MenuTrigger>
       <Portal>
-        <MenuPositioner class="z-10">
+        <MenuPositioner class="">
           <MenuContent class="rounded-lg bg-white shadow-md">
             <MenuItemGroup id="modes">
               {/*Margins/padding don't work on the label 😢 */}
