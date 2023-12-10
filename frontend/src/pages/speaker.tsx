@@ -2,7 +2,7 @@ import { MetadataView } from "../features/speaker/MetadataView";
 import { ConfigCard } from "../features/ConfigCard";
 import { TimeLeft } from "../features/time/TimeLeft";
 import { MessageView } from "../features/messages/MessageView";
-import { onCleanup, onMount } from "solid-js";
+import { createSignal, onCleanup, onMount, Show } from "solid-js";
 import { loadQueryParams } from "./loadQueryParams";
 import { speakerUsername } from "../features/user/userState";
 import { Unsubscribable } from "@trpc/server/observable";
@@ -15,6 +15,7 @@ import { trpc } from "../client/trpc";
 import { setTimeAction } from "../features/time/timeState";
 import { Toast } from "../components/Toast";
 import { toast } from "solid-toast";
+import { QrCodeView } from "../components/QrCodeView.tsx";
 
 const Speaker = () => {
   let messageSubscription: Unsubscribable | undefined = undefined;
@@ -65,11 +66,24 @@ const Speaker = () => {
     messageSubscription?.unsubscribe();
   });
 
+  const getShareUrl = (): URL => {
+    const hostUrl = new URL("../", window.location.href);
+    const username = speakerUsername();
+    if (username) {
+      hostUrl.searchParams.set("speakerUsername", username);
+    }
+    return hostUrl;
+  };
+  const [shareUrl] = createSignal(getShareUrl());
+
   return (
     <div class="flex flex-col items-center">
       <Toast />
       <div class="flex w-full max-w-[400px] flex-col items-stretch py-4 lg:max-w-4xl lg:flex-row">
-        <MetadataView reconnectAsSpeaker={reconnectAsSpeaker} />
+        <MetadataView
+          reconnectAsSpeaker={reconnectAsSpeaker}
+          shareUrl={getShareUrl()}
+        />
         <ConfigCard />
       </div>
       <div class="mb-8 justify-center text-center">
@@ -79,6 +93,21 @@ const Speaker = () => {
         <p class="font-normal text-primary-100">time left</p>
       </div>
       <MessageView />
+      <Show
+        when={shareUrl()}
+        fallback={<h2>Couldn't get generate a QR code.</h2>}
+      >
+        {(shareUrl) => (
+          <>
+            <QrCodeView class="dark:hidden" text={shareUrl().toString()} />
+            <QrCodeView
+              class="hidden dark:flex"
+              isDarkMode={true}
+              text={shareUrl().toString()}
+            />
+          </>
+        )}
+      </Show>
     </div>
   );
 };

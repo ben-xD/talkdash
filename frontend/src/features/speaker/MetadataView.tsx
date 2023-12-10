@@ -1,33 +1,26 @@
 import { setSpeakerUsername, speakerUsername } from "../user/userState";
 import { EditableStateField } from "./EditableStateField";
 import { ShareIcon } from "../../assets/ShareIcon";
-import { HoverCard } from "@ark-ui/solid";
-import { Portal } from "solid-js/web";
-import { QrCodeView } from "../../components/QrCodeView";
-import { createSignal, onMount, Show } from "solid-js";
+import { Show } from "solid-js";
 import { ElapsedTime } from "../../components/ElapsedTime";
 import { A } from "@solidjs/router";
 import { isSignedIn } from "../../client/trpc.ts";
+import { cn } from "../../css/tailwind.ts";
 
-type Props = { reconnectAsSpeaker: (speakerUsername: string) => void };
+type Props = {
+  reconnectAsSpeaker: (speakerUsername: string) => void;
+  class?: string;
+  shareUrl: URL;
+};
 
 export const MetadataView = (props: Props) => {
-  const getShareUrl = (): URL => {
-    const hostUrl = new URL("../", window.location.href);
-    const username = speakerUsername();
-    if (username) {
-      hostUrl.searchParams.set("speakerUsername", username);
-    }
-    return hostUrl;
-  };
-
-  const [shareUrl, setShareUrl] = createSignal<URL | undefined>();
-  onMount(() => {
-    setShareUrl(getShareUrl());
-  });
-
   return (
-    <div class="my-2 flex w-full flex-col items-stretch gap-4 rounded-xl p-4">
+    <div
+      class={cn(
+        "my-2 flex w-full flex-col items-stretch gap-4 rounded-xl p-4",
+        props.class,
+      )}
+    >
       <div class="flex items-start justify-between">
         <p>
           <span class="font-bold tracking-tight">Speaker mode. </span>
@@ -44,42 +37,12 @@ export const MetadataView = (props: Props) => {
         <div
           class="cursor-pointer hover:text-primary-100 active:text-white"
           onClick={async () => {
-            const hostUrl = getShareUrl();
-            await navigator.clipboard.writeText(hostUrl.toString());
+            await navigator.clipboard.writeText(props.shareUrl.toString());
           }}
         >
-          <HoverCard.Root>
-            <HoverCard.Trigger aria-label={"Copy URL to speaker to clipboard"}>
-              <ShareIcon />
-            </HoverCard.Trigger>
-            <Portal>
-              <HoverCard.Positioner class="z-20">
-                <HoverCard.Content class="rounded-lg bg-white p-4 dark:bg-gray-800">
-                  <HoverCard.Arrow>
-                    <HoverCard.ArrowTip />
-                  </HoverCard.Arrow>
-                  <Show
-                    when={shareUrl()}
-                    fallback={<h2>Couldn't get generate a QR code.</h2>}
-                  >
-                    {(hostUrl) => (
-                      <>
-                        <QrCodeView
-                          class="dark:hidden"
-                          text={hostUrl().toString()}
-                        />
-                        <QrCodeView
-                          class="hidden dark:flex"
-                          isDarkMode={true}
-                          text={hostUrl().toString()}
-                        />
-                      </>
-                    )}
-                  </Show>
-                </HoverCard.Content>
-              </HoverCard.Positioner>
-            </Portal>
-          </HoverCard.Root>
+          <div aria-label={"Copy URL to speaker to clipboard"}>
+            <ShareIcon />
+          </div>
         </div>
       </div>
       <ElapsedTime />

@@ -15,8 +15,9 @@ import { createSignal } from "solid-js";
 import { Alert } from "../components/Alert";
 import { trpc } from "../client/trpc";
 import { Card } from "../components/Card";
+import { cn } from "../css/tailwind.ts";
 
-export function ConfigCard() {
+export function ConfigCard(props: { class?: string }) {
   const [errorMessage, setErrorMessage] = createSignal<string>();
 
   const isInputNumeric = () => {
@@ -56,7 +57,7 @@ export function ConfigCard() {
     });
 
   return (
-    <Card class="my-2 w-full p-4">
+    <Card class={cn("my-2 w-full p-4", props.class)}>
       <div class="flex flex-col items-start gap-2">
         <Alert message={errorMessage()} />
         <label class="whitespace-normal break-words" for="finishTime">

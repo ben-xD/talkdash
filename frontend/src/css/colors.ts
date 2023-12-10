@@ -16,26 +16,24 @@ type ColorRoles = {
   bg: keyof typeof colors;
 };
 
-export const colorRolesByColorScheme: Record<
-  keyof typeof ColorScheme,
-  ColorRoles
-> = {
-  blue: {
-    primary: "sky",
-    secondary: "cyan",
-    bg: "indigo",
-  },
-  green: {
-    primary: "lime",
-    secondary: "teal",
-    bg: "lime",
-  },
-  purple: {
-    primary: "indigo",
-    secondary: "rose",
-    bg: "indigo",
-  },
-} as const;
+export const rolesColorsByScheme: Record<keyof typeof ColorScheme, ColorRoles> =
+  {
+    blue: {
+      primary: "sky",
+      secondary: "indigo",
+      bg: "sky",
+    },
+    green: {
+      primary: "lime",
+      secondary: "teal",
+      bg: "lime",
+    },
+    purple: {
+      primary: "indigo",
+      secondary: "rose",
+      bg: "indigo",
+    },
+  } as const;
 
 const colorRoles = ["primary", "secondary", "bg"] as const;
 const variants = [
@@ -58,13 +56,22 @@ export const [colorScheme, setColorScheme] = makePersisted(
   { name: "color_scheme" },
 );
 
+const [primaryColorInternal, setPrimaryColor] = createSignal<
+  string | undefined
+>(undefined);
+const [bgColorInternal, setBgColor] = createSignal<string | undefined>(
+  undefined,
+);
+export const primaryColor = primaryColorInternal;
+export const bgColor = bgColorInternal;
+
 createEffect(() => {
   const selectedColorScheme = colorScheme();
-  const colorRoleColors = colorRolesByColorScheme[selectedColorScheme];
+  const roleColors = rolesColorsByScheme[selectedColorScheme];
   for (const role of colorRoles) {
-    const colorRole = colorRoleColors[role];
+    const color = roleColors[role];
     for (const variant of variants) {
-      const tailwindColor = colors[colorRole];
+      const tailwindColor = colors[color];
       // Edit css variable, as per https://stackoverflow.com/a/41371037/7365866
       document.documentElement.style.setProperty(
         `--${role}-${variant}`,
@@ -72,4 +79,9 @@ createEffect(() => {
       );
     }
   }
+
+  const primaryTailwindColor = colors[roleColors.primary];
+  setPrimaryColor(primaryTailwindColor[500]);
+  const bgTailwindColor = colors[roleColors.bg];
+  setBgColor(bgTailwindColor[100]);
 });
