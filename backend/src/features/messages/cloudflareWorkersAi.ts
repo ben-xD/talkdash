@@ -2,6 +2,7 @@ import { env } from "../../env.js";
 
 enum CloudflareWorkersAiModels {
   Llama2_int8 = "@cf/meta/llama-2-7b-chat-int8",
+  // Doesn't work very well for emoji summarization. One time. instead of returning emojis, it returned the system prompt.
   Mistral_int8 = "@cf/mistral/mistral-7b-instruct-v0.1",
 }
 
@@ -43,7 +44,7 @@ async function run(
 // };
 
 export const getEmojiMessageFor = async (message: string) => {
-  const response = await run(CloudflareWorkersAiModels.Mistral_int8, {
+  const response = await run(CloudflareWorkersAiModels.Llama2_int8, {
     messages: [
       {
         role: "system",
