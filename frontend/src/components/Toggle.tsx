@@ -31,7 +31,7 @@ export const Toggle = (props: {
             "translate-x-5": props.checked,
           },
         )}
-      ></span>
+       />
     </button>
   );
 };

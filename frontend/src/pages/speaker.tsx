@@ -2,7 +2,7 @@ import { MetadataView } from "../features/speaker/MetadataView";
 import { ConfigCard } from "../features/ConfigCard";
 import { TimeLeft } from "../features/time/TimeLeft";
 import { MessageView } from "../features/messages/MessageView";
-import { createSignal, onCleanup, onMount, Show } from "solid-js";
+import { createEffect, createSignal, onCleanup, onMount, Show } from "solid-js";
 import { loadQueryParams } from "./loadQueryParams";
 import { speakerUsername } from "../features/user/userState";
 import { Unsubscribable } from "@trpc/server/observable";
@@ -66,15 +66,19 @@ const Speaker = () => {
     messageSubscription?.unsubscribe();
   });
 
-  const getShareUrl = (): URL => {
+  const loadShareUrl = (speakerUsername: string | undefined): URL => {
     const hostUrl = new URL("../", window.location.href);
-    const username = speakerUsername();
-    if (username) {
-      hostUrl.searchParams.set("speakerUsername", username);
+    if (speakerUsername) {
+      hostUrl.searchParams.set("speakerUsername", speakerUsername);
     }
     return hostUrl;
   };
-  const [shareUrl] = createSignal(getShareUrl());
+  const [shareUrl, setShareUrl] = createSignal(loadShareUrl(speakerUsername()));
+
+  // Update the share url whenever the speakerUsername changes
+  createEffect(() => {
+    setShareUrl(loadShareUrl(speakerUsername()));
+  });
 
   return (
     <div class="flex flex-col items-center">
@@ -82,7 +86,7 @@ const Speaker = () => {
       <div class="flex w-full max-w-[400px] flex-col items-stretch py-4 lg:max-w-4xl lg:flex-row">
         <MetadataView
           reconnectAsSpeaker={reconnectAsSpeaker}
-          shareUrl={getShareUrl()}
+          shareUrl={shareUrl()}
         />
         <ConfigCard />
       </div>
