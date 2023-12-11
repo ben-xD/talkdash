@@ -10,6 +10,8 @@ import {
   emitToSenders,
   removeSpeakerClient,
 } from "../../features/messages/senderRouter.js";
+import { speakerTable } from "../../db/schema/index.js";
+import { eq } from "drizzle-orm";
 
 // All messages sent to client start with "Observed"
 type ObserverId = string;
@@ -92,5 +94,20 @@ export const speakerRouter = router({
     .query(async ({ input }) => {
       // TODO rate limit this API.
       return getDurationInMinutesFrom(input.durationDescription);
+    }),
+  setHostPin: loggedProcedure
+    .input(z.object({ pin: z.string().optional() }))
+    .mutation(async ({ input, ctx }) => {
+      if (!ctx.connectionContext.username) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "You must be logged in to set a pin.",
+        });
+      }
+
+      await ctx.db
+        .update(speakerTable)
+        .set({ pin: input.pin })
+        .where(eq(speakerTable.username, ctx.connectionContext.username));
     }),
 });

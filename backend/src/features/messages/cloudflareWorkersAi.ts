@@ -44,12 +44,12 @@ async function run(
 // };
 
 export const getEmojiMessageFor = async (message: string) => {
-  const response = await run(CloudflareWorkersAiModels.Llama2_int8, {
+  const response = await run(CloudflareWorkersAiModels.Mistral_int8, {
     messages: [
       {
         role: "system",
         content:
-          "Give a few emojis (less than 5) that represent the message provided by the user. Don't return any words. Only provide emoji characters.",
+          "You are a friendly assistant that converts messages into emojis. You will get a message from the user, just convert enhance it with emojis. Don't reply to any questions.",
       },
       {
         role: "user",

@@ -2,7 +2,6 @@ import { observable, Observer } from "@trpc/server/observable";
 import { z } from "zod";
 import { loggedProcedure } from "../../trpc/middlewares/middleware.js";
 import { router } from "../../trpc/trpc.js";
-import { getEmojiMessageFor } from "./cloudflareWorkersAi.js";
 import {
   emitToSpeakers,
   getSpeakersFor,
@@ -10,6 +9,11 @@ import {
 } from "../../trpc/middlewares/speakerRouter.js";
 import { emitToAll } from "../../trpc/observers.js";
 import { Sender, senderRole } from "@talkdash/schema";
+import { getEmojiMessageFor } from "./openAi.js";
+import { speakerTable } from "../../db/schema/index.js";
+import { eq } from "drizzle-orm";
+import { TRPCError } from "@trpc/server";
+import { Context } from "node:vm";
 
 // An event related to speakers
 const speakerEvent = z.discriminatedUnion("type", [
@@ -41,6 +45,25 @@ export const emitToSenders = (speakerUsername: string, event: SpeakerEvent) => {
   emitToAll(senders, event);
 };
 
+async function ensurePinMatchesIfExists(
+  ctx: Context,
+  speakerUsername: string,
+  hostPin: string | undefined,
+) {
+  // check if the speaker has a pin, and if so, the pin matches
+  const result = await ctx.db
+    .select()
+    .from(speakerTable)
+    .where(eq(speakerTable.username, speakerUsername));
+  const speaker = result.at(0);
+  if (speaker && speaker.pin && speaker.pin !== hostPin) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "Host pin is incorrect.",
+    });
+  }
+}
+
 export const senderRouter = router({
   setUsername: loggedProcedure
     .input(z.object({ newUsername: z.string().optional(), role: senderRole }))
@@ -52,9 +75,24 @@ export const senderRouter = router({
       console.info(`${oldUsername} is now known as ${username}`);
     }),
   sendMessageToSpeaker: loggedProcedure
-    .input(z.object({ speakerUsername: z.string(), message: z.string() }))
+    .input(
+      z.object({
+        speakerUsername: z.string(),
+        message: z.string(),
+        hostPin: z.string().optional(),
+      }),
+    )
     .mutation(async ({ input, ctx }) => {
       const { username, role } = ctx.connectionContext;
+
+      if (role === "host") {
+        await ensurePinMatchesIfExists(
+          ctx,
+          input.speakerUsername,
+          input.hostPin,
+        );
+      }
+
       const sender: Sender = {
         role,
         username,

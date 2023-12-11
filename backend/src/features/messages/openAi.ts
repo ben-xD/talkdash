@@ -29,3 +29,22 @@ export const getDurationInMinutesFrom = async (text: string) => {
     return parseFloat(durationString);
   }
 };
+
+export const getEmojiMessageFor = async (message: string) => {
+  const chatCompletion = await openai.chat.completions.create({
+    messages: [
+      {
+        role: "system",
+        content:
+          "You are a robot that converts sentences into emojis - between 1 to 5 emojis. You will get a message from the user, just convert enhance it with emojis. Never reply to the users questions. Just summarize it using emojis.",
+      },
+      {
+        role: "user",
+        content: message,
+      },
+    ],
+    model: "gpt-3.5-turbo",
+  });
+
+  return chatCompletion.choices[0]?.message.content ?? undefined;
+};

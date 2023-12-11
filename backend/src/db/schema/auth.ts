@@ -24,6 +24,7 @@ export const user = pgTable("user", {
     // email address must not exceed 254 characters. See https://stackoverflow.com/a/574698/7365866
     length: 254,
   }).unique(),
+  speakerPin: varchar("speaker_pin", { length: 6 }),
 });
 
 export const userSession = pgTable("user_session", {
