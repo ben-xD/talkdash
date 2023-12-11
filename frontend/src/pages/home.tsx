@@ -20,7 +20,7 @@ const Home = () => {
       : "";
 
   return (
-    <div class="my-4 flex max-w-[400px] flex-col gap-12">
+    <div class="flex max-w-[400px] flex-col gap-12">
       {isSignedIn() ? (
         <p class="text-center text-xl">Welcome 👋, you're logged in</p>
       ) : (

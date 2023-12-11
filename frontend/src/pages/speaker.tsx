@@ -81,16 +81,16 @@ const Speaker = () => {
   });
 
   return (
-    <div class="flex flex-col items-center">
+    <div class="flex flex-col items-center gap-16">
       <Toast />
-      <div class="z-10 flex w-full max-w-[400px] flex-col items-stretch py-4 lg:max-w-4xl lg:flex-row">
+      <div class="z-10 flex w-full max-w-[400px] flex-col items-stretch lg:max-w-4xl lg:flex-row">
         <ConfigView
           reconnectAsSpeaker={reconnectAsSpeaker}
           shareUrl={shareUrl()}
         />
         <TimerConfigCard class="z-20" />
       </div>
-      <div class="mb-8 justify-center text-center">
+      <div class="-my-16 justify-center text-center ">
         <div class="flex text-[16vw] leading-[16vw] tracking-tight drop-shadow-lg md:max-xl:text-[18vw]">
           <TimeLeft />
         </div>

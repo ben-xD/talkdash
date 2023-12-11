@@ -20,7 +20,7 @@ const Host = () => {
   });
 
   return (
-    <div class="my-4 flex w-full max-w-[400px] flex-col gap-6">
+    <div class="flex w-full max-w-[400px] flex-col gap-6">
       <Toast />
       <p>
         <span class="font-bold tracking-tight">Event host mode. </span>Enter a

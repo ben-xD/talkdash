@@ -50,7 +50,7 @@ function App(props: { children?: JSX.Element }) {
       <Show when={isConnected() && showReconnectedMessage()}>
         <ReconnectedAlert />
       </Show>
-      {props.children}
+      <div class="my-4">{props.children}</div>
     </div>
   );
 }
