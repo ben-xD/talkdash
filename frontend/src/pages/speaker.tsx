@@ -1,5 +1,5 @@
-import { MetadataView } from "../features/speaker/MetadataView";
-import { ConfigCard } from "../features/ConfigCard";
+import { ConfigView } from "../features/speaker/ConfigView.tsx";
+import { TimerConfigCard } from "../features/TimerConfigCard.tsx";
 import { TimeLeft } from "../features/time/TimeLeft";
 import { MessageView } from "../features/messages/MessageView";
 import { createEffect, createSignal, onCleanup, onMount, Show } from "solid-js";
@@ -84,11 +84,11 @@ const Speaker = () => {
     <div class="flex flex-col items-center">
       <Toast />
       <div class="z-10 flex w-full max-w-[400px] flex-col items-stretch py-4 lg:max-w-4xl lg:flex-row">
-        <MetadataView
+        <ConfigView
           reconnectAsSpeaker={reconnectAsSpeaker}
           shareUrl={shareUrl()}
         />
-        <ConfigCard class="z-20" />
+        <TimerConfigCard class="z-20" />
       </div>
       <div class="mb-8 justify-center text-center">
         <div class="flex text-[16vw] leading-[16vw] tracking-tight drop-shadow-lg md:max-xl:text-[18vw]">

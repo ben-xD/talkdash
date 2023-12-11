@@ -18,7 +18,7 @@ type Props = {
   shareUrl: URL;
 };
 
-export const MetadataView = (props: Props) => {
+export const ConfigView = (props: Props) => {
   return (
     <div
       class={cn(

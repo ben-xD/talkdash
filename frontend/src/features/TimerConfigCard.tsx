@@ -17,7 +17,7 @@ import { trpc } from "../client/trpc";
 import { Card } from "../components/Card";
 import { cn } from "../css/tailwind.ts";
 
-export function ConfigCard(props: { class?: string }) {
+export function TimerConfigCard(props: { class?: string }) {
   const [errorMessage, setErrorMessage] = createSignal<string>();
 
   const isInputNumeric = () => {
