@@ -18,7 +18,7 @@ export const ColorSchemeMenu = () => {
       </MenuTypography>
       <Portal>
         <Menu.Positioner>
-          <Menu.Content class="rounded-lg bg-white shadow-md">
+          <Menu.Content class="z-30 rounded-lg bg-white shadow-md">
             <MenuTypography>
               <For each={Object.entries(ColorScheme)}>
                 {([key, value]) => (

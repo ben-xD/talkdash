@@ -17,7 +17,7 @@ export const ThemeMenu = () => {
       </MenuTypography>
       <Portal>
         <Menu.Positioner>
-          <Menu.Content class="rounded-lg bg-white shadow-md">
+          <Menu.Content class="z-30 rounded-lg bg-white shadow-md">
             <MenuTypography>
               <Menu.Item
                 class={cn("px-4 py-2", {
