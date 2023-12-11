@@ -1,10 +1,11 @@
 import { createSignal, For, onCleanup, Show } from "solid-js";
 import { receivedMessages, setReceivedMessages } from "./receivedMessages";
 import { TrashIcon } from "../../assets/TrashIcon";
+import { isAudienceMessagesShown } from "../speaker/audienceMessages.ts";
 
 export const MessageView = () => {
   return (
-    <div class="flex w-full flex-col items-center gap-4">
+    <div class="flex w-full flex-col items-center">
       <div class="flex items-center gap-8">
         <h2 class="font-bold tracking-tight">
           Messages ({receivedMessages.length})
@@ -28,8 +29,11 @@ export const MessageView = () => {
               clearInterval(interval);
             });
 
+            const hideMessage = () =>
+              message.sender.role === "audience" && !isAudienceMessagesShown();
+
             return (
-              <Show when={timeSinceReceived()}>
+              <Show when={timeSinceReceived() && !hideMessage()}>
                 <div class="flex w-full animate-jackInTheBox items-center justify-between gap-8 @container">
                   <p class="whitespace-pre-wrap @lg:text-[4cqw]">
                     {message.emojiMessage
