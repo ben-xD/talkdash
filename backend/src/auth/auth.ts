@@ -1,5 +1,5 @@
 import { pg } from "@lucia-auth/adapter-postgresql";
-import { lucia } from "lucia";
+import { Configuration, lucia } from "lucia";
 import {
   env,
   githubOAuthConfigSchema,
@@ -17,8 +17,15 @@ import {
 import { OAuthProviders } from "@talkdash/schema";
 import { TRPCError } from "@trpc/server";
 
+export type UserAttributes = {
+  name?: string;
+  username?: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 export const createAuth = (dbPool: Pool) =>
-  lucia({
+  lucia<Configuration<UserAttributes>>({
     csrfProtection: {
       // Is this necessary?
       // host: "localhost:4000",
@@ -36,10 +43,11 @@ export const createAuth = (dbPool: Pool) =>
     sessionCookie: { expires: false },
     getUserAttributes: (data) => {
       return {
-        name: data.name,
-        createdAt: data.created_at,
-        updatedAt: data.updated_at,
-      };
+        name: data.name ?? undefined,
+        createdAt: data.created_at as Date,
+        updatedAt: data.updated_at as Date,
+        username: data.username ?? undefined,
+      } satisfies UserAttributes;
     },
     getSessionAttributes: (data) => {
       return {
