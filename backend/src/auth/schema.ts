@@ -29,6 +29,7 @@ export type AuthMode = z.infer<typeof authModeSchema>;
 export const createSessionAndSetClientAuthentication = async (
   auth: Auth,
   userId: string,
+  username: string,
   connectionContext: ConnectionContext,
 ) => {
   const session = await auth.createSession({
@@ -38,7 +39,7 @@ export const createSessionAndSetClientAuthentication = async (
     },
   });
   connectionContext.session = session;
-  return { bearerToken: session.sessionId };
+  return { bearerToken: session.sessionId, username };
 };
 
 // The code below shows how to use cookies for sessions, instead of bearer token.

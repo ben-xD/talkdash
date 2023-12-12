@@ -1,19 +1,13 @@
 import {
   audienceUsernameKey,
   hostUsernameKey,
-  setAudienceUsername,
-  setHostUsername,
-  setSpeakerUsername,
+  updateAudienceUsername,
+  updateHostUsername,
+  updateSpeakerUsername,
   speakerUsernameKey,
 } from "../features/user/userState.js";
 import { generateRandomUsername } from "../features/names";
 import { UserRole } from "@talkdash/schema";
-
-export const loadQueryParamsWithDelay = (role: UserRole) => {
-  setTimeout(() => {
-    loadQueryParams(role);
-  }, 0);
-};
 
 export const loadQueryParams = (role: UserRole) => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -23,26 +17,26 @@ export const loadQueryParams = (role: UserRole) => {
 
   switch (role) {
     case "host":
-      if (speakerUsername) setSpeakerUsername(speakerUsername, false);
+      if (speakerUsername) updateSpeakerUsername(speakerUsername, false);
       if (hostUsername) {
-        setHostUsername(hostUsername, false);
+        updateHostUsername(hostUsername, false);
       } else {
-        setHostUsername(generateRandomUsername(), false);
+        updateHostUsername(generateRandomUsername(), false);
       }
       return;
     case "audience":
-      if (speakerUsername) setSpeakerUsername(speakerUsername, false);
+      if (speakerUsername) updateSpeakerUsername(speakerUsername, false);
       if (audienceUsername) {
-        setAudienceUsername(audienceUsername, false);
+        updateAudienceUsername(audienceUsername, false);
       } else {
-        setAudienceUsername(generateRandomUsername(), false);
+        updateAudienceUsername(generateRandomUsername(), false);
       }
       return;
     case "speaker":
       if (speakerUsername) {
-        setSpeakerUsername(speakerUsername, false);
+        updateSpeakerUsername(speakerUsername, false);
       } else {
-        setSpeakerUsername(generateRandomUsername(), false);
+        updateSpeakerUsername(generateRandomUsername(), false);
       }
       return;
     default:

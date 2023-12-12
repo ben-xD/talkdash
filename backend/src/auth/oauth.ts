@@ -14,6 +14,7 @@ export const getOrCreateUserFromGoogleUser = async (googleUser: GoogleUser) => {
       created_at: new Date(),
       updated_at: new Date(),
       name: null,
+      username: null,
     },
   });
 };
@@ -28,6 +29,7 @@ export const getOrCreateUserFromGithubUser = async (githubUser: GithubUser) => {
       created_at: new Date(),
       updated_at: new Date(),
       name: null,
+      username: null,
     },
   });
 };

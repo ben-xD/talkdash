@@ -7,7 +7,7 @@ import { pgTable, bigint, varchar, timestamp } from "drizzle-orm/pg-core";
 const userIdLength = 36;
 
 // Reminder: update lucia.d.ts with more types when this changes
-export const user = pgTable("user", {
+export const userTable = pgTable("user", {
   id: varchar("id", {
     length: userIdLength,
   }).primaryKey(),
@@ -24,7 +24,8 @@ export const user = pgTable("user", {
     // email address must not exceed 254 characters. See https://stackoverflow.com/a/574698/7365866
     length: 254,
   }).unique(),
-  speakerPin: varchar("speaker_pin", { length: 6 }),
+  pin: varchar("pin", { length: 6 }),
+  username: varchar("username", { length: 254 }).unique(),
 });
 
 export const userSession = pgTable("user_session", {
@@ -36,7 +37,7 @@ export const userSession = pgTable("user_session", {
     length: userIdLength,
   })
     .notNull()
-    .references(() => user.id),
+    .references(() => userTable.id),
   activeExpires: bigint("active_expires", {
     mode: "number",
   }).notNull(),
@@ -54,7 +55,7 @@ export const userKey = pgTable("user_key", {
     length: userIdLength,
   })
     .notNull()
-    .references(() => user.id),
+    .references(() => userTable.id),
   hashedPassword: varchar("hashed_password", {
     length: 255,
   }),

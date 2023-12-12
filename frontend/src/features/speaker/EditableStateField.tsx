@@ -5,15 +5,17 @@ import { PencilIcon } from "../../assets/PencilIcon";
 
 type Props = {
   label: string;
-  value: () => string | undefined;
+  value: string | undefined;
   setValue: (value: string) => void;
+  disabled?: boolean;
 };
 
 export const EditableStateField = (props: Props) => {
   return (
     <Editable.Root
       placeholder={`Not set`}
-      value={props.value()}
+      value={props.value}
+      disabled={props.disabled}
       onValueCommit={(e) => props.setValue(e.value)}
     >
       {(state) => (
@@ -45,7 +47,7 @@ export const EditableStateField = (props: Props) => {
           <Editable.Area>
             <Editable.Input
               class="w-full text-primary-600"
-              value={props.value()}
+              value={props.value}
             />
             <Editable.Preview />
           </Editable.Area>

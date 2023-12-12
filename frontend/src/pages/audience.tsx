@@ -1,45 +1,54 @@
-import { onMount } from "solid-js";
-import { loadQueryParamsWithDelay } from "./loadQueryParams.ts";
-import { Toast } from "../components/Toast.tsx";
-import { EditableStateField } from "../features/speaker/EditableStateField.tsx";
+import { createEffect, onMount } from "solid-js";
+import { loadQueryParams } from "./loadQueryParams.js";
+import { EditableStateField } from "../features/speaker/EditableStateField.jsx";
 import {
-  audienceUsername,
-  setAudienceUsername,
-  setSpeakerUsername,
+  updateAudienceUsername,
+  updateSpeakerUsername,
   speakerUsername,
-} from "../features/user/userState.ts";
-import { resetHistory } from "../features/time/timeState.ts";
-import { SendMessageCard } from "../components/SendMessageCard.tsx";
+  registeredUsername,
+  unsetTemporaryUsernames,
+} from "../features/user/userState.js";
+import { resetHistory } from "../features/time/timeState.js";
+import { SendMessageCard } from "../components/SendMessageCard.jsx";
+import { preferredUsername } from "../client/trpc.ts";
 
 const Audience = () => {
   onMount(() => {
     document.title = "Audience · Talkdash";
-    loadQueryParamsWithDelay("audience");
+    setTimeout(() => {
+      loadQueryParams("audience");
+    }, 0);
+  });
+
+  createEffect(() => {
+    if (registeredUsername()) {
+      unsetTemporaryUsernames("audience");
+    }
   });
 
   return (
     <div class="flex w-full max-w-[400px] flex-col gap-6">
-      <Toast />
       <p>
         <span class="font-bold">Audience mode. </span>Enter a speaker username
         to send them messages.
       </p>
       <EditableStateField
         label={"Your name"}
-        value={audienceUsername}
+        value={preferredUsername("audience")}
+        disabled={!!preferredUsername("audience")}
         setValue={(value) => {
-          setAudienceUsername(value);
+          updateAudienceUsername(value);
         }}
       />
       <EditableStateField
         label={"Speaker username"}
-        value={speakerUsername}
+        value={speakerUsername()}
         setValue={(value) => {
           resetHistory();
-          setSpeakerUsername(value);
+          updateSpeakerUsername(value);
         }}
       />
-      <SendMessageCard />
+      <SendMessageCard senderRole="audience" />
     </div>
   );
 };

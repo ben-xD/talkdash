@@ -1,5 +1,5 @@
 import { pg } from "@lucia-auth/adapter-postgresql";
-import { Configuration, lucia } from "lucia";
+import { lucia } from "lucia";
 import {
   env,
   githubOAuthConfigSchema,
@@ -24,8 +24,12 @@ export type UserAttributes = {
   updatedAt: Date;
 };
 
+export type SessionAttributes = {
+  createdAt: Date;
+};
+
 export const createAuth = (dbPool: Pool) =>
-  lucia<Configuration<UserAttributes>>({
+  lucia({
     csrfProtection: {
       // Is this necessary?
       // host: "localhost:4000",
@@ -41,15 +45,15 @@ export const createAuth = (dbPool: Pool) =>
     middleware: fastify(),
     // Not the session, but the session cookie. See https://lucia-auth.com/basics/using-cookies/
     sessionCookie: { expires: false },
-    getUserAttributes: (data) => {
+    getUserAttributes: (data): UserAttributes => {
       return {
         name: data.name ?? undefined,
         createdAt: data.created_at as Date,
         updatedAt: data.updated_at as Date,
         username: data.username ?? undefined,
-      } satisfies UserAttributes;
+      };
     },
-    getSessionAttributes: (data) => {
+    getSessionAttributes: (data): SessionAttributes => {
       return {
         createdAt: data.created_at,
       };

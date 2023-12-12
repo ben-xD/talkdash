@@ -20,6 +20,9 @@ import {
   emailSchema,
   passwordSchema,
 } from "./schema.js";
+import { assertAnonymous, assertAuth } from "../trpc/assert.js";
+import { userTable } from "../db/schema/index.js";
+import { eq } from "drizzle-orm";
 
 export const authRouter = router({
   signUpWithEmail: loggedProcedure
@@ -27,6 +30,7 @@ export const authRouter = router({
       z.object({
         name: z.string(),
         email: emailSchema,
+        username: z.string().optional(),
         password: passwordSchema,
         authMode: authModeSchema,
       }),
@@ -35,7 +39,7 @@ export const authRouter = router({
     .mutation(async ({ ctx, input }) => {
       const userId = uuid();
       try {
-        await ctx.auth.createUser({
+        const user = await ctx.auth.createUser({
           userId,
           key: {
             providerId: "email",
@@ -47,15 +51,14 @@ export const authRouter = router({
             created_at: new Date(),
             updated_at: new Date(),
             email: null,
+            username: input.username ?? null,
           },
         });
 
         return createSessionAndSetClientAuthentication(
           ctx.auth,
-          // ctx.req,
-          // ctx.res,
           userId,
-          // input.authMode,
+          user.username,
           ctx.connectionContext,
         );
       } catch (e) {
@@ -87,9 +90,11 @@ export const authRouter = router({
           input.email.toLowerCase(),
           input.password,
         );
+        const user = await ctx.auth.getUser(key.userId);
         return createSessionAndSetClientAuthentication(
           ctx.auth,
           key.userId,
+          user.username,
           ctx.connectionContext,
         );
       } catch (e) {
@@ -163,7 +168,12 @@ export const authRouter = router({
     }),
   signInWithOAuth: loggedProcedure
     .input(z.object({ provider: oAuthProviders }))
-    .output(z.object({ redirectTo: z.string().url(), state: z.string() }))
+    .output(
+      z.object({
+        redirectTo: z.string().url(),
+        state: z.string(),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
       if (input.provider === "github") {
         const [url, state] = await ctx.oAuths.github.getAuthorizationUrl();
@@ -186,19 +196,20 @@ export const authRouter = router({
     }),
   validateCallback: loggedProcedure
     .input(z.object({ provider: oAuthProviders, code: z.string() }))
-    .output(z.object({ bearerToken: z.string() }))
+    .output(
+      z.object({ bearerToken: z.string(), username: z.string().optional() }),
+    )
     .mutation(async ({ ctx, input }) => {
       try {
         if (input.provider === "github") {
           const githubUser = await ctx.oAuths.github.validateCallback(
             input.code,
           );
-          // TODO store more information from user?
-          // TODO ensure their data is deleted when the user is deleted
           const user = await getOrCreateUserFromGithubUser(githubUser);
           return createSessionAndSetClientAuthentication(
             ctx.auth,
             user.userId,
+            user.username,
             ctx.connectionContext,
           );
         } else if (input.provider === "google") {
@@ -210,6 +221,7 @@ export const authRouter = router({
           return createSessionAndSetClientAuthentication(
             ctx.auth,
             user.userId,
+            user.username,
             ctx.connectionContext,
           );
         } else {
@@ -227,6 +239,66 @@ export const authRouter = router({
           throw new TRPCError({ code: "UNAUTHORIZED" });
         }
         throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+      }
+    }),
+  // Multiple users can share the same temporary username
+  setTemporaryUsername: loggedProcedure
+    .input(z.object({ newUsername: z.string().optional() }))
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx.connectionContext.session?.user?.userId;
+      assertAnonymous("userId", !userId);
+
+      const oldUsername = ctx.connectionContext.temporaryUsername;
+      const { newUsername } = input;
+      if (newUsername) {
+        const [existingUser] = await ctx.db
+          .select()
+          .from(userTable)
+          .where(eq(userTable.username, newUsername));
+        if (existingUser)
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "Username already exists.",
+          });
+      }
+
+      ctx.connectionContext.temporaryUsername = newUsername;
+      console.info(
+        `Temporary username change: ${oldUsername} is now known as ${newUsername}`,
+      );
+    }),
+  getUsername: protectedProcedure
+    .input(z.object({}))
+    .output(z.string().optional())
+    .query(async ({ ctx }) => {
+      const userId = ctx.connectionContext.session?.user?.userId;
+      assertAuth("userId", userId);
+      const [user] = await ctx.db
+        .select()
+        .from(userTable)
+        .where(eq(userTable.id, userId));
+      return user?.username ?? undefined;
+    }),
+  registerUsername: protectedProcedure
+    .input(z.object({ newUsername: z.string().optional() }))
+    .mutation(async ({ input, ctx }) => {
+      const userId = ctx.connectionContext.session?.user?.userId;
+      assertAuth("userId", userId);
+      ctx.connectionContext.temporaryUsername = undefined;
+
+      if (input.newUsername) {
+        // Error if conflicting with other user's username
+        const [added] = await ctx.db
+          .update(userTable)
+          .set({ username: input.newUsername })
+          .where(eq(userTable.id, userId))
+          .returning();
+        if (!added) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "Username already exists.",
+          });
+        }
       }
     }),
 });

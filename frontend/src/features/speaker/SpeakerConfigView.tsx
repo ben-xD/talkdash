@@ -1,16 +1,23 @@
-import { setSpeakerUsername, speakerUsername } from "../user/userState";
 import { EditableStateField } from "./EditableStateField";
 import { ShareIcon } from "../../assets/ShareIcon";
 import { Show } from "solid-js";
 import { ElapsedTime } from "../../components/ElapsedTime";
 import { A } from "@solidjs/router";
-import { isSignedIn } from "../../client/trpc.ts";
+import {
+  isSignedIn,
+  preferredUsername,
+  setPreferredUsername,
+} from "../../client/trpc.ts";
 import { cn } from "../../css/tailwind.ts";
 import {
   isQrCodeShown,
   setIsQrCodeShown,
 } from "../../components/QrCodeView.tsx";
 import { Toggle } from "../../components/Toggle.tsx";
+import {
+  isAudienceMessagesShown,
+  setIsAudienceMessagesShown,
+} from "./audienceMessages.ts";
 
 type Props = {
   reconnectAsSpeaker: (speakerUsername: string) => void;
@@ -18,7 +25,7 @@ type Props = {
   shareUrl: URL;
 };
 
-export const ConfigView = (props: Props) => {
+export const SpeakerConfigView = (props: Props) => {
   return (
     <div
       class={cn(
@@ -54,15 +61,27 @@ export const ConfigView = (props: Props) => {
 
       <EditableStateField
         label="Username"
-        value={speakerUsername}
+        value={preferredUsername("speaker")}
         setValue={(value) => {
-          setSpeakerUsername(value);
+          setPreferredUsername("speaker", value);
           props.reconnectAsSpeaker(value);
         }}
       />
       <div class="flex justify-between">
-        <p>Show QR code</p>
+        <label for="audience-messaging-enabled">
+          Show messages from audience
+        </label>
         <Toggle
+          id="host-pin-enabled"
+          aria-label={"Toggle host pin required"}
+          checked={isAudienceMessagesShown()}
+          setChecked={setIsAudienceMessagesShown}
+        />
+      </div>
+      <div class="flex justify-between">
+        <label for="show-qr-code">Show QR code</label>
+        <Toggle
+          id="show-qr-code"
           aria-label={"Toggle QR code"}
           checked={isQrCodeShown()}
           setChecked={setIsQrCodeShown}

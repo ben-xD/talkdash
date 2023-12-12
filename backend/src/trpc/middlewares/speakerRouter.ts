@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { loggedProcedure } from "./middleware.js";
+import { loggedProcedure, protectedProcedure } from "./middleware.js";
 import { SenderEvent } from "@talkdash/schema";
 import { router } from "../trpc.js";
 import { observable, Observer } from "@trpc/server/observable";
@@ -10,8 +10,9 @@ import {
   emitToSenders,
   removeSpeakerClient,
 } from "../../features/messages/senderRouter.js";
-import { speakerTable } from "../../db/schema/index.js";
 import { eq } from "drizzle-orm";
+import { assertAuth } from "../assert.js";
+import { userTable } from "../../db/schema/index.js";
 
 // All messages sent to client start with "Observed"
 type ObserverId = string;
@@ -95,19 +96,14 @@ export const speakerRouter = router({
       // TODO rate limit this API.
       return getDurationInMinutesFrom(input.durationDescription);
     }),
-  setHostPin: loggedProcedure
+  setHostPin: protectedProcedure
     .input(z.object({ pin: z.string().optional() }))
     .mutation(async ({ input, ctx }) => {
-      if (!ctx.connectionContext.username) {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "You must be logged in to set a pin.",
-        });
-      }
-
+      const userId = ctx.session?.user?.userId;
+      assertAuth("userId", userId);
       await ctx.db
-        .update(speakerTable)
+        .update(userTable)
         .set({ pin: input.pin })
-        .where(eq(speakerTable.username, ctx.connectionContext.username));
+        .where(eq(userTable.id, userId));
     }),
 });

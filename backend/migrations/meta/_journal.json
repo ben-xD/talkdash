@@ -22,6 +22,13 @@
       "when": 1702330646051,
       "tag": "0002_gorgeous_gorilla_man",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1702389961883,
+      "tag": "0003_stale_squadron_supreme",
+      "breakpoints": true
     }
   ]
 }

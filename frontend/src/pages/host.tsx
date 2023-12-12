@@ -1,44 +1,55 @@
-import { onMount } from "solid-js";
+import { createEffect, onMount } from "solid-js";
 import { EditableStateField } from "../features/speaker/EditableStateField";
 import {
-  hostUsername,
-  setHostUsername,
-  setSpeakerUsername,
+  updateHostUsername,
+  updateSpeakerUsername,
   speakerUsername,
+  registeredUsername,
+  unsetTemporaryUsernames,
 } from "../features/user/userState.js";
-import { loadQueryParamsWithDelay } from "./loadQueryParams";
+import { loadQueryParams } from "./loadQueryParams";
 import { resetHistory } from "../features/time/timeState";
 import { TimeLeft } from "../features/time/TimeLeft";
 import { ElapsedTime } from "../components/ElapsedTime";
-import { Toast } from "../components/Toast";
 import { SendMessageCard } from "../components/SendMessageCard.tsx";
+import { preferredUsername } from "../client/trpc.ts";
 
 const Host = () => {
   onMount(() => {
     document.title = "Event Host · Talkdash";
-    loadQueryParamsWithDelay("host");
+    setTimeout(() => {
+      loadQueryParams("host");
+      if (registeredUsername()) {
+        unsetTemporaryUsernames("host");
+      }
+    }, 0);
+  });
+
+  createEffect(() => {
+    if (registeredUsername()) {
+      unsetTemporaryUsernames("host");
+    }
   });
 
   return (
     <div class="flex w-full max-w-[400px] flex-col gap-6">
-      <Toast />
       <p>
         <span class="font-bold tracking-tight">Event host mode. </span>Enter a
         speaker username to send them messages.
       </p>
       <EditableStateField
         label={"Your name"}
-        value={hostUsername}
+        value={preferredUsername("host")}
         setValue={(value) => {
-          setHostUsername(value);
+          updateHostUsername(value);
         }}
       />
       <EditableStateField
         label={"Speaker username"}
-        value={speakerUsername}
+        value={speakerUsername()}
         setValue={(value) => {
           resetHistory();
-          setSpeakerUsername(value);
+          updateSpeakerUsername(value);
         }}
       />
       <ElapsedTime />
@@ -46,7 +57,7 @@ const Host = () => {
         <TimeLeft />
         <span class="font-normal">time left</span>
       </div>
-      <SendMessageCard />
+      <SendMessageCard senderRole="host" />
     </div>
   );
 };

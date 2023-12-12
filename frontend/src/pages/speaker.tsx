@@ -1,10 +1,15 @@
-import { ConfigView } from "../features/speaker/ConfigView.tsx";
+import { SpeakerConfigView } from "../features/speaker/SpeakerConfigView.tsx";
 import { TimerConfigCard } from "../features/TimerConfigCard.tsx";
 import { TimeLeft } from "../features/time/TimeLeft";
 import { MessageView } from "../features/messages/MessageView";
 import { createEffect, createSignal, onCleanup, onMount, Show } from "solid-js";
 import { loadQueryParams } from "./loadQueryParams";
-import { speakerUsername } from "../features/user/userState";
+import {
+  updateSpeakerUsername,
+  speakerUsername,
+  registeredUsername,
+  unsetTemporaryUsernames,
+} from "../features/user/userState";
 import { Unsubscribable } from "@trpc/server/observable";
 import {
   receivedMessages,
@@ -13,7 +18,6 @@ import {
 import { DateTime } from "luxon";
 import { trpc } from "../client/trpc";
 import { setTimeAction } from "../features/time/timeState";
-import { Toast } from "../components/Toast";
 import { toast } from "solid-toast";
 import { isQrCodeShown, QrCodeView } from "../components/QrCodeView.tsx";
 
@@ -53,12 +57,24 @@ const Speaker = () => {
   onMount(() => {
     document.title = "Speaker · Talkdash";
     setTimeout(() => {
-      loadQueryParams("speaker");
-      const username = speakerUsername();
-      if (username) {
-        reconnectAsSpeaker(username);
+      const registered = registeredUsername();
+      if (!registered) {
+        loadQueryParams("speaker");
+      }
+      const temporarySpeakerUsername = speakerUsername();
+      if (registered) {
+        updateSpeakerUsername(registered);
+        reconnectAsSpeaker(registered);
+      } else if (temporarySpeakerUsername) {
+        reconnectAsSpeaker(temporarySpeakerUsername);
       }
     }, 0);
+  });
+
+  createEffect(() => {
+    if (registeredUsername()) {
+      unsetTemporaryUsernames("speaker");
+    }
   });
 
   onCleanup(() => {
@@ -82,9 +98,8 @@ const Speaker = () => {
 
   return (
     <div class="flex flex-col items-center gap-16">
-      <Toast />
       <div class="z-10 flex w-full max-w-[400px] flex-col items-stretch lg:max-w-4xl lg:flex-row">
-        <ConfigView
+        <SpeakerConfigView
           reconnectAsSpeaker={reconnectAsSpeaker}
           shareUrl={shareUrl()}
         />

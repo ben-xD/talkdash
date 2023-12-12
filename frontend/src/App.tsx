@@ -9,6 +9,7 @@ import { ReconnectedAlert } from "./components/ReconnectedAlert";
 import { loadThemeOntoPage } from "./css/theme";
 import { AppMenu } from "./components/Menu/AppMenu";
 import { isConnected, showReconnectedMessage } from "./client/trpc";
+import { Toast } from "./components/Toast";
 
 function App(props: { children?: JSX.Element }) {
   onMount(() => {
@@ -32,6 +33,7 @@ function App(props: { children?: JSX.Element }) {
       class={`min-w-[320px] p-4 ${colors()} flex min-h-screen flex-col items-center`}
     >
       <div class="flex items-center gap-4">
+        <Toast />
         <h1 class="text-center text-4xl font-bold tracking-tight dark:bg-gradient-to-r dark:from-secondary-400 dark:to-primary-500 dark:bg-clip-text dark:text-transparent">
           <A href="/">TalkDash</A>
         </h1>

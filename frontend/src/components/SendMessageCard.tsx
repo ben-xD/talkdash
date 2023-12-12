@@ -1,5 +1,8 @@
 import { Alert } from "./Alert.tsx";
-import { speakerUsername } from "../features/user/userState.ts";
+import {
+  registeredUsername,
+  speakerUsername,
+} from "../features/user/userState.js";
 import { cn } from "../css/tailwind.ts";
 import { createEffect, createSignal } from "solid-js";
 import { trpc } from "../client/trpc.ts";
@@ -8,13 +11,14 @@ import { toast } from "solid-toast";
 import { setFinishTime, setStartTime } from "../features/time/timeState.ts";
 import { DateTime } from "luxon";
 import { Unsubscribable } from "@trpc/server/observable";
+import { Role } from "@talkdash/schema";
 
 const minLengthMessage = 1;
 
 const [speakerExists, setSpeakerExists] = createSignal<boolean>();
 const [isSending, setIsSending] = createSignal(false);
 
-export const SendMessageCard = () => {
+export const SendMessageCard = (props: { senderRole: Role }) => {
   const [message, setMessage] = createSignal("");
   const [errorMessage, setErrorMessage] = createSignal<string>();
   const [isSendDisabled, setIsSendDisabled] = createSignal(false);
@@ -58,18 +62,19 @@ export const SendMessageCard = () => {
 
   const onSend = async () => {
     setIsSending(true);
-    const username = speakerUsername();
-    if (username) {
+    const senderUsername = registeredUsername();
+    const recipientUsername = speakerUsername();
+    if (recipientUsername) {
       setIsSendDisabled(true);
       try {
-        // TODO get the host username, and send it in the context
-
         // TODO figure out how to handle the error when the websocket connection is broken.
         // We don't know when requests fail because the websocket is broken, so we can't show an error to user
         // See https://github.com/trpc/trpc/discussions/4606
         await trpc.sender.sendMessageToSpeaker.mutate({
-          speakerUsername: username,
+          speakerUsername: recipientUsername,
           message: message(),
+          role: props.senderRole,
+          senderUsername,
         });
         setMessage("");
         setErrorMessage();

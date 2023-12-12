@@ -8,6 +8,17 @@ import type { AppRouter } from "@talkdash/backend";
 import { trpcWebsocketApiPath } from "@talkdash/backend";
 import { createEffect, createSignal } from "solid-js";
 import { makePersisted } from "@solid-primitives/storage";
+import {
+  audienceUsername,
+  hostUsername,
+  registeredUsername,
+  speakerUsername,
+  setRegisteredUsername,
+  updateAudienceUsername,
+  updateHostUsername,
+  updateSpeakerUsername,
+} from "../features/user/userState.tsx";
+import { Role } from "@talkdash/schema";
 
 export const backendUrl = import.meta.env.VITE_BACKEND_URL || "/";
 const reconnectMessageDurationMs = 5000;
@@ -29,6 +40,37 @@ const [bearerToken, setBearerTokenInternal] = makePersisted(
   },
 );
 export const isSignedIn = () => !!bearerToken();
+
+export const preferredUsername = (role: Role) => {
+  const registered = registeredUsername();
+  if (registered) return registered;
+
+  switch (role) {
+    case "host":
+      return hostUsername();
+    case "audience":
+      return audienceUsername();
+    case "speaker":
+      return speakerUsername();
+  }
+};
+
+export const setPreferredUsername = (role: Role, username: string) => {
+  const registered = registeredUsername();
+  if (registered) setRegisteredUsername(username);
+
+  switch (role) {
+    case "host":
+      updateHostUsername(username);
+      break;
+    case "audience":
+      updateAudienceUsername(username);
+      break;
+    case "speaker":
+      updateSpeakerUsername(username);
+      break;
+  }
+};
 
 createEffect(() => {
   console.debug(`isSignedIn(): ${isSignedIn()}`);
@@ -62,6 +104,13 @@ export const trpc = createTRPCProxyClient<AppRouter>({
             await trpc.auth.authenticateWebsocketConnection.mutate({
               bearerToken: token,
             });
+          }
+
+          // Get username if signed in
+          const signedIn = isSignedIn();
+          if (signedIn) {
+            const reply = await trpc.auth.getUsername.query({});
+            setRegisteredUsername(reply);
           }
         },
         onClose: () => {

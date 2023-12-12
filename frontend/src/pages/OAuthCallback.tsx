@@ -3,6 +3,9 @@ import { onMount } from "solid-js";
 import { setBearerToken, trpc } from "../client/trpc.ts";
 import { oAuthProviders } from "@talkdash/schema";
 import { LOCAL_STORAGE_OAUTH_STATE } from "../features/auth/constants.ts";
+import { setRegisteredUsername } from "../features/user/userState.tsx";
+import { toast } from "solid-toast";
+import { TRPCClientError } from "@trpc/client";
 
 export const OAuthCallbackPage = () => {
   const navigate = useNavigate();
@@ -33,13 +36,23 @@ export const OAuthCallbackPage = () => {
     if (provider.success) {
       if (params.provider === "github" || params.provider === "google") {
         try {
-          const { bearerToken } = await trpc.auth.validateCallback.mutate({
-            provider: params.provider,
-            code,
-          });
+          const { bearerToken, username } =
+            await trpc.auth.validateCallback.mutate({
+              provider: params.provider,
+              code,
+            });
           setBearerToken(bearerToken);
+          setRegisteredUsername(username);
         } catch (e) {
-          console.error({ e });
+          if (e instanceof TRPCClientError) {
+            // TODO show error in a persistent ui, not just in toast. By passing error as query param?
+            const { message } = e;
+            toast(() => (
+              <p class="text-secondary-800">Failed to login: {message}</p>
+            ));
+          } else {
+            toast(() => <p class="text-secondary-800">Failed to login</p>);
+          }
         }
       } else {
         console.error("Unknown provider", params.provider);

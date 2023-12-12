@@ -7,6 +7,7 @@ declare namespace Lucia {
     created_at: Date;
     updated_at: Date;
     email: string | null;
+    username: string | null;
   };
   type DatabaseSessionAttributes = {
     created_at: Date;
