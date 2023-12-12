@@ -67,6 +67,7 @@ export const AppMenu = () => {
             >
               Account
             </MenuItemGroupLabel>
+            <MenuSeparator />
             <Show when={!isSignedIn()}>
               <MenuItemLink path="/sign-in" title={"Sign in"} />
               <MenuItemLink path="/sign-up" title={"Sign up"} />
