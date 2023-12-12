@@ -45,7 +45,6 @@ Features:
 
 - Audience messaging can be disabled by speaker and host
 - Responsive layout for received messages
-- Rebuild schema package when files change
 - Set up email verification
   - just use react, [resend](https://resend.com/) and resend's `render`: https://react.email/docs/utilities/render (write templates?), or
     - write content into https://payloadcms.com/, https://prismic.io/, Strapi, or Builder. and pull into email template? and other parts of website.

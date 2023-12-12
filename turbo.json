@@ -17,7 +17,10 @@
     },
     // Only backend needs the schema build, since frontend uses vite and will transpile the schema automatically
     "@talkdash/backend#dev": {
-      "dependsOn": ["@talkdash/schema#build"],
+      "cache": false,
+      "persistent": true
+    },
+    "@talkdash/schema#dev": {
       "cache": false,
       "persistent": true
     },
