@@ -1,7 +1,6 @@
 import { createEffect, createSignal, onMount, Show } from "solid-js";
 import { EditableStateField } from "../features/speaker/EditableStateField";
 import {
-  updateHostUsername,
   updateSpeakerUsername,
   speakerUsername,
   registeredUsername,
@@ -12,7 +11,7 @@ import { resetHistory } from "../features/time/timeState";
 import { TimeLeft } from "../features/time/TimeLeft";
 import { ElapsedTime } from "../components/ElapsedTime";
 import { SendMessageCard } from "../components/SendMessageCard.tsx";
-import { preferredUsername } from "../client/trpc.ts";
+import { preferredUsername, setPreferredUsername } from "../client/trpc.ts";
 import {
   isSendersPinRequired,
   setAndValidatePinForSender,
@@ -31,8 +30,9 @@ const Host = () => {
     document.title = "Event Host · Talkdash";
     setTimeout(() => {
       loadQueryParams("host");
-      if (registeredUsername()) {
-        unsetTemporaryUsernames("host");
+      const registered = registeredUsername();
+      if (registered) {
+        setPreferredUsername("speaker", registered);
       }
     }, 0);
   });
@@ -74,7 +74,7 @@ const Host = () => {
         label={"Your name"}
         value={preferredUsername("host")}
         setValue={(value) => {
-          updateHostUsername(value);
+          setPreferredUsername("host", value);
         }}
       />
       <EditableStateField

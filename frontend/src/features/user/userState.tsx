@@ -1,5 +1,5 @@
 import { createSignal } from "solid-js";
-import { trpc } from "../../client/trpc.ts";
+import { isSignedIn, trpc } from "../../client/trpc.ts";
 import { TRPCClientError } from "@trpc/client";
 import { toast } from "solid-toast";
 import { Role } from "@talkdash/schema";
@@ -80,13 +80,18 @@ export const updateAudienceUsername = async (
   username?: string,
   pushToHistory: boolean = true,
 ): Promise<void> => {
+  const signedIn = isSignedIn();
   console.info(`Setting audience username to ${username}`);
   setAudienceUsernameInternal(username);
   setQueryParam({ key: audienceUsernameKey, value: username, pushToHistory });
   try {
-    await trpc.auth.setTemporaryUsername.mutate({
-      newUsername: username,
-    });
+    if (signedIn) {
+      await trpc.auth.registerUsername.mutate({ newUsername: username });
+    } else {
+      await trpc.auth.setTemporaryUsername.mutate({
+        newUsername: username,
+      });
+    }
   } catch (e) {
     if (e instanceof TRPCClientError) {
       const message = e.message;
@@ -110,8 +115,13 @@ export const updateHostUsername = (
   console.info(`Setting host username to ${username}`);
   setHostUsernameInternal(username);
   setQueryParam({ key: hostUsernameKey, value: username, pushToHistory });
-  // TODO check for logged in and a different procedure
-  trpc.auth.setTemporaryUsername.mutate({ newUsername: username });
+
+  const signedIn = isSignedIn();
+  if (signedIn) {
+    trpc.auth.registerUsername.mutate({ newUsername: username });
+  } else {
+    trpc.auth.setTemporaryUsername.mutate({ newUsername: username });
+  }
 };
 
 export const updateSpeakerUsername = (
@@ -119,9 +129,13 @@ export const updateSpeakerUsername = (
   pushToHistory = true,
 ) => {
   console.info(`Setting speaker username to ${username}`);
-  // TODO check for logged in and a different procedure
   // TODO if this fails, don't update the rest, and throw an error instead
-  trpc.auth.setTemporaryUsername.mutate({ newUsername: username });
+  const signedIn = isSignedIn();
+  if (signedIn) {
+    trpc.auth.registerUsername.mutate({ newUsername: username });
+  } else {
+    trpc.auth.setTemporaryUsername.mutate({ newUsername: username });
+  }
   setSpeakerUsernameInternal(username);
   setQueryParam({ key: speakerUsernameKey, value: username, pushToHistory });
 };

@@ -5,11 +5,14 @@ import {
   updateHostUsername,
   updateSpeakerUsername,
   speakerUsernameKey,
+  registeredUsername,
 } from "../features/user/userState.tsx";
 import { generateRandomUsername } from "../features/names.ts";
 import { UserRole } from "@talkdash/schema";
 
 export const loadQueryParams = (role: UserRole) => {
+  const registered = registeredUsername();
+  if (registered) return;
   const urlParams = new URLSearchParams(window.location.search);
   const speakerUsername = urlParams.get(speakerUsernameKey);
   const hostUsername = urlParams.get(hostUsernameKey);

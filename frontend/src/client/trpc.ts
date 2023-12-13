@@ -17,6 +17,7 @@ import {
   updateAudienceUsername,
   updateHostUsername,
   updateSpeakerUsername,
+  unsetTemporaryUsernames,
 } from "../features/user/userState.tsx";
 import { Role } from "@talkdash/schema";
 
@@ -57,7 +58,8 @@ export const preferredUsername = (role: Role) => {
 
 export const setPreferredUsername = (role: Role, username: string) => {
   const registered = registeredUsername();
-  if (registered) setRegisteredUsername(username);
+  unsetTemporaryUsernames(role);
+  if (registered) return setRegisteredUsername(username);
 
   switch (role) {
     case "host":

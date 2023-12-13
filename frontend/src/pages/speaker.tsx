@@ -5,7 +5,6 @@ import { MessageView } from "../features/messages/MessageView";
 import { createEffect, createSignal, onCleanup, onMount, Show } from "solid-js";
 import { loadQueryParams } from "../window/loadQueryParams.ts";
 import {
-  updateSpeakerUsername,
   speakerUsername,
   registeredUsername,
   unsetTemporaryUsernames,
@@ -16,7 +15,7 @@ import {
   setReceivedMessages,
 } from "../features/messages/receivedMessages";
 import { DateTime } from "luxon";
-import { trpc } from "../client/trpc";
+import { setPreferredUsername, trpc } from "../client/trpc";
 import { setTimeAction } from "../features/time/timeState";
 import { toast } from "solid-toast";
 import { isQrCodeShown, QrCodeView } from "../components/QrCodeView.tsx";
@@ -57,13 +56,11 @@ const Speaker = () => {
   onMount(() => {
     document.title = "Speaker · Talkdash";
     setTimeout(() => {
+      loadQueryParams("speaker");
       const registered = registeredUsername();
-      if (!registered) {
-        loadQueryParams("speaker");
-      }
       const temporarySpeakerUsername = speakerUsername();
       if (registered) {
-        updateSpeakerUsername(registered);
+        setPreferredUsername("speaker", registered);
         reconnectAsSpeaker(registered);
       } else if (temporarySpeakerUsername) {
         reconnectAsSpeaker(temporarySpeakerUsername);

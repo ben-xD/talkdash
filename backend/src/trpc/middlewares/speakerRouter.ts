@@ -50,6 +50,7 @@ export const getTimesFor = (
 };
 
 // TODO don't get the speakerUsername from the input, get it from the session (only for authed users though)
+// TODO don't let users subscribe to other users' messages (only for usernames that are already registered)
 export const speakerRouter = router({
   subscribeMessagesAsSpeaker: loggedProcedure
     .input(z.object({ speakerUsername: z.string() }))

@@ -2,7 +2,6 @@ import { createEffect, onMount } from "solid-js";
 import { loadQueryParams } from "../window/loadQueryParams.ts";
 import { EditableStateField } from "../features/speaker/EditableStateField.jsx";
 import {
-  updateAudienceUsername,
   updateSpeakerUsername,
   speakerUsername,
   registeredUsername,
@@ -10,7 +9,7 @@ import {
 } from "../features/user/userState.js";
 import { resetHistory } from "../features/time/timeState.js";
 import { SendMessageCard } from "../components/SendMessageCard.jsx";
-import { preferredUsername } from "../client/trpc.ts";
+import { preferredUsername, setPreferredUsername } from "../client/trpc.ts";
 
 const Audience = () => {
   onMount(() => {
@@ -35,9 +34,8 @@ const Audience = () => {
       <EditableStateField
         label={"Your name"}
         value={preferredUsername("audience")}
-        disabled={!!preferredUsername("audience")}
         setValue={(value) => {
-          updateAudienceUsername(value);
+          setPreferredUsername("audience", value);
         }}
       />
       <EditableStateField
