@@ -101,9 +101,13 @@ export const trpc = createTRPCProxyClient<AppRouter>({
           // Send the bearer token if it exists to authenticate the websocket connection as soon as possible.
           const token = bearerToken();
           if (token) {
-            await trpc.auth.authenticateWebsocketConnection.mutate({
-              bearerToken: token,
-            });
+            try {
+              await trpc.auth.authenticateWebsocketConnection.mutate({
+                bearerToken: token,
+              });
+            } catch (e) {
+              setBearerToken(undefined);
+            }
           }
 
           // Get username if signed in
