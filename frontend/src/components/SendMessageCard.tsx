@@ -62,7 +62,6 @@ export const SendMessageCard = (props: { senderRole: Role }) => {
 
   const onSend = async () => {
     setIsSending(true);
-    const senderUsername = registeredUsername();
     const recipientUsername = speakerUsername();
     if (recipientUsername) {
       setIsSendDisabled(true);
@@ -74,7 +73,6 @@ export const SendMessageCard = (props: { senderRole: Role }) => {
           speakerUsername: recipientUsername,
           message: message(),
           role: props.senderRole,
-          senderUsername,
         });
         setMessage("");
         setErrorMessage();

@@ -99,7 +99,7 @@ export const speakerRouter = router({
   setHostPin: protectedProcedure
     .input(z.object({ pin: z.string().optional() }))
     .mutation(async ({ input, ctx }) => {
-      const userId = ctx.session?.user?.userId;
+      const userId = ctx.connectionContext.session?.user?.userId;
       assertAuth("userId", userId);
       await ctx.db
         .update(userTable)

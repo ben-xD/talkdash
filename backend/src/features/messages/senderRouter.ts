@@ -67,7 +67,6 @@ export const senderRouter = router({
   sendMessageToSpeaker: loggedProcedure
     .input(
       z.object({
-        senderUsername: z.string().optional(),
         speakerUsername: z.string(),
         message: z.string(),
         role: role,
@@ -75,9 +74,11 @@ export const senderRouter = router({
       }),
     )
     .mutation(async ({ input, ctx }) => {
-      const { temporaryUsername } = ctx.connectionContext;
       const { role, speakerUsername } = input;
-      const senderUsername = input.senderUsername ?? temporaryUsername;
+      const userId = ctx.connectionContext.session?.user?.userId;
+      const user = userId ? await ctx.auth.getUser(userId) : undefined;
+      const senderUsername =
+        user?.username ?? ctx.connectionContext?.temporaryUsername;
 
       if (role === "host") {
         await ensurePinMatchesIfExists(ctx, speakerUsername, input.hostPin);
