@@ -4,7 +4,7 @@ import { createMutation } from "@tanstack/solid-query";
 import { onMount } from "solid-js";
 import { useNavigate } from "@solidjs/router";
 
-export const SignInPage = () => {
+const SignInPage = () => {
   const navigate = useNavigate();
 
   onMount(() => {
@@ -43,3 +43,5 @@ export const SignInPage = () => {
     />
   );
 };
+
+export default SignInPage;

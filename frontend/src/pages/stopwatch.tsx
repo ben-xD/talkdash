@@ -4,7 +4,7 @@ import { DateTime } from "luxon";
 
 const [startTime, setStartTime] = createSignal<DateTime>();
 
-export const StopwatchPage = () => {
+const StopwatchPage = () => {
   onMount(() => {
     document.title = "Stopwatch · Talkdash";
   });
@@ -53,3 +53,5 @@ export const StopwatchPage = () => {
     </div>
   );
 };
+
+export default StopwatchPage;

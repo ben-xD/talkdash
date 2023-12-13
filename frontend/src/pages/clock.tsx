@@ -1,7 +1,7 @@
 import { currentTime } from "../features/time/timeState";
 import { onMount } from "solid-js";
 
-export const ClockPage = () => {
+const ClockPage = () => {
   onMount(() => {
     document.title = "Clock · Talkdash";
   });
@@ -12,3 +12,5 @@ export const ClockPage = () => {
     </h2>
   );
 };
+
+export default ClockPage;

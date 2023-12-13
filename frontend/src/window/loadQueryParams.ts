@@ -5,8 +5,8 @@ import {
   updateHostUsername,
   updateSpeakerUsername,
   speakerUsernameKey,
-} from "../features/user/userState.js";
-import { generateRandomUsername } from "../features/names";
+} from "../features/user/userState.tsx";
+import { generateRandomUsername } from "../features/names.ts";
 import { UserRole } from "@talkdash/schema";
 
 export const loadQueryParams = (role: UserRole) => {

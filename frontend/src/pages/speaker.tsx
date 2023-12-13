@@ -3,7 +3,7 @@ import { TimerConfigCard } from "../features/TimerConfigCard.tsx";
 import { TimeLeft } from "../features/time/TimeLeft";
 import { MessageView } from "../features/messages/MessageView";
 import { createEffect, createSignal, onCleanup, onMount, Show } from "solid-js";
-import { loadQueryParams } from "./loadQueryParams";
+import { loadQueryParams } from "../window/loadQueryParams.ts";
 import {
   updateSpeakerUsername,
   speakerUsername,

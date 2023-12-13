@@ -7,7 +7,7 @@ import {
   registeredUsername,
   unsetTemporaryUsernames,
 } from "../features/user/userState.js";
-import { loadQueryParams } from "./loadQueryParams";
+import { loadQueryParams } from "../window/loadQueryParams.ts";
 import { resetHistory } from "../features/time/timeState";
 import { TimeLeft } from "../features/time/TimeLeft";
 import { ElapsedTime } from "../components/ElapsedTime";

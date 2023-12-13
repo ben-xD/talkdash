@@ -35,9 +35,9 @@ const Home = () => {
     } catch (e) {
       if (e instanceof TRPCClientError) {
         const message = e.message;
-        setErrorMessage(`Failed to update username ${message}`);
+        setErrorMessage(`Failed to change username. ${message}`);
       } else {
-        setErrorMessage(`Failed to update username`);
+        setErrorMessage(`Failed to change username`);
       }
     }
   };

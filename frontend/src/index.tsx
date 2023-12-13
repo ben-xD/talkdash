@@ -5,11 +5,6 @@ import "./css/index.css";
 import "animate.css";
 import App from "./App";
 import { QueryClient, QueryClientProvider } from "@tanstack/solid-query";
-import { ClockPage } from "./pages/clock.tsx";
-import { StopwatchPage } from "./pages/stopwatch.tsx";
-import { SignInPage } from "./pages/sign-in.tsx";
-import { SignUpPage } from "./pages/sign-up.tsx";
-import { OAuthCallbackPage } from "./pages/OAuthCallback.tsx";
 import { Route, Router } from "@solidjs/router";
 import { lazy } from "solid-js";
 
@@ -26,6 +21,12 @@ const SpeakerPage = lazy(() => import("./pages/speaker.tsx"));
 const AudiencePage = lazy(() => import("./pages/audience.tsx"));
 const HomePage = lazy(() => import("./pages/home.tsx"));
 const HostPage = lazy(() => import("./pages/host.tsx"));
+const AccountPage = lazy(() => import("./pages/account.tsx"));
+const ClockPage = lazy(() => import("./pages/clock.tsx"));
+const StopwatchPage = lazy(() => import("./pages/stopwatch.tsx"));
+const SignInPage = lazy(() => import("./pages/sign-in.tsx"));
+const SignUpPage = lazy(() => import("./pages/sign-up.tsx"));
+const OAuthCallbackPage = lazy(() => import("./pages/OAuthCallback.tsx"));
 
 render(
   () => (
@@ -39,6 +40,7 @@ render(
         <Route path="/stopwatch" component={StopwatchPage} />
         <Route path="/sign-in" component={SignInPage} />
         <Route path="/sign-up" component={SignUpPage} />
+        <Route path="/account" component={AccountPage} />
         <Route path="/auth/callback/:provider" component={OAuthCallbackPage} />
       </Router>
     </QueryClientProvider>

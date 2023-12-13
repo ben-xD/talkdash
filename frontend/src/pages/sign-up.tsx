@@ -4,7 +4,7 @@ import { TRPCClientError } from "@trpc/client";
 import { createSignal, onMount } from "solid-js";
 import { useNavigate } from "@solidjs/router";
 
-export const SignUpPage = () => {
+const SignUpPage = () => {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = createSignal<string>();
 
@@ -45,3 +45,5 @@ export const SignUpPage = () => {
     />
   );
 };
+
+export default SignUpPage;

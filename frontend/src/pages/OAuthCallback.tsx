@@ -7,7 +7,7 @@ import { setRegisteredUsername } from "../features/user/userState.tsx";
 import { toast } from "solid-toast";
 import { TRPCClientError } from "@trpc/client";
 
-export const OAuthCallbackPage = () => {
+const OAuthCallbackPage = () => {
   const navigate = useNavigate();
   const params = useParams<{ provider: string }>();
   const [searchParams] = useSearchParams<{
@@ -74,3 +74,5 @@ export const OAuthCallbackPage = () => {
     </div>
   );
 };
+
+export default OAuthCallbackPage;
