@@ -22,6 +22,7 @@ import {
   setHostPin,
   setIsHostPinRequired,
   setHostPinInternal,
+  setIsHostPinRequiredInternal,
 } from "./pin.tsx";
 import {
   isAudienceMessagesShown,
@@ -38,14 +39,16 @@ type Props = {
 export const SpeakerConfigView = (props: Props) => {
   onMount(async () => {
     // Check if a pin is required, and which one. Set it on local storage.
-    const pin = await trpc.speaker.getHostPin.query({});
-    if (pin) {
-      setIsHostPinRequired(true);
-      setHostPinInternal(pin);
-    } else {
-      setIsHostPinRequired(false);
-      setHostPinInternal(undefined);
+    if (isSignedIn()) {
+      const pin = await trpc.speaker.getHostPin.query({});
+      if (pin) {
+        setIsHostPinRequiredInternal(true);
+        setHostPinInternal(pin);
+        return;
+      }
     }
+    setIsHostPinRequiredInternal(false);
+    setHostPinInternal(undefined);
   });
 
   return (

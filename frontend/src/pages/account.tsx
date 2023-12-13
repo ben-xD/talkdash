@@ -1,10 +1,5 @@
 import { createEffect } from "solid-js";
-import {
-  deleteAccount,
-  isSignedIn,
-  setBearerToken,
-  trpc,
-} from "../client/trpc.ts";
+import { deleteAccount, isSignedIn } from "../client/trpc.ts";
 import { useNavigate } from "@solidjs/router";
 
 const AccountPage = () => {
