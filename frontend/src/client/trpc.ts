@@ -130,7 +130,15 @@ export const trpc = createTRPCProxyClient<AppRouter>({
 });
 
 export const signOut = async () => {
-  setBearerToken(undefined);
   await trpc.auth.signOut.mutate();
+  setBearerToken(undefined);
+  localStorage.clear();
+  window.location.reload();
+};
+
+export const deleteAccount = async () => {
+  await trpc.auth.deleteUser.mutate({});
+  setBearerToken(undefined);
+  localStorage.clear();
   window.location.reload();
 };

@@ -1,5 +1,10 @@
 import { createEffect } from "solid-js";
-import { isSignedIn, setBearerToken, trpc } from "../client/trpc.ts";
+import {
+  deleteAccount,
+  isSignedIn,
+  setBearerToken,
+  trpc,
+} from "../client/trpc.ts";
 import { useNavigate } from "@solidjs/router";
 
 const AccountPage = () => {
@@ -10,11 +15,6 @@ const AccountPage = () => {
       navigate("/sign-in");
     }
   });
-
-  const deleteAccount = async () => {
-    await trpc.auth.deleteUser.mutate({});
-    setBearerToken(undefined);
-  };
 
   return (
     <div class="flex items-center gap-8">
