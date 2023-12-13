@@ -25,6 +25,8 @@ const speakerEvent = z.discriminatedUnion("type", [
     start: z.number().optional(),
     finish: z.number().optional(),
   }),
+  z.object({ type: z.literal("pinRequired"), speakerUsername: z.string() }),
+  z.object({ type: z.literal("pinNotRequired"), speakerUsername: z.string() }),
 ]);
 type SpeakerEvent = z.infer<typeof speakerEvent>;
 
@@ -111,18 +113,42 @@ export const senderRouter = router({
         console.error(e);
       }
     }),
+  validateHostPin: loggedProcedure
+    .input(z.object({ speakerUsername: z.string(), hostPin: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      await ensurePinMatchesIfExists(ctx, input.speakerUsername, input.hostPin);
+    }),
   subscribeForSpeakerEvents: loggedProcedure
     .input(z.object({ speakerUsername: z.string() }))
-    .subscription(async ({ input }) =>
-      observable<SpeakerEvent, Error>((emit) => {
-        const { speakerUsername } = input;
+    .subscription(async ({ input, ctx }) => {
+      const { speakerUsername } = input;
+      const [speaker] = await ctx.db
+        .select()
+        .from(userTable)
+        .where(eq(userTable.username, speakerUsername));
+
+      return observable<SpeakerEvent, Error>((emit) => {
         const speakers = getSpeakersFor(speakerUsername);
         const sender = getSendersFor(speakerUsername);
+
         if (speakers && speakers.size >= 1) {
           emit.next({
             type: "speakerCreated",
             speakerUsername,
           });
+
+          if (speaker?.pin) {
+            emit.next({
+              type: "pinRequired",
+              speakerUsername,
+            });
+          } else {
+            emit.next({
+              type: "pinNotRequired",
+              speakerUsername,
+            });
+          }
+
           const times = getTimesFor(speakerUsername);
           if (times) {
             const { start, finish } = times;
@@ -142,8 +168,8 @@ export const senderRouter = router({
           );
           sender?.delete(emit);
         };
-      }),
-    ),
+      });
+    }),
 });
 
 const countBySpeakerUsername = new Map<string, number>();

@@ -1,4 +1,4 @@
-import { createEffect, onMount } from "solid-js";
+import { createEffect, createSignal, onMount, Show } from "solid-js";
 import { EditableStateField } from "../features/speaker/EditableStateField";
 import {
   updateHostUsername,
@@ -13,8 +13,20 @@ import { TimeLeft } from "../features/time/TimeLeft";
 import { ElapsedTime } from "../components/ElapsedTime";
 import { SendMessageCard } from "../components/SendMessageCard.tsx";
 import { preferredUsername } from "../client/trpc.ts";
+import {
+  isSendersPinRequired,
+  setAndValidatePinForSender,
+  PinAttempt,
+} from "../features/speaker/pin.tsx";
+import { Alert } from "../components/Alert.tsx";
+import { TRPCClientError } from "@trpc/client";
 
 const Host = () => {
+  const [pinErrorMessage, setPinErrorMessage] = createSignal<
+    string | undefined
+  >();
+  const [isPinCorrect, setIsPinCorrect] = createSignal<boolean | undefined>();
+
   onMount(() => {
     document.title = "Event Host · Talkdash";
     setTimeout(() => {
@@ -30,6 +42,27 @@ const Host = () => {
       unsetTemporaryUsernames("host");
     }
   });
+
+  const setPin = async (pin: string) => {
+    const speaker = speakerUsername();
+    if (speaker) {
+      try {
+        await setAndValidatePinForSender(pin, speaker);
+        setPinErrorMessage(undefined);
+        setIsPinCorrect(true);
+      } catch (e) {
+        setIsPinCorrect(false);
+        if (e instanceof TRPCClientError) {
+          const { message } = e;
+          setPinErrorMessage(`Pin verification failed. ${message}`);
+        } else {
+          setPinErrorMessage(`Pin verification failed.`);
+        }
+      }
+    } else {
+      setPinErrorMessage("Select a speaker first");
+    }
+  };
 
   return (
     <div class="flex w-full max-w-[400px] flex-col gap-6">
@@ -52,6 +85,10 @@ const Host = () => {
           updateSpeakerUsername(value);
         }}
       />
+      <Show when={isSendersPinRequired()}>
+        <Alert message={pinErrorMessage()} />
+        <PinAttempt setPin={setPin} isCorrect={isPinCorrect()} />
+      </Show>
       <ElapsedTime />
       <div class="flex gap-2 font-bold">
         <TimeLeft />

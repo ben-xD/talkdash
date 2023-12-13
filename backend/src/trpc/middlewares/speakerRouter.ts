@@ -49,6 +49,7 @@ export const getTimesFor = (
   return timesBySpeakerId.get(speakerUsername);
 };
 
+// TODO don't get the speakerUsername from the input, get it from the session (only for authed users though)
 export const speakerRouter = router({
   subscribeMessagesAsSpeaker: loggedProcedure
     .input(z.object({ speakerUsername: z.string() }))
@@ -101,9 +102,22 @@ export const speakerRouter = router({
     .mutation(async ({ input, ctx }) => {
       const userId = ctx.connectionContext.session?.user?.userId;
       assertAuth("userId", userId);
-      await ctx.db
+      const [user] = await ctx.db
         .update(userTable)
-        .set({ pin: input.pin })
-        .where(eq(userTable.id, userId));
+        .set({ pin: input.pin ?? null })
+        .where(eq(userTable.id, userId))
+        .returning();
+      const speakerUsername =
+        user?.username ?? ctx.connectionContext.temporaryUsername;
+      if (!speakerUsername) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: `User was not found but was authenticated.`,
+        });
+      }
+      emitToSenders(speakerUsername, {
+        type: input.pin ? "pinRequired" : "pinNotRequired",
+        speakerUsername,
+      });
     }),
 });

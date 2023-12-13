@@ -1,8 +1,5 @@
 import { Alert } from "./Alert.tsx";
-import {
-  registeredUsername,
-  speakerUsername,
-} from "../features/user/userState.js";
+import { speakerUsername } from "../features/user/userState.js";
 import { cn } from "../css/tailwind.ts";
 import { createEffect, createSignal } from "solid-js";
 import { trpc } from "../client/trpc.ts";
@@ -12,6 +9,10 @@ import { setFinishTime, setStartTime } from "../features/time/timeState.ts";
 import { DateTime } from "luxon";
 import { Unsubscribable } from "@trpc/server/observable";
 import { Role } from "@talkdash/schema";
+import {
+  sendersHostPin,
+  setIsSendersPinRequired,
+} from "../features/speaker/pin.tsx";
 
 const minLengthMessage = 1;
 
@@ -33,7 +34,7 @@ export const SendMessageCard = (props: { senderRole: Role }) => {
       {
         onData: (event) => {
           const { type } = event;
-          console.info(`${speakerUsername} event: ${type}`);
+          console.info(`Speaker event (for ${speakerUsername}): ${type}`);
           if (type === "speakerCreated") {
             setSpeakerExists(true);
           } else if (type === "speakerDeleted") {
@@ -50,6 +51,12 @@ export const SendMessageCard = (props: { senderRole: Role }) => {
             setFinishTime(
               event.finish ? DateTime.fromMillis(event.finish) : undefined,
             );
+          } else if (type === "pinRequired") {
+            setIsSendersPinRequired(true);
+          } else if (type === "pinNotRequired") {
+            setIsSendersPinRequired(false);
+          } else {
+            return type satisfies never;
           }
         },
       },
@@ -73,6 +80,7 @@ export const SendMessageCard = (props: { senderRole: Role }) => {
           speakerUsername: recipientUsername,
           message: message(),
           role: props.senderRole,
+          hostPin: sendersHostPin(),
         });
         setMessage("");
         setErrorMessage();

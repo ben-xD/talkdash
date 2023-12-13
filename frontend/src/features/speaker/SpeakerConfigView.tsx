@@ -15,9 +15,17 @@ import {
 } from "../../components/QrCodeView.tsx";
 import { Toggle } from "../../components/Toggle.tsx";
 import {
+  hostPin,
+  Pin,
+  isHostPinRequired,
+  setHostPin,
+  setIsHostPinRequired,
+} from "./pin.tsx";
+import {
   isAudienceMessagesShown,
   setIsAudienceMessagesShown,
 } from "./audienceMessages.ts";
+import { registeredUsername } from "../user/userState.tsx";
 
 type Props = {
   reconnectAsSpeaker: (speakerUsername: string) => void;
@@ -77,6 +85,26 @@ export const SpeakerConfigView = (props: Props) => {
           checked={isAudienceMessagesShown()}
           setChecked={setIsAudienceMessagesShown}
         />
+      </div>
+      <div class="flex flex-col gap-2">
+        <div class="flex justify-between">
+          <label for="host-pin-enabled">Require pin for hosts</label>
+          <Toggle
+            id="host-pin-enabled"
+            aria-label={"Toggle host pin required"}
+            disabledTooltip={
+              "Sign in and register a username to use this feature"
+            }
+            checked={
+              isHostPinRequired() && isSignedIn() && !!registeredUsername()
+            }
+            disabled={!isSignedIn()}
+            setChecked={setIsHostPinRequired}
+          />
+        </div>
+        {isHostPinRequired() && isSignedIn() && (
+          <Pin setPin={setHostPin} value={hostPin()} />
+        )}
       </div>
       <div class="flex justify-between">
         <label for="show-qr-code">Show QR code</label>
