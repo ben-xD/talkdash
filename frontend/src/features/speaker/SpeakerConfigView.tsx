@@ -1,12 +1,13 @@
 import { EditableStateField } from "./EditableStateField";
 import { ShareIcon } from "../../assets/ShareIcon";
-import { Show } from "solid-js";
+import { onMount, Show } from "solid-js";
 import { ElapsedTime } from "../../components/ElapsedTime";
 import { A } from "@solidjs/router";
 import {
   isSignedIn,
   preferredUsername,
   setPreferredUsername,
+  trpc,
 } from "../../client/trpc.ts";
 import { cn } from "../../css/tailwind.ts";
 import {
@@ -20,6 +21,7 @@ import {
   isHostPinRequired,
   setHostPin,
   setIsHostPinRequired,
+  setHostPinInternal,
 } from "./pin.tsx";
 import {
   isAudienceMessagesShown,
@@ -34,6 +36,18 @@ type Props = {
 };
 
 export const SpeakerConfigView = (props: Props) => {
+  onMount(async () => {
+    // Check if a pin is required, and which one. Set it on local storage.
+    const pin = await trpc.speaker.getHostPin.query({});
+    if (pin) {
+      setIsHostPinRequired(true);
+      setHostPinInternal(pin);
+    } else {
+      setIsHostPinRequired(false);
+      setHostPinInternal(undefined);
+    }
+  });
+
   return (
     <div
       class={cn(

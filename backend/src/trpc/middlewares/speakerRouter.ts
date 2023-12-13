@@ -98,6 +98,15 @@ export const speakerRouter = router({
       // TODO rate limit this API.
       return getDurationInMinutesFrom(input.durationDescription);
     }),
+  getHostPin: protectedProcedure.input(z.object({})).query(async ({ ctx }) => {
+    const userId = ctx.connectionContext.session?.user?.userId;
+    assertAuth("userId", userId);
+    const [user] = await ctx.db
+      .select()
+      .from(userTable)
+      .where(eq(userTable.id, userId));
+    return user?.pin;
+  }),
   setHostPin: protectedProcedure
     .input(z.object({ pin: z.string().optional() }))
     .mutation(async ({ input, ctx }) => {
