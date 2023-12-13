@@ -19,8 +19,9 @@ export const ThemeMenu = () => {
         <Menu.Positioner>
           <Menu.Content class="z-30 rounded-lg bg-white shadow-md">
             <MenuTypography>
+              {/*TODO use MenuItemButton with "active" prop?*/}
               <Menu.Item
-                class={cn("px-4 py-2", {
+                class={cn("cursor-pointer px-4 py-2", {
                   "font-bold text-primary-500": theme() === "system",
                 })}
                 onClick={() => setUserSelectedTheme("system")}
@@ -29,7 +30,7 @@ export const ThemeMenu = () => {
                 System
               </Menu.Item>
               <Menu.Item
-                class={cn("px-4 py-2", {
+                class={cn("cursor-pointer px-4 py-2", {
                   "font-bold text-primary-500": theme() === "dark",
                 })}
                 onClick={() => setUserSelectedTheme("dark")}
@@ -38,7 +39,7 @@ export const ThemeMenu = () => {
                 Dark
               </Menu.Item>
               <Menu.Item
-                class={cn("px-4 py-2", {
+                class={cn("cursor-pointer px-4 py-2", {
                   "font-bold text-primary-500": theme() === "light",
                 })}
                 onClick={() => setUserSelectedTheme("light")}

@@ -23,7 +23,7 @@ export const ColorSchemeMenu = () => {
               <For each={Object.entries(ColorScheme)}>
                 {([key, value]) => (
                   <Menu.Item
-                    class={cn("px-4 py-2", {
+                    class={cn("cursor-pointer px-4 py-2", {
                       "font-bold text-primary-500": colorScheme() === value,
                     })}
                     onClick={() => setColorScheme(value)}
