@@ -74,6 +74,7 @@ export const AppMenu = () => {
             </Show>
             <Show when={isSignedIn()}>
               <MenuItemButton title={"Sign out"} onClick={signOut} />
+              <MenuItemLink path="/account" title={"Account"} />
             </Show>
           </MenuContent>
         </MenuPositioner>

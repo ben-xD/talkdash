@@ -65,7 +65,7 @@ export const authRouter = router({
         if (e instanceof LuciaError && e.message === `AUTH_DUPLICATE_KEY_ID`) {
           throw new TRPCError({
             code: "CONFLICT",
-            message: "Email already in use",
+            message: "Email already in use.",
           });
         }
         // for example, provided user attributes violates database rules (e.g. unique constraint)
@@ -109,17 +109,14 @@ export const authRouter = router({
       }
     }),
   deleteUser: protectedProcedure
-    .input(z.object({ email: emailSchema, password: passwordSchema }))
-    .mutation(async ({ ctx, input }) => {
+    .input(z.object({}))
+    .mutation(async ({ ctx }) => {
+      const userId = ctx.connectionContext.session?.user?.userId;
+      assertAuth("userId", userId);
+
       try {
-        // Requires password even if signed in
-        const key = await ctx.auth.useKey(
-          "email",
-          input.email.toLowerCase(),
-          input.password,
-        );
-        ctx.auth.deleteUser(key.userId);
-        await ctx.auth.invalidateAllUserSessions(key.userId);
+        ctx.auth.deleteUser(userId);
+        await ctx.auth.invalidateAllUserSessions(userId);
         return;
       } catch (e) {
         throw new TRPCError({
@@ -161,9 +158,19 @@ export const authRouter = router({
       // This happens because of tRPC's implementation details: we'd edit a temporary context for that procedure
       // because tRPC merges 2 contexts together when moving between middlewares.
       // If you edit anything inside specific properties, these will exist because they are copied from the original context.
-      ctx.connectionContext.session = await ctx.auth.validateSession(
-        input.bearerToken,
-      );
+      try {
+        ctx.connectionContext.session = await ctx.auth.validateSession(
+          input.bearerToken,
+        );
+      } catch (e) {
+        if (e instanceof LuciaError) {
+          console.error(e);
+          throw new TRPCError({
+            code: "UNAUTHORIZED",
+            message: "Invalid/expired bearer token.",
+          });
+        }
+      }
       return;
     }),
   signInWithOAuth: loggedProcedure
@@ -288,15 +295,16 @@ export const authRouter = router({
 
       if (input.newUsername) {
         // Error if conflicting with other user's username
-        const [added] = await ctx.db
-          .update(userTable)
-          .set({ username: input.newUsername })
-          .where(eq(userTable.id, userId))
-          .returning();
-        if (!added) {
+        try {
+          await ctx.db
+            .update(userTable)
+            .set({ username: input.newUsername })
+            .where(eq(userTable.id, userId))
+            .returning();
+        } catch (e) {
           throw new TRPCError({
             code: "BAD_REQUEST",
-            message: "Username already exists.",
+            message: `Username '${input.newUsername}' is already in use.`,
           });
         }
       }

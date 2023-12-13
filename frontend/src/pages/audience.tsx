@@ -1,5 +1,5 @@
 import { createEffect, onMount } from "solid-js";
-import { loadQueryParams } from "./loadQueryParams.js";
+import { loadQueryParams } from "../window/loadQueryParams.ts";
 import { EditableStateField } from "../features/speaker/EditableStateField.jsx";
 import {
   updateAudienceUsername,
