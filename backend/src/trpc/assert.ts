@@ -25,3 +25,14 @@ export function assertAnonymous<T>(
     });
   }
 }
+
+export function assertWebsocketClient(
+  protocol: "ws" | "http",
+): asserts protocol is "ws" {
+  if (protocol !== "ws") {
+    throw new TRPCError({
+      code: "METHOD_NOT_SUPPORTED",
+      message: `Websocket protocol required, got ${protocol}. HTTP not yet implemented.`,
+    });
+  }
+}

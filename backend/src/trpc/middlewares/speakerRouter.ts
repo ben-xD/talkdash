@@ -11,7 +11,7 @@ import {
   removeSpeakerClient,
 } from "../../features/messages/senderRouter.js";
 import { eq } from "drizzle-orm";
-import { assertAuth } from "../assert.js";
+import { assertAuth, assertWebsocketClient } from "../assert.js";
 import { userTable } from "../../db/schema/index.js";
 
 // All messages sent to client start with "Observed"
@@ -99,6 +99,7 @@ export const speakerRouter = router({
       return getDurationInMinutesFrom(input.durationDescription);
     }),
   getHostPin: protectedProcedure.input(z.object({})).query(async ({ ctx }) => {
+    assertWebsocketClient(ctx.clientProtocol);
     const userId = ctx.connectionContext.session?.user?.userId;
     assertAuth("userId", userId);
     const [user] = await ctx.db
@@ -110,6 +111,7 @@ export const speakerRouter = router({
   setHostPin: protectedProcedure
     .input(z.object({ pin: z.string().optional() }))
     .mutation(async ({ input, ctx }) => {
+      assertWebsocketClient(ctx.clientProtocol);
       const userId = ctx.connectionContext.session?.user?.userId;
       assertAuth("userId", userId);
       const [user] = await ctx.db

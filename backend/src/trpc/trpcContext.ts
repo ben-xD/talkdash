@@ -1,15 +1,14 @@
-import { inferAsyncReturnType } from "@trpc/server";
-
 import { CreateFastifyContextOptions } from "@trpc/server/adapters/fastify";
 import { Database } from "../db/db.js";
 import { Auth, OAuths } from "../auth/auth.js";
 import { Session } from "lucia";
+import { FastifyReply, FastifyRequest } from "fastify";
 
-//  This is only called when the http request is made. Not for every websocket message.
-// We identify it's the same user in the same context by updating the ctx.session in the authRouter.
+//  This is only called for every new http request is made. For websockets, this means only the initial upgrade request.
+// We identify it's the same user in the same context by setting the ctx.connectionContext.
 export const createTrpcCreateContext =
   (db: Database, auth: Auth, oAuths: OAuths) =>
-  async ({ req, res }: CreateFastifyContextOptions) => {
+  async ({ req, res }: CreateFastifyContextOptions): Promise<TrpcContext> => {
     // See https://lucia-auth.com/reference/lucia/interfaces/auth/#handlerequest
     // and https://lucia-auth.com/reference/lucia/modules/middleware/
     const authRequest = auth.handleRequest(req, res);
@@ -22,20 +21,48 @@ export const createTrpcCreateContext =
       session = await authRequest.validateBearerToken();
     }
 
-    return {
-      req,
-      res,
-      db,
-      auth,
-      oAuths,
-      session: session ?? undefined,
-      connectionContext: {} satisfies ConnectionContext as ConnectionContext,
-    };
+    const clientProtocol: "ws" | "http" = req.headers.upgrade ? "ws" : "http";
+
+    if (clientProtocol === "ws") {
+      return {
+        clientProtocol,
+        db,
+        auth,
+        oAuths,
+        connectionContext: { session } as ConnectionContext,
+      };
+    } else if (clientProtocol === "http") {
+      return {
+        clientProtocol,
+        db,
+        auth,
+        oAuths,
+        session: session ?? undefined,
+        req,
+        res,
+      };
+    } else {
+      return clientProtocol satisfies never;
+    }
   };
 
-export type TrpcContext = inferAsyncReturnType<
-  ReturnType<typeof createTrpcCreateContext>
->;
+type TrpcContextBase = {
+  db: Database;
+  auth: Auth;
+  oAuths: OAuths;
+};
+
+export type TrpcContext =
+  | (TrpcContextBase & {
+      clientProtocol: "ws";
+      connectionContext: ConnectionContext;
+    })
+  | (TrpcContextBase & {
+      clientProtocol: "http";
+      session: Session | undefined;
+      req: FastifyRequest;
+      res: FastifyReply;
+    });
 
 export type ConnectionContext = {
   session?: Session;

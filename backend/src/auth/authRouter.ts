@@ -14,15 +14,27 @@ import {
   getOrCreateUserFromGithubUser,
   getOrCreateUserFromGoogleUser,
 } from "./oauth.js";
+import { authModeSchema, emailSchema, passwordSchema } from "./schema.js";
 import {
-  authModeSchema,
-  createSessionAndSetClientAuthentication,
-  emailSchema,
-  passwordSchema,
-} from "./schema.js";
-import { assertAnonymous, assertAuth } from "../trpc/assert.js";
+  assertAnonymous,
+  assertAuth,
+  assertWebsocketClient,
+} from "../trpc/assert.js";
 import { userTable } from "../db/schema/index.js";
 import { eq } from "drizzle-orm";
+import { TrpcContext } from "../trpc/trpcContext.js";
+import { createSessionAndSetClientAuth } from "./createSessionAndSetClientAuth.js";
+
+const setTemporaryUsername = (
+  ctx: TrpcContext,
+  newUsername: string | undefined,
+) => {
+  if (ctx.clientProtocol === "ws") {
+    ctx.connectionContext.temporaryUsername = newUsername;
+  } else if (ctx.clientProtocol === "http") {
+    ctx.res.header("Set-Cookie", "temporaryUsername=" + newUsername);
+  }
+};
 
 export const authRouter = router({
   signUpWithEmail: loggedProcedure
@@ -55,12 +67,7 @@ export const authRouter = router({
           },
         });
 
-        return createSessionAndSetClientAuthentication(
-          ctx.auth,
-          userId,
-          user.username,
-          ctx.connectionContext,
-        );
+        return createSessionAndSetClientAuth(ctx, userId, user.username);
       } catch (e) {
         if (e instanceof LuciaError && e.message === `AUTH_DUPLICATE_KEY_ID`) {
           throw new TRPCError({
@@ -91,12 +98,7 @@ export const authRouter = router({
           input.password,
         );
         const user = await ctx.auth.getUser(key.userId);
-        return createSessionAndSetClientAuthentication(
-          ctx.auth,
-          key.userId,
-          user.username,
-          ctx.connectionContext,
-        );
+        return createSessionAndSetClientAuth(ctx, key.userId, user.username);
       } catch (e) {
         if (e instanceof LuciaError) {
           console.error(e);
@@ -111,7 +113,8 @@ export const authRouter = router({
   deleteUser: protectedProcedure
     .input(z.object({}))
     .mutation(async ({ ctx }) => {
-      const userId = ctx.connectionContext.session?.user?.userId;
+      assertWebsocketClient(ctx.clientProtocol);
+      const userId = ctx.connectionContext?.session?.user?.userId;
       assertAuth("userId", userId);
 
       try {
@@ -126,7 +129,8 @@ export const authRouter = router({
       }
     }),
   signOut: protectedProcedure.mutation(async ({ ctx }) => {
-    if (ctx.connectionContext.session) {
+    assertWebsocketClient(ctx.clientProtocol);
+    if (ctx?.connectionContext?.session) {
       await ctx.auth.invalidateSession(ctx.connectionContext.session.sessionId);
     } else if (ctx.session) {
       await ctx.auth.invalidateSession(ctx.session.sessionId);
@@ -153,6 +157,7 @@ export const authRouter = router({
   authenticateWebsocketConnection: loggedProcedure
     .input(z.object({ bearerToken: z.string() }))
     .mutation(async ({ ctx, input }) => {
+      assertWebsocketClient(ctx.clientProtocol);
       // We can't mutate `ctx.session` directly because it will be reset in the next procedure. Similarly, this won't work
       // ctx.test = { name: "procedure 1" };
       // This happens because of tRPC's implementation details: we'd edit a temporary context for that procedure
@@ -213,24 +218,14 @@ export const authRouter = router({
             input.code,
           );
           const user = await getOrCreateUserFromGithubUser(githubUser);
-          return createSessionAndSetClientAuthentication(
-            ctx.auth,
-            user.userId,
-            user.username,
-            ctx.connectionContext,
-          );
+          return createSessionAndSetClientAuth(ctx, user.userId, user.username);
         } else if (input.provider === "google") {
           const googleUser = await assertProviderExists(
             ctx.oAuths.google,
             "google",
           ).validateCallback(input.code);
           const user = await getOrCreateUserFromGoogleUser(googleUser);
-          return createSessionAndSetClientAuthentication(
-            ctx.auth,
-            user.userId,
-            user.username,
-            ctx.connectionContext,
-          );
+          return createSessionAndSetClientAuth(ctx, user.userId, user.username);
         } else {
           input.provider satisfies never;
           throw new TRPCError({
@@ -252,10 +247,11 @@ export const authRouter = router({
   setTemporaryUsername: loggedProcedure
     .input(z.object({ newUsername: z.string().optional() }))
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.connectionContext.session?.user?.userId;
+      assertWebsocketClient(ctx.clientProtocol);
+      const userId = ctx.connectionContext?.session?.user?.userId;
       assertAnonymous("userId", !userId);
 
-      const oldUsername = ctx.connectionContext.temporaryUsername;
+      const oldUsername = ctx.connectionContext?.temporaryUsername;
       const { newUsername } = input;
       if (newUsername) {
         const [existingUser] = await ctx.db
@@ -269,7 +265,7 @@ export const authRouter = router({
           });
       }
 
-      ctx.connectionContext.temporaryUsername = newUsername;
+      setTemporaryUsername(ctx, newUsername);
       console.info(
         `Temporary username change: ${oldUsername} is now known as ${newUsername}`,
       );
@@ -278,7 +274,8 @@ export const authRouter = router({
     .input(z.object({}))
     .output(z.string().optional())
     .query(async ({ ctx }) => {
-      const userId = ctx.connectionContext.session?.user?.userId;
+      assertWebsocketClient(ctx.clientProtocol);
+      const userId = ctx.connectionContext?.session?.user?.userId;
       assertAuth("userId", userId);
       const [user] = await ctx.db
         .select()
@@ -289,9 +286,10 @@ export const authRouter = router({
   registerUsername: protectedProcedure
     .input(z.object({ newUsername: z.string().optional() }))
     .mutation(async ({ input, ctx }) => {
-      const userId = ctx.connectionContext.session?.user?.userId;
+      assertWebsocketClient(ctx.clientProtocol);
+      const userId = ctx.connectionContext?.session?.user?.userId;
       assertAuth("userId", userId);
-      ctx.connectionContext.temporaryUsername = undefined;
+      setTemporaryUsername(ctx, undefined);
 
       if (input.newUsername) {
         // Error if conflicting with other user's username

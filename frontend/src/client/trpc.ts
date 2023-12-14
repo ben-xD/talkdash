@@ -12,12 +12,12 @@ import {
   audienceUsername,
   hostUsername,
   registeredUsername,
-  speakerUsername,
   setRegisteredUsername,
+  speakerUsername,
+  unsetTemporaryUsernames,
   updateAudienceUsername,
   updateHostUsername,
   updateSpeakerUsername,
-  unsetTemporaryUsernames,
 } from "../features/user/userState.tsx";
 import { Role } from "@talkdash/schema";
 
@@ -108,7 +108,11 @@ export const trpc = createTRPCProxyClient<AppRouter>({
                 bearerToken: token,
               });
             } catch (e) {
-              setBearerToken(undefined);
+              // TODO Implement a logout error response, to delete credentials
+              // if (e instanceof TRPCClientError) {
+              //   console.error("Authentication failed, deleting credentials");
+              //   setBearerToken(undefined);
+              // }
             }
           }
 

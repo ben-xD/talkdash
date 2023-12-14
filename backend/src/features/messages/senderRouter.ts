@@ -14,6 +14,7 @@ import { eq } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 import { Context } from "node:vm";
 import { userTable } from "../../db/schema/index.js";
+import { assertWebsocketClient } from "../../trpc/assert.js";
 
 // An event related to speakers
 const speakerEvent = z.discriminatedUnion("type", [
@@ -76,6 +77,7 @@ export const senderRouter = router({
       }),
     )
     .mutation(async ({ input, ctx }) => {
+      assertWebsocketClient(ctx.clientProtocol);
       const { role, speakerUsername } = input;
       const userId = ctx.connectionContext.session?.user?.userId;
       const user = userId ? await ctx.auth.getUser(userId) : undefined;
