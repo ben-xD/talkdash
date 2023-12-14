@@ -6,6 +6,10 @@ export const ColorScheme = {
   blue: "blue",
   green: "green",
   purple: "purple",
+  indigo: "indigo",
+  pink: "pink",
+  orange: "orange",
+  gray: "gray",
 } as const;
 
 type ColorScheme = keyof typeof ColorScheme;
@@ -29,9 +33,29 @@ export const rolesColorsByScheme: Record<keyof typeof ColorScheme, ColorRoles> =
       bg: "lime",
     },
     purple: {
+      primary: "purple",
+      secondary: "violet",
+      bg: "purple",
+    },
+    indigo: {
       primary: "indigo",
       secondary: "rose",
       bg: "indigo",
+    },
+    pink: {
+      primary: "pink",
+      secondary: "fuchsia",
+      bg: "pink",
+    },
+    orange: {
+      primary: "orange",
+      secondary: "amber",
+      bg: "orange",
+    },
+    gray: {
+      primary: "gray",
+      secondary: "slate",
+      bg: "gray",
     },
   } as const;
 
