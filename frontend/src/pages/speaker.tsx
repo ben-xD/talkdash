@@ -15,7 +15,7 @@ import {
   setReceivedMessages,
 } from "../features/messages/receivedMessages";
 import { DateTime } from "luxon";
-import { setPreferredUsername, trpc } from "../client/trpc";
+import { preferredUsername, setPreferredUsername, trpc } from "../client/trpc";
 import { setTimeAction } from "../features/time/timeState";
 import { toast } from "solid-toast";
 import { isQrCodeShown, QrCodeView } from "../components/QrCodeView.tsx";
@@ -79,18 +79,19 @@ const Speaker = () => {
     messageSubscription?.unsubscribe();
   });
 
-  const loadShareUrl = (speakerUsername: string | undefined): URL => {
+  const loadShareUrl = (): URL => {
+    const speakerUsername = preferredUsername("speaker");
     const hostUrl = new URL("../", window.location.href);
     if (speakerUsername) {
       hostUrl.searchParams.set("speakerUsername", speakerUsername);
     }
     return hostUrl;
   };
-  const [shareUrl, setShareUrl] = createSignal(loadShareUrl(speakerUsername()));
+  const [shareUrl, setShareUrl] = createSignal(loadShareUrl());
 
   // Update the share url whenever the speakerUsername changes
   createEffect(() => {
-    setShareUrl(loadShareUrl(speakerUsername()));
+    setShareUrl(loadShareUrl());
   });
 
   return (
