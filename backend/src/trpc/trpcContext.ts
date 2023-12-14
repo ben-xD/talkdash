@@ -17,7 +17,6 @@ export const createTrpcCreateContext =
     // TODO check session is null when called from untrusted origin
     // if session is defined, it's valid request. See https://lucia-auth.com/basics/using-cookies/
     let session = await authRequest.validate();
-
     if (!session) {
       // Using bearer tokens: https://lucia-auth.com/basics/using-bearer-tokens/
       session = await authRequest.validateBearerToken();
@@ -29,7 +28,7 @@ export const createTrpcCreateContext =
       db,
       auth,
       oAuths,
-      session,
+      session: session ?? undefined,
       connectionContext: {} satisfies ConnectionContext as ConnectionContext,
     };
   };
