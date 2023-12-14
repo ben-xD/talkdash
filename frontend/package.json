@@ -14,6 +14,8 @@
   },
   "dependencies": {
     "@ark-ui/solid": "^1.1.0",
+    "@sentry/browser": "^7.88.0",
+    "@sentry/vite-plugin": "^2.10.2",
     "@solid-primitives/storage": "^2.1.1",
     "@solidjs/router": "^0.10.1",
     "@tailwindcss/container-queries": "^0.1.1",

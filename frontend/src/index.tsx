@@ -6,7 +6,9 @@ import "animate.css";
 import App from "./App";
 import { QueryClient, QueryClientProvider } from "@tanstack/solid-query";
 import { Route, Router } from "@solidjs/router";
-import { lazy } from "solid-js";
+import { DEV, lazy } from "solid-js";
+
+import * as Sentry from "@sentry/browser";
 
 const root = document.getElementById("root");
 if (!root) throw new Error("element with id root not found in index.html");
@@ -28,6 +30,33 @@ const SignInPage = lazy(() => import("./pages/sign-in.tsx"));
 const SignUpPage = lazy(() => import("./pages/sign-up.tsx"));
 const OAuthCallbackPage = lazy(() => import("./pages/OAuthCallback.tsx"));
 
+const setupSentry = () => {
+  // this will only initialize your Sentry client in production builds.
+  if (!DEV) {
+    Sentry.init({
+      dsn: import.meta.env.VITE_SENTRY_DSN,
+      integrations: [new Sentry.BrowserTracing(), new Sentry.Replay()],
+
+      // Set tracesSampleRate to 1.0 to capture 100%
+      // of transactions for performance monitoring.
+      // We recommend adjusting this value in production
+      tracesSampleRate: 1.0,
+
+      // Set `tracePropagationTargets` to control for which URLs distributed tracing should be enabled
+      tracePropagationTargets: [
+        "localhost",
+        /^https:\/\/talkdash\.orth\.uk\/api/,
+      ],
+
+      // Capture Replay for 10% of all sessions,
+      // plus 100% of sessions with an error
+      replaysSessionSampleRate: 0.1,
+      replaysOnErrorSampleRate: 1.0,
+    });
+  }
+};
+
+setupSentry();
 render(
   () => (
     <QueryClientProvider client={queryClient}>

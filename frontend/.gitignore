@@ -5,3 +5,5 @@ dev-dist
 
 # Graphviz
 graph.svg
+# Sentry Config File
+.env.sentry-build-plugin
