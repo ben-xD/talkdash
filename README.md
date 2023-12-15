@@ -12,6 +12,8 @@ Features:
   - On Chrome, you can install it
   - Some features require network connectivity (messaging)
 - Large clock and stopwatch pages
+- Dark mode, light mode and system theme mode support
+- Color schemes
 
 ## Technology
 - Frontend: [Solid](https://tailwindcss.com/), [Solid Router](https://docs.solidjs.com/guides/how-to-guides/routing-in-solid/solid-router), [Tailwind](https://tailwindcss.com/), [ARK UI](https://ark-ui.com/) (headless UI library)

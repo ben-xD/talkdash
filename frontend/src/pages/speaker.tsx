@@ -97,7 +97,7 @@ const Speaker = () => {
   createEffect(() => {
     const handleOnBeforeUnload = (e: BeforeUnloadEvent) => {
       e.preventDefault();
-      return "hello world";
+      return "";
     };
 
     // Only run this when it changes, not whenever the value is set
