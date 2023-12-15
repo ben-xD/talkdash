@@ -1,6 +1,6 @@
 import { SpeakerConfigView } from "../features/speaker/SpeakerConfigView.tsx";
 import { TimerConfigCard } from "../features/TimerConfigCard.tsx";
-import { TimeLeft } from "../features/time/TimeLeft";
+import { isTimeLeft, TimeLeft } from "../features/time/TimeLeft";
 import { MessageView } from "../features/messages/MessageView";
 import { createEffect, createSignal, onCleanup, onMount, Show } from "solid-js";
 import { loadQueryParams } from "../window/loadQueryParams.ts";
@@ -92,6 +92,23 @@ const Speaker = () => {
   // Update the share url whenever the speakerUsername changes
   createEffect(() => {
     setShareUrl(loadShareUrl());
+  });
+
+  createEffect(() => {
+    const handleOnBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      return "hello world";
+    };
+
+    // Only run this when it changes, not whenever the value is set
+    const timeLeft = isTimeLeft();
+    if (timeLeft) {
+      window.addEventListener("beforeunload", handleOnBeforeUnload);
+    }
+
+    onCleanup(() => {
+      window.removeEventListener("beforeunload", handleOnBeforeUnload);
+    });
   });
 
   return (

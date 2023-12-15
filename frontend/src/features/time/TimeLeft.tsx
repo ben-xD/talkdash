@@ -1,5 +1,6 @@
 import { currentTime, difference, finishTime, Mode } from "./timeState";
 import { cn } from "../../css/tailwind";
+import { createMemo } from "solid-js";
 
 const timeLeft = () => {
   const finish = finishTime();
@@ -7,7 +8,9 @@ const timeLeft = () => {
   return difference(currentTime(), finish);
 };
 
-export const isExceeded = () => timeLeft().mode === Mode.Exceeded;
+export const isTimeLeft = createMemo(() => timeLeft().mode === Mode.Running);
+
+export const isExceeded = createMemo(() => timeLeft().mode === Mode.Exceeded);
 
 export const TimeLeft = () => {
   return (

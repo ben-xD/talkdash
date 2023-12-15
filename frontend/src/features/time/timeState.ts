@@ -120,6 +120,7 @@ export const difference = (start: DateTime, finish: DateTime) => {
   return {
     mode: isExceeded ? Mode.Exceeded : Mode.Running,
     formattedDifference,
+    difference,
   };
 };
 
