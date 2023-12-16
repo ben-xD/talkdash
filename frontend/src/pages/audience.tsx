@@ -2,10 +2,10 @@ import { createEffect, onMount } from "solid-js";
 import { loadQueryParams } from "../window/loadQueryParams.ts";
 import { EditableStateField } from "../features/speaker/EditableStateField.jsx";
 import {
-  updateSpeakerUsername,
   speakerUsername,
   registeredUsername,
   unsetTemporaryUsernames,
+  updateSubscribedSpeakerUsername,
 } from "../features/user/userState.js";
 import { resetHistory } from "../features/time/timeState.js";
 import { SendMessageCard } from "../components/SendMessageCard.jsx";
@@ -44,7 +44,7 @@ const Audience = () => {
         value={speakerUsername()}
         setValue={(value) => {
           resetHistory();
-          updateSpeakerUsername(value);
+          updateSubscribedSpeakerUsername(value);
         }}
       />
       <ElapsedTime />
