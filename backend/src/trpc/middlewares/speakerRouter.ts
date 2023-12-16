@@ -98,7 +98,7 @@ export const speakerRouter = router({
       // TODO rate limit this API.
       return getDurationInMinutesFrom(input.durationDescription);
     }),
-  getHostPin: protectedProcedure.input(z.object({})).query(async ({ ctx }) => {
+  getPin: protectedProcedure.input(z.object({})).query(async ({ ctx }) => {
     assertWebsocketClient(ctx.clientProtocol);
     const userId = ctx.connectionContext.session?.user?.userId;
     assertAuth("userId", userId);
@@ -108,15 +108,20 @@ export const speakerRouter = router({
       .where(eq(userTable.id, userId));
     return user?.pin;
   }),
-  setHostPin: protectedProcedure
-    .input(z.object({ pin: z.string().optional() }))
+  setPin: protectedProcedure
+    .input(
+      z.object({
+        pin: z.string().optional().nullable(),
+        isRequired: z.boolean().optional().nullable(),
+      }),
+    )
     .mutation(async ({ input, ctx }) => {
       assertWebsocketClient(ctx.clientProtocol);
       const userId = ctx.connectionContext.session?.user?.userId;
       assertAuth("userId", userId);
       const [user] = await ctx.db
         .update(userTable)
-        .set({ pin: input.pin ?? null })
+        .set({ pin: input.pin, isPinRequired: input.isRequired })
         .where(eq(userTable.id, userId))
         .returning();
       const speakerUsername =
@@ -128,7 +133,7 @@ export const speakerRouter = router({
         });
       }
       emitToSenders(speakerUsername, {
-        type: input.pin ? "pinRequired" : "pinNotRequired",
+        type: input.isRequired ? "pinRequired" : "pinNotRequired",
         speakerUsername,
       });
     }),

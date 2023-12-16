@@ -11,11 +11,15 @@ import { resetHistory } from "../features/time/timeState";
 import { TimeLeft } from "../features/time/TimeLeft";
 import { ElapsedTime } from "../components/ElapsedTime";
 import { SendMessageCard } from "../components/SendMessageCard.tsx";
-import { preferredUsername, setPreferredUsername } from "../client/trpc.ts";
+import {
+  preferredUsername,
+  setPreferredUsername,
+  trpc,
+} from "../client/trpc.ts";
 import {
   isSendersPinRequired,
-  setAndValidatePinForSender,
   PinAttempt,
+  setSendersPin,
 } from "../features/speaker/pin.tsx";
 import { Alert } from "../components/Alert.tsx";
 import { TRPCClientError } from "@trpc/client";
@@ -47,7 +51,11 @@ const Host = () => {
     const speaker = speakerUsername();
     if (speaker) {
       try {
-        await setAndValidatePinForSender(pin, speaker);
+        await trpc.sender.validatePin.mutate({
+          pin,
+          speakerUsername: speaker,
+        });
+        setSendersPin(pin);
         setPinErrorMessage(undefined);
         setIsPinCorrect(true);
       } catch (e) {

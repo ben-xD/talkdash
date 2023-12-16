@@ -1,0 +1,1 @@
+ALTER TABLE "user" ADD COLUMN "is_pin_required" boolean DEFAULT false;

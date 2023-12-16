@@ -1,4 +1,10 @@
-import { pgTable, bigint, varchar, timestamp } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  bigint,
+  varchar,
+  timestamp,
+  boolean,
+} from "drizzle-orm/pg-core";
 
 // Taken from https://lucia-auth.com/guidebook/drizzle-orm/#postgresql
 // Also useful: https://lucia-auth.com/database-adapters/pg/
@@ -25,6 +31,7 @@ export const userTable = pgTable("user", {
     length: 254,
   }).unique(),
   pin: varchar("pin", { length: 6 }),
+  isPinRequired: boolean("is_pin_required").default(false),
   username: varchar("username", { length: 254 }).unique(),
 });
 

@@ -29,6 +29,13 @@
       "when": 1702389961883,
       "tag": "0003_stale_squadron_supreme",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1702737395280,
+      "tag": "0004_bright_aaron_stack",
+      "breakpoints": true
     }
   ]
 }

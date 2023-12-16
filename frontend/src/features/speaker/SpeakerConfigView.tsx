@@ -17,13 +17,13 @@ import {
 } from "../../components/QrCodeView.tsx";
 import { Toggle } from "../../components/Toggle.tsx";
 import {
-  hostPin,
+  pin,
   Pin,
-  isHostPinRequired,
-  setHostPin,
-  setIsHostPinRequired,
-  setHostPinInternal,
-  setIsHostPinRequiredInternal,
+  isPinRequired,
+  setPin,
+  setIsPinRequired,
+  setPinInternal,
+  setIsPinRequiredInternal,
 } from "./pin.tsx";
 import {
   isAudienceMessagesShown,
@@ -42,15 +42,15 @@ export const SpeakerConfigView = (props: Props) => {
     // Check if a pin is required, and which one. Set it on local storage.
     if (isSignedIn()) {
       await isConnectionAuthenticatedWhenNeededPromise;
-      const pin = await trpc.speaker.getHostPin.query({});
+      const pin = await trpc.speaker.getPin.query({});
       if (pin) {
-        setIsHostPinRequiredInternal(true);
-        setHostPinInternal(pin);
+        setIsPinRequiredInternal(true);
+        setPinInternal(pin);
         return;
       }
     }
-    setIsHostPinRequiredInternal(false);
-    setHostPinInternal(undefined);
+    setIsPinRequiredInternal(false);
+    setPinInternal(undefined);
   });
 
   return (
@@ -114,15 +114,13 @@ export const SpeakerConfigView = (props: Props) => {
             disabledTooltip={
               "Sign in and register a username to use this feature"
             }
-            checked={
-              isHostPinRequired() && isSignedIn() && !!registeredUsername()
-            }
+            checked={isPinRequired() && isSignedIn() && !!registeredUsername()}
             disabled={!isSignedIn()}
-            setChecked={setIsHostPinRequired}
+            setChecked={setIsPinRequired}
           />
         </div>
-        {isHostPinRequired() && isSignedIn() && (
-          <Pin setPin={setHostPin} value={hostPin()} />
+        {isPinRequired() && isSignedIn() && (
+          <Pin setPin={setPin} value={pin()} />
         )}
       </div>
       <div class="flex justify-between">

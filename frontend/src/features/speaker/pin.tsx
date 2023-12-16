@@ -6,7 +6,7 @@ import { TRPCClientError } from "@trpc/client";
 import { PinInput } from "@ark-ui/solid";
 import { cn } from "../../css/tailwind.ts";
 
-export const [isHostPinRequired, setIsHostPinRequiredInternal] = makePersisted(
+export const [isPinRequired, setIsPinRequiredInternal] = makePersisted(
   // we don't destructure because makePersisted wants the entire signal
   // eslint-disable-next-line solid/reactivity
   createSignal<boolean>(false),
@@ -14,18 +14,16 @@ export const [isHostPinRequired, setIsHostPinRequiredInternal] = makePersisted(
     name: "is_host_pin_required",
   },
 );
-export const setIsHostPinRequired = async (isRequired: boolean) => {
-  const defaultPin = "1234";
-  const pin = hostPin() ?? defaultPin;
-  setIsHostPinRequiredInternal(isRequired);
+export const setIsPinRequired = async (isRequired: boolean) => {
+  setIsPinRequiredInternal(isRequired);
   try {
-    await trpc.speaker.setHostPin.mutate({ pin: isRequired ? pin : undefined });
+    await trpc.speaker.setPin.mutate({ isRequired });
   } catch (e) {
-    setIsHostPinRequiredInternal(false);
+    setIsPinRequiredInternal(false);
   }
 };
 
-export const [hostPinInternal, setHostPinInternal] = makePersisted(
+export const [pinInternal, setPinInternal] = makePersisted(
   // we don't destructure because makePersisted wants the entire signal
   // eslint-disable-next-line solid/reactivity
   createSignal<string | undefined>(undefined),
@@ -34,31 +32,24 @@ export const [hostPinInternal, setHostPinInternal] = makePersisted(
   },
 );
 
-export const hostPin = hostPinInternal;
+export const pin = pinInternal;
 
 // The state the senders set before sending a message
-export const [sendersHostPin, setSendersHostPin] = makePersisted(
+export const [sendersPin, setSendersPin] = makePersisted(
   // eslint-disable-next-line solid/reactivity
   createSignal<string | undefined>(),
 );
-export const setAndValidatePinForSender = async (
-  hostPin: string,
-  speakerUsername: string,
-) => {
-  await trpc.sender.validateHostPin.mutate({ hostPin, speakerUsername });
-  setSendersHostPin(hostPin);
-};
 
 export const [isSendersPinRequired, setIsSendersPinRequired] = createSignal<
   boolean | undefined
 >();
 
-export const setHostPin = async (newHostPin: string | undefined) => {
-  setHostPinInternal(newHostPin);
+export const setPin = async (newPin: string | undefined) => {
+  setPinInternal(newPin);
   // TODO if pin is different, stop trusting existing
   // TODO don't allow a different speaker to connect as same username if it has a pin.
   try {
-    await trpc.speaker.setHostPin.mutate({ pin: newHostPin });
+    await trpc.speaker.setPin.mutate({ pin: newPin });
     toast(() => (
       <p class="text-secondary-800">Your pin was set successfully</p>
     ));

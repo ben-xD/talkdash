@@ -10,7 +10,7 @@ import { DateTime } from "luxon";
 import { Unsubscribable } from "@trpc/server/observable";
 import { Role } from "@talkdash/schema";
 import {
-  sendersHostPin,
+  sendersPin,
   setIsSendersPinRequired,
 } from "../features/speaker/pin.tsx";
 
@@ -80,7 +80,7 @@ export const SendMessageCard = (props: { senderRole: Role }) => {
           speakerUsername: recipientUsername,
           message: message(),
           role: props.senderRole,
-          hostPin: sendersHostPin(),
+          pin: sendersPin(),
         });
         setMessage("");
         setErrorMessage();

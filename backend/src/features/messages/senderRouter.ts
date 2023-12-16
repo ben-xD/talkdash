@@ -51,14 +51,14 @@ export const emitToSenders = (speakerUsername: string, event: SpeakerEvent) => {
 async function ensurePinMatchesIfExists(
   ctx: Context,
   speakerUsername: string,
-  hostPin: string | undefined,
+  pin: string | undefined,
 ) {
   // check if the speaker has a pin, and if so, the pin matches
   const [speaker] = await ctx.db
     .select()
     .from(userTable)
     .where(eq(userTable.username, speakerUsername));
-  if (speaker && speaker.pin && speaker.pin !== hostPin) {
+  if (speaker?.isPinRequired && speaker.pin !== pin) {
     throwUnauthorizedError("Host pin is incorrect.");
   }
 }
@@ -70,7 +70,7 @@ export const senderRouter = router({
         speakerUsername: z.string(),
         message: z.string(),
         role: role,
-        hostPin: z.string().optional(),
+        pin: z.string().optional(),
       }),
     )
     .mutation(async ({ input, ctx }) => {
@@ -82,7 +82,7 @@ export const senderRouter = router({
         user?.username ?? ctx.connectionContext?.temporaryUsername;
 
       if (role === "host") {
-        await ensurePinMatchesIfExists(ctx, speakerUsername, input.hostPin);
+        await ensurePinMatchesIfExists(ctx, speakerUsername, input.pin);
       }
 
       const sender: Sender = {
@@ -112,10 +112,10 @@ export const senderRouter = router({
         console.error(e);
       }
     }),
-  validateHostPin: loggedProcedure
-    .input(z.object({ speakerUsername: z.string(), hostPin: z.string() }))
+  validatePin: loggedProcedure
+    .input(z.object({ speakerUsername: z.string(), pin: z.string() }))
     .mutation(async ({ input, ctx }) => {
-      await ensurePinMatchesIfExists(ctx, input.speakerUsername, input.hostPin);
+      await ensurePinMatchesIfExists(ctx, input.speakerUsername, input.pin);
     }),
   subscribeForSpeakerEvents: loggedProcedure
     .input(z.object({ speakerUsername: z.string() }))
