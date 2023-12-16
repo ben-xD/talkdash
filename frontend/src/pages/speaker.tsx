@@ -68,6 +68,10 @@ const Speaker = () => {
     }, 0);
   });
 
+  onCleanup(() => {
+    messageSubscription?.unsubscribe();
+  });
+
   createEffect(() => {
     if (registeredUsername()) {
       unsetTemporaryUsernames("speaker");
