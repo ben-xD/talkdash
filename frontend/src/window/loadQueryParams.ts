@@ -5,12 +5,14 @@ import {
   updateHostUsername,
   updateSpeakerUsername,
   speakerUsernameKey,
-  registeredUsername,
   updateSubscribedSpeakerUsername,
 } from "../features/user/userState.tsx";
 import { generateRandomUsername } from "../features/names.ts";
 import { UserRole } from "@talkdash/schema";
-import { isConnectionAuthenticatedWhenNeededPromise } from "../client/trpc.ts";
+import {
+  isConnectionAuthenticatedWhenNeededPromise,
+  isSignedIn,
+} from "../client/trpc.ts";
 
 export const loadQueryParams = async (role: UserRole) => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -18,8 +20,7 @@ export const loadQueryParams = async (role: UserRole) => {
   const hostUsername = urlParams.get(hostUsernameKey);
   const audienceUsername = urlParams.get(audienceUsernameKey);
 
-  const registeredName = registeredUsername();
-  if (registeredName) {
+  if (isSignedIn()) {
     if (role !== "speaker" && speakerUsername) {
       updateSubscribedSpeakerUsername(speakerUsername);
     }
