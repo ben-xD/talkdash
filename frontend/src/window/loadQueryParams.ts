@@ -12,15 +12,20 @@ import { UserRole } from "@talkdash/schema";
 import { isConnectionAuthenticatedWhenNeededPromise } from "../client/trpc.ts";
 
 export const loadQueryParams = async (role: UserRole) => {
-  const registeredName = registeredUsername();
-  if (registeredName) return;
-  await isConnectionAuthenticatedWhenNeededPromise;
-
   const urlParams = new URLSearchParams(window.location.search);
   const speakerUsername = urlParams.get(speakerUsernameKey);
   const hostUsername = urlParams.get(hostUsernameKey);
   const audienceUsername = urlParams.get(audienceUsernameKey);
 
+  const registeredName = registeredUsername();
+  if (registeredName) {
+    if (role !== "speaker" && speakerUsername) {
+      updateSubscribedSpeakerUsername(speakerUsername);
+    }
+    return;
+  }
+
+  await isConnectionAuthenticatedWhenNeededPromise;
   switch (role) {
     case "host":
       if (speakerUsername) updateSpeakerUsername(speakerUsername, false);
