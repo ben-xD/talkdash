@@ -1,11 +1,10 @@
 // If http, then we use cookies. If websocket, then we use bearer tokens
-import { ConnectionContext, TrpcContext } from "../trpc/trpcContext.js";
+import { TrpcContext } from "../trpc/trpcContext.js";
 
 export const createSessionAndSetClientAuth = async (
   ctx: TrpcContext,
   userId: string,
   username: string,
-  connectionContext?: ConnectionContext,
 ) => {
   const session = await ctx.auth.createSession({
     userId,
@@ -29,9 +28,7 @@ export const createSessionAndSetClientAuth = async (
     }
   } else if (clientProtocol === "ws") {
     // Bearer token based auth
-    if (connectionContext?.session) {
-      connectionContext.session = session;
-    }
+    ctx.connectionContext.session = session;
   } else {
     return clientProtocol satisfies never;
   }
