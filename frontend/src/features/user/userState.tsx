@@ -126,6 +126,11 @@ export const updateSpeakerUsername = async (
 
 export const updateSubscribedSpeakerUsername = (username?: string) => {
   setSpeakerUsernameInternal(username);
+  setQueryParam({
+    key: speakerUsernameKey,
+    value: username,
+    pushToHistory: true,
+  });
 };
 
 const setQueryParam = ({
