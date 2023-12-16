@@ -124,6 +124,7 @@ export const speakerRouter = router({
         .set({ pin: input.pin, isPinRequired: input.isRequired })
         .where(eq(userTable.id, userId))
         .returning();
+      const isRequired = input.isRequired ?? user?.isPinRequired;
       const speakerUsername =
         user?.username ?? ctx.connectionContext.temporaryUsername;
       if (!speakerUsername) {
@@ -133,7 +134,7 @@ export const speakerRouter = router({
         });
       }
       emitToSenders(speakerUsername, {
-        type: input.isRequired ? "pinRequired" : "pinNotRequired",
+        type: isRequired ? "pinRequired" : "pinNotRequired",
         speakerUsername,
       });
     }),
