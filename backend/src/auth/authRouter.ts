@@ -262,7 +262,7 @@ export const authRouter = router({
         `Temporary username change: ${oldUsername} is now known as ${newUsername}`,
       );
     }),
-  getUsername: protectedProcedure
+  getRegisteredUsername: protectedProcedure
     .input(z.object({}))
     .output(z.string().optional())
     .query(async ({ ctx }) => {

@@ -125,7 +125,7 @@ export const trpc = createTRPCProxyClient<AppRouter>({
           // Get username if signed in
           const signedIn = isSignedIn();
           if (signedIn) {
-            const reply = await trpc.auth.getUsername.query({});
+            const reply = await trpc.auth.getRegisteredUsername.query({});
             setRegisteredUsername(reply);
           }
         },
