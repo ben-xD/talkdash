@@ -61,20 +61,20 @@ export const preferredUsername = (role: Role) => {
 };
 
 export const setPreferredUsername = (role: Role, username: string) => {
-  const registered = registeredUsername();
-  unsetTemporaryUsernames(role);
-  if (registered) return setRegisteredUsername(username);
-
-  switch (role) {
-    case "host":
-      updateHostUsername(username);
-      break;
-    case "audience":
-      updateAudienceUsername(username);
-      break;
-    case "speaker":
-      updateSpeakerUsername(username);
-      break;
+  if (isSignedIn()) {
+    setRegisteredUsername(username);
+  } else {
+    switch (role) {
+      case "host":
+        updateHostUsername(username);
+        break;
+      case "audience":
+        updateAudienceUsername(username);
+        break;
+      case "speaker":
+        updateSpeakerUsername(username);
+        break;
+    }
   }
 };
 

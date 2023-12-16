@@ -33,10 +33,6 @@ const Host = () => {
     document.title = "Event Host · Talkdash";
     setTimeout(async () => {
       await loadQueryParams("host");
-      const registered = registeredUsername();
-      if (registered) {
-        setPreferredUsername("speaker", registered);
-      }
     }, 0);
   });
 
