@@ -4,6 +4,7 @@ import { TRPCClientError } from "@trpc/client";
 import { createSignal, onMount } from "solid-js";
 import { useNavigate } from "@solidjs/router";
 import { navigateAfterAuth } from "../features/auth/navigateAfterAuth.ts";
+import { setRegisteredUsername } from "../features/user/userState.tsx";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ const SignUpPage = () => {
         authMode: "session",
       });
       setBearerToken(reply.bearerToken);
+      setRegisteredUsername(reply.username);
       setErrorMessage(undefined);
       navigateAfterAuth(navigate);
     } catch (e) {

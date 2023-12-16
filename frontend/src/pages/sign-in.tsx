@@ -4,6 +4,7 @@ import { createMutation } from "@tanstack/solid-query";
 import { onMount } from "solid-js";
 import { useNavigate } from "@solidjs/router";
 import { navigateAfterAuth } from "../features/auth/navigateAfterAuth.ts";
+import { setRegisteredUsername } from "../features/user/userState.tsx";
 
 const SignInPage = () => {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ const SignInPage = () => {
       authMode: "session",
     });
     setBearerToken(reply.bearerToken);
+    setRegisteredUsername(reply.username);
     navigateAfterAuth(navigate);
   };
 

@@ -16,7 +16,6 @@ import {
   registeredUsername,
   setRegisteredUsername,
   speakerUsername,
-  unsetTemporaryUsernames,
   updateAudienceUsername,
   updateHostUsername,
   updateSpeakerUsername,

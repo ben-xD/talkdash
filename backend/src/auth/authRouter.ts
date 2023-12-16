@@ -48,7 +48,9 @@ export const authRouter = router({
         authMode: authModeSchema,
       }),
     )
-    .output(z.object({ bearerToken: z.string() }))
+    .output(
+      z.object({ bearerToken: z.string(), username: z.string().optional() }),
+    )
     .mutation(async ({ ctx, input }) => {
       const userId = uuid();
       try {
@@ -90,7 +92,9 @@ export const authRouter = router({
         authMode: authModeSchema,
       }),
     )
-    .output(z.object({ bearerToken: z.string() }))
+    .output(
+      z.object({ bearerToken: z.string(), username: z.string().optional() }),
+    )
     .mutation(async ({ ctx, input }) => {
       try {
         const key = await ctx.auth.useKey(
