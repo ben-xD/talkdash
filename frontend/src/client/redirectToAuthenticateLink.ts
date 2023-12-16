@@ -18,7 +18,6 @@ export const redirectToAuthenticateLink: TRPCLink<AppRouter> = () => {
     return observable((observer) => {
       const unsubscribe = next(op).subscribe({
         next(value) {
-          console.log("we received value", value);
           observer.next(value);
         },
         error(e) {
@@ -31,7 +30,6 @@ export const redirectToAuthenticateLink: TRPCLink<AppRouter> = () => {
               redirectToLoginWithRedirectBack(navigator);
             }
           }
-          console.log("we received error", e);
           observer.error(e);
         },
         complete() {
