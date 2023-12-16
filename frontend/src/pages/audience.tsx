@@ -10,6 +10,7 @@ import {
 import { resetHistory } from "../features/time/timeState.js";
 import { SendMessageCard } from "../components/SendMessageCard.jsx";
 import { preferredUsername, setPreferredUsername } from "../client/trpc.ts";
+import { ElapsedTime } from "../components/ElapsedTime.tsx";
 
 const Audience = () => {
   onMount(() => {
@@ -46,6 +47,7 @@ const Audience = () => {
           updateSpeakerUsername(value);
         }}
       />
+      <ElapsedTime />
       <SendMessageCard senderRole="audience" />
     </div>
   );
