@@ -6,6 +6,7 @@ import {
   updateSpeakerUsername,
   speakerUsernameKey,
   registeredUsername,
+  updateSubscribedSpeakerUsername,
 } from "../features/user/userState.tsx";
 import { generateRandomUsername } from "../features/names.ts";
 import { UserRole } from "@talkdash/schema";
@@ -28,26 +29,26 @@ export const loadQueryParams = async (role: UserRole) => {
   await isConnectionAuthenticatedWhenNeededPromise;
   switch (role) {
     case "host":
-      if (speakerUsername) updateSpeakerUsername(speakerUsername, false);
+      if (speakerUsername) await updateSpeakerUsername(speakerUsername, false);
       if (hostUsername) {
-        updateHostUsername(hostUsername, false);
+        await updateHostUsername(hostUsername, false);
       } else {
-        updateHostUsername(generateRandomUsername(), false);
+        await updateHostUsername(generateRandomUsername(), false);
       }
       return;
     case "audience":
-      if (speakerUsername) updateSpeakerUsername(speakerUsername, false);
+      if (speakerUsername) await updateSpeakerUsername(speakerUsername, false);
       if (audienceUsername) {
-        updateAudienceUsername(audienceUsername, false);
+        await updateAudienceUsername(audienceUsername, false);
       } else {
-        updateAudienceUsername(generateRandomUsername(), false);
+        await updateAudienceUsername(generateRandomUsername(), false);
       }
       return;
     case "speaker":
       if (speakerUsername) {
-        updateSpeakerUsername(speakerUsername, false);
+        await updateSpeakerUsername(speakerUsername, false);
       } else {
-        updateSpeakerUsername(generateRandomUsername(), false);
+        await updateSpeakerUsername(generateRandomUsername(), false);
       }
       return;
     default:

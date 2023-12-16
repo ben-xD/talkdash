@@ -62,7 +62,7 @@ export const unsetTemporaryUsernames = (role: Role) => {
   }
 };
 
-// All of these are temporary
+// All of these are temporary usernames
 const [speakerUsernameInternal, setSpeakerUsernameInternal] = createSignal<
   string | undefined
 >(undefined);
@@ -108,23 +108,23 @@ export const updateAudienceUsername = async (
   }
 };
 
-export const updateHostUsername = (
+export const updateHostUsername = async (
   username: string | undefined,
   pushToHistory: boolean = true,
-): void => {
+): Promise<void> => {
   console.info(`Setting host username to ${username}`);
   setHostUsernameInternal(username);
   setQueryParam({ key: hostUsernameKey, value: username, pushToHistory });
 
   const signedIn = isSignedIn();
   if (signedIn) {
-    trpc.auth.registerUsername.mutate({ newUsername: username });
+    await trpc.auth.registerUsername.mutate({ newUsername: username });
   } else {
-    trpc.auth.setTemporaryUsername.mutate({ newUsername: username });
+    await trpc.auth.setTemporaryUsername.mutate({ newUsername: username });
   }
 };
 
-export const updateSpeakerUsername = (
+export const updateSpeakerUsername = async (
   username?: string,
   pushToHistory = true,
 ) => {
@@ -132,9 +132,9 @@ export const updateSpeakerUsername = (
   // TODO if this fails, don't update the rest, and throw an error instead
   const signedIn = isSignedIn();
   if (signedIn) {
-    trpc.auth.registerUsername.mutate({ newUsername: username });
+    await trpc.auth.registerUsername.mutate({ newUsername: username });
   } else {
-    trpc.auth.setTemporaryUsername.mutate({ newUsername: username });
+    await trpc.auth.setTemporaryUsername.mutate({ newUsername: username });
   }
   setSpeakerUsernameInternal(username);
   setQueryParam({ key: speakerUsernameKey, value: username, pushToHistory });
