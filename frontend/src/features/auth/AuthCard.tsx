@@ -79,6 +79,11 @@ export const AuthCard = (props: {
                     class="input"
                     type="password"
                     onInput={(e) => setFields("password", e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        onSubmit();
+                      }
+                    }}
                   />
                 </div>
               </div>

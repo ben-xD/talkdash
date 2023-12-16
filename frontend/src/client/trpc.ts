@@ -97,9 +97,11 @@ export const isConnectionAuthenticatedWhenNeededPromise = new Promise<void>(
   },
 );
 
-// A signal so we can use the navigator once the app launches
+// A signal so we can use the navigator once the app launches using links
+// Then remove the special case for initial connection. `redirectToLoginWithRedirectBack`?
 export const [navigatorSignal, setNavigatorSignal] = createSignal<Navigator>();
 
+// TODO wrap all requests in a try/catch and if it's an auth error, redirect to login page
 export const trpc = createTRPCProxyClient<AppRouter>({
   links: [
     loggerLink({
