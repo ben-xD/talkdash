@@ -49,12 +49,12 @@ const Host = () => {
   const setPin = async (pin: string) => {
     const speaker = speakerUsername();
     if (speaker) {
+      setSendersPin(pin);
       try {
         await trpc.sender.validatePin.mutate({
           pin,
           speakerUsername: speaker,
         });
-        setSendersPin(pin);
         setPinErrorMessage(undefined);
         setIsPinCorrect(true);
       } catch (e) {
