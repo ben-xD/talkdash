@@ -30,7 +30,7 @@ export const loadQueryParams = async (role: UserRole) => {
   await isConnectionAuthenticatedWhenNeededPromise;
   switch (role) {
     case "host":
-      if (speakerUsername) await updateSpeakerUsername(speakerUsername, false);
+      if (speakerUsername) updateSubscribedSpeakerUsername(speakerUsername);
       if (hostUsername) {
         await updateHostUsername(hostUsername, false);
       } else {
@@ -38,7 +38,7 @@ export const loadQueryParams = async (role: UserRole) => {
       }
       return;
     case "audience":
-      if (speakerUsername) await updateSpeakerUsername(speakerUsername, false);
+      if (speakerUsername) updateSubscribedSpeakerUsername(speakerUsername);
       if (audienceUsername) {
         await updateAudienceUsername(audienceUsername, false);
       } else {
