@@ -6,7 +6,7 @@ const [startTime, setStartTime] = createSignal<DateTime>();
 
 const StopwatchPage = () => {
   onMount(() => {
-    document.title = "Stopwatch · Talkdash";
+    document.title = "Stopwatch · TalkDash";
   });
 
   const [time, setTime] = createSignal<string>();

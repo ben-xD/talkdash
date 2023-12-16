@@ -14,7 +14,7 @@ import { ElapsedTime } from "../components/ElapsedTime.tsx";
 
 const Audience = () => {
   onMount(() => {
-    document.title = "Audience · Talkdash";
+    document.title = "Audience · TalkDash";
     setTimeout(async () => {
       await loadQueryParams("audience");
     }, 0);

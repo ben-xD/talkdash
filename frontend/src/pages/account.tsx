@@ -19,7 +19,6 @@ const AccountPage = () => {
           Delete
         </button>
       </div>
-      <div class="flex justify-between">App build date: {__BUILD_DATE__}</div>
     </div>
   );
 };

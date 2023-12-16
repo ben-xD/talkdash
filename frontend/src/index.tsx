@@ -29,6 +29,7 @@ const StopwatchPage = lazy(() => import("./pages/stopwatch.tsx"));
 const SignInPage = lazy(() => import("./pages/sign-in.tsx"));
 const SignUpPage = lazy(() => import("./pages/sign-up.tsx"));
 const OAuthCallbackPage = lazy(() => import("./pages/OAuthCallback.tsx"));
+const DebugPage = lazy(() => import("./pages/debug.tsx"));
 
 const setupSentry = () => {
   // this will only initialize your Sentry client in production builds.
@@ -71,6 +72,7 @@ render(
         <Route path="/sign-up" component={SignUpPage} />
         <Route path="/account" component={AccountPage} />
         <Route path="/auth/callback/:provider" component={OAuthCallbackPage} />
+        <Route path="/debug" component={DebugPage} />
       </Router>
     </QueryClientProvider>
   ),

@@ -53,17 +53,17 @@ const Speaker = () => {
     );
   };
 
-  onMount(() => {
-    document.title = "Speaker · Talkdash";
+  onMount(async () => {
+    document.title = "Speaker · TalkDash";
     setTimeout(async () => {
       await loadQueryParams("speaker");
       const registered = registeredUsername();
       const temporarySpeakerUsername = speakerUsername();
       if (registered) {
-        setPreferredUsername("speaker", registered);
-        reconnectAsSpeaker(registered);
+        await setPreferredUsername("speaker", registered);
+        await reconnectAsSpeaker(registered);
       } else if (temporarySpeakerUsername) {
-        reconnectAsSpeaker(temporarySpeakerUsername);
+        await reconnectAsSpeaker(temporarySpeakerUsername);
       }
     }, 0);
   });

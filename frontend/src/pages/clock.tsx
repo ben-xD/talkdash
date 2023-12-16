@@ -3,7 +3,7 @@ import { onMount } from "solid-js";
 
 const ClockPage = () => {
   onMount(() => {
-    document.title = "Clock · Talkdash";
+    document.title = "Clock · TalkDash";
   });
 
   return (

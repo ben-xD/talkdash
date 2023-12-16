@@ -30,7 +30,7 @@ const Host = () => {
   const [isPinCorrect, setIsPinCorrect] = createSignal<boolean | undefined>();
 
   onMount(() => {
-    document.title = "Event Host · Talkdash";
+    document.title = "Event Host · TalkDash";
     setTimeout(async () => {
       await loadQueryParams("host");
     }, 0);

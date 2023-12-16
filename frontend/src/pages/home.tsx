@@ -16,7 +16,7 @@ const Home = () => {
   const [errorMessage, setErrorMessage] = createSignal<string | undefined>();
 
   onMount(() => {
-    document.title = "Talkdash";
+    document.title = "TalkDash";
   });
 
   const [searchParams] = useSearchParams<{
