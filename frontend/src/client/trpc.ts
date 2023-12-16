@@ -23,7 +23,7 @@ import {
 } from "../features/user/userState.tsx";
 import { Role } from "@talkdash/schema";
 import { TRPC_ERROR_CODE_KEY } from "@trpc/server/rpc";
-import { redirectToLoginWithRedirectBack } from "../features/auth/navigateAfterAuth.ts";
+import { redirectToAuthenticateLink } from "./redirectToAuthenticateLink.ts";
 
 export const backendUrl = import.meta.env.VITE_BACKEND_URL || "/";
 const reconnectMessageDurationMs = 5000;
@@ -104,6 +104,7 @@ export const [navigatorSignal, setNavigatorSignal] = createSignal<Navigator>();
 // TODO wrap all requests in a try/catch and if it's an auth error, redirect to login page
 export const trpc = createTRPCProxyClient<AppRouter>({
   links: [
+    redirectToAuthenticateLink,
     loggerLink({
       enabled: (opts) =>
         (import.meta.env.DEV && typeof window !== "undefined") ||
@@ -128,23 +129,9 @@ export const trpc = createTRPCProxyClient<AppRouter>({
             // To reproduce race condition of auth (try to authenticate too late), and other requests have been sent
             // await new Promise((resolve) => setTimeout(resolve, 5000));
 
-            try {
-              await trpc.auth.authenticateWebsocketConnection.mutate({
-                bearerToken: token,
-              });
-            } catch (e) {
-              const navigator = navigatorSignal();
-              if (isTRPCClientAuthenticationError(e) && navigator) {
-                console.error("Authentication failed, deleting credentials");
-                redirectToLoginWithRedirectBack(navigator);
-                setBearerToken(undefined);
-              } else {
-                console.error(
-                  "Network request for authentication failed, not deleting credentials",
-                  e,
-                );
-              }
-            }
+            await trpc.auth.authenticateWebsocketConnection.mutate({
+              bearerToken: token,
+            });
 
             const reply = await trpc.auth.getRegisteredUsername.query({});
             setRegisteredUsername(reply);
