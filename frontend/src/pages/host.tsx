@@ -1,13 +1,12 @@
 import { createEffect, createSignal, onMount, Show } from "solid-js";
 import { EditableStateField } from "../features/speaker/EditableStateField";
 import {
-  updateSpeakerUsername,
   speakerUsername,
   registeredUsername,
   unsetTemporaryUsernames,
+  updateSubscribedSpeakerUsername,
 } from "../features/user/userState.js";
 import { loadQueryParams } from "../window/loadQueryParams.ts";
-import { resetHistory } from "../features/time/timeState";
 import { TimeLeft } from "../features/time/TimeLeft";
 import { ElapsedTime } from "../components/ElapsedTime";
 import { SendMessageCard } from "../components/SendMessageCard.tsx";
@@ -88,9 +87,8 @@ const Host = () => {
       <EditableStateField
         label={"Speaker username"}
         value={speakerUsername()}
-        setValue={(value) => {
-          resetHistory();
-          updateSpeakerUsername(value);
+        setValue={(username) => {
+          updateSubscribedSpeakerUsername(username);
         }}
       />
       <Show when={isSendersPinRequired()}>
