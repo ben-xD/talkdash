@@ -1,7 +1,7 @@
 import { createSignal } from "solid-js";
 import { DateTime } from "luxon";
 import { createStore } from "solid-js/store";
-import { trpc } from "../../client/trpc";
+import { preferredUsername, trpc } from "../../client/trpc";
 import { speakerUsername } from "../user/userState";
 
 export const [textInputDurationInMinutes, setTextInputDurationInMinutes] =
@@ -19,7 +19,7 @@ export const [currentTime, setCurrentTime] = createSignal<DateTime>(
 
 // Update servers whenever startTime or finishTime changes.
 export const updateServerTimeState = async () => {
-  const username = speakerUsername();
+  const username = preferredUsername("speaker");
   const start = startTime()?.toMillis();
   const finish = finishTime()?.toMillis();
   if (username) {
