@@ -1,5 +1,5 @@
 import { createSignal } from "solid-js";
-import { isSignedIn, trpc } from "../../client/trpc.ts";
+import { trpc } from "../../client/trpc.ts";
 import { TRPCClientError } from "@trpc/client";
 import { toast } from "solid-toast";
 import { Role } from "@talkdash/schema";
@@ -80,18 +80,13 @@ export const updateAudienceUsername = async (
   username?: string,
   pushToHistory: boolean = true,
 ): Promise<void> => {
-  const signedIn = isSignedIn();
   console.info(`Setting audience username to ${username}`);
   setAudienceUsernameInternal(username);
   setQueryParam({ key: audienceUsernameKey, value: username, pushToHistory });
   try {
-    if (signedIn) {
-      await trpc.auth.registerUsername.mutate({ newUsername: username });
-    } else {
-      await trpc.auth.setTemporaryUsername.mutate({
-        newUsername: username,
-      });
-    }
+    await trpc.auth.setTemporaryUsername.mutate({
+      newUsername: username,
+    });
   } catch (e) {
     if (e instanceof TRPCClientError) {
       const message = e.message;
@@ -115,13 +110,7 @@ export const updateHostUsername = async (
   console.info(`Setting host username to ${username}`);
   setHostUsernameInternal(username);
   setQueryParam({ key: hostUsernameKey, value: username, pushToHistory });
-
-  const signedIn = isSignedIn();
-  if (signedIn) {
-    await trpc.auth.registerUsername.mutate({ newUsername: username });
-  } else {
-    await trpc.auth.setTemporaryUsername.mutate({ newUsername: username });
-  }
+  await trpc.auth.setTemporaryUsername.mutate({ newUsername: username });
 };
 
 export const updateSpeakerUsername = async (
@@ -130,12 +119,7 @@ export const updateSpeakerUsername = async (
 ) => {
   console.info(`Setting speaker username to ${username}`);
   // TODO if this fails, don't update the rest, and throw an error instead
-  const signedIn = isSignedIn();
-  if (signedIn) {
-    await trpc.auth.registerUsername.mutate({ newUsername: username });
-  } else {
-    await trpc.auth.setTemporaryUsername.mutate({ newUsername: username });
-  }
+  await trpc.auth.setTemporaryUsername.mutate({ newUsername: username });
   setSpeakerUsernameInternal(username);
   setQueryParam({ key: speakerUsernameKey, value: username, pushToHistory });
 };
@@ -168,7 +152,3 @@ const setQueryParam = ({
     window.history.replaceState(null, "", newUrl);
   }
 };
-
-export const [password, setPassword] = createSignal<string | undefined>(
-  undefined,
-);

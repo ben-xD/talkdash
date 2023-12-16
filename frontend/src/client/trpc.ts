@@ -18,6 +18,7 @@ import {
   speakerUsername,
   updateAudienceUsername,
   updateHostUsername,
+  updateRegisteredUsername,
   updateSpeakerUsername,
 } from "../features/user/userState.tsx";
 import { Role } from "@talkdash/schema";
@@ -59,19 +60,19 @@ export const preferredUsername = (role: Role) => {
   }
 };
 
-export const setPreferredUsername = (role: Role, username: string) => {
+export const setPreferredUsername = async (role: Role, username: string) => {
   if (isSignedIn()) {
-    setRegisteredUsername(username);
+    await updateRegisteredUsername(username);
   } else {
     switch (role) {
       case "host":
-        updateHostUsername(username);
+        await updateHostUsername(username);
         break;
       case "audience":
-        updateAudienceUsername(username);
+        await updateAudienceUsername(username);
         break;
       case "speaker":
-        updateSpeakerUsername(username);
+        await updateSpeakerUsername(username);
         break;
     }
   }
