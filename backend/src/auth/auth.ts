@@ -7,13 +7,7 @@ import {
 } from "../env.js";
 import { Pool } from "pg";
 import { fastify } from "lucia/middleware";
-import {
-  github,
-  GithubUserAuth,
-  google,
-  GoogleAuth,
-  GoogleUserAuth,
-} from "@lucia-auth/oauth/providers";
+import { github, google, GoogleAuth } from "@lucia-auth/oauth/providers";
 import { OAuthProviders } from "@talkdash/schema";
 import { TRPCError } from "@trpc/server";
 
@@ -86,8 +80,6 @@ export const createOAuths = (auth: Auth) => {
   };
 };
 export type OAuths = ReturnType<typeof createOAuths>;
-export type GithubUser = GithubUserAuth<Auth>;
-export type GoogleUser = GoogleUserAuth<Auth>;
 
 export const assertProviderExists = <T>(
   provider: T,

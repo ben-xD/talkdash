@@ -11,10 +11,10 @@ import { emitToAll } from "../../trpc/observers.js";
 import { role, Sender } from "@talkdash/schema";
 import { getEmojiMessageFor } from "./openAi.js";
 import { eq } from "drizzle-orm";
-import { TRPCError } from "@trpc/server";
 import { Context } from "node:vm";
 import { userTable } from "../../db/schema/index.js";
 import { assertWebsocketClient } from "../../trpc/assert.js";
+import { throwUnauthorizedError } from "../../auth/errors.js";
 
 // An event related to speakers
 const speakerEvent = z.discriminatedUnion("type", [
@@ -59,10 +59,7 @@ async function ensurePinMatchesIfExists(
     .from(userTable)
     .where(eq(userTable.username, speakerUsername));
   if (speaker && speaker.pin && speaker.pin !== hostPin) {
-    throw new TRPCError({
-      code: "UNAUTHORIZED",
-      message: "Host pin is incorrect.",
-    });
+    throwUnauthorizedError("Host pin is incorrect.");
   }
 }
 

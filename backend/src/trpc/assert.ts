@@ -1,4 +1,8 @@
 import { TRPCError } from "@trpc/server";
+import {
+  throwNonAnonymousError,
+  throwUnauthenticatedError,
+} from "../auth/errors.js";
 
 // Must be a function, not arrow function. See https://github.com/microsoft/TypeScript/issues/34523
 export function assertAuth<T>(
@@ -6,10 +10,7 @@ export function assertAuth<T>(
   value: T | null | undefined,
 ): asserts value is Exclude<T, null | undefined> {
   if (value === null || value === undefined) {
-    throw new TRPCError({
-      code: "UNAUTHORIZED",
-      message: `Protected route called without ${name}`,
-    });
+    throwUnauthenticatedError(`Protected route called without ${name}`);
   }
 }
 
@@ -19,10 +20,7 @@ export function assertAnonymous<T>(
   value: T | null | undefined,
 ): asserts value is null | undefined {
   if (value !== null && value === undefined) {
-    throw new TRPCError({
-      code: "UNAUTHORIZED",
-      message: `Anonymous route called with ${name}`,
-    });
+    throwNonAnonymousError(`Anonymous route called with ${name}`);
   }
 }
 

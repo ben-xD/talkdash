@@ -1,20 +1,16 @@
 import { middleware } from "../trpc/trpc.js";
-import { TRPCError } from "@trpc/server";
+import { throwUnauthenticatedError } from "./errors.js";
 
 // Rejects unauthenticated requests
 export const trpcAuthRequiredMiddleware = middleware(async ({ ctx, next }) => {
   const { clientProtocol } = ctx;
   if (clientProtocol === "ws") {
     if (ctx.connectionContext && !ctx.connectionContext.session) {
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-      });
+      throwUnauthenticatedError("Not yet authenticated");
     }
   } else if (clientProtocol === "http") {
     if (!ctx.session) {
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-      });
+      throwUnauthenticatedError("Not yet authenticated");
     }
   } else {
     return clientProtocol satisfies never;

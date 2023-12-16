@@ -6,6 +6,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 
 //  This is only called for every new http request is made. For websockets, this means only the initial upgrade request.
 // We identify it's the same user in the same context by setting the ctx.connectionContext.
+// This is called before the middleware
 export const createTrpcCreateContext =
   (db: Database, auth: Auth, oAuths: OAuths) =>
   async ({ req, res }: CreateFastifyContextOptions): Promise<TrpcContext> => {

@@ -2,6 +2,7 @@ import {
   createTRPCProxyClient,
   createWSClient,
   loggerLink,
+  TRPCClientError,
   wsLink,
 } from "@trpc/client";
 import type { AppRouter } from "@talkdash/backend";
@@ -20,6 +21,7 @@ import {
   updateSpeakerUsername,
 } from "../features/user/userState.tsx";
 import { Role } from "@talkdash/schema";
+import { TRPC_ERROR_CODE_KEY } from "@trpc/server/rpc";
 
 export const backendUrl = import.meta.env.VITE_BACKEND_URL || "/";
 const reconnectMessageDurationMs = 5000;
@@ -108,11 +110,15 @@ export const trpc = createTRPCProxyClient<AppRouter>({
                 bearerToken: token,
               });
             } catch (e) {
-              // TODO Implement a logout error response, to delete credentials
-              // if (e instanceof TRPCClientError) {
-              //   console.error("Authentication failed, deleting credentials");
-              //   setBearerToken(undefined);
-              // }
+              if (isTRPCClientAuthenticationError(e)) {
+                console.error("Authentication failed, deleting credentials");
+                setBearerToken(undefined);
+              } else {
+                console.error(
+                  "Network request failed, not deleting credentials",
+                  e,
+                );
+              }
             }
           }
 
@@ -146,3 +152,27 @@ export const deleteAccount = async () => {
   localStorage.clear();
   window.location.reload();
 };
+
+export function isTRPCClientError(
+  cause: unknown,
+): cause is TRPCClientError<AppRouter> {
+  return cause instanceof TRPCClientError;
+}
+
+type TRPCClientErrorWithCode<T extends TRPC_ERROR_CODE_KEY> =
+  TRPCClientError<AppRouter> & {
+    cause: { data: { code: T } };
+  };
+
+// cause.data.code is "UNAUTHORIZED"
+export function isTRPCClientAuthorizationError(
+  cause: unknown,
+): cause is TRPCClientErrorWithCode<"FORBIDDEN"> {
+  return cause instanceof TRPCClientError && cause.data.code === "FORBIDDEN";
+}
+
+export function isTRPCClientAuthenticationError(
+  cause: unknown,
+): cause is TRPCClientErrorWithCode<"UNAUTHORIZED"> {
+  return cause instanceof TRPCClientError && cause.data.code === "UNAUTHORIZED";
+}

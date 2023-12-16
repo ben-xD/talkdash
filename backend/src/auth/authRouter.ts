@@ -24,6 +24,7 @@ import { userTable } from "../db/schema/index.js";
 import { eq } from "drizzle-orm";
 import { TrpcContext } from "../trpc/trpcContext.js";
 import { createSessionAndSetClientAuth } from "./createSessionAndSetClientAuth.js";
+import { throwUnauthenticatedError, internalServerError } from "./errors.js";
 
 const setTemporaryUsername = (
   ctx: TrpcContext,
@@ -102,12 +103,9 @@ export const authRouter = router({
       } catch (e) {
         if (e instanceof LuciaError) {
           console.error(e);
-          throw new TRPCError({
-            code: "UNAUTHORIZED",
-            message: "Invalid login.",
-          });
+          throwUnauthenticatedError("Invalid email or password");
         }
-        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+        throw internalServerError;
       }
     }),
   deleteUser: protectedProcedure
@@ -120,25 +118,20 @@ export const authRouter = router({
       try {
         ctx.auth.deleteUser(userId);
         await ctx.auth.invalidateAllUserSessions(userId);
+        await ctx.auth.deleteDeadUserSessions(userId);
         return;
       } catch (e) {
-        throw new TRPCError({
-          code: "UNAUTHORIZED",
-          message: "Invalid email or password",
-        });
+        throwUnauthenticatedError("Invalid email or password");
       }
     }),
   signOut: protectedProcedure.mutation(async ({ ctx }) => {
     assertWebsocketClient(ctx.clientProtocol);
     if (ctx?.connectionContext?.session) {
       await ctx.auth.invalidateSession(ctx.connectionContext.session.sessionId);
-    } else if (ctx.session) {
-      await ctx.auth.invalidateSession(ctx.session.sessionId);
+      const userId = ctx.connectionContext.session.user.userId;
+      await ctx.auth.deleteDeadUserSessions(userId);
     } else {
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-        message: "You are already signed out.",
-      });
+      throwUnauthenticatedError("You are already signed out.");
     }
     // TODO only set cookie headers when it's HTTP, not websocket
     // create blank session cookie
@@ -170,10 +163,7 @@ export const authRouter = router({
       } catch (e) {
         if (e instanceof LuciaError) {
           console.error(e);
-          throw new TRPCError({
-            code: "UNAUTHORIZED",
-            message: "Invalid/expired bearer token.",
-          });
+          throwUnauthenticatedError("Invalid/expired bearer token.");
         }
       }
       return;
@@ -204,7 +194,7 @@ export const authRouter = router({
         };
       }
       input.provider satisfies never;
-      throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+      throw internalServerError;
     }),
   validateCallback: loggedProcedure
     .input(z.object({ provider: oAuthProviders, code: z.string() }))
@@ -214,10 +204,10 @@ export const authRouter = router({
     .mutation(async ({ ctx, input }) => {
       try {
         if (input.provider === "github") {
-          const githubUser = await ctx.oAuths.github.validateCallback(
+          const githubUserAuth = await ctx.oAuths.github.validateCallback(
             input.code,
           );
-          const user = await getOrCreateUserFromGithubUser(githubUser);
+          const user = await getOrCreateUserFromGithubUser(githubUserAuth);
           return createSessionAndSetClientAuth(ctx, user.userId, user.username);
         } else if (input.provider === "google") {
           const googleUser = await assertProviderExists(
@@ -238,7 +228,9 @@ export const authRouter = router({
         if (e instanceof OAuthRequestError) {
           // const { request, response } = e;
           // TODO understand all error cases and show useful error to user
-          throw new TRPCError({ code: "UNAUTHORIZED" });
+          throwUnauthenticatedError(
+            "Failed to process OAuth validate callback",
+          );
         }
         throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
       }
