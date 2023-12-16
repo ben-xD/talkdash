@@ -62,4 +62,8 @@ export default defineConfig({
   build: {
     sourcemap: true,
   },
+
+  define: {
+    __BUILD_DATE__: new Date(),
+  },
 });
