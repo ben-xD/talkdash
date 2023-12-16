@@ -144,9 +144,6 @@ importers:
       '@trpc/server':
         specifier: ^10.41.0
         version: 10.41.0
-      '@ts-rest/core':
-        specifier: ^3.30.4
-        version: 3.30.4(zod@3.22.4)
       animate.css:
         specifier: ^4.1.1
         version: 4.1.1
@@ -3231,17 +3228,6 @@ packages:
 
   /@trpc/server@10.41.0:
     resolution: {integrity: sha512-uC0xLelzOuoFwxbBQ3GzX4DaWNucO9lW2vlGPdKu8ycXu2ObSa739oQ/lNF6qWDNUKXS0tQvGnDCAxEd178EzQ==}
-    dev: false
-
-  /@ts-rest/core@3.30.4(zod@3.22.4):
-    resolution: {integrity: sha512-wHI3OHnqpak8jmz2drjzMtgvFVLBrTMvxkkWIUIsGDkEpFwuF/9592RpawkCLIvlxbrxTzp0MzqqwwbzlG6BkA==}
-    peerDependencies:
-      zod: ^3.22.3
-    peerDependenciesMeta:
-      zod:
-        optional: true
-    dependencies:
-      zod: 3.22.4
     dev: false
 
   /@types/babel__core@7.20.5:

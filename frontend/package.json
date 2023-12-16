@@ -24,7 +24,6 @@
     "@tanstack/solid-query": "^5.8.2",
     "@trpc/client": "^10.41.0",
     "@trpc/server": "^10.41.0",
-    "@ts-rest/core": "^3.30.4",
     "animate.css": "^4.1.1",
     "clsx": "^2.0.0",
     "luxon": "^3.4.3",
