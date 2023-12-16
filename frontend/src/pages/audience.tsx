@@ -14,8 +14,8 @@ import { preferredUsername, setPreferredUsername } from "../client/trpc.ts";
 const Audience = () => {
   onMount(() => {
     document.title = "Audience · Talkdash";
-    setTimeout(() => {
-      loadQueryParams("audience");
+    setTimeout(async () => {
+      await loadQueryParams("audience");
     }, 0);
   });
 

@@ -9,10 +9,13 @@ import {
 } from "../features/user/userState.tsx";
 import { generateRandomUsername } from "../features/names.ts";
 import { UserRole } from "@talkdash/schema";
+import { isConnectionAuthenticatedWhenNeededPromise } from "../client/trpc.ts";
 
-export const loadQueryParams = (role: UserRole) => {
-  const registered = registeredUsername();
-  if (registered) return;
+export const loadQueryParams = async (role: UserRole) => {
+  const registeredName = registeredUsername();
+  if (registeredName) return;
+  await isConnectionAuthenticatedWhenNeededPromise;
+
   const urlParams = new URLSearchParams(window.location.search);
   const speakerUsername = urlParams.get(speakerUsernameKey);
   const hostUsername = urlParams.get(hostUsernameKey);

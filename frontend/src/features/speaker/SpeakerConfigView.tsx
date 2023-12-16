@@ -4,6 +4,7 @@ import { onMount, Show } from "solid-js";
 import { ElapsedTime } from "../../components/ElapsedTime";
 import { A } from "@solidjs/router";
 import {
+  isConnectionAuthenticatedWhenNeededPromise,
   isSignedIn,
   preferredUsername,
   setPreferredUsername,
@@ -40,6 +41,7 @@ export const SpeakerConfigView = (props: Props) => {
   onMount(async () => {
     // Check if a pin is required, and which one. Set it on local storage.
     if (isSignedIn()) {
+      await isConnectionAuthenticatedWhenNeededPromise;
       const pin = await trpc.speaker.getHostPin.query({});
       if (pin) {
         setIsHostPinRequiredInternal(true);

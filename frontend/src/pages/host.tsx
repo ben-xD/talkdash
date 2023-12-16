@@ -28,8 +28,8 @@ const Host = () => {
 
   onMount(() => {
     document.title = "Event Host · Talkdash";
-    setTimeout(() => {
-      loadQueryParams("host");
+    setTimeout(async () => {
+      await loadQueryParams("host");
       const registered = registeredUsername();
       if (registered) {
         setPreferredUsername("speaker", registered);

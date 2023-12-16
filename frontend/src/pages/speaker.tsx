@@ -55,8 +55,8 @@ const Speaker = () => {
 
   onMount(() => {
     document.title = "Speaker · Talkdash";
-    setTimeout(() => {
-      loadQueryParams("speaker");
+    setTimeout(async () => {
+      await loadQueryParams("speaker");
       const registered = registeredUsername();
       const temporarySpeakerUsername = speakerUsername();
       if (registered) {

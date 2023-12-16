@@ -82,6 +82,19 @@ createEffect(() => {
 
 export const setBearerToken = setBearerTokenInternal;
 
+// Ready if not logged in, or once websocket connection is authenticated
+let websocketConnectionAuthResponsePromiseResolver:
+  | ((value: void) => void)
+  | undefined = undefined;
+
+// Call this on onMount to wait for websocket connection to be authenticated if you're calling an protected route
+export const isConnectionAuthenticatedWhenNeededPromise = new Promise<void>(
+  (resolve) => {
+    // This callback in promise constructor is called synchronously
+    websocketConnectionAuthResponsePromiseResolver = resolve;
+  },
+);
+
 export const trpc = createTRPCProxyClient<AppRouter>({
   links: [
     loggerLink({
@@ -105,6 +118,9 @@ export const trpc = createTRPCProxyClient<AppRouter>({
           // Send the bearer token if it exists to authenticate the websocket connection as soon as possible.
           const token = bearerToken();
           if (token) {
+            // To reproduce race condition of auth (try to authenticate too late), and other requests have been sent
+            // await new Promise((resolve) => setTimeout(resolve, 5000));
+
             try {
               await trpc.auth.authenticateWebsocketConnection.mutate({
                 bearerToken: token,
@@ -120,13 +136,12 @@ export const trpc = createTRPCProxyClient<AppRouter>({
                 );
               }
             }
-          }
 
-          // Get username if signed in
-          const signedIn = isSignedIn();
-          if (signedIn) {
             const reply = await trpc.auth.getRegisteredUsername.query({});
             setRegisteredUsername(reply);
+            websocketConnectionAuthResponsePromiseResolver?.();
+          } else {
+            websocketConnectionAuthResponsePromiseResolver?.();
           }
         },
         onClose: () => {
