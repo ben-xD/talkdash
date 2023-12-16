@@ -1,3 +1,4 @@
+import type { Navigator } from "@solidjs/router";
 import {
   createTRPCProxyClient,
   createWSClient,
@@ -22,6 +23,7 @@ import {
 } from "../features/user/userState.tsx";
 import { Role } from "@talkdash/schema";
 import { TRPC_ERROR_CODE_KEY } from "@trpc/server/rpc";
+import { redirectToLoginWithRedirectBack } from "../features/auth/navigateAfterAuth.ts";
 
 export const backendUrl = import.meta.env.VITE_BACKEND_URL || "/";
 const reconnectMessageDurationMs = 5000;
@@ -95,6 +97,9 @@ export const isConnectionAuthenticatedWhenNeededPromise = new Promise<void>(
   },
 );
 
+// A signal so we can use the navigator once the app launches
+export const [navigatorSignal, setNavigatorSignal] = createSignal<Navigator>();
+
 export const trpc = createTRPCProxyClient<AppRouter>({
   links: [
     loggerLink({
@@ -126,12 +131,14 @@ export const trpc = createTRPCProxyClient<AppRouter>({
                 bearerToken: token,
               });
             } catch (e) {
-              if (isTRPCClientAuthenticationError(e)) {
+              const navigator = navigatorSignal();
+              if (isTRPCClientAuthenticationError(e) && navigator) {
                 console.error("Authentication failed, deleting credentials");
+                redirectToLoginWithRedirectBack(navigator);
                 setBearerToken(undefined);
               } else {
                 console.error(
-                  "Network request failed, not deleting credentials",
+                  "Network request for authentication failed, not deleting credentials",
                   e,
                 );
               }

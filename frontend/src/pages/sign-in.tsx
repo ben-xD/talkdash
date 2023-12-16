@@ -3,6 +3,7 @@ import { isSignedIn, setBearerToken, trpc } from "../client/trpc";
 import { createMutation } from "@tanstack/solid-query";
 import { onMount } from "solid-js";
 import { useNavigate } from "@solidjs/router";
+import { navigateAfterAuth } from "../features/auth/navigateAfterAuth.ts";
 
 const SignInPage = () => {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ const SignInPage = () => {
       authMode: "session",
     });
     setBearerToken(reply.bearerToken);
-    navigate("/");
+    navigateAfterAuth(navigate);
   };
 
   const mutation = createMutation(() => ({

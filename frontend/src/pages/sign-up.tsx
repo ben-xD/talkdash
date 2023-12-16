@@ -3,6 +3,7 @@ import { isSignedIn, setBearerToken, trpc } from "../client/trpc";
 import { TRPCClientError } from "@trpc/client";
 import { createSignal, onMount } from "solid-js";
 import { useNavigate } from "@solidjs/router";
+import { navigateAfterAuth } from "../features/auth/navigateAfterAuth.ts";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const SignUpPage = () => {
       });
       setBearerToken(reply.bearerToken);
       setErrorMessage(undefined);
-      navigate("/");
+      navigateAfterAuth(navigate);
     } catch (e) {
       if (e instanceof TRPCClientError) {
         setErrorMessage(e.message);

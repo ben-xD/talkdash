@@ -1,19 +1,26 @@
 import { JSX, onMount, Show } from "solid-js";
 import { setCurrentTime } from "./features/time/timeState";
 import { DateTime } from "luxon";
-import { A } from "@solidjs/router";
+import { A, useNavigate } from "@solidjs/router";
 import { isExceeded } from "./features/time/TimeLeft";
 import { GithubLogo } from "./assets/GithubLogo";
 import { DisconnectedAlert } from "./components/DisconnectedAlert";
 import { ReconnectedAlert } from "./components/ReconnectedAlert";
 import { loadThemeOntoPage } from "./css/theme";
 import { AppMenu } from "./components/Menu/AppMenu";
-import { isConnected, showReconnectedMessage } from "./client/trpc";
+import {
+  isConnected,
+  setNavigatorSignal,
+  showReconnectedMessage,
+} from "./client/trpc";
 import { Toast } from "./components/Toast";
 
 function App(props: { children?: JSX.Element }) {
+  const navigate = useNavigate();
+
   onMount(() => {
     loadThemeOntoPage();
+    setNavigatorSignal(() => navigate);
 
     // Used to cause re-render of components that rely on current time.
     const intervalId = setInterval(() => {
