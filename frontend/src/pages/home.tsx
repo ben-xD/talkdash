@@ -1,6 +1,5 @@
 import { createSignal, onMount, Show } from "solid-js";
 import { A, useSearchParams } from "@solidjs/router";
-import TalkDashImage from "../assets/talkdash-160x160.webp";
 import { isSignedIn } from "../client/trpc.ts";
 import { UsersIcon } from "../assets/UsersIcon.tsx";
 import { MicIcon } from "../assets/MicIcon.tsx";
@@ -95,9 +94,9 @@ const Home = () => {
           </a>
         </p>
         <img
-          src={TalkDashImage}
+          src="/images/talkdash-160x160.webp"
           alt={"Image of a blue bird called TalkDash."}
-          class="m-auto block w-40 drop-shadow-xl dark:brightness-90 "
+          class="m-auto block h-40 w-40 drop-shadow-xl dark:brightness-90 "
         />
       </div>
     </div>
