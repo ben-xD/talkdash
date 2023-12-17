@@ -67,6 +67,7 @@ export default defineConfig({
       org: "orthuk",
       project: "talkdash",
       authToken: sentryAuthToken,
+      telemetry: false,
     }),
   ],
 
