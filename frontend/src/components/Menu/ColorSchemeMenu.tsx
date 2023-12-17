@@ -23,6 +23,7 @@ export const ColorSchemeMenu = () => {
               {([key, value]) => (
                 <MenuTypography>
                   <Menu.Item
+                    closeOnSelect={false}
                     class={cn("cursor-pointer px-4 py-2", {
                       "font-bold text-primary-500": colorScheme() === value,
                     })}

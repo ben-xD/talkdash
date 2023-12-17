@@ -4,10 +4,12 @@ import { MenuItemProps } from "@ark-ui/solid";
 import { MenuTypography } from "./MenuTypography";
 
 export const MenuItemLink = (
-  props: { title: string; path: string; exactPath?: boolean } & Omit<
-    MenuItemProps,
-    "id"
-  >,
+  props: {
+    title: string;
+    path: string;
+    exactPath?: boolean;
+    closeOnSelect?: boolean;
+  } & Omit<MenuItemProps, "id">,
 ) => {
   return (
     <A
@@ -16,7 +18,12 @@ export const MenuItemLink = (
       activeClass="text-primary-500 font-bold"
     >
       <MenuTypography>
-        <MenuItem class="px-4 py-2" {...props} id={props.title}>
+        <MenuItem
+          closeOnSelect={props.closeOnSelect}
+          class="px-4 py-2"
+          {...props}
+          id={props.title}
+        >
           <p>{props.title}</p>
         </MenuItem>
       </MenuTypography>

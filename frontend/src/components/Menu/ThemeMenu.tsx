@@ -19,6 +19,7 @@ export const ThemeMenu = () => {
             <MenuTypography>
               {/*TODO use MenuItemButton with "active" prop?*/}
               <Menu.Item
+                closeOnSelect={false}
                 class={cn("cursor-pointer px-4 py-2", {
                   "font-bold text-primary-500": theme() === "system",
                 })}
@@ -28,6 +29,7 @@ export const ThemeMenu = () => {
                 <MenuTypography>System</MenuTypography>
               </Menu.Item>
               <Menu.Item
+                closeOnSelect={false}
                 class={cn("cursor-pointer px-4 py-2", {
                   "font-bold text-primary-500": theme() === "dark",
                 })}
@@ -37,6 +39,7 @@ export const ThemeMenu = () => {
                 <MenuTypography>Dark</MenuTypography>
               </Menu.Item>
               <Menu.Item
+                closeOnSelect={false}
                 class={cn("cursor-pointer px-4 py-2", {
                   "font-bold text-primary-500": theme() === "light",
                 })}
