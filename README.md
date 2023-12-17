@@ -149,6 +149,8 @@ Features:
 - Turbo can have annoying bugs or features. Debug them using `turbo build --force --summarize --verbosity=2`
 - PWA:
   - I needed to turn off Cloudflare web analytics, because this modified the `index.html` on every request, which meant the `index.html` hash changed on every request. The PWA thought there was a new version update, and notified the user whenever they visited the app.
+    - Even after that change, browsers detected new versions because [`sw.js`](https://v2.talkdash.orth.uk/sw.js) kept changing between refreshes. See my [discord message](https://discord.com/channels/595317990191398933/789155108529111069/1185984798804672662).
 
 ## Useful
-- Use [madge](https://github.com/pahen/madge) and graphviz to visualise relationships between files- Capture exceptions or messages with Sentry: use `Sentry.captureException(err);` or `Sentry.captureMessage("Something went wrong");`
+- Use [madge](https://github.com/pahen/madge) and graphviz to visualise relationships between files
+- Capture exceptions or messages with Sentry: use `Sentry.captureException(err);` or `Sentry.captureMessage("Something went wrong");`
