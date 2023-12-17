@@ -1,10 +1,10 @@
-import { Card } from "../../components/Card.tsx";
 import { A } from "@solidjs/router";
 import { createStore } from "solid-js/store";
 import { Alert } from "../../components/Alert.tsx";
 import { trpc } from "../../client/trpc.ts";
 import { LOCAL_STORAGE_OAUTH_STATE } from "./constants.ts";
 import { OAuthProviders } from "@talkdash/schema";
+import { Card } from "../../components/Card.tsx";
 
 export const AuthCard = (props: {
   title: string;
@@ -41,9 +41,9 @@ export const AuthCard = (props: {
   // const onGoogleSignIn = () => signInWithOAuth("google");
 
   return (
-    <div class="flex flex-1 flex-col justify-center py-8">
-      <Card class="flex flex-col p-4">
-        <div class="flex w-96 flex-1 flex-col gap-8">
+    <div class="my-4 flex w-full max-w-[400px] flex-col items-center gap-6">
+      <Card class="flex w-full flex-col items-stretch p-4">
+        <div class="flex flex-1 flex-col gap-8">
           <div>
             <h1 class="lg:text-2xl">{props.title}</h1>
             <h2 class="text-sm">{props.subtitle}</h2>

@@ -27,11 +27,13 @@ const Audience = () => {
   });
 
   return (
-    <div class="flex max-w-[400px] flex-col gap-6">
-      <p>
-        <span class="font-bold">Audience mode. </span>Enter a speaker username
-        to send them messages.
-      </p>
+    <div class="my-4 flex max-w-[400px] flex-col gap-6">
+      <div class="flex flex-col gap-2">
+        <h1 class="lg:text-2xl">Audience</h1>
+        <h2 class="text-sm">
+          Enter a speaker username to see information or send them messages
+        </h2>
+      </div>
       <EditableStateField
         label={"Your name"}
         value={preferredUsername("audience")}

@@ -1,4 +1,4 @@
-import { JSX, onCleanup, onMount, Show } from "solid-js";
+import { JSX, onCleanup, onMount } from "solid-js";
 import { setCurrentTime } from "./features/time/timeState";
 import { DateTime } from "luxon";
 import { A, useNavigate } from "@solidjs/router";
@@ -8,11 +8,7 @@ import { DisconnectedAlert } from "./components/DisconnectedAlert";
 import { ReconnectedAlert } from "./components/ReconnectedAlert";
 import { loadThemeOntoPage } from "./css/theme";
 import { AppMenu } from "./components/Menu/AppMenu";
-import {
-  isConnected,
-  setNavigatorSignal,
-  showReconnectedMessage,
-} from "./client/trpc";
+import { setNavigatorSignal } from "./client/trpc";
 import { Toast } from "./components/Toast";
 import RefreshPwaPrompt from "./window/RefreshPwaPrompt.tsx";
 
@@ -33,15 +29,8 @@ function App(props: { children?: JSX.Element }) {
     });
   });
 
-  const colors = () =>
-    isExceeded()
-      ? "bg-gradient-to-r from-dangerSecondary-500 to-danger-500 text-danger-50 dark:from-gray-800 dark:to-gray-900 dark:text-primary-100"
-      : "bg-gradient-to-r from-secondary-500 to-bg-500 text-primary-50 dark:from-gray-800 dark:to-gray-900 dark:text-primary-100";
-
-  return (
-    <div
-      class={`min-w-[320px] p-4 ${colors()} flex min-h-screen flex-col items-center`}
-    >
+  const Header = () => {
+    return (
       <div class="flex items-center gap-4">
         <Toast />
         <RefreshPwaPrompt />
@@ -57,13 +46,22 @@ function App(props: { children?: JSX.Element }) {
         </a>
         <AppMenu />
       </div>
-      <Show when={!isConnected()}>
-        <DisconnectedAlert />
-      </Show>
-      <Show when={isConnected() && showReconnectedMessage()}>
-        <ReconnectedAlert />
-      </Show>
-      <div class="my-4">{props.children}</div>
+    );
+  };
+
+  const colors = () =>
+    isExceeded()
+      ? "bg-gradient-to-r from-dangerSecondary-500 to-danger-500 text-danger-50 dark:from-gray-800 dark:to-gray-900 dark:text-primary-100"
+      : "bg-gradient-to-r from-secondary-500 to-bg-500 text-primary-50 dark:from-gray-800 dark:to-gray-900 dark:text-primary-100";
+
+  return (
+    <div
+      class={`min-w-[320px] p-4 ${colors()} flex min-h-screen flex-col items-center`}
+    >
+      <Header />
+      <DisconnectedAlert />
+      <ReconnectedAlert />
+      {props.children}
     </div>
   );
 }

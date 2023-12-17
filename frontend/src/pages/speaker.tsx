@@ -116,7 +116,7 @@ const Speaker = () => {
   });
 
   return (
-    <div class="flex flex-col items-center gap-16">
+    <div class="my-4 flex flex-col items-center gap-16">
       <div class="z-10 flex max-w-[400px] flex-col items-stretch lg:max-w-4xl lg:flex-row">
         <SpeakerConfigView
           reconnectAsSpeaker={reconnectAsSpeaker}

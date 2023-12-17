@@ -25,7 +25,7 @@ const StopwatchPage = () => {
   });
 
   return (
-    <div class="flex flex-col items-center p-4">
+    <div class="my-4 flex flex-col items-center p-4">
       <div class="flex justify-center gap-4 rounded-lg bg-primary-50 p-4 text-primary-800">
         <button
           aria-label={"Reset timer"}

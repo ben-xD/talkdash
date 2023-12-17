@@ -61,18 +61,20 @@ export const SpeakerConfigView = (props: Props) => {
       )}
     >
       <div class="flex items-start justify-between">
-        <p>
-          <span class="font-bold tracking-tight">Speaker mode. </span>
-          Choose a talk length and start the timer.{" "}
-          <Show when={!isSignedIn()}>
-            <span>
-              <A class="link" href="/sign-up">
-                Sign up
-              </A>{" "}
-              to control who can send you messages.
-            </span>
-          </Show>
-        </p>
+        <div class="flex flex-col gap-2">
+          <h1 class="lg:text-2xl">Speaker</h1>
+          <h2 class="text-sm">
+            Choose a talk length and start the timer.{" "}
+            <Show when={!isSignedIn()}>
+              <span>
+                <A class="link" href="/sign-up">
+                  Sign up
+                </A>{" "}
+                to control who can send you messages.
+              </span>
+            </Show>
+          </h2>
+        </div>
         <div
           class="cursor-pointer hover:text-primary-100 active:text-white"
           onClick={async () => {

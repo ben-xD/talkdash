@@ -99,7 +99,10 @@ export const SendMessageCard = (props: { senderRole: Role }) => {
   return (
     <div class=" flex flex-col gap-4 rounded-xl bg-primary-50 p-4 text-secondary-800 shadow-lg dark:bg-primary-900 dark:text-primary-200">
       <Alert message={errorMessage()} />
-      <label for="submitMessage" class="flex flex-col items-stretch gap-2">
+      <label
+        for="submitMessage"
+        class="flex w-full flex-col items-stretch gap-2"
+      >
         <p>
           {!speakerUsername() || speakerUsername()?.length === 0 ? (
             <span>{"Specify a speaker, then message them..."}</span>
