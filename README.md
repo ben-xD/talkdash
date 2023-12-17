@@ -8,17 +8,18 @@ Features:
 - Event hosts can text-message event speakers whilst they talk 
   - For example, "you have 10 minutes left" and remind them to "repeat the audience questions"
   - Messages are enhanced with Emojis using Cloudflare Workers AI
-- Works offline 
+- Works offline (PWA)
   - On Chrome, you can install it
-  - Some features require network connectivity (messaging)
-- Large clock and stopwatch pages
+  - Some features require network connectivity (messaging, free text input)
+- Timer, clock and stopwatch
 - Dark mode, light mode and system theme mode support
 - Color schemes
 
 ## Technology
 - Frontend: [Solid](https://tailwindcss.com/), [Solid Router](https://docs.solidjs.com/guides/how-to-guides/routing-in-solid/solid-router), [Tailwind](https://tailwindcss.com/), [ARK UI](https://ark-ui.com/) (headless UI library)
 - Backend: Node, Fastify, tRPC and zod
-  - Fastify for anything tRPC doesn't support: e.g. file uploads, 3rd party clients, rigid authentication libraries
+  - Fastify is setup for anything tRPC doesn't support: e.g. file uploads, 3rd party clients, rigid authentication libraries
+  - Authentication is done over tRPC procedures over websockets, without any 3rd party services, using [Lucia](https://lucia-auth.com/)
   - Initially tried [Bun](https://bun.sh/) and [Bao](https://github.com/mattreid1/baojs)
     - Bao bun bug? Error: `TypeError: null is not an object (evaluating 'res.status')` internal to Bao, with no stack trace (Bun?). There was no way past this error, perhaps Bao is not compatible with the latest Bun. 
     - I wanted to use [Fastify](https://fastify.dev/) but Jarred said ['Fastify is not fast in bun.'](https://news.ycombinator.com/item?id=37800505).
@@ -42,6 +43,8 @@ Features:
 - Image generated using [sdxl-emoji](https://replicate.com/fofr/sdxl-emoji), background removed using Modyfi.com, optimised with https://tinypng.com/, and favicons generated using https://realfavicongenerator.net/
 - OpenAI / GPT3.5 turbo: for converting text into durations (e.g. time for lunch -> 30 minutes) 
   - I use [Cloudflare AI Gateway](https://developers.cloudflare.com/ai-gateway/) to measure the usage and cost of OpenAI API usage for this app
+- Sentry for error reporting
+- Measure performance
 
 ## TODOs
 
@@ -53,7 +56,7 @@ Features:
   - Either use solid (experimental, not explored), or 
   - React with [jsx-email](https://github.com/shellscape/jsx-email) + [tailwind](https://www.npmjs.com/package/@jsx-email/tailwind), or
 - TODO show logged in page after logging in or signing up
-- Redirect to `/sign-in` if 401 error is received
+- Redirect to `/sign-in` if 401 error is received with error message
 - Horizontal scalability and lower latency? I have a single Node backend
   - Even if clients pick the region consistently, they still need to talk to each other
   - Using tRPC subscriptions means we need 1 tRPC application to connect to all clients, making it a single point of failure  
@@ -143,6 +146,9 @@ Features:
   - See https://turbo.build/repo/docs/core-concepts/caching/environment-variable-inputs for more information about environment variables.
   - Allow JSON comments in Webstorm. Look for `Compliance with JSON standard` in Settings.
 - I tried DaisyUI again for this problem. It's API gets in the way. For example, I can't change CSS variables to affect the theme that Daisy UI uses. It doesn't really play well with Tailwind.
+- Turbo can have annoying bugs or features. Debug them using `turbo build --force --summarize --verbosity=2`
+- PWA:
+  - I needed to turn off Cloudflare web analytics, because this modified the `index.html` on every request, which meant the `index.html` hash changed on every request. The PWA thought there was a new version update, and notified the user whenever they visited the app.
 
 ## Useful
-- Use [madge](https://github.com/pahen/madge) and graphviz to visualise relationships between files
+- Use [madge](https://github.com/pahen/madge) and graphviz to visualise relationships between files- Capture exceptions or messages with Sentry: use `Sentry.captureException(err);` or `Sentry.captureMessage("Something went wrong");`
