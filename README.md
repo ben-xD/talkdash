@@ -1,9 +1,8 @@
 # [TalkDash](https://talkdash.orth.uk)
 
-Tools for event hosts and presenters, available on https://talkdash.orth.uk. 
-A more bleeding edge, unstable version is available on https://v2.talkdash.orth.uk/
+Tools for event hosts and speakers, available on https://talkdash.orth.uk
 
-Features:
+## Features
 - Show large (fullscreen) timer and timer on speaker screen
 - Event hosts can text-message event speakers whilst they talk 
   - For example, "you have 10 minutes left" and remind them to "repeat the audience questions"
@@ -16,7 +15,11 @@ Features:
 - Color schemes
 
 ## Technology
+
+I used technologies that could be developed 100% locally. The only current exception is the API requests to text-generation APIs (OpenAI, Cloudflare and Mistral).
+ 
 - Frontend: [Solid](https://tailwindcss.com/), [Solid Router](https://docs.solidjs.com/guides/how-to-guides/routing-in-solid/solid-router), [Tailwind](https://tailwindcss.com/), [ARK UI](https://ark-ui.com/) (headless UI library)
+  - Support for [MDX](https://mdxjs.com/). For example, just import an `.mdx` file using `import About from "./About.mdx";` 
 - Backend: Node, Fastify, tRPC and zod
   - Fastify is setup for anything tRPC doesn't support: e.g. file uploads, 3rd party clients, rigid authentication libraries
   - Authentication is done over tRPC procedures over websockets, without any 3rd party services, using [Lucia](https://lucia-auth.com/)
@@ -29,10 +32,11 @@ Features:
     - All APIs support WebSocket
     - [Subscriptions](https://trpc.io/docs/subscriptions) (server sending messages to client) are not supported by the HTTP API
     - The API supports cookies and bearer token authentication based on the API request
-- Database: Postgres (Neon) and drizzle orm
+- Database: Postgres (Neon, or a local postgres) and drizzle orm
   - I don't really benefit from the "serverless" nature of Neon, since the backend is not serverless (because durable objects are not on the Cloudflare free tier, and also they tend to become expensive with use) 
   - However, I may use cloudflare workers in the future for other things, and using the neon serverless http API for that could be useful
   - Local postgres database is used locally
+- Monorepo management: [Turborepo](https://turbo.build/repo) 
 - Deployment: [Fly.io](https://fly.io), [Cloudflare Pages, Cloudflare workers](https://www.cloudflare.com/en-gb/) (Fly.io for websocket connections, because Cloudflare Durable Objects are expensive)
   - Cloudflare pages build settings: 
     - Framework preset: `None`
@@ -44,72 +48,13 @@ Features:
 - OpenAI / GPT3.5 turbo: for converting text into durations (e.g. time for lunch -> 30 minutes) 
   - I use [Cloudflare AI Gateway](https://developers.cloudflare.com/ai-gateway/) to measure the usage and cost of OpenAI API usage for this app
 - Sentry for error reporting
-- Measure performance
-
-## TODOs
-
-- Audience messaging can be disabled by speaker and host
-- Responsive layout for received messages
-- Set up email verification
-  - just use react, [resend](https://resend.com/) and resend's `render`: https://react.email/docs/utilities/render (write templates?), or
-    - write content into https://payloadcms.com/, https://prismic.io/, Strapi, or Builder. and pull into email template? and other parts of website.
-  - Either use solid (experimental, not explored), or 
-  - React with [jsx-email](https://github.com/shellscape/jsx-email) + [tailwind](https://www.npmjs.com/package/@jsx-email/tailwind), or
-- TODO show logged in page after logging in or signing up
-- Redirect to `/sign-in` if 401 error is received with error message
-- Horizontal scalability and lower latency? I have a single Node backend
-  - Even if clients pick the region consistently, they still need to talk to each other
-  - Using tRPC subscriptions means we need 1 tRPC application to connect to all clients, making it a single point of failure  
-  - Try redis streams? 
-  - Try partykit for everything that needs realtime functionality
-    - Everything else is tRPC over websocket or HTTP, but without "subscriptions" 
-    - We won't benefit from the subscriptions procedures
-  - Alternatively, deploy a separate "notification" tRPC backend, that all clients connect to. (A single point of failure, but dedicated only to subscriptions).
-    - However, this means there'll still work to write routers for authentication for websockets
-  - Also, using Websockets for tRPC prevents me from redirect users using `Location` and setting cookies, since the user doesn't get any headers as response
-    - This just means the frontend needs to handle redirecting when logging in and use bearer authentication.
-- Authentication
-  - Implement UI for user accounts (email sign up, login, sign out, set public password)
-  - Implement email verification 
-  - Implement password reset
-  - Implement updating user information (for example, name)
-  - Test error edge cases and returned codes
-  - Support event hosts and audience
-  - Implement rate limiting for auth endpoints using Redis, Upstash, or Cloudflare-KV?
-- Fix type safety: When lucia promise is not awaited, typescript doesn't detect it.
-- Implement audience mode
-- Add access control for event host controls
-- Nicer glow background 
-- Command + enter to send message
-- Command + K for command palette
-- Themes: users can select different colors, which would get different birds too
-- Zen mode
-- View and adjust time remaining for the speaker remotely as Event Host
-  - Keep timer working local-first (doesn't require connection)
-  - Convert human-readable talk length into duration
-- Bugs:
-  - Don't show disconnected / connected for 1 second (delay it so it doesn't glitch)
-- AI ideas:
-  - record event host message from voice (STT) - whisper on Cloudflare - but won't be used at events to avoid distracing audience
-  - Filter messages for safety and edit it for being funny - not really possible, Llama2 throws "ethics" error
-  - Text-to-speech and add play button on speaker screen - elevenlabs code `ElevenLabsJam` - ElevenLabs is expensive
-  - Group similar messages together. Store questions, and cluster based on category/relevance. Use Workers AI vectorize database? 
-- Consider: astro.build
-- Consider: server side rendering, see https://www.solidjs.com/guides/server
-- Use [postcss-nested](https://github.com/postcss/postcss-nested) if needed
-
-
-## Performance?
-- Need performance? 
-  - consider tRPC over uWebsockets, using https://github.com/romanzy313/trpc-uwebsockets?
-  - consider [Elysia](https://elysiajs.com/) on Bun instead of tRPC on Node.
 
 ## Contributing
 - Install nvm, run `nvm install` and `nvm alias default` to set the default node version to the one in `.nvmrc`.
 - Install pnpm: `npm install --global pnpm`
   - to upgrade, run `npm install --global --upgrade pnpm`
 - Install turbo, run `pnpm install turbo --global`
-- `pnpm i`
+- Install dependencies, run `pnpm i`
 
 ### Useful links
 - API on https://talkdash.fly.dev
@@ -140,17 +85,19 @@ Features:
 - I only installed husky because the `flyctl` CLI assumes you use it (possibly only for Node apps). Otherwise, `@flydotio/dockerfile` npm package fails to install with `sh: husky: command not found`.
   - I also need to `fly launch` in the root of the project, because husky relies on a git repo (can't be in a subdirectory).
 - Turbo repo's `turbo.json` notes and issues:
-  - Issue: [`globalDotEnv`](https://turbo.build/repo/docs/reference/configuration#globaldotenv) works, but a task specific [`dotEnv`](https://turbo.build/repo/docs/reference/configuration#dotenv) doesn't. Therefore, to be safe, I cause all apps to rebuild when the a environment variable that is used in the build changes.
+  - Issue: [`globalDotEnv`](https://turbo.build/repo/docs/reference/configuration#globaldotenv) works, but a task specific [`dotEnv`](https://turbo.build/repo/docs/reference/configuration#dotenv) doesn't. Therefore, to be safe, I cause all apps to rebuild when an environment variable that is used in the build changes.
     - It turns out I just misunderstood. The `dotEnv` path is relative to the "workspace", which is the **app** folder, **not** the repo root. I still need to define it, even when turbo detects `frontend/` is a vite project. It doesn't know to look in `.env` for environment variables.
-  - Note: We don't rebuild the backend when the `.env` changes, because `.env` do not affect code generation. This is different in the frontend, where the variables are hardcoded into the JS bundle.
+  - Note: We don't rebuild the backend when the `.env` changes, because `.env` does not affect code generation. This is different in the frontend, where the variables are written into the JS bundle.
   - See https://turbo.build/repo/docs/core-concepts/caching/environment-variable-inputs for more information about environment variables.
+  - Turbo can have annoying bugs or features. Debug them using `turbo build --force --summarize --verbosity=2`
   - Allow JSON comments in Webstorm. Look for `Compliance with JSON standard` in Settings.
-- I tried DaisyUI again for this problem. It's API gets in the way. For example, I can't change CSS variables to affect the theme that Daisy UI uses. It doesn't really play well with Tailwind.
-- Turbo can have annoying bugs or features. Debug them using `turbo build --force --summarize --verbosity=2`
+- I tried DaisyUI again for this project. It's API gets in the way. For example, I can't change CSS variables to affect the theme that Daisy UI uses. It doesn't really play well with Tailwind.
 - PWA:
   - I needed to turn off Cloudflare web analytics, because this modified the `index.html` on every request, which meant the `index.html` hash changed on every request. The PWA thought there was a new version update, and notified the user whenever they visited the app.
     - Even after that change, browsers detected new versions because [`sw.js`](https://v2.talkdash.orth.uk/sw.js) kept changing between refreshes. See my [discord message](https://discord.com/channels/595317990191398933/789155108529111069/1185984798804672662).
+- Sentry needs vite to output sourcemaps, but it doesn't delete them by default. This means your application source code is easily viewable in user's browser's devtools. Fine for open source projects, but less nice for closed source projects. This was fixed by configuring `sourcemap.filesToDeleteAfterUpload: ["**/*.js.map"]` in `vite.config.ts`.
 
 ## Useful
 - Use [madge](https://github.com/pahen/madge) and graphviz to visualise relationships between files
 - Capture exceptions or messages with Sentry: use `Sentry.captureException(err);` or `Sentry.captureMessage("Something went wrong");`
+- For a simpler version of the app without authentication, see an old commit, `2b8e817ed448ee9f801e3efd7e6d4d520a0d9597`
