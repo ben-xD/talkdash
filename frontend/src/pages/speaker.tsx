@@ -36,7 +36,7 @@ const Speaker = () => {
 
     messageSubscription?.unsubscribe();
     messageSubscription = trpc.speaker.subscribeMessagesAsSpeaker.subscribe(
-      { speakerUsername },
+      {},
       {
         onData: ({ emojiMessage, message, sender }) => {
           const receivedAt = DateTime.now();

@@ -13,6 +13,8 @@ import {
 import { eq } from "drizzle-orm";
 import { assertAuth, assertWebsocketClient } from "../assert.js";
 import { userTable } from "../../db/schema/index.js";
+import { throwUnauthenticatedError } from "../../auth/errors.js";
+import { TrpcContext } from "../trpcContext.js";
 
 // All messages sent to client start with "Observed"
 type ObserverId = string;
@@ -40,6 +42,34 @@ export const emitToSpeakers = (speakerUsername: string, event: SenderEvent) => {
   }
 };
 
+// Prefer the temporary username, then the registered username.
+const getPreferredUsername = async (ctx: TrpcContext): Promise<string> => {
+  assertWebsocketClient(ctx.clientProtocol);
+  let username = ctx.connectionContext.temporaryUsername;
+  if (username) return username;
+  const userId = ctx.connectionContext.session?.user?.userId;
+  if (userId) {
+    const [user] = await ctx.db
+      .select()
+      .from(userTable)
+      .where(eq(userTable.id, userId));
+    if (!user) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "User was not found.",
+      });
+    }
+    if (!user.username) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "User did not have temporary username or registered username.",
+      });
+    }
+    return user.username;
+  }
+  return throwUnauthenticatedError("User was logged in.");
+};
+
 type SpeakerTimes = { start: number | undefined; finish: number | undefined };
 const timesBySpeakerId = new Map<string, SpeakerTimes>();
 
@@ -49,40 +79,45 @@ export const getTimesFor = (
   return timesBySpeakerId.get(speakerUsername);
 };
 
-// TODO don't get the speakerUsername from the input, get it from the session (only for authed users though)
-// TODO don't let users subscribe to other users' messages (only for usernames that are already registered)
 export const speakerRouter = router({
   subscribeMessagesAsSpeaker: loggedProcedure
-    .input(z.object({ speakerUsername: z.string() }))
-    .subscription(({ input }) =>
-      observable<SenderEvent, Error>((emit) => {
-        addSpeakerClient(input.speakerUsername);
-        const speakers = getSpeakersFor(input.speakerUsername);
-        console.info(`Adding speaker client for ${input.speakerUsername}`);
-        speakers.add(emit);
-        return () => {
-          removeSpeakerClient(input.speakerUsername);
-          console.info(`Removing speaker client for ${input.speakerUsername}`);
-          speakers?.delete(emit);
-        };
-      }),
-    ),
-  getTimeState: loggedProcedure
-    .input(z.object({ speakerUsername: z.string() }))
-    .query(async ({ input }) => {
-      const { speakerUsername } = input;
-      return getTimesFor(speakerUsername);
+    .input(z.object({}))
+    .subscription(async ({ ctx }) => {
+      const username = await getPreferredUsername(ctx);
+      if (username) {
+        return observable<SenderEvent, Error>((emit) => {
+          addSpeakerClient(username);
+          const speakers = getSpeakersFor(username);
+          console.info(`Adding speaker client for ${username}`);
+          speakers.add(emit);
+          return () => {
+            removeSpeakerClient(username);
+            console.info(`Removing speaker client for ${username}`);
+            speakers?.delete(emit);
+          };
+        });
+      } else {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message:
+            "No username was found for user, cannot subscribe to their messages.",
+        });
+      }
     }),
+  getTimeState: loggedProcedure.input(z.object({})).query(async ({ ctx }) => {
+    const username = await getPreferredUsername(ctx);
+    return getTimesFor(username);
+  }),
   updateTimes: loggedProcedure
     .input(
       z.object({
-        speakerUsername: z.string(),
         start: z.number().optional(),
         finish: z.number().optional(),
       }),
     )
-    .mutation(async ({ input }) => {
-      const { speakerUsername, start, finish } = input;
+    .mutation(async ({ input, ctx }) => {
+      const speakerUsername = await getPreferredUsername(ctx);
+      const { start, finish } = input;
       console.debug(`Updating times for ${speakerUsername}`, { start, finish });
       timesBySpeakerId.set(speakerUsername, { start, finish });
       emitToSenders(speakerUsername, {
