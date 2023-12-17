@@ -1,4 +1,4 @@
-import { JSX, onMount, Show } from "solid-js";
+import { JSX, onCleanup, onMount, Show } from "solid-js";
 import { setCurrentTime } from "./features/time/timeState";
 import { DateTime } from "luxon";
 import { A, useNavigate } from "@solidjs/router";
@@ -14,6 +14,7 @@ import {
   showReconnectedMessage,
 } from "./client/trpc";
 import { Toast } from "./components/Toast";
+import RefreshPwaPrompt from "./window/RefreshPwaPrompt.tsx";
 
 function App(props: { children?: JSX.Element }) {
   const navigate = useNavigate();
@@ -27,7 +28,9 @@ function App(props: { children?: JSX.Element }) {
       setCurrentTime(DateTime.now());
     });
 
-    return () => clearInterval(intervalId);
+    onCleanup(() => {
+      clearInterval(intervalId);
+    });
   });
 
   const colors = () =>
@@ -41,6 +44,7 @@ function App(props: { children?: JSX.Element }) {
     >
       <div class="flex items-center gap-4">
         <Toast />
+        <RefreshPwaPrompt />
         <h1 class="text-center text-4xl font-bold tracking-tight dark:bg-gradient-to-r dark:from-secondary-400 dark:to-primary-500 dark:bg-clip-text dark:text-transparent">
           <A href="/">TalkDash</A>
         </h1>
