@@ -3,6 +3,8 @@ import { defineConfig } from "vite";
 import solid from "vite-plugin-solid";
 import solidDevtools from "solid-devtools/vite";
 import { VitePWA } from "vite-plugin-pwa";
+import mdx from "@mdx-js/rollup";
+import remarkGfm from "remark-gfm";
 
 // This is only available if the environment variable is set, not if it is in the .env file.
 // The auth token is available there, just `export` it to test publishing sourcemaps to sentry.
@@ -24,6 +26,7 @@ export default defineConfig({
       /* features options - all disabled by default */
       autoname: true, // e.g. enable autoname
     }),
+    mdx({ jsxImportSource: "solid-jsx", remarkPlugins: [remarkGfm] }),
     solid(),
     VitePWA({
       registerType: "prompt",

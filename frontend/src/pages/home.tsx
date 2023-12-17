@@ -11,6 +11,7 @@ import {
 } from "../features/user/userState.tsx";
 import { TRPCClientError } from "@trpc/client";
 import { Alert } from "../components/Alert.tsx";
+import { ByBenButterworth } from "../components/ByBenButterworth.tsx";
 
 const Home = () => {
   const [errorMessage, setErrorMessage] = createSignal<string | undefined>();
@@ -47,7 +48,8 @@ const Home = () => {
         <p class="text-center text-xl">Welcome 👋, you're logged in</p>
       ) : (
         <p class="text-center">
-          Keeping speakers on time and sending them messages in realtime
+          Keeping speakers on time and sending them messages in realtime since
+          2023
         </p>
       )}
       <Show when={isSignedIn()}>
@@ -86,19 +88,7 @@ const Home = () => {
           </A>
         </div>
       </div>
-      <div class="flex flex-col gap-4 text-center">
-        <p>
-          By{" "}
-          <a class="font-bold underline" href="https://orth.uk/">
-            Ben Butterworth
-          </a>
-        </p>
-        <img
-          src="/images/talkdash-160x160.webp"
-          alt={"Image of a blue bird called TalkDash."}
-          class="m-auto block h-40 w-40 drop-shadow-xl dark:brightness-90 "
-        />
-      </div>
+      <ByBenButterworth />
     </div>
   );
 };

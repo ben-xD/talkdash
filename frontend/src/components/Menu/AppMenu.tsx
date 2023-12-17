@@ -60,6 +60,7 @@ export const AppMenu = () => {
               <MenuItemLink path="/stopwatch" title={"Stopwatch"} />
               <ThemeMenu />
               <ColorSchemeMenu />
+              <MenuItemLink path="/about" title={"About TalkDash"} />
             </MenuItemGroup>
             <MenuItemGroupLabel
               for="modes"
