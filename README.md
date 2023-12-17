@@ -38,12 +38,14 @@ I used technologies that could be developed 100% locally. The only current excep
   - Local postgres database is used locally
 - Monorepo management: [Turborepo](https://turbo.build/repo) 
 - Deployment: [Fly.io](https://fly.io), [Cloudflare Pages, Cloudflare workers](https://www.cloudflare.com/en-gb/) (Fly.io for websocket connections, because Cloudflare Durable Objects are expensive)
-  - Cloudflare pages build settings: 
-    - Framework preset: `None`
-    - Build command: `npm install -g turbo && turbo build`
-    - Build output directory: `frontend/dist`
-    - Extra environment variable: `VITE_BACKEND_URL=wss://talkdash.fly.dev`
-    - Reminder: scale down to 1 machine using `flyctl scale count 1` because the backend is the message broker - we want all users connected to the same instance. See https://community.fly.io/t/how-deploy-to-just-one-machine/12510/2
+  - Cloudflare Pages
+    - The CI takes 1 minute 20 seconds 🔥️ to build the entire application and deploy to Cloudflare's data centers 
+    - build settings: 
+      - Framework preset: `None`
+      - Build command: `npm install -g turbo && turbo build`
+      - Build output directory: `frontend/dist`
+      - Extra environment variable: `VITE_BACKEND_URL=wss://talkdash.fly.dev`
+      - Reminder: scale down to 1 machine using `flyctl scale count 1` because the backend is the message broker - we want all users connected to the same instance. See https://community.fly.io/t/how-deploy-to-just-one-machine/12510/2
 - Image generated using [sdxl-emoji](https://replicate.com/fofr/sdxl-emoji), background removed using Modyfi.com, optimised with https://tinypng.com/, and favicons generated using https://realfavicongenerator.net/
 - OpenAI / GPT3.5 turbo: for converting text into durations (e.g. time for lunch -> 30 minutes) 
   - I use [Cloudflare AI Gateway](https://developers.cloudflare.com/ai-gateway/) to measure the usage and cost of OpenAI API usage for this app
