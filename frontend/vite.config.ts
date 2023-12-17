@@ -68,10 +68,17 @@ export default defineConfig({
       project: "talkdash",
       authToken: sentryAuthToken,
       telemetry: false,
+      sourcemaps: {
+        filesToDeleteAfterUpload: ["**/*.js.map"],
+      },
+      // To debug:
+      debug: true,
     }),
   ],
 
   build: {
+    // Needs to be enabled for Sentry, but we use sentry's `filesToDeleteAfterUpload` to prevent browsers
+    // to read the full source code of the project.
     sourcemap: true,
   },
 
