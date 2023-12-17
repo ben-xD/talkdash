@@ -35,7 +35,10 @@ const RefreshPwaPrompt: Component = () => {
               }
               when={offlineReady()}
             >
-              <span>🔌️ Some app functionality is now available offline.</span>
+              <span>
+                🔌️ App functionality is now available offline (timer, stopwatch
+                and clock).
+              </span>
             </Show>
           </div>
           <div class="flex w-full justify-end gap-4">
