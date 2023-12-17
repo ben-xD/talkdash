@@ -57,8 +57,8 @@ export function TimerConfigCard(props: { class?: string }) {
     });
 
   return (
-    <Card class={cn("my-2 w-full p-4", props.class)}>
-      <div class="flex flex-col items-start gap-2">
+    <Card class={cn("my-2 p-4", props.class)}>
+      <div class="flex flex-col gap-2">
         <Alert message={errorMessage()} />
         <label class="whitespace-normal break-words" for="finishTime">
           Talk length
@@ -85,7 +85,7 @@ export function TimerConfigCard(props: { class?: string }) {
           onInput={(e) => setTextInputDurationInMinutes(e.target.value)}
         />
       </div>
-      <div class="flex w-full flex-wrap justify-between gap-2">
+      <div class="flex flex-wrap justify-between gap-2">
         <div class="flex gap-2">
           <button
             aria-label={"Undo"}

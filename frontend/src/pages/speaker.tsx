@@ -117,12 +117,13 @@ const Speaker = () => {
 
   return (
     <div class="flex flex-col items-center gap-16">
-      <div class="z-10 flex w-full max-w-[400px] flex-col items-stretch lg:max-w-4xl lg:flex-row">
+      <div class="z-10 flex max-w-[400px] flex-col items-stretch lg:max-w-4xl lg:flex-row">
         <SpeakerConfigView
           reconnectAsSpeaker={reconnectAsSpeaker}
           shareUrl={shareUrl()}
+          class="flex-grow basis-0"
         />
-        <TimerConfigCard class="z-20" />
+        <TimerConfigCard class="z-20 flex-grow basis-0" />
       </div>
       <div class="-my-16 justify-center text-center ">
         <div class="flex text-[16vw] leading-[16vw] tracking-tight drop-shadow-lg md:max-xl:text-[18vw]">

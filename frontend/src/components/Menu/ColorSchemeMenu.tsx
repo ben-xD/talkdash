@@ -10,7 +10,7 @@ export const ColorSchemeMenu = () => {
     <Menu>
       <MenuTypography>
         <Menu.TriggerItem>
-          <div class="flex w-full justify-between px-4 py-2 hover:cursor-pointer">
+          <div class="flex justify-between px-4 py-2 hover:cursor-pointer">
             <p>Color</p>
             <p>&gt;</p>
           </div>
