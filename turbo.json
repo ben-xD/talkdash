@@ -3,7 +3,7 @@
   // I put this variable in globalEnv because frontend#build.env doesn't seem to work
   // env probably doesn't work because turbo is replacing it with `VITE*` variables
   // This still happens even with `--framework-inference=false` and `"env": ["SENTRY_AUTH_TOKEN", "CF_PAGES_BRANCH", "VITE_*"]`
-  "globalPassThroughEnv": [],
+  "globalEnv": ["SENTRY_AUTH_TOKEN", "CF_PAGES_BRANCH"],
   "pipeline": {
     "build": {
       "dependsOn": [
