@@ -67,6 +67,7 @@ export const SpeakerConfigView = (props: Props) => {
             Choose a talk length and start the timer.{" "}
             <Show when={!isSignedIn()}>
               <span>
+                Share the link with your host or audience.{" "}
                 <A class="link" href="/sign-up">
                   Sign up
                 </A>{" "}
