@@ -7,14 +7,12 @@ import { cn } from "../../css/tailwind";
 export const ThemeMenu = () => {
   return (
     <Menu>
-      <MenuTypography>
-        <Menu.TriggerItem>
-          <div class="flex w-full justify-between px-4 py-2 hover:cursor-pointer">
-            <p>Theme</p>
-            <p>&gt;</p>
-          </div>
-        </Menu.TriggerItem>
-      </MenuTypography>
+      <Menu.TriggerItem>
+        <div class="flex justify-between px-4 py-2 hover:cursor-pointer">
+          <MenuTypography>Theme</MenuTypography>
+          <MenuTypography>&gt;</MenuTypography>
+        </div>
+      </Menu.TriggerItem>
       <Portal>
         <Menu.Positioner>
           <Menu.Content class="z-30 rounded-lg bg-white shadow-md">
@@ -27,7 +25,7 @@ export const ThemeMenu = () => {
                 onClick={() => setUserSelectedTheme("system")}
                 id="system"
               >
-                System
+                <MenuTypography>System</MenuTypography>
               </Menu.Item>
               <Menu.Item
                 class={cn("cursor-pointer px-4 py-2", {
@@ -36,7 +34,7 @@ export const ThemeMenu = () => {
                 onClick={() => setUserSelectedTheme("dark")}
                 id="dark"
               >
-                Dark
+                <MenuTypography>Dark</MenuTypography>
               </Menu.Item>
               <Menu.Item
                 class={cn("cursor-pointer px-4 py-2", {
@@ -45,7 +43,7 @@ export const ThemeMenu = () => {
                 onClick={() => setUserSelectedTheme("light")}
                 id="light"
               >
-                Light
+                <MenuTypography>Light</MenuTypography>
               </Menu.Item>
             </MenuTypography>
           </Menu.Content>
