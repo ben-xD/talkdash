@@ -5,7 +5,8 @@
     "build": "turbo build",
     "lint": "turbo lint",
     "lint:fix": "turbo lint:fix",
-    "clean": "turbo clean"
+    "clean": "turbo clean",
+    "deploy": "turbo deploy"
   },
   "devDependencies": {
     "husky": "^8.0.3",

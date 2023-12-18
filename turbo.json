@@ -34,6 +34,8 @@
     "lint": {},
     "lint:fix": {},
     "clean": {},
-    "db": {}
+    "db": {},
+    // only deploys backend
+    "deploy": {}
   }
 }
