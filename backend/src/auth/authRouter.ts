@@ -37,6 +37,26 @@ const setTemporaryUsername = (
   }
 };
 
+export const authenticateWebsocketConnection = async (
+  ctx: TrpcContext,
+  bearerToken: string,
+) => {
+  assertWebsocketClient(ctx.clientProtocol);
+  try {
+    // We can't mutate `ctx.session` directly because it will be reset in the next procedure. Similarly, this won't work
+    // ctx.test = { name: "procedure 1" };
+    // This happens because of tRPC's implementation details: we'd edit a temporary context for that procedure
+    // because tRPC merges 2 contexts together when moving between middlewares.
+    // If you edit anything inside specific properties, these will exist because they are copied from the original context.
+    ctx.connectionContext.session = await ctx.auth.validateSession(bearerToken);
+  } catch (e) {
+    if (e instanceof LuciaError) {
+      console.error(e);
+      throwUnauthenticatedError("Invalid/expired bearer token.");
+    }
+  }
+};
+
 export const authRouter = router({
   signUpWithEmail: loggedProcedure
     .input(
@@ -154,23 +174,7 @@ export const authRouter = router({
   authenticateWebsocketConnection: loggedProcedure
     .input(z.object({ bearerToken: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      assertWebsocketClient(ctx.clientProtocol);
-      // We can't mutate `ctx.session` directly because it will be reset in the next procedure. Similarly, this won't work
-      // ctx.test = { name: "procedure 1" };
-      // This happens because of tRPC's implementation details: we'd edit a temporary context for that procedure
-      // because tRPC merges 2 contexts together when moving between middlewares.
-      // If you edit anything inside specific properties, these will exist because they are copied from the original context.
-      try {
-        ctx.connectionContext.session = await ctx.auth.validateSession(
-          input.bearerToken,
-        );
-      } catch (e) {
-        if (e instanceof LuciaError) {
-          console.error(e);
-          throwUnauthenticatedError("Invalid/expired bearer token.");
-        }
-      }
-      return;
+      return authenticateWebsocketConnection(ctx, input.bearerToken);
     }),
   signInWithOAuth: loggedProcedure
     .input(z.object({ provider: oAuthProviders }))

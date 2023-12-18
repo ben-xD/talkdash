@@ -5,8 +5,8 @@ import { MessageView } from "../features/messages/MessageView";
 import { createEffect, createSignal, onCleanup, onMount, Show } from "solid-js";
 import { loadQueryParams } from "../window/loadQueryParams.ts";
 import {
-  speakerUsername,
   registeredUsername,
+  speakerUsername,
   unsetTemporaryUsernames,
 } from "../features/user/userState";
 import { Unsubscribable } from "@trpc/server/observable";
@@ -15,7 +15,12 @@ import {
   setReceivedMessages,
 } from "../features/messages/receivedMessages";
 import { DateTime } from "luxon";
-import { preferredUsername, setPreferredUsername, trpc } from "../client/trpc";
+import {
+  bearerAuthToken,
+  preferredUsername,
+  setPreferredUsername,
+  trpc,
+} from "../client/trpc";
 import { setTimeAction } from "../features/time/timeState";
 import { toast } from "solid-toast";
 import { isQrCodeShown, QrCodeView } from "../components/QrCodeView.tsx";
@@ -35,8 +40,9 @@ const Speaker = () => {
     }
 
     messageSubscription?.unsubscribe();
+    const authToken = bearerAuthToken();
     messageSubscription = trpc.speaker.subscribeMessagesAsSpeaker.subscribe(
-      {},
+      { authToken },
       {
         onData: ({ emojiMessage, message, sender }) => {
           const receivedAt = DateTime.now();

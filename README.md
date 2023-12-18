@@ -98,6 +98,12 @@ I used technologies that could be developed 100% locally. The only current excep
   - I needed to turn off Cloudflare web analytics, because this modified the `index.html` on every request, which meant the `index.html` hash changed on every request. The PWA thought there was a new version update, and notified the user whenever they visited the app.
     - Even after that change, browsers detected new versions because [`sw.js`](https://v2.talkdash.orth.uk/sw.js) kept changing between refreshes. See my [discord message](https://discord.com/channels/595317990191398933/789155108529111069/1185984798804672662).
 - Sentry needs vite to output sourcemaps, but it doesn't delete them by default. This means your application source code is easily viewable in user's browser's devtools. Fine for open source projects, but less nice for closed source projects. This was fixed by configuring `sourcemap.filesToDeleteAfterUpload: ["**/*.js.map"]` in `vite.config.ts`.
+- **tRPC websocket reconnection edge case:** My earlier implementation of authentication over websockets relied on clients calling a procedure for authentication (`trpc.auth.authenticateWebsocketConnection.mutate({})`) when they first sign-in, sign-up or start the app when already logged in. Future backend procedures accessed a `ctx.connectionContext` to get the user session.
+  - However, when the user reconnects (when the backend restarts or client internet disconnected), the subscription is called *immediately* - we don't have the ability to send the `authenticateWebsocketConnection` request before this. In this edge case, `connectionContext` is missing (it makes sense because the user reconnected). 
+    - **Cookies?:** If we used cookies, we could get the session when the client reconnects in the trpc createContext. However, we'd need to set both cookies and bearer token for the client in this case. This is because bearer token is nicer for websockets, since we can add authentication after the connection is made. 
+    - Thankfully, the client input is available. I choose to add an extra parameter to each subscription procedure, which is the bearer token.
+    - We still keep `trpc.auth.authenticateWebsocketConnection.mutate({})`, but use it for queries and mutations. Subscriptions get a `authToken` param.
+    - Reminder: authenticated subscriptions should take an `authToken: z.string()` argument.
 
 ## Useful
 - Use [madge](https://github.com/pahen/madge) and graphviz to visualise relationships between files

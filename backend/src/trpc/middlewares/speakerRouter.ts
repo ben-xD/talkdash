@@ -13,8 +13,8 @@ import {
 import { eq } from "drizzle-orm";
 import { assertAuth, assertWebsocketClient } from "../assert.js";
 import { userTable } from "../../db/schema/index.js";
-import { throwUnauthenticatedError } from "../../auth/errors.js";
 import { TrpcContext } from "../trpcContext.js";
+import { authenticateWebsocketConnection } from "../../auth/authRouter.js";
 
 // All messages sent to client start with "Observed"
 type ObserverId = string;
@@ -67,7 +67,10 @@ const getPreferredUsername = async (ctx: TrpcContext): Promise<string> => {
     }
     return user.username;
   }
-  return throwUnauthenticatedError("User was logged in.");
+  throw new TRPCError({
+    code: "NOT_FOUND",
+    message: "User did not have temporary username or registered username. X",
+  });
 };
 
 type SpeakerTimes = { start: number | undefined; finish: number | undefined };
@@ -81,8 +84,16 @@ export const getTimesFor = (
 
 export const speakerRouter = router({
   subscribeMessagesAsSpeaker: loggedProcedure
-    .input(z.object({}))
-    .subscription(async ({ ctx }) => {
+    // Optional, because the speaker might not be registered
+    .input(z.object({ authToken: z.string().optional() }))
+    .subscription(async ({ ctx, input }) => {
+      // This procedure is called when the subscriber reconnects too.
+      // In this case, they won't have a connection context, and so we have no idea who they are.
+      // Therefore, we require the user to provide a authToken input.
+      if (input.authToken) {
+        await authenticateWebsocketConnection(ctx, input.authToken);
+      }
+
       const username = await getPreferredUsername(ctx);
       if (username) {
         return observable<SenderEvent, Error>((emit) => {

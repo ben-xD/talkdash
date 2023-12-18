@@ -36,7 +36,7 @@ export const showReconnectedMessage = showReconnectedMessageInternal;
 
 export const isConnected = isConnectedInternal;
 
-const [bearerToken, setBearerTokenInternal] = makePersisted(
+export const [bearerAuthToken, setBearerToken] = makePersisted(
   // we don't destructure because makePersisted wants the entire signal
   // eslint-disable-next-line solid/reactivity
   createSignal<string>(),
@@ -44,7 +44,7 @@ const [bearerToken, setBearerTokenInternal] = makePersisted(
     name: "session_id",
   },
 );
-export const isSignedIn = () => !!bearerToken();
+export const isSignedIn = () => !!bearerAuthToken();
 
 export const preferredUsername = (role: Role) => {
   const registered = registeredUsername();
@@ -81,8 +81,6 @@ export const setPreferredUsername = async (role: Role, username: string) => {
 createEffect(() => {
   console.debug(`isSignedIn(): ${isSignedIn()}`);
 });
-
-export const setBearerToken = setBearerTokenInternal;
 
 // Ready if not logged in, or once websocket connection is authenticated
 let websocketConnectionAuthResponsePromiseResolver:
@@ -124,7 +122,7 @@ export const trpc = createTRPCProxyClient<AppRouter>({
           }
 
           // Send the bearer token if it exists to authenticate the websocket connection as soon as possible.
-          const token = bearerToken();
+          const token = bearerAuthToken();
           if (token) {
             // To reproduce race condition of auth (try to authenticate too late), and other requests have been sent
             // await new Promise((resolve) => setTimeout(resolve, 5000));

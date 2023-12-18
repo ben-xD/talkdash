@@ -17,9 +17,6 @@ const SignUpPage = () => {
       }
     });
 
-    // TODO compare with tanstack query (see SignInPage)
-    // TODO replace with tanstack query
-
     try {
       const reply = await trpc.auth.signUpWithEmail.mutate({
         email,
