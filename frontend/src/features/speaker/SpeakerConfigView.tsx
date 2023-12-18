@@ -42,12 +42,9 @@ export const SpeakerConfigView = (props: Props) => {
     // Check if a pin is required, and which one. Set it on local storage.
     if (isSignedIn()) {
       await isConnectionAuthenticatedWhenNeededPromise;
-      const pin = await trpc.speaker.getPin.query({});
-      if (pin) {
-        setIsPinRequiredInternal(true);
-        setPinInternal(pin);
-        return;
-      }
+      const { pin, isRequired } = await trpc.speaker.getPin.query({});
+      setIsPinRequiredInternal(isRequired ?? false);
+      setPinInternal(pin);
     }
     setIsPinRequiredInternal(false);
     setPinInternal(undefined);

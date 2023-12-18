@@ -144,16 +144,27 @@ export const speakerRouter = router({
       // TODO rate limit this API.
       return getDurationInMinutesFrom(input.durationDescription);
     }),
-  getPin: protectedProcedure.input(z.object({})).query(async ({ ctx }) => {
-    assertWebsocketClient(ctx.clientProtocol);
-    const userId = ctx.connectionContext.session?.user?.userId;
-    assertAuth("userId", userId);
-    const [user] = await ctx.db
-      .select()
-      .from(userTable)
-      .where(eq(userTable.id, userId));
-    return user?.pin;
-  }),
+  getPin: protectedProcedure
+    .input(z.object({}))
+    .output(
+      z.object({
+        pin: z.string().optional(),
+        isRequired: z.boolean().optional(),
+      }),
+    )
+    .query(async ({ ctx }) => {
+      assertWebsocketClient(ctx.clientProtocol);
+      const userId = ctx.connectionContext.session?.user?.userId;
+      assertAuth("userId", userId);
+      const [user] = await ctx.db
+        .select()
+        .from(userTable)
+        .where(eq(userTable.id, userId));
+      return {
+        pin: user?.pin ?? undefined,
+        isRequired: user?.isPinRequired ?? undefined,
+      };
+    }),
   setPin: protectedProcedure
     .input(
       z.object({
