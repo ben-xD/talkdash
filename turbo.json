@@ -36,6 +36,7 @@
     "clean": {},
     "db": {},
     // only deploys backend
-    "deploy": {}
+    "deploy": {},
+    "deploy:staging": {}
   }
 }

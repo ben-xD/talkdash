@@ -79,6 +79,10 @@ I used technologies that could be developed 100% locally. The only current excep
   - deploy: run `fly deploy`
   - create env file: `cp backend/.env.example backend/.env`
   - Add secrets (`fly secrets set NAME=VALUE` for all the variables in `backend/.env`). For example, `fly secrets set CLOUDFLARE_WORKERS_AI_TOKEN='...'`
+    - If you're deploying a lot, and have multiple environments,
+      - remove the `app` from `fly.toml`
+      - specify the app and staging flag when setting secrets to speed it up: `fly secrets set --app=talkdash-staging --stage CLOUDFLARE_ACCOUNT_ID=...`
+      - redeploy the app: `pnpm run deploy:staging`
   - Deploy: `fly deploy`
 - Reminders:
   - If you see `Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string` when starting the backend, your local database might not set up.
