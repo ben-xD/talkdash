@@ -33,6 +33,11 @@ I used technologies that could be developed 100% locally. The only current excep
     - [Subscriptions](https://trpc.io/docs/subscriptions) (server sending messages to client) are not supported by the HTTP API
     - The API supports cookies and bearer token authentication based on the API request
 - Database: Postgres (Neon, or a local postgres) and drizzle orm
+  - Neon for production
+  - [Fly.io postgres](https://fly.io/docs/postgres/) for development
+    - create one with `fly pg create`, mine is called `talkdash-staging-pg` with `Development - Single node, 1x shared CPU, 256MB RAM, 1GB disk` configuration
+    - configure the backend application to use the connection string provided when running the previous command, by running `fly secrets set --app=talkdash-staging --stage DATABASE_URL=...`
+  - Local postgres for local development
   - I don't really benefit from the "serverless" nature of Neon, since the backend is not serverless (because durable objects are not on the Cloudflare free tier, and also they tend to become expensive with use) 
   - However, I may use cloudflare workers in the future for other things, and using the neon serverless http API for that could be useful
   - Local postgres database is used locally
