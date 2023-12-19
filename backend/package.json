@@ -16,11 +16,12 @@
     "db": "docker-compose up -d db",
     "docker": "docker-compose up -d backend",
     "db:logs": "docker logs talkdash-pg_proxy-1 -f",
-    "db:reset": "docker-compose down -v && docker-compose up -d db",
-    "db:gen": "tsx node_modules/drizzle-kit/bin.cjs generate:pg",
+    "db:reset": "docker-compose down -v db && docker-compose up -d db",
+    "db:gen": "pnpm dbx -- generate:pg",
     "db:gen-broken": "drizzle-kit generate:pg",
-    "db:ui": "tsx node_modules/drizzle-kit/bin.cjs studio",
-    "clean": "rimraf dist"
+    "db:ui": "pnpm dbx -- studio",
+    "clean": "rimraf dist",
+    "dbx": "tsx node_modules/drizzle-kit/bin.cjs"
   },
   "keywords": [],
   "author": "",
