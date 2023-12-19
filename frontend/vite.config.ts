@@ -5,9 +5,11 @@ import solidDevtools from "solid-devtools/vite";
 import { VitePWA } from "vite-plugin-pwa";
 import mdx from "@mdx-js/rollup";
 import remarkGfm from "remark-gfm";
+import "dotenv/config";
 
-// This is only available if the environment variable is set, not if it is in the .env file.
+// `process.env` is only available in Cloudflare CI if the environment variable is set, not if it is in the .env file.
 // The auth token is available there, just `export` it to test publishing sourcemaps to sentry.
+// `process.env` is not available at all unless you load from an .env file.
 const sentryAuthToken = process.env.SENTRY_AUTH_TOKEN;
 const isRunningOnCloudflareCi = process.env.CF_PAGES_BRANCH;
 if (isRunningOnCloudflareCi && !sentryAuthToken) {
@@ -72,6 +74,7 @@ export default defineConfig({
       authToken: sentryAuthToken,
       telemetry: false,
       sourcemaps: {
+        // Careful, this only works when the token is available. Otherwise, the sourcemaps are generated but not deleted.
         filesToDeleteAfterUpload: ["**/*.js.map"],
       },
       // To debug:
@@ -88,4 +91,6 @@ export default defineConfig({
   define: {
     __BUILD_DATE__: new Date(),
   },
+
+  // test: {},
 });

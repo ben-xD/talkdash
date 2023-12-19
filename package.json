@@ -7,11 +7,15 @@
     "lint:fix": "turbo lint:fix",
     "clean": "turbo clean",
     "deploy": "turbo deploy",
-    "deploy:staging": "turbo deploy:staging"
+    "deploy:staging": "turbo deploy:staging",
+    "test": "vitest"
   },
   "devDependencies": {
     "husky": "^8.0.3",
-    "rimraf": "^5.0.5"
+    "rimraf": "^5.0.5",
+    "turbo": "^1.11.2",
+    "vitest": "^1.1.0",
+    "wrangler": "^3.22.0"
   },
   "packageManager": "pnpm@8.9.2"
 }

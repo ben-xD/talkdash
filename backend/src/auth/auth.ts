@@ -69,11 +69,12 @@ export const createOAuths = (auth: Auth) => {
   }
 
   const githubConfig = githubOAuthConfigSchema.parse(process.env);
+  // We avoid GITHUB_ because we can't add any environment variables starting with `GITHUB_` to the GitHub repo settings.
   return {
     google: googleAuth,
     github: github(auth, {
-      clientId: githubConfig.GITHUB_ID,
-      clientSecret: githubConfig.GITHUB_SECRET,
+      clientId: githubConfig.AUTH_GITHUB_ID,
+      clientSecret: githubConfig.AUTH_GITHUB_SECRET,
       // scope: ,
       // redirectUri: ,
     }),

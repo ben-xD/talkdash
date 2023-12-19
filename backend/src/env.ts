@@ -12,7 +12,6 @@ const envSchema = z.object({
   OPENAI_API_KEY: z.string(),
   CLOUDFLARE_ACCOUNT_ID: z.string(),
   CLOUDFLARE_WORKERS_AI_TOKEN: z.string(),
-  // Temporary disabled since we don't connect to a database.
   DATABASE_URL: z
     .string()
     .describe(
@@ -33,7 +32,7 @@ const envSchema = z.object({
     )
     .optional(),
   ENVIRONMENT: z
-    .union([z.literal("production"), z.literal("development")])
+    .union([z.literal("production"), z.literal("development"), z.undefined()])
     .describe(
       "A flag to toggle features based on environment. Code should minimise usage of this.",
     ),
@@ -57,8 +56,8 @@ const envSchema = z.object({
 });
 
 export const githubOAuthConfigSchema = z.object({
-  GITHUB_ID: z.string(),
-  GITHUB_SECRET: z.string(),
+  AUTH_GITHUB_ID: z.string(),
+  AUTH_GITHUB_SECRET: z.string(),
 });
 
 export const googleOAuthConfigSchema = z.object({

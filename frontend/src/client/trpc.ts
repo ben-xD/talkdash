@@ -24,8 +24,9 @@ import {
 import { Role } from "@talkdash/schema";
 import { TRPC_ERROR_CODE_KEY } from "@trpc/server/rpc";
 import { redirectToAuthenticateLink } from "./redirectToAuthenticateLink.ts";
+import { env } from "./env.ts";
 
-export const backendUrl = import.meta.env.VITE_BACKEND_URL || "/";
+export const backendUrl = env.VITE_BACKEND_URL || "/";
 const reconnectMessageDurationMs = 5000;
 
 const [isConnectedInternal, setIsConnected] = createSignal<boolean>(false);

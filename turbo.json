@@ -3,7 +3,7 @@
   // I put this variable in globalEnv because frontend#build.env doesn't seem to work
   // env probably doesn't work because turbo is replacing it with `VITE*` variables
   // This still happens even with `--framework-inference=false` and `"env": ["SENTRY_AUTH_TOKEN", "CF_PAGES_BRANCH", "VITE_*"]`
-  "globalEnv": ["SENTRY_AUTH_TOKEN", "CF_PAGES_BRANCH"],
+  "globalEnv": ["SENTRY_AUTH_TOKEN"],
   "pipeline": {
     "build": {
       "dependsOn": [
@@ -38,5 +38,8 @@
     // only deploys backend
     "deploy": {},
     "deploy:staging": {}
+    // We don't want turbo to run tests for each package/app, since we're using vitest workspaces instead
+    // See https://vitest.dev/guide/workspace
+    // "test": {}
   }
 }
