@@ -34,6 +34,7 @@ I used technologies that could be developed 100% locally. The only current excep
     - The API supports cookies and bearer token authentication based on the API request
 - Database: Postgres (Neon, or a local postgres) and drizzle orm
   - Neon for production
+    - Consider branching the production database and running locally (or in staging) to test features with real data. Consider using the [neon cli](https://neon.tech/docs/reference/neon-cli#connect)
   - [Fly.io postgres](https://fly.io/docs/postgres/) for development
     - create one with `fly pg create`, mine is called `talkdash-staging-pg` with `Development - Single node, 1x shared CPU, 256MB RAM, 1GB disk` configuration
     - configure the backend application to use the connection string provided when running the previous command, by running `fly secrets set --app=talkdash-staging --stage DATABASE_URL=...`

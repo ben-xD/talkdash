@@ -5,6 +5,7 @@ import {
   timestamp,
   boolean,
 } from "drizzle-orm/pg-core";
+import { citext } from "../pg-types/citest.js";
 
 // Taken from https://lucia-auth.com/guidebook/drizzle-orm/#postgresql
 // Also useful: https://lucia-auth.com/database-adapters/pg/
@@ -23,7 +24,7 @@ export const userTable = pgTable("user", {
   }),
   createdAt: timestamp("created_at"),
   updatedAt: timestamp("updated_at"),
-  email: varchar("email", {
+  email: citext("email", {
     // lucia-auth will store the email in id of the key table in the format `email:name@example.com` when
     // email provider is used. This is called provider id in the code. However, lucia won't store the email from
     // outh providers.
@@ -32,7 +33,7 @@ export const userTable = pgTable("user", {
   }).unique(),
   pin: varchar("pin", { length: 6 }),
   isPinRequired: boolean("is_pin_required").default(false),
-  username: varchar("username", { length: 254 }).unique(),
+  username: citext("username", { length: 254 }).unique(),
 });
 
 export const userSession = pgTable("user_session", {
