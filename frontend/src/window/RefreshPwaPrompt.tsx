@@ -30,14 +30,14 @@ const RefreshPwaPrompt: Component = () => {
             <Show
               fallback={
                 <span>
-                  🦄 A new version is available. Refresh your page to use it.
+                  🔌️ App functionality is now available offline (timer,
+                  stopwatch and clock).
                 </span>
               }
-              when={offlineReady()}
+              when={needRefresh()}
             >
               <span>
-                🔌️ App functionality is now available offline (timer, stopwatch
-                and clock).
+                🦄 A new version is available. Refresh your page to use it.
               </span>
             </Show>
           </div>
