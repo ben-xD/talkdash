@@ -45,7 +45,7 @@ export const emitToSpeakers = (speakerUsername: string, event: SenderEvent) => {
 // Prefer the temporary username, then the registered username.
 const getPreferredUsername = async (ctx: TrpcContext): Promise<string> => {
   assertWebsocketClient(ctx.clientProtocol);
-  let username = ctx.connectionContext.temporaryUsername;
+  const username = ctx.connectionContext.temporaryUsername;
   if (username) return username;
   const userId = ctx.connectionContext.session?.user?.userId;
   if (userId) {

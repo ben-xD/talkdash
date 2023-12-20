@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { setupTestDatabaseLifecycle } from "../../setupTests/integration-utils.js";
+import { setupTestDatabaseLifecycle } from "../../setupTests/integration.test-utils.js";
 
 const suiteName = "authRouter";
 describe(suiteName, () => {

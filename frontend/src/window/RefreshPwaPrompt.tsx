@@ -10,7 +10,7 @@ const RefreshPwaPrompt: Component = () => {
     needRefresh: [needRefresh, setNeedRefresh],
     updateServiceWorker,
   } = useRegisterSW({
-    onRegisteredSW(_scriptUrl, _r) {},
+    onRegisteredSW() {},
     onRegisterError(error) {
       console.error("SW registration error", error);
       Sentry.captureException(error);
@@ -25,7 +25,7 @@ const RefreshPwaPrompt: Component = () => {
   return (
     <div>
       <Show when={offlineReady() || needRefresh()}>
-        <div class="fixed bottom-0 right-0 z-50 m-4 flex max-w-lg flex-col items-center gap-4 rounded-2xl bg-primary-50 px-4 py-4 text-primary-800 opacity-90 shadow-lg transition-opacity hover:opacity-100">
+        <div class="fixed bottom-0 right-0 z-50 m-4 flex max-w-lg flex-col items-center gap-4 rounded-2xl bg-primary-50 p-4 text-primary-800 opacity-90 shadow-lg transition-opacity hover:opacity-100">
           <div>
             <Show
               fallback={

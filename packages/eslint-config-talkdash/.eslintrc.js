@@ -33,9 +33,14 @@ module.exports = {
     "import/no-extraneous-dependencies": [
       "error",
       {
-        devDependencies: ["**/*.test.ts", "**/*.test.tsx"],
+        devDependencies: [
+          "**/*.test.ts",
+          "**/*.test.tsx",
+          "**/*.test-utils.ts",
+          "**/*.test-utils.tsx",
+        ],
       },
     ],
   },
-  ignorePatterns: ["*.gen.ts", "**/vite.config.ts", "**/.eslintrc.js"],
+  ignorePatterns: ["*.gen.ts", "dist"],
 };

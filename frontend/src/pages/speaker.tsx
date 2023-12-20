@@ -127,9 +127,9 @@ const Speaker = () => {
         <SpeakerConfigView
           reconnectAsSpeaker={reconnectAsSpeaker}
           shareUrl={shareUrl()}
-          class="flex-grow basis-0"
+          class="grow basis-0"
         />
-        <TimerConfigCard class="z-20 flex-grow basis-0" />
+        <TimerConfigCard class="z-20 grow basis-0" />
       </div>
       <div class="-my-16 justify-center text-center ">
         <div class="flex text-[16vw] leading-[16vw] tracking-tight drop-shadow-lg md:max-xl:text-[18vw]">

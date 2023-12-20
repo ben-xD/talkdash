@@ -1,7 +1,26 @@
-// config to build source code, without tests
 {
-  "extends": "./tsconfig.validate.json",
+  "compilerOptions": {
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "outDir": "./dist",
+    "esModuleInterop": true,
+
+    // Linting
+    "strict": true,
+    "noImplicitAny": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+
+    // Because of drizzle: https://github.com/drizzle-team/drizzle-orm/issues/1207 and https://github.com/drizzle-team/drizzle-orm/issues/879
+    "skipLibCheck": true
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
   "exclude": [
+    "node_modules",
     "**/*.test.ts",
     "**/*.test.tsx"
   ]
