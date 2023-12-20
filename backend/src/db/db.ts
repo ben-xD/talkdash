@@ -1,11 +1,15 @@
-import pg from "pg";
+import * as pg from "pg";
 import { drizzle, NodePgDatabase } from "drizzle-orm/node-postgres";
 import { migrate } from "drizzle-orm/node-postgres/migrator";
 import { env } from "../env.js";
 import { setupWsProxyConfig } from "./wsProxy.js";
 import * as schema from "./schema/index.js";
+import { fileURLToPath } from "url";
+import path from "node:path";
 
-export const migrationsFolder = "./migrations";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+export const migrationsFolder = path.resolve(__dirname, "../../migrations");
 
 export const connectToDb = async () => {
   if (env.SERVERLESS_DATABASE_LOCAL_WS_PROXY) {

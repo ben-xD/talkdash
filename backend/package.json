@@ -8,7 +8,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsx watch --clear-screen=false src/backend.ts",
-    "test": "tsc -p tsconfig.json && vitest",
+    "test": "tsc -p tsconfig.lint.json && vitest",
     "test:debug": "vitest --test-timeout=0",
     "start": "node dist/src/backend.js",
     "deploy": "fly deploy --app talkdash ..",

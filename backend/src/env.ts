@@ -1,5 +1,7 @@
 import { z } from "zod";
 import * as dotenv from "dotenv";
+import { fileURLToPath } from "url";
+import path from "node:path";
 
 // You may consider using config files instead of environment variables (yaml and zod)
 // however, changing configs becomes harder when Kubernetes is not used.
@@ -82,5 +84,8 @@ export type GoogleOAuthConfig = z.infer<typeof googleOAuthConfigSchema>;
 // });
 
 // Load environment variables just before reading and validating them
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const dotenvPath = path.resolve(__dirname, "../.env");
+dotenv.config({ path: dotenvPath });
 export const env = envSchema.parse(process.env);

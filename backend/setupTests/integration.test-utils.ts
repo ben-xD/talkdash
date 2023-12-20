@@ -2,27 +2,26 @@ import { appRouter } from "../src/trpc/appRouter.js";
 import { TrpcContext } from "../src/trpc/trpcContext.js";
 import { createAuth, createOAuths } from "../src/auth/auth.js";
 import { connectToDb, migrationsFolder } from "../src/db/db.js";
-import pg from "pg";
+import * as pg from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { env } from "../src/env.js";
 import * as schema from "../src/db/schema/index.js";
 import { migrate } from "drizzle-orm/node-postgres/migrator";
 // Set up separate tsconfig for tests and test utils.
-import { TestContext } from "vitest";
-import { afterEach, beforeAll, beforeEach } from "vitest";
+import { afterEach, beforeAll, beforeEach, TestContext } from "vitest";
+import "./vitest-env.d.ts";
 
 // New test database runs in the same postgres server
 export const createTestDatabase = async (name: string): Promise<pg.Pool> => {
   // Connect to local development database to create a new test database
   const { dbPool: applicationDatabase } = await connectToDb();
   await applicationDatabase.query(`CREATE DATABASE ${name}`);
-  return new pg.Pool({
-    database: name,
-    port: 5432,
-    host: "localhost",
-    user: "user",
-    password: "password",
-  });
+  const applicationDatabaseUrl = env.DATABASE_URL;
+  const testDatabaseUrl = applicationDatabaseUrl.replace(
+    /\/[^/]*$/,
+    `/${name}`,
+  );
+  return new pg.Pool({ connectionString: testDatabaseUrl });
 };
 
 export const dropTestDatabase = async (name: string) => {
@@ -65,7 +64,7 @@ export const testLifecycle = {
     return { caller };
   },
   afterEach: async (ctx: TestContext, testDatabaseName: string) => {
-    ctx.dbPool?.end();
+    await ctx.dbPool?.end();
     ctx.dbPool = undefined;
     await dropTestDatabase(testDatabaseName);
   },
@@ -74,6 +73,7 @@ export const testLifecycle = {
 const appName = "talkdash";
 
 export const setupTestDatabaseLifecycle = (suiteName: string) => {
+  // Postgres tables are lowercase
   const testDatabaseName =
     `${appName}_integration_test_${suiteName}`.toLowerCase();
   const ref = { caller: undefined as unknown as Caller };

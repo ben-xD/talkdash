@@ -5,8 +5,8 @@
   },
   "include": [
     "**/*.ts",
-    "vitest.config.js",
-    ".eslintrc.cjs"
+    ".eslintrc.cjs",
+    "setupTests"
   ],
   "exclude": [
     "node_modules",
