@@ -44,7 +44,10 @@ I used technologies that could be developed 100% locally. The only current excep
   - Local postgres database is used locally
 - Monorepo management: [Turborepo](https://turbo.build/repo) 
 - Deployment: [Fly.io](https://fly.io), [Cloudflare Pages, Cloudflare workers](https://www.cloudflare.com/en-gb/) (Fly.io for websocket connections, because Cloudflare Durable Objects are expensive)
-  - The CI takes 58 seconds 🔥️🔥️ to build the entire application and deploy to Cloudflare Pages from GitHub Actions
+  - The CI takes 58 seconds 🔥️🔥️ to build the frontend application and deploy to Cloudflare Pages from GitHub Actions. To build everything (frontend + backend docker image), it takes  minute  seconds.
+  - A PR will deploy a preview frontend application (but pointed to the staging backend)
+  - An approval for the staging environment deployment (only on `main` branch) will deploy the frontend and backend to staging
+  - An approval for the production environment (only on `main` branch) will deploy the frontend and backend to production
   - Create a pages project:
     - run `wrangler login` and login
     - run `npx wrangler pages project create talkdash`
