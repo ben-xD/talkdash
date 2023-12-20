@@ -8,7 +8,8 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsx watch --clear-screen=false src/backend.ts",
-    "test": "tsc -p tsconfig.validate.json && vitest",
+    "test": "tsc -p tsconfig.json && vitest",
+    "test:debug": "vitest --test-timeout=0",
     "start": "node dist/src/backend.js",
     "deploy": "fly deploy --app talkdash ..",
     "deploy:staging": "fly deploy --app talkdash-staging ..",
@@ -36,7 +37,8 @@
     "eslint": "^8.52.0",
     "eslint-config-talkdash": "workspace:*",
     "prettier": "^3.0.3",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "vitest": "^1.1.0"
   },
   "dependencies": {
     "@fastify/websocket": "^8.2.0",

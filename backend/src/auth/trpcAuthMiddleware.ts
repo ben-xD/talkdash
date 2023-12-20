@@ -26,10 +26,15 @@ export const trpcAuthSessionMiddleware = middleware(async ({ ctx, next }) => {
   if (clientProtocol === "ws") {
     const session = ctx.connectionContext?.session;
     const sessionId = session?.sessionId;
-    if (sessionId) {
-      await ctx.auth.validateSession(sessionId);
+    try {
+      if (sessionId) {
+        await ctx.auth.validateSession(sessionId);
+      }
+      return next({ ctx: { ...ctx, session } });
+    } catch (error) {
+      console.error(error);
+      throwUnauthenticatedError();
     }
-    return next({ ctx: { ...ctx, session } });
   }
   return next({ ctx });
 });

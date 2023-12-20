@@ -154,6 +154,7 @@ export const authRouter = router({
       await ctx.auth.invalidateSession(ctx.connectionContext.session.sessionId);
       const userId = ctx.connectionContext.session.user.userId;
       await ctx.auth.deleteDeadUserSessions(userId);
+      ctx.connectionContext.session = undefined;
     } else {
       throwUnauthenticatedError("You are already signed out.");
     }

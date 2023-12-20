@@ -8,6 +8,7 @@ import * as dotenv from "dotenv";
 const envSchema = z.object({
   LOG_FASTIFY: z.coerce.boolean().default(false),
   LOG_DATABASE: z.coerce.boolean().default(false),
+  LOG_TEST_DATABASE: z.coerce.boolean().default(false),
   LOG_TRPC_REQUEST: z.coerce.boolean().default(false),
   OPENAI_API_KEY: z.string(),
   CLOUDFLARE_ACCOUNT_ID: z.string(),

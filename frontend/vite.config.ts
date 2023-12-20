@@ -1,5 +1,5 @@
 import { sentryVitePlugin } from "@sentry/vite-plugin";
-import { defineConfig } from "vite";
+import { defineConfig } from "vitest/config";
 import solid from "vite-plugin-solid";
 import solidDevtools from "solid-devtools/vite";
 import { VitePWA } from "vite-plugin-pwa";
@@ -92,5 +92,8 @@ export default defineConfig({
     __BUILD_DATE__: new Date(),
   },
 
-  // test: {},
+  test: {
+    environment: "jsdom",
+    testTransformMode: { web: ["/.[jt]sx?$/"] },
+  },
 });
