@@ -1,12 +1,15 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "types":["vitest"]
+    "types":["vitest"],
+    "esModuleInterop": true,
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
-    ".eslintrc.cjs"
+    "**/*.cjs",
+    "**/*.mjs",
+    "**/*.js"
   ],
   "exclude": [
     "node_modules",

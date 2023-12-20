@@ -7,17 +7,6 @@ import mdx from "@mdx-js/rollup";
 import remarkGfm from "remark-gfm";
 import "dotenv/config";
 
-// `process.env` is only available in Cloudflare CI if the environment variable is set, not if it is in the .env file.
-// The auth token is available there, just `export` it to test publishing sourcemaps to sentry.
-// `process.env` is not available at all unless you load from an .env file.
-const sentryAuthToken = process.env.SENTRY_AUTH_TOKEN;
-const isRunningOnCloudflareCi = process.env.CF_PAGES_BRANCH;
-if (isRunningOnCloudflareCi && !sentryAuthToken) {
-  throw new Error(
-    "Sentry auth token not set, cannot publish sourcemaps to sentry.",
-  );
-}
-
 export default defineConfig({
   // Prevent clearing screen so that there are no glitches in the output of `turbo dev`
   // when both the frontend and backend are started.
@@ -71,7 +60,7 @@ export default defineConfig({
     sentryVitePlugin({
       org: "orthuk",
       project: "talkdash",
-      authToken: sentryAuthToken,
+      authToken: process.env.SENTRY_AUTH_TOKEN,
       telemetry: false,
       sourcemaps: {
         // Careful, this only works when the token is available. Otherwise, the sourcemaps are generated but not deleted.

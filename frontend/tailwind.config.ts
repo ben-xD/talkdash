@@ -1,6 +1,7 @@
-const colors = require("tailwindcss/colors");
+import colors from "tailwindcss/colors";
+import type { Config } from "tailwindcss";
+import containerQueries from "@tailwindcss/container-queries";
 
-/** @type {import('tailwindcss').Config} */
 export default {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   darkMode: "class",
@@ -79,6 +80,6 @@ export default {
   },
   plugins: [
     // https://github.com/tailwindlabs/tailwindcss-container-queries
-    require("@tailwindcss/container-queries"),
+    containerQueries,
   ],
-};
+} satisfies Config;

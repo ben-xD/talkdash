@@ -42,5 +42,5 @@ module.exports = {
       },
     ],
   },
-  ignorePatterns: ["*.gen.ts", "dist"],
+  ignorePatterns: ["*.gen.ts", "dist", "dev-dist"],
 };
