@@ -44,7 +44,16 @@ I used technologies that could be developed 100% locally. The only current excep
   - Local postgres database is used locally
 - Monorepo management: [Turborepo](https://turbo.build/repo) 
 - Deployment: [Fly.io](https://fly.io), [Cloudflare Pages, Cloudflare workers](https://www.cloudflare.com/en-gb/) (Fly.io for websocket connections, because Cloudflare Durable Objects are expensive)
-  - Cloudflare Pages
+  - The CI takes 58 seconds 🔥️🔥️ to build the entire application and deploy to Cloudflare Pages from GitHub Actions
+  - Create a pages project:
+    - run `wrangler login` and login
+    - run `npx wrangler pages project create talkdash-staging`
+      - Enter `main` as the production branch name
+    - deploy the project, 
+      - cd frontend
+      - pnpm build
+      - run `npx wrangler pages deploy dist`
+  - Previously: Cloudflare Pages
     - The CI takes 1 minute 20 seconds 🔥️ to build the entire application and deploy to Cloudflare's data centers 
     - build settings: 
       - Framework preset: `None`
@@ -62,15 +71,27 @@ I used technologies that could be developed 100% locally. The only current excep
 - Install pnpm: `npm install --global pnpm`
   - to upgrade, run `npm install --global --upgrade pnpm`
 - Install turbo, run `pnpm install turbo --global`
-- Install dependencies, run `pnpm i`
+- Install dependencies, run `pnpm install`
 
 ### Useful links
+ 
+- Application (PWA): https://talkdash.orth.uk/
+  - Staging environment: https://staging.talkdash.pages.dev/ (same cloudflare project on `staging` "branch", but separate fly app, and separate database)
 - API on https://talkdash.fly.dev
-- API UI (using tRPC Panel) on https://talkdash.fly.dev/trpc
+- API UI (using tRPC Panel) on https://talkdash.fly.dev/trpc (similar to Swagger UI, but for tRPC instead)
 
 ### Frontend
 - `cd frontend`
-- Create a Cloudflare account (free) and add a new Cloudflare Pages project. Connect it to a GitHub repository.
+- Create a GitHub and Cloudflare account (free)
+- Configure GitHub repo secrets and environment variables:
+  - Secrets:
+    - Create Cloudflare API token from [your Cloudflare profile](https://dash.cloudflare.com/profile/api-tokens) and set it as `CLOUDFLARE_API_TOKEN`
+    - Set `CLOUDFLARE_ACCOUNT_ID`, taken from the [Cloudflare Dashboard](https://dash.cloudflare.com/)
+    - Create a Sentry auth token from [your Sentry account setting](https://orthuk.sentry.io/settings/auth-tokens/), and set it as `SENTRY_AUTH_TOKEN` 
+  - Environment variables:
+    - VITE_SENTRY_DSN
+    - VITE_BACKEND_URL
+- Previously: Create a Cloudflare account (free) and add a new Cloudflare Pages project. Connect it to a GitHub repository.
 - Optional: add a custom subdomain, for example, this project uses `talkdash.orth.uk`.
   - See https://developers.cloudflare.com/pages/platform/custom-domains/#disable-access-to-pagesdev-subdomain to make preview deployments private or to redirect example.pages.dev to your custom domain
 - Run commands listed in `package.json`.
@@ -117,6 +138,11 @@ I used technologies that could be developed 100% locally. The only current excep
     - Thankfully, the client input is available. I choose to add an extra parameter to each subscription procedure, which is the bearer token.
     - We still keep `trpc.auth.authenticateWebsocketConnection.mutate({})`, but use it for queries and mutations. Subscriptions get a `authToken` param.
     - Reminder: authenticated subscriptions should take an `authToken: z.string()` argument.
+- to use github actions, I stopped using Cloudflare Pages. The CI in CLoudflare Pages is quite simple (no stages) or notifications. As soon as I wanted to mix it with GitHub Actions, I had to stop using Cloudflare Pages (it was auto triggering on any commit).
+- To be able to have tests in the same folders as source code, I configured a few tsconfigs. 
+  - I have 1 tsconfig that validates all source code. This ensures tests have proper typescript and type safety.
+  - I tsconfig that extends the above tsconfig, and excludes the test files. This is used for builds. This ensure tests are not built in the output.
+  - This is simpler than the `tsconfig.build.json` (for building) + `tsconfig.json` (for validation) [pattern](https://bobbyhadz.com/blog/typescript-exclude-test-files-from-compilation), where vite needs to be [configured](https://github.com/vitejs/vite/discussions/8483) to use `tsconfig.build.json` instead of `tsconfig.json`.
 
 ## Useful
 - Use [madge](https://github.com/pahen/madge) and graphviz to visualise relationships between files

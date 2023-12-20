@@ -1,0 +1,80 @@
+## Useful links
+## - default environment variables: https://docs.github.com/en/actions/learn-github-actions/variables#default-environment-variables
+
+name: Staging
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build:
+    name: Build, Test, Deploy
+    environment: staging
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+
+        # https://github.com/actions/checkout
+      - name: git checkout
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 21
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: create frontend env file
+        working-directory: frontend
+        run: |
+          touch .env
+          echo VITE_BACKEND_URL=${{ vars.VITE_BACKEND_URL }} >> .env
+          echo VITE_SENTRY_DSN=${{ vars.VITE_SENTRY_DSN }} >> .env
+          echo SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }} >> .env
+
+      # Following https://stackoverflow.com/a/61485186/7365866
+      - name: create backend env file
+        working-directory: backend
+        run: |
+          touch .env
+          echo CLOUDFLARE_ACCOUNT_ID=${{ secrets.CLOUDFLARE_ACCOUNT_ID }} >> .env
+          echo CLOUDFLARE_API_TOKEN=${{ secrets.CLOUDFLARE_API_TOKEN }} >> .env
+          echo CLOUDFLARE_WORKERS_AI_TOKEN=${{ secrets.CLOUDFLARE_WORKERS_AI_TOKEN }} >> .env
+          echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
+          echo OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} >> .env
+
+      - name: Check drizzle migrations generated
+        working-directory: backend
+        run: |
+          pnpm db:gen
+          # Taken from https://stackoverflow.com/a/3879077/7365866
+          git update-index --refresh
+          git diff-index --quiet HEAD --
+
+      - name: Build
+        run: pnpm build
+
+      - name: Test
+        run: pnpm test
+
+      - name: Deploy frontend staging
+        uses: cloudflare/wrangler-action@v3
+        with:
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          workingDirectory: "frontend"
+          # When running locally, use `npx wrangler pages deploy`. Available on https://staging.talkdash.pages.dev/
+          command: pages deploy --project-name=talkdash --branch=staging dist
+          packageManager: pnpm
+
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Deploy backend staging
+        run: flyctl deploy --app=talkdash-staging
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
