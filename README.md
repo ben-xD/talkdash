@@ -47,7 +47,7 @@ I used technologies that could be developed 100% locally. The only current excep
   - The CI takes 58 seconds 🔥️🔥️ to build the entire application and deploy to Cloudflare Pages from GitHub Actions
   - Create a pages project:
     - run `wrangler login` and login
-    - run `npx wrangler pages project create talkdash-staging`
+    - run `npx wrangler pages project create talkdash`
       - Enter `main` as the production branch name
     - deploy the project, 
       - cd frontend
