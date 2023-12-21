@@ -9,6 +9,7 @@ import path from "node:path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+// We use an absolute path here so that we can run migrations from any directory
 export const migrationsFolder = path.resolve(__dirname, "../../migrations");
 
 export const connectToDb = async () => {
