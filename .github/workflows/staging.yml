@@ -50,6 +50,8 @@ jobs:
           echo CLOUDFLARE_WORKERS_AI_TOKEN=${{ secrets.CLOUDFLARE_WORKERS_AI_TOKEN }} >> .env
           echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
           echo OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} >> .env
+          echo AUTH_GITHUB_ID=${{ vars.AUTH_GITHUB_ID }} >> .env
+          echo AUTH_GITHUB_SECRET=${{ secrets.AUTH_GITHUB_SECRET }} >> .env
 
       - name: Check drizzle migrations generated
         working-directory: backend
