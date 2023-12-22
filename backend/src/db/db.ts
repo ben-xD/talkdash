@@ -1,4 +1,4 @@
-import * as pg from "pg";
+import pg from "pg";
 import { drizzle, NodePgDatabase } from "drizzle-orm/node-postgres";
 import { migrate } from "drizzle-orm/node-postgres/migrator";
 import { env } from "../env.js";

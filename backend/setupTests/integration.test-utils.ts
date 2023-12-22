@@ -2,7 +2,7 @@ import { appRouter } from "../src/trpc/appRouter.js";
 import { TrpcContext } from "../src/trpc/trpcContext.js";
 import { createAuth, createOAuths } from "../src/auth/auth.js";
 import { connectToDb, migrationsFolder } from "../src/db/db.js";
-import * as pg from "pg";
+import pg from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { env } from "../src/env.js";
 import * as schema from "../src/db/schema/index.js";

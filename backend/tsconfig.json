@@ -4,6 +4,7 @@
     "moduleResolution": "nodenext",
     "outDir": "./dist",
     "esModuleInterop": true,
+    "types":["vitest"],
 
     // Linting
     "strict": true,
@@ -17,10 +18,12 @@
     "skipLibCheck": true
   },
   "include": [
-    "src/**/*.ts"
+    "**/*.ts",
+    ".eslintrc.cjs",
+    "setupTests"
   ],
   "exclude": [
-    "**/*.test.ts",
-    "**/*.test.tsx"
+    "node_modules",
+    "dist"
   ]
 }

@@ -1,4 +1,4 @@
-import * as pg from "pg";
+import pg from "pg";
 
 // We need to import this file (a module augmentation - declaration merging)
 declare module "vitest" {
