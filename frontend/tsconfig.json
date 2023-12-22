@@ -11,6 +11,7 @@
     "esModuleInterop": true,
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
+    "moduleDetection": "force",
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",

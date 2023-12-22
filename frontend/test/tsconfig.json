@@ -1,0 +1,15 @@
+// I put the test tsconfig in a separate folder so I that it can keep the standard name
+// (tsconfig.json instead of tsconfig.test.json) which WebStorm cannot detect
+// This means the config in the test tsconfig is not used at all.
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "types":["vitest"]
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  // Needed, otherwise it uses the parent tsconfig, which excludes tests.
+  "exclude": []
+}

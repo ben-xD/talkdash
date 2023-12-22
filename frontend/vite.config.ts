@@ -84,5 +84,8 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     testTransformMode: { web: ["/.[jt]sx?$/"] },
+    setupFiles: ["./setupTests/setupTests.ts"],
+    // Not well documented, and not user friendly (It doesn't work out of the box/existing-tsconfig and needs more config)
+    // typecheck: {}
   },
 });
