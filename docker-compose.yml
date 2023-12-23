@@ -10,12 +10,15 @@ services:
     ports:
       - "5432:5432"
   backend:
-    env_file: "backend/docker.env"
+    env_file:
+      # Last definition takes precedence
+      - "backend/.env"
+      - "backend/docker.env"
     build:
       context: .
       dockerfile: Dockerfile
     command: "npm start"
-    # command: tail -f /dev/null
+#    command: tail -f /dev/null
     depends_on:
       - "db"
     ports:
