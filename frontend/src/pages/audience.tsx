@@ -11,10 +11,12 @@ import { resetHistory } from "../features/time/timeState.js";
 import { SendMessageCard } from "../components/SendMessageCard.jsx";
 import { preferredUsername, setPreferredUsername } from "../client/trpc.ts";
 import { ElapsedTime } from "../components/ElapsedTime.tsx";
+import { captureAnalyticsEvent } from "../AnalyticsEvents.ts";
 
 const Audience = () => {
   onMount(() => {
     document.title = "Audience · TalkDash";
+    captureAnalyticsEvent("pageLoad", { page: "audience" });
     setTimeout(async () => {
       await loadQueryParams("audience");
     }, 0);

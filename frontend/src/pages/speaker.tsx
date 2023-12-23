@@ -24,6 +24,7 @@ import {
 import { setTimeAction } from "../features/time/timeState";
 import { toast } from "solid-toast";
 import { isQrCodeShown, QrCodeView } from "../components/QrCodeView.tsx";
+import { captureAnalyticsEvent } from "../AnalyticsEvents.ts";
 
 const Speaker = () => {
   let messageSubscription: Unsubscribable | undefined = undefined;
@@ -61,6 +62,7 @@ const Speaker = () => {
 
   onMount(async () => {
     document.title = "Speaker · TalkDash";
+    captureAnalyticsEvent("pageLoad", { page: "speaker" });
     setTimeout(async () => {
       await loadQueryParams("speaker");
       const registered = registeredUsername();

@@ -22,6 +22,7 @@ import {
 } from "../features/speaker/pin.tsx";
 import { Alert } from "../components/Alert.tsx";
 import { TRPCClientError } from "@trpc/client";
+import { captureAnalyticsEvent } from "../AnalyticsEvents.ts";
 
 const Host = () => {
   const [pinErrorMessage, setPinErrorMessage] = createSignal<
@@ -31,6 +32,8 @@ const Host = () => {
 
   onMount(() => {
     document.title = "Event Host · TalkDash";
+    captureAnalyticsEvent("pageLoad", { page: "host" });
+
     setTimeout(async () => {
       await loadQueryParams("host");
     }, 0);

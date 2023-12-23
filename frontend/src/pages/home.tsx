@@ -12,12 +12,14 @@ import {
 import { TRPCClientError } from "@trpc/client";
 import { Alert } from "../components/Alert.tsx";
 import { ByBenButterworth } from "../components/ByBenButterworth.tsx";
+import { captureAnalyticsEvent } from "../AnalyticsEvents.ts";
 
 const Home = () => {
   const [errorMessage, setErrorMessage] = createSignal<string | undefined>();
 
   onMount(() => {
     document.title = "TalkDash";
+    captureAnalyticsEvent("pageLoad", { page: "home" });
   });
 
   const [searchParams] = useSearchParams<{

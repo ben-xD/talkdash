@@ -1,12 +1,14 @@
 import { currentTime } from "../features/time/timeState";
 import { createEffect, createSignal, onMount } from "solid-js";
 import { DateTime } from "luxon";
+import { captureAnalyticsEvent } from "../AnalyticsEvents.ts";
 
 const [startTime, setStartTime] = createSignal<DateTime>();
 
 const StopwatchPage = () => {
   onMount(() => {
     document.title = "Stopwatch · TalkDash";
+    captureAnalyticsEvent("pageLoad", { page: "signin" });
   });
 
   const [time, setTime] = createSignal<string>();

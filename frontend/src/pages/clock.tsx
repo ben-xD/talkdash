@@ -1,9 +1,11 @@
 import { currentTime } from "../features/time/timeState";
 import { onMount } from "solid-js";
+import { captureAnalyticsEvent } from "../AnalyticsEvents.ts";
 
 const ClockPage = () => {
   onMount(() => {
     document.title = "Clock · TalkDash";
+    captureAnalyticsEvent("pageLoad", { page: "clock" });
   });
 
   return (

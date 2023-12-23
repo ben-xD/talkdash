@@ -5,6 +5,7 @@ import { createSignal, onMount } from "solid-js";
 import { useNavigate } from "@solidjs/router";
 import { navigateAfterAuth } from "../features/auth/navigateAfterAuth.ts";
 import { setRegisteredUsername } from "../features/user/userState.tsx";
+import { captureAnalyticsEvent } from "../AnalyticsEvents.ts";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const SignUpPage = () => {
 
   onMount(() => {
     document.title = "Sign up · TalkDash";
+    captureAnalyticsEvent("pageLoad", { page: "signup" });
   });
 
   const onSignUp = async (email: string, password: string) => {

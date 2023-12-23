@@ -1,9 +1,11 @@
 import { ByBenButterworth } from "../components/ByBenButterworth.tsx";
 import { onMount } from "solid-js";
+import { captureAnalyticsEvent } from "../AnalyticsEvents.ts";
 
 const AboutPage = () => {
   onMount(() => {
     document.title = "About · TalkDash";
+    captureAnalyticsEvent("pageLoad", { page: "about" });
   });
 
   return (

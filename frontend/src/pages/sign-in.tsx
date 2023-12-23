@@ -5,12 +5,14 @@ import { onMount } from "solid-js";
 import { useNavigate } from "@solidjs/router";
 import { navigateAfterAuth } from "../features/auth/navigateAfterAuth.ts";
 import { setRegisteredUsername } from "../features/user/userState.tsx";
+import { captureAnalyticsEvent } from "../AnalyticsEvents.ts";
 
 const SignInPage = () => {
   const navigate = useNavigate();
 
   onMount(() => {
     document.title = "Sign in · TalkDash";
+    captureAnalyticsEvent("pageLoad", { page: "signin" });
     if (isSignedIn()) {
       navigate("/");
     }
