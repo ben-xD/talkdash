@@ -39,6 +39,7 @@ jobs:
           touch .env
           echo VITE_BACKEND_URL=${{ vars.VITE_BACKEND_URL }} >> .env
           echo VITE_SENTRY_DSN=${{ vars.VITE_SENTRY_DSN }} >> .env
+          echo VITE_POSTHOG_CLIENT_TOKEN=${{ vars.VITE_POSTHOG_CLIENT_TOKEN }} >> .env
           echo SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }} >> .env
 
       # Following https://stackoverflow.com/a/61485186/7365866

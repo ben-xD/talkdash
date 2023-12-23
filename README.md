@@ -76,6 +76,13 @@ I used technologies that could be developed 100% locally. The only current excep
 - Install turbo, run `pnpm install turbo --global`
 - Install dependencies, run `pnpm install`
 
+## Adding new environment variables
+- Validate the environment variable exists in application code: add it to `env.ts` zod validator (either frontend or backend)
+- add it to `.env` (either frontend or backend) so that it is available locally
+- add it to `example.env` (either frontend or backend) so that it in a convenient template file
+- If it's used in a build, add it to `turbo.json`'s `globalEnv` so that it is available in `turbo build`
+- Make the variables available in CI: Add to all CI files: `pr.yml`, `staging.yml`, etc. so that CI will use it
+
 ### Useful links
  
 - Application (PWA): https://talkdash.orth.uk/
