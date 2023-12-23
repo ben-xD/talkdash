@@ -17,11 +17,17 @@ export const createTestDatabase = async (name: string): Promise<pg.Pool> => {
   const { dbPool: applicationDatabase } = await connectToDb();
   await applicationDatabase.query(`CREATE DATABASE ${name}`);
   const applicationDatabaseUrl = env.DATABASE_URL;
-  const testDatabaseUrl = applicationDatabaseUrl.replace(
-    /\/[^/]*$/,
-    `/${name}`,
-  );
-  return new pg.Pool({ connectionString: testDatabaseUrl });
+  const originalDatabaseUrl = new URL(applicationDatabaseUrl);
+  const sslmode = originalDatabaseUrl.searchParams.get("sslmode");
+  let testDatabaseUrl = applicationDatabaseUrl.replace(/\/[^/]*$/, `/${name}`);
+  if (sslmode) {
+    testDatabaseUrl = `${testDatabaseUrl}?sslmode=${sslmode}`;
+  }
+  return new pg.Pool({
+    connectionString: testDatabaseUrl,
+    // Ignore self-signed certificate errors, because Supabase uses a self-signed certificate
+    ssl: { rejectUnauthorized: false },
+  });
 };
 
 export const dropTestDatabase = async (name: string) => {

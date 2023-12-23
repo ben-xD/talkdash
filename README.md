@@ -153,6 +153,9 @@ I used technologies that could be developed 100% locally. The only current excep
   - I have 1 tsconfig that validates all source code. This ensures tests have proper typescript and type safety.
   - I tsconfig that extends the above tsconfig, and excludes the test files. This is used for builds. This ensure tests are not built in the output.
   - This is simpler than the `tsconfig.build.json` (for building) + `tsconfig.json` (for validation) [pattern](https://bobbyhadz.com/blog/typescript-exclude-test-files-from-compilation), where vite needs to be [configured](https://github.com/vitejs/vite/discussions/8483) to use `tsconfig.build.json` instead of `tsconfig.json`.
+- Supabase
+  - [defaults to not requiring SSL](https://supabase.com/docs/guides/platform/ssl-enforcement)
+  - The SSL they use uses a self-signed certificate, and they provide a Root certificate to be added to your project or your machine.
 
 ## Useful
 - Use [madge](https://github.com/pahen/madge) and graphviz to visualise relationships between files

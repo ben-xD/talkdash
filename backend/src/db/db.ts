@@ -18,7 +18,11 @@ export const connectToDb = async () => {
   }
   const connectionString = env.DATABASE_URL;
 
-  const dbPool = new pg.Pool({ connectionString });
+  const dbPool = new pg.Pool({
+    connectionString,
+    // Ignore self-signed certificate errors, because Supabase uses a self-signed certificate
+    ssl: { rejectUnauthorized: false },
+  });
   const db = drizzle(dbPool, { logger: env.LOG_DATABASE, schema });
   await migrate(db, { migrationsFolder });
   return { db, dbPool };
