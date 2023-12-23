@@ -6,10 +6,6 @@
   "compilerOptions": {
     "types":["vitest"]
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx"
-  ],
   // Needed, otherwise it uses the parent tsconfig, which excludes tests.
   "exclude": []
 }

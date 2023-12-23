@@ -7,9 +7,10 @@ module.exports = {
     "plugin:@tanstack/eslint-plugin-query/recommended",
   ],
   parserOptions: {
-    project: ["tsconfig.lint.json"],
+    project: ["tsconfig.json"],
     tsconfigRootDir: __dirname,
   },
+  ignorePatterns: ["**/*.test.ts", "**/*.test.tsx"],
   rules: {
     // Inspired from https://www.themosaad.com/blog/two-years-of-tailwind-css
     // Enforce typesafety for Tailwind CSS classnames
