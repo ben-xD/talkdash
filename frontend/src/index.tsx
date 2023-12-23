@@ -10,6 +10,7 @@ import { DEV, lazy } from "solid-js";
 
 import * as Sentry from "@sentry/browser";
 import { env } from "./client/env.ts";
+import { setupPostHog } from "./AnalyticsEvents.ts";
 
 const root = document.getElementById("root");
 if (!root) throw new Error("element with id root not found in index.html");
@@ -60,6 +61,8 @@ const setupSentry = () => {
 };
 
 setupSentry();
+setupPostHog();
+
 render(
   () => (
     <QueryClientProvider client={queryClient}>

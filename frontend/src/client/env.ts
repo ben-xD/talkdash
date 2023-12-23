@@ -5,6 +5,7 @@ import { z } from "zod";
 const envSchema = z.object({
   VITE_BACKEND_URL: z.string().min(1),
   VITE_SENTRY_DSN: z.string().min(1),
+  VITE_POSTHOG_CLIENT_TOKEN: z.string().min(1),
 });
 type EnvSchema = z.infer<typeof envSchema>;
 
@@ -14,6 +15,7 @@ export const validateEnv = () =>
   envSchema.parse({
     VITE_SENTRY_DSN: import.meta.env.VITE_SENTRY_DSN,
     VITE_BACKEND_URL: import.meta.env.VITE_BACKEND_URL,
+    VITE_POSTHOG_CLIENT_TOKEN: import.meta.env.VITE_POSTHOG_CLIENT_TOKEN,
   } satisfies EnvSchema);
 
 export const env = validateEnv();
