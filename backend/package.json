@@ -13,6 +13,8 @@
     "start": "node dist/src/backend.js",
     "deploy": "fly deploy --app talkdash ..",
     "deploy:staging": "fly deploy --app talkdash-staging ..",
+    "logs": "fly logs --app talkdash",
+    "logs:staging": "fly logs --app talkdash-staging",
     "lint": "prettier --check src && eslint .",
     "lint:fix": "prettier src --write && eslint --fix .",
     "db": "docker-compose up -d db",
