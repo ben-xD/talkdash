@@ -1,4 +1,4 @@
-import { createSignal, onMount, Show } from "solid-js";
+import { createSignal, onCleanup, onMount, Show } from "solid-js";
 import { A, useSearchParams } from "@solidjs/router";
 import { isSignedIn } from "../client/trpc.ts";
 import { UsersIcon } from "../assets/UsersIcon.tsx";
@@ -12,14 +12,15 @@ import {
 import { TRPCClientError } from "@trpc/client";
 import { Alert } from "../components/Alert.tsx";
 import { ByBenButterworth } from "../components/ByBenButterworth.tsx";
-import { captureAnalyticsEvent } from "../AnalyticsEvents.ts";
+import { capturePageLeave, capturePageView } from "../AnalyticsEvents.ts";
 
 const Home = () => {
   const [errorMessage, setErrorMessage] = createSignal<string | undefined>();
 
   onMount(() => {
     document.title = "TalkDash";
-    captureAnalyticsEvent("pageLoad", { page: "home" });
+    capturePageView();
+    onCleanup(capturePageLeave);
   });
 
   const [searchParams] = useSearchParams<{

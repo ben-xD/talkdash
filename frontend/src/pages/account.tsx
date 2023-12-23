@@ -1,14 +1,15 @@
-import { createEffect, onMount } from "solid-js";
+import { createEffect, onCleanup, onMount } from "solid-js";
 import { deleteAccount, isSignedIn } from "../client/trpc.ts";
 import { useNavigate } from "@solidjs/router";
-import { captureAnalyticsEvent } from "../AnalyticsEvents.ts";
+import { capturePageLeave, capturePageView } from "../AnalyticsEvents.ts";
 
 const AccountPage = () => {
   const navigate = useNavigate();
 
   onMount(() => {
     document.title = "Account · TalkDash";
-    captureAnalyticsEvent("pageLoad", { page: "account" });
+    capturePageView();
+    onCleanup(capturePageLeave);
   });
 
   createEffect(() => {

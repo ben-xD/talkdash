@@ -1,10 +1,11 @@
-import { onMount } from "solid-js";
-import { captureAnalyticsEvent } from "../AnalyticsEvents.ts";
+import { onCleanup, onMount } from "solid-js";
+import { capturePageLeave, capturePageView } from "../AnalyticsEvents.ts";
 
 const DebugPage = () => {
   onMount(() => {
     document.title = "Debug · TalkDash";
-    captureAnalyticsEvent("pageLoad", { page: "debug" });
+    capturePageView();
+    onCleanup(capturePageLeave);
   });
 
   return (

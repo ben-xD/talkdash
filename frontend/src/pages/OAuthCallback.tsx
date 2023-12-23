@@ -1,12 +1,12 @@
 import { useNavigate, useParams, useSearchParams } from "@solidjs/router";
-import { onMount } from "solid-js";
+import { onCleanup, onMount } from "solid-js";
 import { setBearerToken, trpc } from "../client/trpc.ts";
 import { oAuthProviders } from "@talkdash/schema";
 import { LOCAL_STORAGE_OAUTH_STATE } from "../features/auth/constants.ts";
 import { setRegisteredUsername } from "../features/user/userState.tsx";
 import { toast } from "solid-toast";
 import { TRPCClientError } from "@trpc/client";
-import { captureAnalyticsEvent } from "../AnalyticsEvents.ts";
+import { capturePageLeave, capturePageView } from "../AnalyticsEvents.ts";
 
 const OAuthCallbackPage = () => {
   const navigate = useNavigate();
@@ -19,7 +19,8 @@ const OAuthCallbackPage = () => {
   // http://localhost:5173/auth/callback/github?code=a9a3039c911cdf73adaa&state=ql3zqdfbgaogmn5vd30cgphxzlvjlrn76ny9abrk4ym
 
   onMount(async () => {
-    captureAnalyticsEvent("pageLoad", { page: "oAuthCallback" });
+    capturePageView();
+    onCleanup(capturePageLeave);
 
     const provider = oAuthProviders.safeParse(params.provider);
     const state = searchParams.state;

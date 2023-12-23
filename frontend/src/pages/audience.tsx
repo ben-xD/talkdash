@@ -1,4 +1,4 @@
-import { createEffect, onMount } from "solid-js";
+import { createEffect, onCleanup, onMount } from "solid-js";
 import { loadQueryParams } from "../window/loadQueryParams.ts";
 import { EditableStateField } from "../features/speaker/EditableStateField.jsx";
 import {
@@ -11,12 +11,13 @@ import { resetHistory } from "../features/time/timeState.js";
 import { SendMessageCard } from "../components/SendMessageCard.jsx";
 import { preferredUsername, setPreferredUsername } from "../client/trpc.ts";
 import { ElapsedTime } from "../components/ElapsedTime.tsx";
-import { captureAnalyticsEvent } from "../AnalyticsEvents.ts";
+import { capturePageLeave, capturePageView } from "../AnalyticsEvents.ts";
 
 const Audience = () => {
   onMount(() => {
     document.title = "Audience · TalkDash";
-    captureAnalyticsEvent("pageLoad", { page: "audience" });
+    capturePageView();
+    onCleanup(capturePageLeave);
     setTimeout(async () => {
       await loadQueryParams("audience");
     }, 0);

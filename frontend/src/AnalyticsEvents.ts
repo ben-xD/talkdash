@@ -24,5 +24,9 @@ export const captureAnalyticsEvent = <T extends AnalyticsEvents>(
   posthog.capture(name, payload);
 };
 
+// As per https://posthog.com/docs/data/events
+export const capturePageView = () => posthog.capture("$pageview");
+export const capturePageLeave = () => posthog.capture("$pageleave");
+
 // For example:
 // captureEvent("navigation", {page: "home"});
