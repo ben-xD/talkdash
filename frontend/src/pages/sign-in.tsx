@@ -10,6 +10,7 @@ const SignInPage = () => {
   const navigate = useNavigate();
 
   onMount(() => {
+    document.title = "Sign in · TalkDash";
     if (isSignedIn()) {
       navigate("/");
     }

@@ -1,6 +1,11 @@
 import { ByBenButterworth } from "../components/ByBenButterworth.tsx";
+import { onMount } from "solid-js";
 
 const AboutPage = () => {
+  onMount(() => {
+    document.title = "About · TalkDash";
+  });
+
   return (
     <div class="my-4 flex max-w-[400px] flex-col gap-8">
       <p>

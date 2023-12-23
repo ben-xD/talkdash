@@ -10,6 +10,10 @@ const SignUpPage = () => {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = createSignal<string>();
 
+  onMount(() => {
+    document.title = "Sign up · TalkDash";
+  });
+
   const onSignUp = async (email: string, password: string) => {
     onMount(() => {
       if (isSignedIn()) {
