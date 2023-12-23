@@ -16,6 +16,30 @@ export const [currentTime, setCurrentTime] = createSignal<DateTime>(
   DateTime.now(),
 );
 
+const [wakeLockSentinel, setWakeLockSentinel] =
+  createSignal<WakeLockSentinel>();
+const requestWakeLock = async () => {
+  if ("wakeLock" in navigator) {
+    try {
+      const wakeLockSentinel = await navigator.wakeLock.request("screen");
+      setWakeLockSentinel(wakeLockSentinel);
+    } catch (err) {
+      // e.g. system related (low battery)
+      console.error(err);
+    }
+  } else {
+    // This feature is in nightly on firefox, so it's not available on normal desktop firefox.
+    console.warn(
+      "Browser doesn't support wakelocks, consider using an app like Amphetamine to prevent the computer from going to sleep.",
+    );
+  }
+};
+
+const releaseWakeLock = async () => {
+  await wakeLockSentinel()?.release();
+  setWakeLockSentinel(undefined);
+};
+
 // Update servers whenever startTime or finishTime changes.
 export const updateServerTimeState = async () => {
   const start = startTime()?.toMillis();
@@ -62,6 +86,11 @@ export const setTimeAction = async (
   setFinishTime(action.finishTime);
   setStartTime(action.startTime);
   setTextInputDurationInMinutes(action.userTalkLengthInput);
+  if (action.finishTime) {
+    await requestWakeLock();
+  } else {
+    await releaseWakeLock();
+  }
 
   if (clearRedoStack) {
     // The user performs an action after undoing, so we should clear the
