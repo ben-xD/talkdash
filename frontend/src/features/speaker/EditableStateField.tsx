@@ -5,6 +5,7 @@ import { PencilIcon } from "../../assets/PencilIcon";
 
 type Props = {
   label: string;
+  class?: string;
   value: string | undefined;
   setValue: (value: string) => void;
   disabled?: boolean;
@@ -13,6 +14,7 @@ type Props = {
 export const EditableStateField = (props: Props) => {
   return (
     <Editable.Root
+      class={props.class}
       placeholder={`Not set`}
       value={props.value}
       disabled={props.disabled}

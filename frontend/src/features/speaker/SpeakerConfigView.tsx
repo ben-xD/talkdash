@@ -1,6 +1,6 @@
 import { EditableStateField } from "./EditableStateField";
 import { ShareIcon } from "../../assets/ShareIcon";
-import { onMount, Show } from "solid-js";
+import { createSignal, onMount, Show } from "solid-js";
 import { ElapsedTime } from "../../components/ElapsedTime";
 import { A } from "@solidjs/router";
 import {
@@ -34,12 +34,26 @@ import {
   setShowTimeReminderMessages,
   showTimeReminderMessages,
 } from "../time/timeState.ts";
+import { Accordion } from "@ark-ui/solid";
+import { ChevronDownIcon } from "../../assets/ChevronDownIcon.tsx";
+import { makePersisted } from "@solid-primitives/storage";
 
 type Props = {
   reconnectAsSpeaker: (speakerUsername: string) => void;
   class?: string;
   shareUrl: URL;
 };
+
+const [accordionState, setAccordionState] = makePersisted(
+  // we don't destructure because makePersisted wants the entire signal
+  // eslint-disable-next-line solid/reactivity
+  createSignal<string[]>([]),
+  {
+    name: "speaker_config_accordion_state",
+  },
+);
+
+const isSettingsOpen = () => accordionState().includes("Settings");
 
 export const SpeakerConfigView = (props: Props) => {
   onMount(async () => {
@@ -57,7 +71,7 @@ export const SpeakerConfigView = (props: Props) => {
   return (
     <div
       class={cn(
-        "my-2 flex w-full flex-col items-stretch gap-4 rounded-xl p-4",
+        "my-2 flex w-full flex-col items-stretch gap-4 rounded-xl lg:p-4",
         props.class,
       )}
     >
@@ -90,63 +104,90 @@ export const SpeakerConfigView = (props: Props) => {
       </div>
       <ElapsedTime />
 
-      <EditableStateField
-        label="Username"
-        value={preferredUsername("speaker")}
-        setValue={(value) => {
-          setPreferredUsername("speaker", value);
-          props.reconnectAsSpeaker(value);
-        }}
-      />
-      <div class="flex justify-between">
-        <label for="audience-messaging-enabled">
-          Show messages from audience
-        </label>
-        <Toggle
-          id="audience-messaging-enabled"
-          aria-label={"Toggle host pin required"}
-          checked={isAudienceMessagesShown()}
-          setChecked={setIsAudienceMessagesShown}
-        />
-      </div>
-      <div class="flex justify-between">
-        <label for="show-reminder-messages-enabled">
-          Show reminder messages
-        </label>
-        <Toggle
-          id="show-reminder-messages"
-          aria-label={"Toggle show reminder messages"}
-          checked={showTimeReminderMessages()}
-          setChecked={setShowTimeReminderMessages}
-        />
-      </div>
-      <div class="flex flex-col gap-2">
-        <div class="flex justify-between">
-          <label for="host-pin-enabled">Require pin for hosts</label>
-          <Toggle
-            id="host-pin-enabled"
-            aria-label={"Toggle host pin required"}
-            disabledTooltip={
-              "Sign in and register a username to use this feature"
-            }
-            checked={isPinRequired() && isSignedIn() && !!registeredUsername()}
-            disabled={!isSignedIn()}
-            setChecked={setIsPinRequired}
-          />
-        </div>
-        {isPinRequired() && isSignedIn() && (
-          <Pin setPin={setPin} value={pin()} />
-        )}
-      </div>
-      <div class="flex justify-between">
-        <label for="show-qr-code">Show QR code</label>
-        <Toggle
-          id="show-qr-code"
-          aria-label={"Toggle QR code"}
-          checked={isQrCodeShown()}
-          setChecked={setIsQrCodeShown}
-        />
-      </div>
+      <Accordion.Root
+        value={accordionState()}
+        lazyMount={false}
+        unmountOnExit={false}
+        onValueChange={(details) => setAccordionState(details.value)}
+        multiple
+      >
+        <Accordion.Item value={"Settings"}>
+          <Accordion.ItemTrigger class="flex w-full justify-between">
+            <p class="font-bold">Settings</p>
+            <Accordion.ItemIndicator>
+              <ChevronDownIcon
+                class={cn("transition-transform", {
+                  "rotate-180": isSettingsOpen(),
+                })}
+              />
+            </Accordion.ItemIndicator>
+          </Accordion.ItemTrigger>
+          <Accordion.ItemContent class="transition-all data-[state=closed]:opacity-0 data-[state=open]:opacity-100">
+            <div class={"flex flex-col gap-4 py-4"}>
+              <EditableStateField
+                label="Username"
+                value={preferredUsername("speaker")}
+                setValue={(value) => {
+                  setPreferredUsername("speaker", value);
+                  props.reconnectAsSpeaker(value);
+                }}
+              />
+
+              <div class="flex justify-between">
+                <label for="audience-messaging-enabled">
+                  Show messages from audience
+                </label>
+                <Toggle
+                  id="audience-messaging-enabled"
+                  aria-label={"Toggle host pin required"}
+                  checked={isAudienceMessagesShown()}
+                  setChecked={setIsAudienceMessagesShown}
+                />
+              </div>
+              <div class="flex justify-between">
+                <label for="show-reminder-messages-enabled">
+                  Show reminder messages
+                </label>
+                <Toggle
+                  id="show-reminder-messages"
+                  aria-label={"Toggle show reminder messages"}
+                  checked={showTimeReminderMessages()}
+                  setChecked={setShowTimeReminderMessages}
+                />
+              </div>
+              <div class="flex flex-col gap-2">
+                <div class="flex justify-between">
+                  <label for="host-pin-enabled">Require pin for hosts</label>
+                  <Toggle
+                    id="host-pin-enabled"
+                    aria-label={"Toggle host pin required"}
+                    disabledTooltip={
+                      "Sign in and register a username to use this feature"
+                    }
+                    checked={
+                      isPinRequired() && isSignedIn() && !!registeredUsername()
+                    }
+                    disabled={!isSignedIn()}
+                    setChecked={setIsPinRequired}
+                  />
+                </div>
+                {isPinRequired() && isSignedIn() && (
+                  <Pin setPin={setPin} value={pin()} />
+                )}
+              </div>
+              <div class="flex justify-between">
+                <label for="show-qr-code">Show QR code</label>
+                <Toggle
+                  id="show-qr-code"
+                  aria-label={"Toggle QR code"}
+                  checked={isQrCodeShown()}
+                  setChecked={setIsQrCodeShown}
+                />
+              </div>
+            </div>
+          </Accordion.ItemContent>
+        </Accordion.Item>
+      </Accordion.Root>
       {/*Temporarily disable password field since it is not implemented.*/}
       {/*<EditableStateField*/}
       {/*  label="Password"*/}
