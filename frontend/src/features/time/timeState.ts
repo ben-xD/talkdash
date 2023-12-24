@@ -250,10 +250,12 @@ createEffect(() => {
   const notificationTimes = untrack(() => notificationTimeLeftInSToNotified);
   const seconds = Math.round(difference.toMillis() / 1000);
 
+  // The mode would be exceeded when the time is up, we want to send the notification if is is configured
+  const isTimeFinished = mode === Mode.Exceeded && seconds === 0;
   if (
     seconds in notificationTimes &&
     !notificationTimes[seconds] &&
-    mode === Mode.Running
+    (mode === Mode.Running || isTimeFinished)
   ) {
     sendNotificationToUser(seconds);
     setNotificationTimeLeftInSToNotified(
