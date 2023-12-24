@@ -6,11 +6,14 @@ import {
 } from "./receivedMessages";
 import { TrashIcon } from "../../assets/TrashIcon";
 import { isAudienceMessagesShown } from "../speaker/audienceMessages.ts";
+import { showTimeReminderMessages } from "../time/timeState.ts";
 
 export const MessageView = () => {
   const showMessage = (message: ReceivedMessage) => {
     if (message.sender.role === "audience") {
       return isAudienceMessagesShown();
+    } else if (message.sender.role === "bot") {
+      return showTimeReminderMessages();
     }
     return true;
   };

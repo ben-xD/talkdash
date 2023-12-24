@@ -30,6 +30,10 @@ import {
   setIsAudienceMessagesShown,
 } from "./audienceMessages.ts";
 import { registeredUsername } from "../user/userState.tsx";
+import {
+  setShowTimeReminderMessages,
+  showTimeReminderMessages,
+} from "../time/timeState.ts";
 
 type Props = {
   reconnectAsSpeaker: (speakerUsername: string) => void;
@@ -99,10 +103,21 @@ export const SpeakerConfigView = (props: Props) => {
           Show messages from audience
         </label>
         <Toggle
-          id="host-pin-enabled"
+          id="audience-messaging-enabled"
           aria-label={"Toggle host pin required"}
           checked={isAudienceMessagesShown()}
           setChecked={setIsAudienceMessagesShown}
+        />
+      </div>
+      <div class="flex justify-between">
+        <label for="show-reminder-messages-enabled">
+          Show reminder messages
+        </label>
+        <Toggle
+          id="show-reminder-messages"
+          aria-label={"Toggle show reminder messages"}
+          checked={showTimeReminderMessages()}
+          setChecked={setShowTimeReminderMessages}
         />
       </div>
       <div class="flex flex-col gap-2">

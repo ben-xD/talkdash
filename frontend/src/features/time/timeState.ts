@@ -4,6 +4,7 @@ import { createStore, produce } from "solid-js/store";
 import { trpc } from "../../client/trpc";
 import { addMessage } from "../messages/receivedMessages.tsx";
 import { durationToHuman } from "./luxonUtilities.ts";
+import { makePersisted } from "@solid-primitives/storage";
 
 export const [textInputDurationInMinutes, setTextInputDurationInMinutes] =
   createSignal("");
@@ -194,6 +195,15 @@ const defaultNotificationTimesToNotified = defaultNotificationTimesInS.reduce(
 // For testing
 // const defaultNotificationTimesToNotified = { 5: false };
 
+export const [showTimeReminderMessages, setShowTimeReminderMessages] =
+  makePersisted(
+    // we don't destructure because makePersisted wants the entire signal
+    // eslint-disable-next-line solid/reactivity
+    createSignal<boolean>(true),
+    {
+      name: "show_time_reminder_messages",
+    },
+  );
 type Notified = boolean;
 type NotificationTimeLeftInS = number;
 const [
