@@ -20,6 +20,7 @@ primary_region = "lhr"
   processes = ["app"]
 
 # docs: https://fly.io/docs/reference/metrics/
+# Not available to external traffic
 [metrics]
 port = 9091
 path = "/metrics"

@@ -5,7 +5,11 @@ import path from "node:path";
 
 // You may consider using config files instead of environment variables (yaml and zod)
 // however, changing configs becomes harder when Kubernetes is not used.
-// For example, how do you swap config files in Fly.io?
+// For example, how do you swap config files in Fly.io? We'd need to include
+// multiple configuration files to pick between them, or upload them remotely.
+
+// For more environment variables available on Fly, see
+// https://fly.io/docs/reference/runtime-environment/
 
 const envSchema = z.object({
   LOG_FASTIFY: z.coerce.boolean().default(false),
