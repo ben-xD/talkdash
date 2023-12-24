@@ -215,24 +215,6 @@ export const resetNotificationTimes = () => {
   setNotificationTimeLeftInSToNotified(defaultNotificationTimesToNotified);
 };
 
-createEffect(() => {
-  const { mode, difference } = timeLeft();
-  const notificationTimes = untrack(() => notificationTimeLeftInSToNotified);
-  const seconds = Math.round(difference.toMillis() / 1000);
-  if (
-    seconds in notificationTimes &&
-    !notificationTimes[seconds] &&
-    mode === Mode.Running
-  ) {
-    sendNotificationToUser(seconds);
-    setNotificationTimeLeftInSToNotified(
-      produce((state) => {
-        state[seconds] = true;
-      }),
-    );
-  }
-});
-
 const sendNotificationToUser = (seconds: number) => {
   const elapsedTimeText = durationToHuman(elapsedTime().difference);
   if (seconds == 0) {
@@ -252,6 +234,25 @@ const sendNotificationToUser = (seconds: number) => {
     });
   }
 };
+
+createEffect(() => {
+  const { mode, difference } = timeLeft();
+  const notificationTimes = untrack(() => notificationTimeLeftInSToNotified);
+  const seconds = Math.round(difference.toMillis() / 1000);
+
+  if (
+    seconds in notificationTimes &&
+    !notificationTimes[seconds] &&
+    mode === Mode.Running
+  ) {
+    sendNotificationToUser(seconds);
+    setNotificationTimeLeftInSToNotified(
+      produce((state) => {
+        state[seconds] = true;
+      }),
+    );
+  }
+});
 
 export const isTimeLeft = createMemo(() => timeLeft().mode === Mode.Running);
 
