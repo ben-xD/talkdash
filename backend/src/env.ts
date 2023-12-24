@@ -15,6 +15,7 @@ const envSchema = z.object({
   OPENAI_API_KEY: z.string(),
   CLOUDFLARE_ACCOUNT_ID: z.string(),
   CLOUDFLARE_WORKERS_AI_TOKEN: z.string(),
+  FLY_APP_NAME: z.string().optional(),
   DATABASE_URL: z
     .string()
     .describe(
