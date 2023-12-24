@@ -29,6 +29,7 @@ services:
       - "db"
     ports:
       - "4001:4000"
+      - "9091:9091"
   # If connecting from a serverless function, we need to use a websocket proxy to connection to neon database.
   #  pg_proxy:
   #    image: ghcr.io/neondatabase/wsproxy:latest
