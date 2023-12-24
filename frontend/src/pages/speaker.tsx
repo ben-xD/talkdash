@@ -1,6 +1,6 @@
 import { SpeakerConfigView } from "../features/speaker/SpeakerConfigView.tsx";
 import { TimerConfigCard } from "../features/TimerConfigCard.tsx";
-import { isTimeLeft, TimeLeft } from "../features/time/TimeLeft";
+import { TimeLeft } from "../features/time/TimeLeft";
 import { MessageView } from "../features/messages/MessageView";
 import { createEffect, createSignal, onCleanup, onMount, Show } from "solid-js";
 import { loadQueryParams } from "../window/loadQueryParams.ts";
@@ -10,10 +10,7 @@ import {
   unsetTemporaryUsernames,
 } from "../features/user/userState";
 import { Unsubscribable } from "@trpc/server/observable";
-import {
-  receivedMessages,
-  setReceivedMessages,
-} from "../features/messages/receivedMessages";
+import { addMessage } from "../features/messages/receivedMessages";
 import { DateTime } from "luxon";
 import {
   bearerAuthToken,
@@ -21,7 +18,7 @@ import {
   setPreferredUsername,
   trpc,
 } from "../client/trpc";
-import { setTimeAction } from "../features/time/timeState";
+import { isTimeLeft, setTimeAction } from "../features/time/timeState";
 import { toast } from "solid-toast";
 import { isQrCodeShown, QrCodeView } from "../components/QrCodeView.tsx";
 import { capturePageLeave, capturePageView } from "../AnalyticsEvents.ts";
@@ -45,17 +42,7 @@ const Speaker = () => {
     messageSubscription = trpc.speaker.subscribeMessagesAsSpeaker.subscribe(
       { authToken },
       {
-        onData: ({ emojiMessage, message, sender }) => {
-          const receivedAt = DateTime.now();
-          console.info(
-            `Received message at ${receivedAt}:\n${message} from ${sender.username}`,
-          );
-          toast(() => <p class="text-secondary-800">Message received</p>);
-          setReceivedMessages([
-            { receivedAt, message, emojiMessage, sender },
-            ...receivedMessages,
-          ]);
-        },
+        onData: addMessage,
       },
     );
   };

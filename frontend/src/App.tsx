@@ -1,8 +1,7 @@
 import { JSX, onCleanup, onMount } from "solid-js";
-import { setCurrentTime } from "./features/time/timeState";
+import { isExceeded, setCurrentTime } from "./features/time/timeState";
 import { DateTime } from "luxon";
 import { A, useNavigate } from "@solidjs/router";
-import { isExceeded } from "./features/time/TimeLeft";
 import { GithubLogo } from "./assets/GithubLogo";
 import { DisconnectedAlert } from "./components/DisconnectedAlert";
 import { ReconnectedAlert } from "./components/ReconnectedAlert";
@@ -22,7 +21,8 @@ function App(props: { children?: JSX.Element }) {
     // Used to cause re-render of components that rely on current time.
     const intervalId = setInterval(() => {
       setCurrentTime(DateTime.now());
-    });
+      // Throttle it to every second
+    }, 1000);
 
     onCleanup(() => {
       clearInterval(intervalId);

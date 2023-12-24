@@ -1,14 +1,4 @@
-import {
-  currentTime,
-  difference,
-  startTime,
-} from "../features/time/timeState.ts";
-
-export const elapsedTime = () => {
-  const start = startTime();
-  if (!start) return { formattedDifference: "00:00:00" };
-  return difference(start, currentTime());
-};
+import { elapsedTime } from "../features/time/timeState.ts";
 
 export const ElapsedTime = () => {
   return (

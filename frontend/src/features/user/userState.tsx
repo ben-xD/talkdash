@@ -57,6 +57,8 @@ export const unsetTemporaryUsernames = (role: Role) => {
         pushToHistory: false,
       });
       break;
+    case "bot":
+      throw new Error("User cannot be a bot.");
     default:
       return role satisfies never;
   }

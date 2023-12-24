@@ -11,6 +11,7 @@ Tools for event hosts and speakers, available on https://talkdash.orth.uk
   - On Chrome, you can install it
   - Some features require network connectivity (messaging, free text input)
 - Timer, clock and stopwatch
+- Time reminders for speaker (15 minutes, 5 minutes, 30 seconds and 0 seconds)
 - Dark mode, light mode and system theme mode support
 - Color schemes
 

@@ -1,7 +1,9 @@
-import { createSignal } from "solid-js";
-import { DateTime } from "luxon";
-import { createStore } from "solid-js/store";
+import { createEffect, createMemo, createSignal, untrack } from "solid-js";
+import { DateTime, Duration } from "luxon";
+import { createStore, produce } from "solid-js/store";
 import { trpc } from "../../client/trpc";
+import { addMessage } from "../messages/receivedMessages.tsx";
+import { durationToHuman } from "./luxonUtilities.ts";
 
 export const [textInputDurationInMinutes, setTextInputDurationInMinutes] =
   createSignal("");
@@ -77,6 +79,7 @@ export const setTimeAction = async (
   clearRedoStack = false,
   addToUndoStack = true,
 ) => {
+  resetNotificationsShown();
   console.count("setTimeAction");
   // add to undo stack whenever a change is made so we can undo it.
   if (addToUndoStack) {
@@ -153,3 +156,103 @@ export enum Mode {
   Running,
   Exceeded,
 }
+
+export const elapsedTime = () => {
+  const start = startTime();
+  if (!start)
+    return {
+      formattedDifference: "00:00:00",
+      mode: Mode.Stopped,
+      difference: Duration.fromMillis(0),
+    };
+  return difference(start, currentTime());
+};
+
+export const timeLeft = () => {
+  const finish = finishTime();
+  if (!finish) {
+    return {
+      formattedDifference: "00:00:00",
+      mode: Mode.Stopped,
+      difference: Duration.fromMillis(0),
+    };
+  }
+  return difference(currentTime(), finish);
+};
+
+// Defaults to 30 seconds, 5 minutes and 15 minutes.
+const defaultNotificationTimesInS: NotificationTimeLeftInS[] = [
+  0,
+  60 / 2,
+  60 * 5,
+  60 * 15,
+];
+const defaultNotificationTimesToNotified = defaultNotificationTimesInS.reduce(
+  (acc, time) => ({ ...acc, [time]: false }),
+  {},
+);
+// For testing
+// const defaultNotificationTimesToNotified = { 5: false };
+
+type Notified = boolean;
+type NotificationTimeLeftInS = number;
+const [
+  notificationTimeLeftInSToNotified,
+  setNotificationTimeLeftInSToNotified,
+] = createStore<Record<NotificationTimeLeftInS, Notified>>(
+  defaultNotificationTimesToNotified,
+);
+
+export const resetNotificationsShown = () => {
+  const allFalse = Object.entries(notificationTimeLeftInSToNotified).reduce(
+    (acc, [key]) => ({ [key]: false, ...acc }),
+    {},
+  );
+  setNotificationTimeLeftInSToNotified(allFalse);
+};
+
+export const resetNotificationTimes = () => {
+  setNotificationTimeLeftInSToNotified(defaultNotificationTimesToNotified);
+};
+
+createEffect(() => {
+  const { mode, difference } = timeLeft();
+  const notificationTimes = untrack(() => notificationTimeLeftInSToNotified);
+  const seconds = Math.round(difference.toMillis() / 1000);
+  if (
+    seconds in notificationTimes &&
+    !notificationTimes[seconds] &&
+    mode === Mode.Running
+  ) {
+    sendNotificationToUser(seconds);
+    setNotificationTimeLeftInSToNotified(
+      produce((state) => {
+        state[seconds] = true;
+      }),
+    );
+  }
+});
+
+const sendNotificationToUser = (seconds: number) => {
+  const elapsedTimeText = durationToHuman(elapsedTime().difference);
+  if (seconds == 0) {
+    addMessage({
+      message: `Time's up! That was ${elapsedTimeText}`,
+      emojiMessage: "🤖🚨️",
+      sender: { role: "bot", username: "TalkDash" },
+    });
+  } else {
+    const durationLeftText = durationToHuman(
+      Duration.fromMillis(seconds * 1000),
+    );
+    addMessage({
+      message: `You have ${durationLeftText} left`,
+      emojiMessage: "🤖🚨️",
+      sender: { role: "bot", username: "TalkDash" },
+    });
+  }
+};
+
+export const isTimeLeft = createMemo(() => timeLeft().mode === Mode.Running);
+
+export const isExceeded = createMemo(() => timeLeft().mode === Mode.Exceeded);

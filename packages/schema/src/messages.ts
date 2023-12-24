@@ -4,6 +4,7 @@ export const role = z.union([
   z.literal("host"),
   z.literal("audience"),
   z.literal("speaker"),
+  z.literal("bot"),
 ]);
 export type Role = z.infer<typeof role>;
 
