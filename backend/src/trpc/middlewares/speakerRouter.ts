@@ -69,7 +69,8 @@ const getPreferredUsername = async (ctx: TrpcContext): Promise<string> => {
   }
   throw new TRPCError({
     code: "NOT_FOUND",
-    message: "User did not have temporary username or registered username. X",
+    message:
+      "The connection was not authenticated. The connection context had no user.",
   });
 };
 
