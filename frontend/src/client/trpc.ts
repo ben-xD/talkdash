@@ -12,6 +12,7 @@ import { createEffect, createSignal } from "solid-js";
 import { makePersisted } from "@solid-primitives/storage";
 import {
   audienceUsername,
+  handleUpdateUsernameError,
   hostUsername,
   registeredUsername,
   setRegisteredUsername,
@@ -61,21 +62,26 @@ export const preferredUsername = (role: Role) => {
   }
 };
 
-export const setPreferredUsername = async (role: Role, username: string) => {
-  if (isSignedIn()) {
-    await updateRegisteredUsername(username);
-  } else {
-    switch (role) {
-      case "host":
-        await updateHostUsername(username);
-        break;
-      case "audience":
-        await updateAudienceUsername(username);
-        break;
-      case "speaker":
-        await updateSpeakerUsername(username);
-        break;
+export const setPreferredUsername = async (role: Role, username?: string) => {
+  if (!username) return;
+  try {
+    if (isSignedIn()) {
+      await updateRegisteredUsername(username);
+    } else {
+      switch (role) {
+        case "host":
+          await updateHostUsername(username);
+          break;
+        case "audience":
+          await updateAudienceUsername(username);
+          break;
+        case "speaker":
+          await updateSpeakerUsername(username);
+          break;
+      }
     }
+  } catch (e) {
+    handleUpdateUsernameError(e);
   }
 };
 

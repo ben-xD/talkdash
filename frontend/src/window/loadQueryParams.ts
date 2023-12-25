@@ -6,6 +6,7 @@ import {
   updateSpeakerUsername,
   speakerUsernameKey,
   updateSubscribedSpeakerUsername,
+  handleUpdateUsernameError,
 } from "../features/user/userState.tsx";
 import { generateRandomUsername } from "../features/names.ts";
 import { UserRole } from "@talkdash/schema";
@@ -14,20 +15,12 @@ import {
   isSignedIn,
 } from "../client/trpc.ts";
 
-export const loadQueryParams = async (role: UserRole) => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const speakerUsername = urlParams.get(speakerUsernameKey);
-  const hostUsername = urlParams.get(hostUsernameKey);
-  const audienceUsername = urlParams.get(audienceUsernameKey);
-
-  if (isSignedIn()) {
-    if (role !== "speaker" && speakerUsername) {
-      updateSubscribedSpeakerUsername(speakerUsername);
-    }
-    return;
-  }
-
-  await isConnectionAuthenticatedWhenNeededPromise;
+async function setUsername(
+  role: "host" | "audience" | "speaker",
+  speakerUsername: string | null,
+  hostUsername: string | null,
+  audienceUsername: string | null,
+) {
   switch (role) {
     case "host":
       if (speakerUsername) updateSubscribedSpeakerUsername(speakerUsername);
@@ -54,5 +47,31 @@ export const loadQueryParams = async (role: UserRole) => {
       return;
     default:
       return role satisfies never;
+  }
+}
+
+export const loadQueryParams = async (role: UserRole) => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const speakerUsername = urlParams.get(speakerUsernameKey);
+  const hostUsername = urlParams.get(hostUsernameKey);
+  const audienceUsername = urlParams.get(audienceUsernameKey);
+
+  if (isSignedIn()) {
+    if (role !== "speaker" && speakerUsername) {
+      updateSubscribedSpeakerUsername(speakerUsername);
+    }
+    return;
+  }
+
+  await isConnectionAuthenticatedWhenNeededPromise;
+  try {
+    return await setUsername(
+      role,
+      speakerUsername,
+      hostUsername,
+      audienceUsername,
+    );
+  } catch (e) {
+    handleUpdateUsernameError(e);
   }
 };

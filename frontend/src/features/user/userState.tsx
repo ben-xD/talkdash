@@ -105,6 +105,21 @@ export const updateAudienceUsername = async (
   }
 };
 
+export const handleUpdateUsernameError = (e: unknown) => {
+  if (e instanceof TRPCClientError) {
+    const message = e.message;
+    toast(() => (
+      <p class="text-secondary-800">Failed to set username. {message}</p>
+    ));
+  } else {
+    toast(() => (
+      <p class="text-secondary-800">
+        Failed to set username. Something went wrong.
+      </p>
+    ));
+  }
+};
+
 export const updateHostUsername = async (
   username: string | undefined,
   pushToHistory: boolean = true,
