@@ -10,42 +10,14 @@ import {
   unsetTemporaryUsernames,
 } from "../features/user/userState";
 import { Unsubscribable } from "@trpc/server/observable";
-import { addMessage } from "../features/messages/receivedMessages";
-import { DateTime } from "luxon";
-import {
-  bearerAuthToken,
-  preferredUsername,
-  setPreferredUsername,
-  trpc,
-} from "../client/trpc";
-import { isTimeLeft, setTimeAction } from "../features/time/timeState";
-import { toast } from "solid-toast";
+import { preferredUsername, setPreferredUsername } from "../client/trpc";
+import { isTimeLeft } from "../features/time/timeState";
 import { isQrCodeShown, QrCodeView } from "../components/QrCodeView.tsx";
 import { capturePageLeave, capturePageView } from "../AnalyticsEvents.ts";
+import { reconnectAsSpeaker } from "../features/speaker/speakerSubscription.tsx";
 
 const Speaker = () => {
   let messageSubscription: Unsubscribable | undefined = undefined;
-
-  const reconnectAsSpeaker = async (speakerUsername: string) => {
-    const times = await trpc.speaker.getTimeState.query({ speakerUsername });
-    if (times && times.start && times.finish) {
-      await setTimeAction({
-        startTime: DateTime.fromMillis(times.start),
-        finishTime: DateTime.fromMillis(times.finish),
-        userTalkLengthInput: "",
-      });
-      toast(() => <p class="text-secondary-800">Restoring timer from cloud</p>);
-    }
-
-    messageSubscription?.unsubscribe();
-    const authToken = bearerAuthToken();
-    messageSubscription = trpc.speaker.subscribeMessagesAsSpeaker.subscribe(
-      { authToken },
-      {
-        onData: addMessage,
-      },
-    );
-  };
 
   onMount(async () => {
     document.title = "Speaker · TalkDash";
@@ -57,9 +29,13 @@ const Speaker = () => {
       const temporarySpeakerUsername = speakerUsername();
       if (registered) {
         await setPreferredUsername("speaker", registered);
-        await reconnectAsSpeaker(registered);
+        messageSubscription?.unsubscribe();
+        messageSubscription = await reconnectAsSpeaker(registered);
       } else if (temporarySpeakerUsername) {
-        await reconnectAsSpeaker(temporarySpeakerUsername);
+        messageSubscription?.unsubscribe();
+        messageSubscription = await reconnectAsSpeaker(
+          temporarySpeakerUsername,
+        );
       }
     }, 0);
   });
