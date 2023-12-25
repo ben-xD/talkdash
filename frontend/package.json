@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "start": "vite preview",
+    "build:start": "pnpm build && pnpm start",
     "build": "tsc && vite build",
     "test": "tsc -p test/tsconfig.json && vitest",
     "lint": "prettier --check src && eslint .",
