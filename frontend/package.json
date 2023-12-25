@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "start": "vite preview",
     "build": "tsc && vite build",
     "test": "tsc -p test/tsconfig.json && vitest",
     "lint": "prettier --check src && eslint .",
