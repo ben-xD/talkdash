@@ -63,9 +63,10 @@ export const SpeakerConfigView = (props: Props) => {
       const { pin, isRequired } = await trpc.speaker.getPin.query({});
       setIsPinRequiredInternal(isRequired ?? false);
       setPinInternal(pin);
+    } else {
+      setIsPinRequiredInternal(false);
+      setPinInternal(undefined);
     }
-    setIsPinRequiredInternal(false);
-    setPinInternal(undefined);
   });
 
   return (
