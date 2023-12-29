@@ -136,7 +136,7 @@ export const senderRouter = router({
             speakerUsername,
           });
 
-          if (speaker?.pin) {
+          if (speaker?.isPinRequired) {
             emit.next({
               type: "pinRequired",
               speakerUsername,
