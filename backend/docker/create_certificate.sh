@@ -17,4 +17,4 @@ fi
 echo "Just press enter for all input fields, the data is not important"
 openssl genrsa 2048 > "$server_key"
 chmod 400 "$server_key"
-openssl req -new -x509 -nodes -sha256 -days 365 -key "$server_key" -out "$server_crt"
+openssl req -subj "/" -new -x509 -nodes -sha256 -days 365 -key "$server_key" -out "$server_crt"
