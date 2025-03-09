@@ -30,7 +30,7 @@ export const MessageView = () => {
           {hiddenMessageCount() > 0 && `, ${hiddenMessageCount()} hidden`})
         </h2>
         <TrashIcon
-          class="h-12 w-12 p-3 hover:text-primary-100 active:text-white"
+          class="hover:text-primary-100 h-12 w-12 p-3 active:text-white"
           onClick={() => setReceivedMessages([])}
         />
       </div>
@@ -50,11 +50,12 @@ export const MessageView = () => {
 
             return (
               <Show when={timeSinceReceived()}>
-                <div class="flex w-full animate__animated animate__jackInTheBox items-center justify-between gap-8 @container">
+                <div class="animate__animated animate__jackInTheBox @container flex w-full items-center justify-between gap-8">
                   <p class="whitespace-pre-wrap @lg:text-[4cqw]">
                     {message.emojiMessage
-                      ? `${message.emojiMessage.replace("\n", "").trim()} ${message.message
-                      }`
+                      ? `${message.emojiMessage.replace("\n", "").trim()} ${
+                          message.message
+                        }`
                       : message.message}
                   </p>
                   <div class="flex items-center gap-8">
@@ -71,7 +72,7 @@ export const MessageView = () => {
                     </div>
                     <TrashIcon
                       class={
-                        "h-12 w-12 p-3 hover:text-primary-100 active:text-white"
+                        "hover:text-primary-100 h-12 w-12 p-3 active:text-white"
                       }
                       onClick={() =>
                         setReceivedMessages((messages) =>

@@ -25,7 +25,7 @@ const RefreshPwaPrompt: Component = () => {
   return (
     <div>
       <Show when={offlineReady() || needRefresh()}>
-        <div class="fixed bottom-0 right-0 z-50 m-4 flex max-w-lg flex-col items-center gap-4 rounded-2xl bg-primary-50 p-4 text-primary-800 opacity-90 shadow-lg transition-opacity hover:opacity-100">
+        <div class="bg-primary-50 text-primary-800 fixed right-0 bottom-0 z-50 m-4 flex max-w-lg flex-col items-center gap-4 rounded-2xl p-4 opacity-90 shadow-lg transition-opacity hover:opacity-100">
           <div>
             <Show
               fallback={

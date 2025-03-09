@@ -10,7 +10,7 @@ export const ByBenButterworth = () => {
       <img
         src="/images/talkdash-160x160.webp"
         alt={"Image of a blue bird called TalkDash."}
-        class="m-auto block h-40 w-40 drop-shadow-xl dark:brightness-90 "
+        class="m-auto block h-40 w-40 drop-shadow-xl dark:brightness-90"
       />
     </div>
   );

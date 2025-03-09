@@ -69,21 +69,21 @@ const Home = () => {
         </p>
         <div class="flex flex-wrap justify-between gap-4 text-center">
           <A
-            class="flex w-24 shrink-0 grow flex-col items-center justify-center gap-2 rounded-lg p-4 outline outline-primary-50 hover:text-primary-200"
+            class="outline-primary-50 hover:text-primary-200 flex w-24 shrink-0 grow flex-col items-center justify-center gap-2 rounded-lg p-4 outline"
             href={`/audience${queryParamWithSpeakerUsername()}`}
           >
             <UsersIcon />
             <p>Audience</p>
           </A>
           <A
-            class="flex w-24 shrink-0 grow flex-col items-center justify-center gap-2 rounded-lg p-4 outline outline-primary-50 hover:text-primary-200"
+            class="outline-primary-50 hover:text-primary-200 flex w-24 shrink-0 grow flex-col items-center justify-center gap-2 rounded-lg p-4 outline"
             href="/speaker"
           >
             <MicIcon />
             <p>Speaker</p>
           </A>
           <A
-            class="flex w-24 shrink-0 grow flex-col items-center justify-center gap-2 rounded-lg p-4 outline outline-primary-50 hover:text-primary-200"
+            class="outline-primary-50 hover:text-primary-200 flex w-24 shrink-0 grow flex-col items-center justify-center gap-2 rounded-lg p-4 outline"
             href={`/host${queryParamWithSpeakerUsername()}`}
           >
             <ConfettiIcon />

@@ -25,7 +25,7 @@ export const ColorSchemeMenu = () => {
                   <Menu.Item
                     closeOnSelect={false}
                     class={cn("cursor-pointer px-4 py-2", {
-                      "font-bold text-primary-500": colorScheme() === value,
+                      "text-primary-500 font-bold": colorScheme() === value,
                     })}
                     onClick={() => setColorScheme(value)}
                     id={value}

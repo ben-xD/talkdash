@@ -91,7 +91,7 @@ export const SpeakerConfigView = (props: Props) => {
           </h2>
         </div>
         <div
-          class="cursor-pointer hover:text-primary-100 active:text-white"
+          class="hover:text-primary-100 cursor-pointer active:text-white"
           onClick={async () => {
             await navigator.clipboard.writeText(props.shareUrl.toString());
           }}

@@ -15,6 +15,8 @@ export const createSessionAndSetClientAuth = async (
   const clientProtocol = ctx.clientProtocol;
   if (clientProtocol === "http") {
     // Cookie based auth
+    // TODO figure out the error
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     if (ctx.req && ctx.res) {
       const referer = ctx.req.headers["referer"];
       const sessionCookie = ctx.auth.createSessionCookie(session);

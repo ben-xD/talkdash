@@ -21,7 +21,7 @@ export const ThemeMenu = () => {
               <Menu.Item
                 closeOnSelect={false}
                 class={cn("cursor-pointer px-4 py-2", {
-                  "font-bold text-primary-500": theme() === "system",
+                  "text-primary-500 font-bold": theme() === "system",
                 })}
                 onClick={() => setUserSelectedTheme("system")}
                 id="system"
@@ -31,7 +31,7 @@ export const ThemeMenu = () => {
               <Menu.Item
                 closeOnSelect={false}
                 class={cn("cursor-pointer px-4 py-2", {
-                  "font-bold text-primary-500": theme() === "dark",
+                  "text-primary-500 font-bold": theme() === "dark",
                 })}
                 onClick={() => setUserSelectedTheme("dark")}
                 id="dark"
@@ -41,7 +41,7 @@ export const ThemeMenu = () => {
               <Menu.Item
                 closeOnSelect={false}
                 class={cn("cursor-pointer px-4 py-2", {
-                  "font-bold text-primary-500": theme() === "light",
+                  "text-primary-500 font-bold": theme() === "light",
                 })}
                 onClick={() => setUserSelectedTheme("light")}
                 id="light"

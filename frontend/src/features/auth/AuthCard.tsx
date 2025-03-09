@@ -94,7 +94,7 @@ export const AuthCard = (props: {
           </button>
           <p class="text-center text-sm">
             {switchQuestion()}{" "}
-            <A class="underline hover:text-primary-200" href={switchPath()}>
+            <A class="hover:text-primary-200 underline" href={switchPath()}>
               {switchLabel()}
             </A>
           </p>

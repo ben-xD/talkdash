@@ -48,7 +48,7 @@ export const EditableStateField = (props: Props) => {
           </div>
           <Editable.Area>
             <Editable.Input
-              class="w-full text-primary-600"
+              class="text-primary-600 w-full"
               value={props.value}
             />
             <Editable.Preview />

@@ -97,7 +97,7 @@ export const SendMessageCard = (props: { senderRole: Role }) => {
   };
 
   return (
-    <div class=" flex flex-col gap-4 rounded-xl bg-primary-50 p-4 text-secondary-800 shadow-lg dark:bg-primary-900 dark:text-primary-200">
+    <div class="bg-primary-50 text-secondary-800 dark:bg-primary-900 dark:text-primary-200 flex flex-col gap-4 rounded-xl p-4 shadow-lg">
       <Alert message={errorMessage()} />
       <label
         for="submitMessage"
@@ -134,7 +134,7 @@ export const SendMessageCard = (props: { senderRole: Role }) => {
             !speakerUsername() ||
             message().length < minLengthMessage
           }
-          class="rounded-md bg-primary-600 px-4 py-2 text-primary-50 shadow hover:bg-primary-500 active:bg-primary-700 disabled:bg-gray-400"
+          class="bg-primary-600 text-primary-50 hover:bg-primary-500 active:bg-primary-700 rounded-md px-4 py-2 shadow disabled:bg-gray-400"
           onAnimationEnd={() => setIsSending(false)}
           onClick={onSend}
         >

@@ -8,7 +8,7 @@ export const ReconnectedAlert = () => {
         class="mt-4 flex items-center rounded-full bg-green-200 p-2 leading-none text-green-600 lg:inline-flex"
         role="alert"
       >
-        <span class="mr-3 flex rounded-full bg-green-600 px-2 py-1 text-xs font-bold uppercase text-white">
+        <span class="mr-3 flex rounded-full bg-green-600 px-2 py-1 text-xs font-bold text-white uppercase">
           Connected
         </span>
         <span class="mr-2 flex-auto text-left font-semibold">

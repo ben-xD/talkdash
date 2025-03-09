@@ -60,7 +60,7 @@ export function TimerConfigCard(props: { class?: string }) {
     <Card class={cn("my-2 p-4", props.class)}>
       <div class="flex flex-col gap-2">
         <Alert message={errorMessage()} />
-        <label class="whitespace-normal break-words" for="finishTime">
+        <label class="break-words whitespace-normal" for="finishTime">
           Talk length
           <p class="text-primary-600 dark:text-primary-400">
             This can be number of minutes or free text
@@ -108,7 +108,7 @@ export function TimerConfigCard(props: { class?: string }) {
           <button
             aria-label={"Reset"}
             disabled={!finishTime()}
-            class="px-4 py-2 hover:text-primary-900 active:text-primary-700 dark:hover:text-primary-100 dark:active:text-primary-300 hover:cursor-pointer"
+            class="hover:text-primary-900 active:text-primary-700 dark:hover:text-primary-100 dark:active:text-primary-300 px-4 py-2 hover:cursor-pointer"
             onClick={onReset}
           >
             Reset
@@ -116,7 +116,7 @@ export function TimerConfigCard(props: { class?: string }) {
           <button
             aria-label={"Start"}
             disabled={!!finishTime() || !textInputDurationInMinutes()}
-            class="rounded-md bg-primary-600 px-4 py-2 text-primary-50 shadow hover:bg-primary-500 active:bg-primary-700 disabled:bg-gray-400"
+            class="bg-primary-600 text-primary-50 hover:bg-primary-500 active:bg-primary-700 rounded-md px-4 py-2 shadow disabled:bg-gray-400"
             onClick={onStart}
           >
             Start

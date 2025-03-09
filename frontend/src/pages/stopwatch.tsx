@@ -35,11 +35,11 @@ const StopwatchPage = () => {
 
   return (
     <div class="my-4 flex h-[calc(100vh-120px)] flex-col items-center justify-center p-4">
-      <div class="z-10 flex justify-center gap-4 rounded-lg bg-primary-50 p-4 text-primary-800">
+      <div class="bg-primary-50 text-primary-800 z-10 flex justify-center gap-4 rounded-lg p-4">
         <button
           aria-label={"Reset timer"}
           disabled={!startTime()}
-          class="px-4 py-2 hover:text-primary-900 active:text-primary-700"
+          class="hover:text-primary-900 active:text-primary-700 px-4 py-2"
           onClick={() => {
             setStartTime(undefined);
             setTime(undefined);
@@ -50,7 +50,7 @@ const StopwatchPage = () => {
         <button
           aria-label={"Start timer"}
           disabled={!!startTime()}
-          class="rounded-md bg-primary-600 px-4 py-2 text-primary-50 shadow hover:bg-primary-500 active:bg-primary-700 disabled:bg-gray-400"
+          class="bg-primary-600 text-primary-50 hover:bg-primary-500 active:bg-primary-700 rounded-md px-4 py-2 shadow disabled:bg-gray-400"
           onClick={() => setStartTime(DateTime.now())}
         >
           Start
@@ -58,7 +58,7 @@ const StopwatchPage = () => {
       </div>
       <h2
         class={cn(
-          "relative z-0 select-none text-center tracking-tight drop-shadow-lg",
+          "relative z-0 text-center tracking-tight drop-shadow-lg select-none",
           showMilliseconds() ? "text-[14vw]/[12vw]" : "text-[20vw]/[16vw]",
         )}
       >

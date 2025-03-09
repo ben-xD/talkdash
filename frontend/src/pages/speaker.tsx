@@ -97,11 +97,11 @@ const Speaker = () => {
         />
         <TimerConfigCard class="z-20 grow basis-0" />
       </div>
-      <div class="-my-16 justify-center text-center ">
+      <div class="-my-16 justify-center text-center">
         <div class="flex text-[16vw] leading-[16vw] tracking-tight drop-shadow-lg md:max-xl:text-[18vw]">
           <TimeLeft />
         </div>
-        <p class="font-normal text-primary-100">time left</p>
+        <p class="text-primary-100 font-normal">time left</p>
       </div>
       <MessageView />
       <Show

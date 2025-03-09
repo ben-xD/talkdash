@@ -14,7 +14,7 @@ export const Toggle = (
       <Tooltip.Trigger>
         <button
           class={cn(
-            "relative inline-flex h-6 w-11 cursor-pointer rounded-full border-[2px] border-transparent bg-opacity-100 transition-all duration-200 ease-in-out focus:ring focus:ring-primary-500",
+            "bg-opacity-100 focus:ring-primary-500 relative inline-flex h-6 w-11 cursor-pointer rounded-full border-[2px] border-transparent transition-all duration-200 ease-in-out focus:ring",
             {
               "bg-primary-500": props.checked,
               "bg-primary-800": !props.checked,
@@ -27,7 +27,7 @@ export const Toggle = (
           onClick={() => props.setChecked(!props.checked)}
           {...props}
         >
-          <span class="absolute m-[-1px] h-[1px] w-[1px] shrink-0 overflow-hidden whitespace-nowrap border-0 p-0">
+          <span class="absolute m-[-1px] h-[1px] w-[1px] shrink-0 overflow-hidden border-0 p-0 whitespace-nowrap">
             {props["aria-label"]}
           </span>
           <span
@@ -46,7 +46,7 @@ export const Toggle = (
       </Tooltip.Trigger>
       <Tooltip.Positioner>
         <Show when={props.disabled}>
-          <Tooltip.Content class="z-30 max-w-sm flex-wrap rounded-lg bg-primary-50 px-4 py-2 text-primary-800 dark:bg-primary-800 dark:text-primary-200">
+          <Tooltip.Content class="bg-primary-50 text-primary-800 dark:bg-primary-800 dark:text-primary-200 z-30 max-w-sm flex-wrap rounded-lg px-4 py-2">
             <p class="break-normal">{props.disabledTooltip}</p>
           </Tooltip.Content>
         </Show>

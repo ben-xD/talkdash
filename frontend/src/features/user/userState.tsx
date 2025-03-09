@@ -80,7 +80,7 @@ export const [audienceUsername, setAudienceUsernameInternal] = createSignal<
 
 export const updateAudienceUsername = async (
   username?: string,
-  pushToHistory: boolean = true,
+  pushToHistory = true,
 ): Promise<void> => {
   console.info(`Setting audience username to ${username}`);
   setAudienceUsernameInternal(username);
@@ -122,7 +122,7 @@ export const handleUpdateUsernameError = (e: unknown) => {
 
 export const updateHostUsername = async (
   username: string | undefined,
-  pushToHistory: boolean = true,
+  pushToHistory = true,
 ): Promise<void> => {
   console.info(`Setting host username to ${username}`);
   setHostUsernameInternal(username);

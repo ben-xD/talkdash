@@ -31,8 +31,9 @@ export const [pinInternal, setPinInternal] = makePersisted(
 export const pin = pinInternal;
 
 // The state the senders set before sending a message
-export const [sendersPin, setSendersPin] =
-  makePersisted(createSignal<string | undefined>());
+export const [sendersPin, setSendersPin] = makePersisted(
+  createSignal<string | undefined>(),
+);
 
 export const [isSendersPinRequired, setIsSendersPinRequired] = createSignal<
   boolean | undefined
@@ -80,7 +81,7 @@ export const Pin = (props: {
         <Index each={[0, 1, 2, 3]}>
           {(id) => (
             <PinInput.Input
-              class="w-9 rounded-md bg-primary-50 p-2 text-center text-primary-800 dark:bg-primary-900 dark:text-primary-200"
+              class="bg-primary-50 text-primary-800 dark:bg-primary-900 dark:text-primary-200 w-9 rounded-md p-2 text-center"
               index={id()}
             />
           )}
@@ -110,10 +111,10 @@ export const PinAttempt = (props: {
           {(id) => (
             <PinInput.Input
               class={cn(
-                "w-9 rounded-md bg-primary-50 p-2 text-center text-primary-800 dark:bg-primary-900 dark:text-primary-200",
+                "bg-primary-50 text-primary-800 dark:bg-primary-900 dark:text-primary-200 w-9 rounded-md p-2 text-center",
                 {
                   "border-2 border-red-500": !props.isCorrect,
-                  "border-2 border-primary-500": props.isCorrect,
+                  "border-primary-500 border-2": props.isCorrect,
                 },
               )}
               index={id()}

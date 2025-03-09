@@ -38,7 +38,7 @@ export const AppMenu = () => {
               <MenuItemLink path="/" title={"Home"} exactPath />
               <MenuItemGroupLabel
                 for="modes"
-                class="px-4 text-sm font-bold uppercase text-slate-500"
+                class="px-4 text-sm font-bold text-slate-500 uppercase"
               >
                 Modes
               </MenuItemGroupLabel>
@@ -48,7 +48,7 @@ export const AppMenu = () => {
               <MenuItemLink path="/audience" title={"Audience"} />
               <MenuItemGroupLabel
                 for="modes"
-                class="px-4 text-sm font-bold uppercase text-slate-500"
+                class="px-4 text-sm font-bold text-slate-500 uppercase"
               >
                 Extras
               </MenuItemGroupLabel>
@@ -61,7 +61,7 @@ export const AppMenu = () => {
             </MenuItemGroup>
             <MenuItemGroupLabel
               for="modes"
-              class="px-4 text-sm font-bold uppercase text-slate-500"
+              class="px-4 text-sm font-bold text-slate-500 uppercase"
             >
               Account
             </MenuItemGroupLabel>

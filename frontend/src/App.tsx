@@ -49,7 +49,7 @@ function App(props: { children?: JSX.Element }) {
       <div class="flex items-center gap-4">
         <Toast />
         <RefreshPwaPrompt />
-        <h1 class="text-center text-4xl font-bold tracking-tight dark:bg-gradient-to-r dark:from-secondary-400 dark:to-primary-500 dark:bg-clip-text dark:text-transparent">
+        <h1 class="dark:from-secondary-400 dark:to-primary-500 text-center text-4xl font-bold tracking-tight dark:bg-gradient-to-r dark:bg-clip-text dark:text-transparent">
           <A href="/">TalkDash</A>
         </h1>
         <a
