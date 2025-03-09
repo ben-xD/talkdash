@@ -29,10 +29,12 @@ export const createTestDatabase = async (name: string): Promise<pg.Pool> => {
   });
 };
 
-export const dropTestDatabase = async (name: string) => {
+export const dropTestDatabase = async (testDatabaseName: string) => {
   // Connect to other database to be able to drop the testing one
   const { dbPool: applicationDatabase } = await connectToDb();
-  await applicationDatabase.query(`DROP DATABASE IF EXISTS ${name}`);
+  await applicationDatabase.query(
+    `DROP DATABASE IF EXISTS ${testDatabaseName} WITH (FORCE)`,
+  );
 };
 
 export const createContext = async (dbPool: pg.Pool): Promise<TrpcContext> => {
