@@ -1,4 +1,5 @@
 import { makePersisted } from "@solid-primitives/storage";
+import { formatHex, parse } from "culori";
 import { createEffect, createSignal } from "solid-js";
 import colors from "tailwindcss/colors";
 
@@ -114,3 +115,5 @@ createEffect(() => {
   const bgTailwindColor = colors[roleColors.bg];
   setBgColor(bgTailwindColor[100]);
 });
+
+export const oklchToHex = (lchString: string) => formatHex(parse(lchString));

@@ -1,9 +1,9 @@
-import { createEffect, createSignal } from "solid-js";
-import QRCode from "qrcode";
-import { cn } from "../css/tailwind.ts";
-import { bgColor, primaryColor } from "../css/colors.ts";
-import { createWindowSizeSignal } from "../window/useWindowSize.ts";
 import { makePersisted } from "@solid-primitives/storage";
+import QRCode from "qrcode";
+import { createEffect, createSignal } from "solid-js";
+import { bgColor, oklchToHex, primaryColor } from "../css/colors.ts";
+import { cn } from "../css/tailwind.ts";
+import { createWindowSizeSignal } from "../window/useWindowSize.ts";
 
 export const [isQrCodeShown, setIsQrCodeShown] = makePersisted(
   createSignal<boolean>(false),
@@ -21,14 +21,18 @@ export const QrCodeView = (props: {
   const size = createWindowSizeSignal();
 
   const renderQrToCanvas = (width: number) => {
+    const primary = primaryColor();
+    const primaryHex = primary !== undefined ? oklchToHex(primary) : undefined;
+    const bg = bgColor();
+    const bgHex = bg !== undefined ? oklchToHex(bg) : undefined;
     const color = props.isDarkMode
       ? {
-          light: primaryColor(),
+          light: primaryHex,
           dark: "#1f2937",
         }
       : {
-          dark: primaryColor(),
-          light: bgColor(),
+          dark: primaryHex,
+          light: bgHex,
         };
     QRCode.toCanvas(canvasRef, props.text, {
       width,
