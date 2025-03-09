@@ -269,3 +269,12 @@ createEffect(() => {
 export const isTimeLeft = createMemo(() => timeLeft().mode === Mode.Running);
 
 export const isExceeded = createMemo(() => timeLeft().mode === Mode.Exceeded);
+
+export const [showMilliseconds, setShowMilliseconds] = makePersisted(
+  // we don't destructure because makePersisted wants the entire signal
+  // eslint-disable-next-line solid/reactivity
+  createSignal<boolean>(false),
+  {
+    name: "show_milliseconds",
+  },
+);

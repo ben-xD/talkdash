@@ -1,8 +1,9 @@
-import { EditableStateField } from "./EditableStateField";
-import { ShareIcon } from "../../assets/ShareIcon";
-import { createSignal, onMount, Show } from "solid-js";
-import { ElapsedTime } from "../../components/ElapsedTime";
+import { Accordion } from "@ark-ui/solid";
+import { makePersisted } from "@solid-primitives/storage";
 import { A } from "@solidjs/router";
+import { createSignal, onMount, Show } from "solid-js";
+import { ChevronDownIcon } from "../../assets/ChevronDownIcon.tsx";
+import { ShareIcon } from "../../assets/ShareIcon";
 import {
   isConnectionAuthenticatedWhenNeededPromise,
   isSignedIn,
@@ -10,33 +11,32 @@ import {
   setPreferredUsername,
   trpc,
 } from "../../client/trpc.ts";
-import { cn } from "../../css/tailwind.ts";
+import { ElapsedTime } from "../../components/ElapsedTime";
 import {
   isQrCodeShown,
   setIsQrCodeShown,
 } from "../../components/QrCodeView.tsx";
 import { Toggle } from "../../components/Toggle.tsx";
-import {
-  pin,
-  Pin,
-  isPinRequired,
-  setPin,
-  setIsPinRequired,
-  setPinInternal,
-  setIsPinRequiredInternal,
-} from "./pin.tsx";
-import {
-  isAudienceMessagesShown,
-  setIsAudienceMessagesShown,
-} from "./audienceMessages.ts";
-import { registeredUsername } from "../user/userState.tsx";
+import { cn } from "../../css/tailwind.ts";
 import {
   setShowTimeReminderMessages,
   showTimeReminderMessages,
 } from "../time/timeState.ts";
-import { Accordion } from "@ark-ui/solid";
-import { ChevronDownIcon } from "../../assets/ChevronDownIcon.tsx";
-import { makePersisted } from "@solid-primitives/storage";
+import { registeredUsername } from "../user/userState.tsx";
+import {
+  isAudienceMessagesShown,
+  setIsAudienceMessagesShown,
+} from "./audienceMessages.ts";
+import { EditableStateField } from "./EditableStateField";
+import {
+  isPinRequired,
+  pin,
+  Pin,
+  setIsPinRequired,
+  setIsPinRequiredInternal,
+  setPin,
+  setPinInternal,
+} from "./pin.tsx";
 
 type Props = {
   reconnectAsSpeaker: (speakerUsername: string) => void;

@@ -1,5 +1,9 @@
-import { JSX, onCleanup, onMount } from "solid-js";
-import { isExceeded, setCurrentTime } from "./features/time/timeState";
+import { JSX, onCleanup, onMount, createEffect } from "solid-js";
+import {
+  isExceeded,
+  setCurrentTime,
+  showMilliseconds,
+} from "./features/time/timeState";
 import { DateTime } from "luxon";
 import { A, useNavigate } from "@solidjs/router";
 import { GithubLogo } from "./assets/GithubLogo";
@@ -18,14 +22,25 @@ function App(props: { children?: JSX.Element }) {
     loadThemeOntoPage();
     setNavigatorSignal(() => navigate);
 
-    // Used to cause re-render of components that rely on current time.
-    const intervalId = setInterval(() => {
-      setCurrentTime(DateTime.now());
-      // Throttle it to every second
-    }, 1000);
+    let intervalId: ReturnType<typeof setInterval> | undefined;
+
+    // Create an effect to update interval when showMilliseconds changes
+    createEffect(() => {
+      // Track the signal and determine interval time
+      const useMilliseconds = showMilliseconds();
+      const intervalTime = useMilliseconds ? 6 : 1000; // 8ms (~165fps) when showing milliseconds, 1000ms otherwise
+
+      // Clear any existing interval
+      if (intervalId) clearInterval(intervalId);
+
+      // Set new interval with appropriate timing
+      intervalId = setInterval(() => {
+        setCurrentTime(DateTime.now());
+      }, intervalTime);
+    });
 
     onCleanup(() => {
-      clearInterval(intervalId);
+      if (intervalId) clearInterval(intervalId);
     });
   });
 
@@ -40,6 +55,7 @@ function App(props: { children?: JSX.Element }) {
         <a
           href="https://github.com/ben-xD/talkdash"
           target="_blank"
+          rel="noopener"
           aria-label="Link to GitHub project"
         >
           <GithubLogo />
