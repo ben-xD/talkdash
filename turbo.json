@@ -6,7 +6,7 @@
   "globalEnv": [
     "SENTRY_AUTH_TOKEN"
   ],
-  "pipeline": {
+  "tasks": {
     "build": {
       "dependsOn": [
         "^build"
@@ -19,11 +19,12 @@
       "dependsOn": [
         "^build"
       ],
-      "dotEnv": [
-        ".env"
-      ],
       "outputs": [
         "dist/**"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env"
       ]
     },
     // Only backend needs the schema build, since frontend uses vite and will transpile the schema automatically
