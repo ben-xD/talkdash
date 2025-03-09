@@ -1,6 +1,7 @@
 // config used for vite (build process)
 {
   "compilerOptions": {
+    "strict": true,
     "composite": true,
     "skipLibCheck": true,
     "module": "ESNext",
