@@ -6,6 +6,7 @@ import { VitePWA } from "vite-plugin-pwa";
 import mdx from "@mdx-js/rollup";
 import remarkGfm from "remark-gfm";
 import "dotenv/config";
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   // Prevent clearing screen so that there are no glitches in the output of `turbo dev`
@@ -13,6 +14,7 @@ export default defineConfig({
   clearScreen: false,
 
   plugins: [
+    tailwindcss(),
     solidDevtools({
       /* features options - all disabled by default */
       autoname: true, // e.g. enable autoname

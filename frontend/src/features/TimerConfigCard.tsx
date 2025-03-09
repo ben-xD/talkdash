@@ -108,7 +108,7 @@ export function TimerConfigCard(props: { class?: string }) {
           <button
             aria-label={"Reset"}
             disabled={!finishTime()}
-            class="px-4 py-2 hover:text-primary-900 active:text-primary-700 dark:hover:text-primary-100 dark:active:text-primary-300"
+            class="px-4 py-2 hover:text-primary-900 active:text-primary-700 dark:hover:text-primary-100 dark:active:text-primary-300 hover:cursor-pointer"
             onClick={onReset}
           >
             Reset
