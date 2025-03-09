@@ -2,7 +2,7 @@ services:
   # Based on https://gal.hagever.com/posts/running-vercel-postgres-locally and
   # https://github.com/neondatabase/wsproxy
   db:
-    image: "postgres:15.2-alpine"
+    image: "postgres:17-alpine"
     environment:
       POSTGRES_USER: "user"
       POSTGRES_PASSWORD: "password"
@@ -24,7 +24,7 @@ services:
       context: .
       dockerfile: Dockerfile
     command: "npm start"
-#    command: tail -f /dev/null
+    #    command: tail -f /dev/null
     depends_on:
       - "db"
     ports:
