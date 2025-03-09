@@ -6,6 +6,7 @@
     "outDir": "./dist",
     "esModuleInterop": true,
     "types": ["vitest"],
+    "checkJs": true,
 
     // Linting
     "strict": true,

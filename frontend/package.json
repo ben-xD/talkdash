@@ -58,7 +58,6 @@
     "eslint": "^9.22.0",
     "eslint-config-talkdash": "workspace:*",
     "eslint-plugin-solid": "^0.13.0",
-    "eslint-plugin-tailwindcss": "^3.18.0",
     "jsdom": "^26.0.0",
     "mock-socket": "^9.3.1",
     "prettier": "^3.0.3",

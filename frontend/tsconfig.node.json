@@ -1,15 +1,25 @@
 // config used for vite (build process)
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "esModuleInterop": true,
-    "strict": true,
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
     "forceConsistentCasingInFileNames": true,
-    "composite": true,
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "types": ["vitest"],
+    "checkJs": true,
+
+    // Linting
+    "strict": true,
+    "noImplicitAny": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+
+    // Because of drizzle: https://github.com/drizzle-team/drizzle-orm/issues/1207 and https://github.com/drizzle-team/drizzle-orm/issues/879
     "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
+
     // To avoid typecheck build outputting files
     "noEmit": true
   },

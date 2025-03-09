@@ -7,6 +7,7 @@ import eslintTanstackQuery from "@tanstack/eslint-plugin-query";
 import eslintTurboConfig from "eslint-config-turbo/flat";
 
 export default tseslint.config(
+  // @ts-expect-error TS2345 Type 'string' is not assignable to type 'RuleEntry | undefined'.
     ...eslintTurboConfig,
   eslint.configs.recommended,
   ...tseslint.configs.strict,
