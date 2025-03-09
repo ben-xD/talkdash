@@ -1,5 +1,10 @@
-# docs: https://pnpm.io/pnpm-workspace_yaml
 packages:
   - frontend
   - backend
   - packages/**
+onlyBuiltDependencies:
+  - '@sentry/cli'
+  - bcrypt
+  - es5-ext
+  - esbuild
+  - workerd
