@@ -3,7 +3,7 @@
 # - build: `docker-compose up -d --build`
 # - enter shell: `docker exec -it talkdash-backend-1 sh`
 
-ARG NODE_VERSION=21.5.0
+ARG NODE_VERSION=23.9.0
 FROM node:${NODE_VERSION}-slim as base
 
 LABEL fly_launch_runtime="NodeJS"

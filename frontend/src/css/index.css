@@ -6,9 +6,9 @@ See https://tailwindcss.com/docs/adding-custom-styles#writing-plugins
 With custom classes in css, I have intellisense, but probably from Webstorm instead of tailwind, with no hover preview.
 */
 
-@import './fonts.css';
-@import 'tailwindcss';
-@import './components.css';
+@import "./fonts.css";
+@import "tailwindcss";
+@import "./components.css";
 @reference 'animate.css';
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -40,7 +40,7 @@ With custom classes in css, I have intellisense, but probably from Webstorm inst
   --color-secondary-800: var(--secondary-800);
   --color-secondary-900: var(--secondary-900);
   --color-secondary-950: var(--secondary-950);
-  
+
   --color-bg-50: var(--bg-50);
   --color-bg-100: var(--bg-100);
   --color-bg-200: var(--bg-200);

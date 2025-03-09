@@ -7,8 +7,6 @@ import { PinInput } from "@ark-ui/solid";
 import { cn } from "../../css/tailwind.ts";
 
 export const [isPinRequired, setIsPinRequiredInternal] = makePersisted(
-  // we don't destructure because makePersisted wants the entire signal
-  // eslint-disable-next-line solid/reactivity
   createSignal<boolean>(false),
   {
     name: "is_host_pin_required",
@@ -24,8 +22,6 @@ export const setIsPinRequired = async (isRequired: boolean) => {
 };
 
 export const [pinInternal, setPinInternal] = makePersisted(
-  // we don't destructure because makePersisted wants the entire signal
-  // eslint-disable-next-line solid/reactivity
   createSignal<string | undefined>(undefined),
   {
     name: "host_pin",
@@ -35,10 +31,8 @@ export const [pinInternal, setPinInternal] = makePersisted(
 export const pin = pinInternal;
 
 // The state the senders set before sending a message
-export const [sendersPin, setSendersPin] = makePersisted(
-  // eslint-disable-next-line solid/reactivity
-  createSignal<string | undefined>(),
-);
+export const [sendersPin, setSendersPin] =
+  makePersisted(createSignal<string | undefined>());
 
 export const [isSendersPinRequired, setIsSendersPinRequired] = createSignal<
   boolean | undefined

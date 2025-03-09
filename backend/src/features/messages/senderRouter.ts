@@ -17,7 +17,7 @@ import { assertWebsocketClient } from "../../trpc/assert.js";
 import { throwUnauthorizedError } from "../../auth/errors.js";
 
 // An event related to speakers
-const speakerEvent = z.discriminatedUnion("type", [
+export const speakerEvent = z.discriminatedUnion("type", [
   z.object({ type: z.literal("speakerCreated"), speakerUsername: z.string() }),
   z.object({ type: z.literal("speakerDeleted"), speakerUsername: z.string() }),
   z.object({
@@ -29,7 +29,7 @@ const speakerEvent = z.discriminatedUnion("type", [
   z.object({ type: z.literal("pinRequired"), speakerUsername: z.string() }),
   z.object({ type: z.literal("pinNotRequired"), speakerUsername: z.string() }),
 ]);
-type SpeakerEvent = z.infer<typeof speakerEvent>;
+export type SpeakerEvent = z.infer<typeof speakerEvent>;
 
 type ObserverId = string;
 type EventObserver = Observer<SpeakerEvent, Error>;

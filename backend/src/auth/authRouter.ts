@@ -145,6 +145,7 @@ export const authRouter = router({
         await ctx.auth.deleteDeadUserSessions(userId);
         return;
       } catch (e) {
+        console.error("Error deleting user", e);
         throwUnauthenticatedError("Invalid email or password");
       }
     }),
@@ -301,6 +302,7 @@ export const authRouter = router({
             .where(eq(userTable.id, userId))
             .returning();
         } catch (e) {
+          console.error(e);
           throw new TRPCError({
             code: "BAD_REQUEST",
             message: `Username '${input.newUsername}' is already in use.`,

@@ -10,7 +10,7 @@ const RefreshPwaPrompt: Component = () => {
     needRefresh: [needRefresh, setNeedRefresh],
     updateServiceWorker,
   } = useRegisterSW({
-    onRegisteredSW() {},
+    // onRegisteredSW: () => { },
     onRegisterError(error) {
       console.error("SW registration error", error);
       Sentry.captureException(error);

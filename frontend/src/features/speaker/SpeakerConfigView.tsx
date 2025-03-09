@@ -45,8 +45,6 @@ type Props = {
 };
 
 const [accordionState, setAccordionState] = makePersisted(
-  // we don't destructure because makePersisted wants the entire signal
-  // eslint-disable-next-line solid/reactivity
   createSignal<string[]>([]),
   {
     name: "speaker_config_accordion_state",

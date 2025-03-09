@@ -55,7 +55,7 @@ function App(props: { children?: JSX.Element }) {
         <a
           href="https://github.com/ben-xD/talkdash"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
           aria-label="Link to GitHub project"
         >
           <GithubLogo />

@@ -1,7 +1,7 @@
 import type { Config } from "drizzle-kit";
 import { env } from "./src/env.js";
 import { migrationsFolder } from "./src/db/db.js";
-import path = require("path");
+import path from "path";
 
 // Drizzle appends a `./` to the `out` path, so we need to get the relative path
 const out = path.relative(__dirname, migrationsFolder);

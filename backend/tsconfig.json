@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
-    "module": "nodenext",
+    "module": "NodeNext",
     "moduleResolution": "nodenext",
+    "forceConsistentCasingInFileNames": true,
     "outDir": "./dist",
     "esModuleInterop": true,
-    "types":["vitest"],
+    "types": ["vitest"],
 
     // Linting
     "strict": true,
@@ -15,15 +16,16 @@
     "noFallthroughCasesInSwitch": true,
 
     // Because of drizzle: https://github.com/drizzle-team/drizzle-orm/issues/1207 and https://github.com/drizzle-team/drizzle-orm/issues/879
-    "skipLibCheck": true
+    "skipLibCheck": true,
+
+    // To avoid typecheck build outputting files
+    "noEmit": true
   },
   "include": [
     "**/*.ts",
-    ".eslintrc.cjs",
+    "setupTests/**/*.ts",
+    "drizzle.config.ts",
     "setupTests"
   ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "exclude": ["node_modules", "dist"]
 }

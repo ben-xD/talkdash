@@ -5,20 +5,26 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "start": "vite preview",
-    "build:start": "pnpm build && pnpm start",
+    "start": "pnpm build && pnpm start",
     "build": "tsc && vite build",
-    "test": "tsc -p test/tsconfig.json && vitest",
-    "lint": "prettier --check src && eslint .",
-    "lint:fix": "prettier src --write && eslint --fix .",
+    "test": "tsc -p tsconfig.test.json && vitest",
+    "typecheck": "tsc --build",
+    "typecheck:watch": "tsc --build --watch",
+    "lint": "prettier . --check && pnpm typecheck && eslint .",
+    "lint:fix": "prettier . --write && pnpm typecheck && eslint --fix .",
     "preview": "vite preview",
     "clean": "rimraf dist",
     "viz": "madge --image graph.svg src/index.tsx"
   },
+  "prettier": {
+    "plugins": [
+      "prettier-plugin-tailwindcss"
+    ]
+  },
   "dependencies": {
     "@ark-ui/solid": "^1.1.0",
     "@sentry/browser": "^7.88.0",
-    "@sentry/vite-plugin": "^2.10.2",
+    "@sentry/vite-plugin": "^3.2.2",
     "@solid-primitives/storage": "^2.1.1",
     "@solidjs/router": "^0.10.1",
     "@talkdash/backend": "workspace:*",
@@ -49,11 +55,11 @@
     "@types/qrcode": "^1.5.4",
     "axe-core": "^4.8.3",
     "dotenv": "^16.3.1",
-    "eslint": "^8.56.0",
+    "eslint": "^9.22.0",
     "eslint-config-talkdash": "workspace:*",
     "eslint-plugin-solid": "^0.13.0",
     "eslint-plugin-tailwindcss": "^3.18.0",
-    "jsdom": "^23.0.1",
+    "jsdom": "^26.0.0",
     "mock-socket": "^9.3.1",
     "prettier": "^3.0.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
@@ -62,10 +68,10 @@
     "solid-jsx": "^1.1.4",
     "tailwindcss": "^4.0.12",
     "typescript": "^5.8.2",
-    "vite": "^5.0.7",
-    "vite-plugin-pwa": "^0.17.4",
-    "vite-plugin-solid": "^2.8.0",
-    "vitest": "^1.1.0",
+    "vite": "^6.2.1",
+    "vite-plugin-pwa": "^0.21.1",
+    "vite-plugin-solid": "^2.11.6",
+    "vitest": "^3.0.8",
     "workbox-window": "^7.0.0"
   }
 }

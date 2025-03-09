@@ -9,7 +9,6 @@ import * as schema from "../src/db/schema/index.js";
 import { migrate } from "drizzle-orm/node-postgres/migrator";
 // Set up separate tsconfig for tests and test utils.
 import { afterEach, beforeAll, beforeEach, TestContext } from "vitest";
-import "./vitest-env.d.ts";
 
 // New test database runs in the same postgres server
 export const createTestDatabase = async (name: string): Promise<pg.Pool> => {
@@ -20,7 +19,7 @@ export const createTestDatabase = async (name: string): Promise<pg.Pool> => {
   const originalDatabaseUrl = new URL(applicationDatabaseUrl);
   const sslmode = originalDatabaseUrl.searchParams.get("sslmode");
   let testDatabaseUrl = applicationDatabaseUrl.replace(/\/[^/]*$/, `/${name}`);
-  if (sslmode) {
+  if (sslmode !== null) {
     testDatabaseUrl = `${testDatabaseUrl}?sslmode=${sslmode}`;
   }
   return new pg.Pool({

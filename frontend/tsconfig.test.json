@@ -1,4 +1,3 @@
-// config used for vite (build process)
 {
   "compilerOptions": {
     "target": "ES2020",
@@ -11,12 +10,10 @@
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     // To avoid typecheck build outputting files
-    "noEmit": true
+    "noEmit": true,
+    "types": ["vitest"]
   },
-  "include": [
-    "vite.config.ts",
-    "tailwind.config.ts",
-    "eslint.config.js",
-    "prettier.config.js"
-  ]
+  "include": ["test/", "setupTests/"],
+  // Needed, otherwise it uses the parent tsconfig, which excludes tests.
+  "exclude": []
 }

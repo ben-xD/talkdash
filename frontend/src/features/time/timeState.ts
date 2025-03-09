@@ -196,14 +196,9 @@ const defaultNotificationTimesToNotified = defaultNotificationTimesInS.reduce(
 // const defaultNotificationTimesToNotified = { 5: false };
 
 export const [showTimeReminderMessages, setShowTimeReminderMessages] =
-  makePersisted(
-    // we don't destructure because makePersisted wants the entire signal
-    // eslint-disable-next-line solid/reactivity
-    createSignal<boolean>(true),
-    {
-      name: "show_time_reminder_messages",
-    },
-  );
+  makePersisted(createSignal<boolean>(true), {
+    name: "show_time_reminder_messages",
+  });
 type Notified = boolean;
 type NotificationTimeLeftInS = number;
 const [
@@ -227,7 +222,7 @@ export const resetNotificationTimes = () => {
 
 const sendNotificationToUser = (seconds: number) => {
   const elapsedTimeText = durationToHuman(elapsedTime().difference);
-  if (seconds == 0) {
+  if (seconds === 0) {
     addMessage({
       message: `Time's up! That was ${elapsedTimeText}`,
       emojiMessage: "🤖🚨️",
@@ -271,8 +266,6 @@ export const isTimeLeft = createMemo(() => timeLeft().mode === Mode.Running);
 export const isExceeded = createMemo(() => timeLeft().mode === Mode.Exceeded);
 
 export const [showMilliseconds, setShowMilliseconds] = makePersisted(
-  // we don't destructure because makePersisted wants the entire signal
-  // eslint-disable-next-line solid/reactivity
   createSignal<boolean>(false),
   {
     name: "show_milliseconds",

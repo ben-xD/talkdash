@@ -6,8 +6,8 @@ export const durationToHuman = (duration: Duration): string => {
     .shiftTo("days", "hours", "minutes", "seconds")
     .toObject();
 
-  if ("seconds" in durationObj) {
-    durationObj.seconds = Math.round(durationObj.seconds!);
+  if (durationObj.seconds !== undefined) {
+    durationObj.seconds = Math.round(durationObj.seconds);
   }
 
   const cleanedDuration = Object.fromEntries(

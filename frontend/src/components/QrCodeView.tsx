@@ -6,8 +6,6 @@ import { createWindowSizeSignal } from "../window/useWindowSize.ts";
 import { makePersisted } from "@solid-primitives/storage";
 
 export const [isQrCodeShown, setIsQrCodeShown] = makePersisted(
-  // we don't destructure because makePersisted wants the entire signal
-  // eslint-disable-next-line solid/reactivity
   createSignal<boolean>(false),
   {
     name: "is_qr_code_shown",

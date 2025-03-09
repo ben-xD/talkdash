@@ -75,7 +75,6 @@ const variants = [
 ] as const;
 
 export const [colorScheme, setColorScheme] = makePersisted(
-  // eslint-disable-next-line solid/reactivity
   createSignal<ColorScheme>(ColorScheme.blue),
   { name: "color_scheme" },
 );

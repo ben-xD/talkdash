@@ -1,3 +1,4 @@
+import { DEV } from "solid-js";
 import type { Navigator } from "@solidjs/router";
 import {
   createTRPCProxyClient,
@@ -39,8 +40,6 @@ export const showReconnectedMessage = showReconnectedMessageInternal;
 export const isConnected = isConnectedInternal;
 
 export const [bearerAuthToken, setBearerToken] = makePersisted(
-  // we don't destructure because makePersisted wants the entire signal
-  // eslint-disable-next-line solid/reactivity
   createSignal<string>(),
   {
     name: "session_id",
@@ -90,9 +89,8 @@ createEffect(() => {
 });
 
 // Ready if not logged in, or once websocket connection is authenticated
-let websocketConnectionAuthResponsePromiseResolver:
-  | ((value: void) => void)
-  | undefined = undefined;
+let websocketConnectionAuthResponsePromiseResolver: (() => void) | undefined =
+  undefined;
 
 // Call this on onMount to wait for websocket connection to be authenticated if you're calling an protected route
 export const isConnectionAuthenticatedWhenNeededPromise = new Promise<void>(
@@ -111,7 +109,7 @@ export const trpc = createTRPCProxyClient<AppRouter>({
     redirectToAuthenticateLink,
     loggerLink({
       enabled: (opts) =>
-        (import.meta.env.DEV && typeof window !== "undefined") ||
+        (DEV && typeof window !== "undefined") ||
         (opts.direction === "down" && opts.result instanceof Error),
     }),
     wsLink({

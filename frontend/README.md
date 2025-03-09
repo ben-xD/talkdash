@@ -5,4 +5,5 @@
 - build: `pnpm build`
 
 ## Useful tools
+
 - Generate favicon files using https://jakearchibald.github.io/svgomg/
