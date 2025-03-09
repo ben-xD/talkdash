@@ -25,7 +25,8 @@
     "**/*.ts",
     "setupTests/**/*.ts",
     "drizzle.config.ts",
-    "setupTests"
+    "setupTests",
+    "eslint.config.js"
   ],
   "exclude": ["node_modules", "dist"]
 }
