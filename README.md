@@ -164,3 +164,7 @@ I used technologies that could be developed 100% locally. The only current excep
 - Use [madge](https://github.com/pahen/madge) and graphviz to visualise relationships between files
 - Capture exceptions or messages with Sentry: use `Sentry.captureException(err);` or `Sentry.captureMessage("Something went wrong");`
 - For a simpler version of the app without authentication, see an old commit, `2b8e817ed448ee9f801e3efd7e6d4d520a0d9597`
+
+## TODOs
+
+- Fix tsconfig for tests in backend (test files are completely ignored and not typescript-checked)

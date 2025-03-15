@@ -4,7 +4,7 @@
 # - enter shell: `docker exec -it talkdash-backend-1 sh`
 
 ARG NODE_VERSION=23.9.0
-FROM node:${NODE_VERSION}-slim as base
+FROM node:${NODE_VERSION}-slim AS base
 
 LABEL fly_launch_runtime="NodeJS"
 ENV PNPM_HOME="/pnpm"

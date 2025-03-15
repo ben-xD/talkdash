@@ -18,16 +18,8 @@
 
     // Because of drizzle: https://github.com/drizzle-team/drizzle-orm/issues/1207 and https://github.com/drizzle-team/drizzle-orm/issues/879
     "skipLibCheck": true,
-
-    // To avoid typecheck build outputting files
-    "noEmit": true
+    "rootDir": "./src",
   },
-  "include": [
-    "**/*.ts",
-    "setupTests/**/*.ts",
-    "drizzle.config.ts",
-    "setupTests",
-    "eslint.config.js"
-  ],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist", "setupTests", "**/*.test.ts"],
 }

@@ -10,7 +10,7 @@
     "dev": "tsx watch --clear-screen=false src/backend.ts",
     "test": "vitest",
     "test:debug": "vitest --test-timeout=0",
-    "start": "node dist/src/backend.js",
+    "start": "node dist/backend.js",
     "deploy": "fly deploy --app talkdash ..",
     "deploy:staging": "fly deploy --app talkdash-staging ..",
     "logs": "fly logs --app talkdash",
